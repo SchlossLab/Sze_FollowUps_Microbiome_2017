@@ -1,0 +1,252 @@
+---
+title: "Follow Up Samples"
+author: "Niel"
+date: "November 20, 2015"
+output: 
+  html_document:
+    keep_md: true
+---
+
+
+
+```{r startup, echo=F, message=F, warning=F}
+deps = c("pROC","randomForest","AUCRF","knitr","rmarkdown");
+for (dep in deps){
+  if (dep %in% installed.packages()[,"Package"] == FALSE){
+    install.packages(as.character(dep), quiet=TRUE);
+  }
+  library(dep, verbose=FALSE, character.only=TRUE)
+}
+#setwd('~/Desktop/Baxter_followUps_2016/')
+
+tax <- read.delim('data/followUps.final.an.unique_list.0.03.cons.taxonomy', sep='\t', header=T, row.names=1)
+shared <- read.delim('data/followUps.final.an.unique_list.0.03.subsample.0.03.filter.shared', header=T, sep='\t')
+
+metaF <- read.delim('data/followUps_metadata.txt', header=T, sep='\t')
+metaF$lesion <- factor(NA, levels=c(0,1))
+metaF$lesion[metaF$dx!='normal'] <-1
+metaI <- read.delim('data/initials_metadata.tsv', header=T, sep='\t')
+metaI$lesion <- factor(NA, levels=c(0,1))
+metaI$lesion[metaI$dx=='normal'] <-0
+metaI$lesion[metaI$dx!='normal'] <-1
+```
+
+
+
+```{r dists, echo=FALSE, fig.height=6, fig.width=6}
+source('code/read.dist.R')
+
+dist <- read.dist('data/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist')
+
+intra <- c()
+for(i in 1:nrow(metaF)){
+  intra[i] <- as.numeric(dist[as.character(metaF$initial[i]),as.character(metaF$followUp[i])])
+}
+
+intra_ade <- intra[metaF$dx=='adenoma']
+intra_canc <- intra[metaF$dx=='cancer']
+
+inter_ade <- dist[as.character(metaF[metaF$dx=='adenoma','initial']),as.character(metaF[metaF$dx=='adenoma','initial'])]
+inter_ade <- as.numeric(as.vector(unlist(inter_ade)))
+
+inter_canc <- dist[as.character(metaF[metaF$dx=='cancer','initial']),as.character(metaF[metaF$dx=='cancer','initial'])]
+inter_canc <- as.numeric(as.vector(unlist(inter_canc)))
+
+inter <- dist[as.character(metaF$initial),as.character(metaF$followUp)]
+inter <- as.numeric(as.vector(unlist(inter)))
+
+
+plot(density(inter), type='l',lwd=3, col='royalblue', ylim=c(0,4), xlab='thetaYC distance', main='', las=1, tck=-0.02)
+#points(density(inter_ade), type='l', lwd=3, col='dark orange')
+#points(density(inter_canc), type='l', lwd=3, col='dark red')
+points(density(intra_ade), type='l', lwd=3, col='orange')
+points(density(intra_canc), type='l', lwd=3, col='red')
+legend('topleft', legend=c('Between individuals','Within individuals (adenoma)','Within individuals (cancer)'), lwd=3, col=c('blue','orange','red'))
+```
+
+**Figure 1. Inter- vs Intra-personal Beta Diversity**  
+The first thing I tested was whether the microbiomes of patients were more similar to themselves over time than to others. Surprisingly, there was no difference between intra- and interindividual thetaYC distances. Distances within cancer patients seems to be slightly less than within adenomas, but the difference isn't significant.  There's no difference when splitting interindividual distances by diagnosis. There's also no difference when comparing distances between initial samples to distances between followups.
+
+
+```{r combined_model, echo=FALSE, cache=TRUE, fig.height=5, fig.width=6}
+# Make training set with samples withouth follow ups
+train <- merge(metaI, shared, by.x='sample', by.y='Group')
+train <- train[-match(metaF$initial, train$sample),]
+train <- train[,c('lesion','fit_result',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
+
+# Get OTU abundances for initial samples that have followups
+initial <- merge(metaF, shared, by.x='initial', by.y='Group')
+initial <- initial[,c('lesion','fit_result',colnames(initial)[grep('Otu[0123456789]', colnames(initial))])]
+
+# Get OTU abundances for follow ups
+followups <- merge(metaF, shared, by.x='followUp', by.y='Group')
+followups <- followups[,c('lesion','fit_result',colnames(followups)[grep('Otu[0123456789]', colnames(followups))])]
+
+set.seed(112015)
+rf <- AUCRF(lesion~., data=train, pdel=0.1, ntree=1000, ranking='MDA')
+rf_opt <- rf$RFopt
+#plot(rf)
+
+train_probs <- predict(rf_opt, type='prob')[,2]
+initial_probs <- predict(rf_opt, initial, type='prob')[,2]
+follow_probs <- predict(rf_opt, followups, type='prob')[,2]
+
+train_roc <- roc(train$lesion~train_probs)
+cutoff <- coords(train_roc, x='best', ret='thr')
+
+par(mar=c(4,4,1,1), xpd=F)
+plot(initial_probs, follow_probs, ylim=c(0,1), xlim=c(0,1), pch=21, bg=c('orange','red')[metaF$dx], ylab='Probability of lesion (follow up sample)', xlab='Probability of lesion (initial sample)', main='OTUs + FIT')
+abline(h=cutoff, v=cutoff, lty=2)
+legend('bottomleft', legend=c('Cutoff','Initial Diagnosis:', 'Adenoma','Cancer'), pch=c(NA,NA,21,21), pt.bg=c(NA,NA,'orange','red'), lty=c(2,NA,NA,NA))
+text(0.9,0.9, labels=sprintf('%.1f%%', 100*sum(initial_probs>cutoff & follow_probs>cutoff)/length(initial_probs)))
+text(0.9,0.1, labels=sprintf('%.1f%%', 100*sum(initial_probs>cutoff & follow_probs<cutoff)/length(initial_probs)))
+text(0.1,0.4, labels=sprintf('%.1f%%', 100*sum(initial_probs<cutoff & follow_probs<cutoff)/length(initial_probs)))
+text(0.1,0.9, labels=sprintf('%.1f%%', 100*sum(initial_probs<cutoff & follow_probs>cutoff)/length(initial_probs)))
+```
+
+**Figure 2A. Combined Model (FIT + OTUs) applied to initial and follow up samples.**  
+Next, I generated a random forest model for distinguishing normal from lesion using all of the initial samples that didn't have follow ups (n=422). The optimal model used `r rf$Kopt-1` OTUs and FIT. I then applied the model to the other initial samples and their follow ups. The scatter plot below shows how the model classified each individual's initial and follow up samples (n=67). The model detected `r sum(initial_probs[metaF$dx=='cancer']>cutoff)` of `r length(initial_probs[metaF$dx=='cancer'])` cancers and `r sum(initial_probs[metaF$dx=='adenoma']>cutoff)` of `r length(initial_probs[metaF$dx=='adenoma'])` adenomas in the initial samples. Of the `r sum(initial_probs>cutoff)` individuals who tested positive with the initial sample, `r sum(initial_probs>cutoff & follow_probs>cutoff)` remained positive with the follow up sample. 10.4% of individuls were negative for both the initial and followups (all adenomas). Surprisingly, 13.4% of individuals were negative at the initial sampling, but became positive at the follow up.
+
+```{r fit_dif, echo=FALSE, fig.height=6, fig.width=6, warning=FALSE}
+plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0.05,5000), log='y', ylab='FIT Results (ng/ml)', xaxt='n', xlab='', yaxt='n')
+mtext(text=c('Adenoma','Cancer'), at=c(1.5,3.5), side=1, line=2, font=2)
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(2, at=c(0.1,1.1,10.1,100.1,1000.1), labels=c(0,1,10,100,1000))
+
+points(rep(1,41), metaF[metaF$dx=='adenoma','fit_result']+0.1, pch=21, bg='orange', cex=0.8, lwd=0.5)
+points(rep(2,41), metaF[metaF$dx=='adenoma','fit_followUp']+0.1, pch=21, bg='orange', cex=0.8, lwd=0.5)
+segments(1, metaF[metaF$dx=='adenoma','fit_result']+0.1, 2, metaF[metaF$dx=='adenoma','fit_followUp']+0.1, col='orange')
+ade_p<-t.test(metaF[metaF$dx=='adenoma','fit_result'], metaF[metaF$dx=='adenoma','fit_followUp'], paired=T, alternative='greater')$p.value
+text(1.5, 3000, sprintf('p=%.1g',ade_p))
+
+points(rep(3,26), metaF[metaF$dx=='cancer','fit_result']+0.1, pch=21, bg='red', cex=0.8, lwd=0.5)
+points(rep(4,26), metaF[metaF$dx=='cancer','fit_followUp']+0.1, pch=21, bg='red', cex=0.8, lwd=0.5)
+segments(3, metaF[metaF$dx=='cancer','fit_result']+0.1, 4, metaF[metaF$dx=='cancer','fit_followUp']+0.1, col='red')
+canc_p <- t.test(metaF[metaF$dx=='cancer','fit_result'], metaF[metaF$dx=='cancer','fit_followUp'], paired=T, alternative='greater')$p.value
+text(3.5, 3000, sprintf('p=%.1g',canc_p))
+
+```
+
+**Figure 2B.** This next figure shows the change in FIT result from the initial to the follow up samples. For the adenomas, it's fairly random. Some go from positive to negative, but just as many go form negative to positive. For the cancers, however, a large portion of them go from high FIT results to zero, while none of them go from zero to higher results. As a result, there is a significant reduction in FIT results for cancers, but not for adenomas. 
+
+```{r comb_dif, echo=FALSE, fig.height=6, fig.width=6}
+plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0,1.1), ylab='Probability of lesion (Combined model)', xaxt='n', xlab='')
+mtext(text=c('Adenoma','Cancer'), at=c(1.5,3.5), side=1, line=2, font=2)
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+
+points(rep(1,41), initial_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
+points(rep(2,41), follow_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
+segments(1, initial_probs[metaF$dx=='adenoma'], 2, follow_probs[metaF$dx=='adenoma'], col='orange')
+ade_p<-t.test(initial_probs[metaF$dx=='adenoma'], follow_probs[metaF$dx=='adenoma'], paired=T, alternative='greater')$p.value
+text(1.5, 1, sprintf('p=%.1g',ade_p))
+
+points(rep(3,26), initial_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
+points(rep(4,26), follow_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
+segments(3, initial_probs[metaF$dx=='cancer'], 4, follow_probs[metaF$dx=='cancer'], col='red')
+canc_p <- t.test(initial_probs[metaF$dx=='cancer'], follow_probs[metaF$dx=='cancer'], paired=T, alternative='greater')$p.value
+text(3.5, 1, sprintf('p=%.1g',canc_p))
+```
+
+**Figure 2C.** This next figure shows how the model results changed over time. Based on the previous figure, you'd expect outcome of the model to change more for the cancer samples than for the adenomas. Indeed, there is a significant reduction in the probability of lesion for the cancers but not the adenomas. This is most likely due to the reduction in FIT results indiviuduals that had cancers.
+
+
+```{r otu_model, echo=FALSE, cache=TRUE, fig.height=5, fig.width=6}
+# Make training set with samples withouth follow ups
+train <- merge(metaI, shared, by.x='sample', by.y='Group')
+train <- train[-match(metaF$initial, train$sample),]
+train <- train[,c('lesion',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
+
+# Get OTU abundances for initial samples that have followups
+initial <- merge(metaF, shared, by.x='initial', by.y='Group')
+initial <- initial[,c('lesion',colnames(initial)[grep('Otu[0123456789]', colnames(initial))])]
+
+# Get OTU abundances for follow ups
+followups <- merge(metaF, shared, by.x='followUp', by.y='Group')
+followups <- followups[,c('lesion',colnames(followups)[grep('Otu[0123456789]', colnames(followups))])]
+
+set.seed(112015)
+rf_otu <- AUCRF(lesion~., data=train, pdel=0.1, ntree=1000, ranking='MDA')
+rf_opt <- rf_otu$RFopt
+#plot(rf_otu)
+
+train_probs <- predict(rf_opt, type='prob')[,2]
+initial_probs <- predict(rf_opt, initial, type='prob')[,2]
+follow_probs <- predict(rf_opt, followups, type='prob')[,2]
+
+train_roc <- roc(train$lesion~train_probs)
+cutoff <- coords(train_roc, x='best', ret='thr')
+
+par(mar=c(4,4,1,1), xpd=F)
+plot(initial_probs, follow_probs, ylim=c(0,1), xlim=c(0,1), pch=21, bg=c('orange','red')[metaF$dx], ylab='Probability of lesion (follow up sample)', xlab='Probability of lesion (initial sample)', main='OTUs only')
+abline(h=cutoff, v=cutoff, lty=2)
+legend('bottomleft', legend=c('Cutoff','Initial Diagnosis:', 'Adenoma','Cancer'), pch=c(NA,NA,21,21), pt.bg=c(NA,NA,'orange','red'), lty=c(2,NA,NA,NA), cex=0.8)
+text(0.9,0.9, labels=sprintf('%.1f%%', 100*sum(initial_probs>cutoff & follow_probs>cutoff)/length(initial_probs)))
+text(0.9,0.1, labels=sprintf('%.1f%%', 100*sum(initial_probs>cutoff & follow_probs<cutoff)/length(initial_probs)))
+text(0.1,0.4, labels=sprintf('%.1f%%', 100*sum(initial_probs<cutoff & follow_probs<cutoff)/length(initial_probs)))
+text(0.1,0.9, labels=sprintf('%.1f%%', 100*sum(initial_probs<cutoff & follow_probs>cutoff)/length(initial_probs)))
+
+```
+
+**Figure 3A. Otucome of Microbiome model (no FIT) on the initial and followup samples.** I did the same thing as figure 2, but left out the FIT results from the model. In this case the optimal used only `r rf_otu$Kopt-1` OTUs, yet it detected lesions nearly as well as the combined model. It detected detected `r sum(initial_probs[metaF$dx=='cancer']>cutoff)` of `r length(initial_probs[metaF$dx=='cancer'])` cancers (worse than the combined model) and `r sum(initial_probs[metaF$dx=='adenoma']>cutoff)` of `r length(initial_probs[metaF$dx=='adenoma'])` adenomas (better than the combined model) in the initial samples. Of the `r sum(initial_probs>cutoff)` initial samples that tested positive, `r sum(initial_probs>cutoff & follow_probs>cutoff)` remained positive. In summary, compared to the combined model, the microbiome only model was better at detected adenomas, worse at detecting cancers, and individuals were more likely to appear to "normal" at the follow up.
+
+```{r dif_otu, echo=FALSE, fig.height=6, fig.width=6}
+plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
+mtext(text=c('Adenoma','Cancer'), at=c(1.5,3.5), side=1, line=2, font=2)
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+
+points(rep(1,41), initial_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
+points(rep(2,41), follow_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
+segments(1, initial_probs[metaF$dx=='adenoma'], 2, follow_probs[metaF$dx=='adenoma'], col='orange')
+ade_p<-t.test(initial_probs[metaF$dx=='adenoma'], follow_probs[metaF$dx=='adenoma'], paired=T, alternative='greater')$p.value
+text(1.5, 1, sprintf('p=%.1g',ade_p))
+
+points(rep(3,26), initial_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
+points(rep(4,26), follow_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
+segments(3, initial_probs[metaF$dx=='cancer'], 4, follow_probs[metaF$dx=='cancer'], col='red')
+canc_p <- t.test(initial_probs[metaF$dx=='cancer'], follow_probs[metaF$dx=='cancer'], paired=T, alternative='greater')$p.value
+text(3.5, 1, sprintf('p=%.1g',canc_p))
+
+```
+
+**Figure 3B.** Unlike the combined model, there was significant reducation in probability of lesion for both patients with adenomas and those with cancer when using the microbiome only model.
+
+
+```{r time, echo=FALSE, fig.height=5, fig.width=5}
+plot(metaF$time, follow_probs-initial_probs, ylim=c(-0.8,0.5), xlab='Time between samples (days)',ylab='Change in model outcome')
+```
+
+**Figure 4.** I thought perhaps a longer time between sampling would increase the likelihood that an individual would appear "normal". However, there was no correlation between the change in model outcome and the time between samples. 
+
+```{r, echo=FALSE, warning=FALSE, fig.height=6, fig.width=9}
+#OTU Scatterplots
+i_abunds <- initial[,-c(1,2)]/10530 + 0.0001
+f_abunds <- followups[,-c(1,2)]/10530 + 0.0001
+taxa <- c('Porphyromonas (OTU126)','Peptostreptococcus (OTU566)','Fusobacterium (OTU205)', 'Odoribacter (OTU164)', 'Prevotella (OTU147)','Parvimonas (OTU397)')
+
+otus <- c("Otu000126", "Otu000566", "Otu000205", "Otu000164", "Otu000147", "Otu000397")
+
+layout(matrix(c(1,2,3,4,5,6),nrow=2, byrow=T))
+par(mar=c(1.5,1.5,2.5,1),oma=c(3,3,1,1))
+for(i in 1:6){
+  plot(log10(jitter(i_abunds[,otus[i]], amount=0.00001)), log10(jitter(f_abunds[,otus[i]], amount=0.00001)), xaxt='n', yaxt='n', ylab='', xlab='', pch=21, bg=c('orange','red')[metaF$dx], main=taxa[i], xlim=c(-4,max(log10(i_abunds[,otus[i]]))), ylim=c(-4,max(log10(i_abunds[,otus[i]]))), cex=1.5)
+  axis(1, at=c(-4,-3,-2,-1), labels=c(0,0.1,1,10) )
+  axis(2, at=c(-4,-3,-2,-1), labels=c(0,0.1,1,10) )
+  abline(a=0,b=1, lty=2)
+  legend('top', legend=sprintf('p=%.2g',wilcox.test(i_abunds[,otus[i]],f_abunds[,otus[i]], alternative='greater', paired=T)$p.value), bty='n')
+}
+
+layout(matrix(c(1,1),nrow=1))
+mtext('% Relative abundance (initial)', side=1, line=3)
+mtext('% Relative abundance (follow up)', side=2, line=3)
+```
+
+
+**Figure 6. The usual suspects.** Finally I wanted to see whether the OTUs most commonly associated with cancer were less abundant in the follow up samples. The figure above shows 6 of the 14 OTUs used in the microbiota only model. Most of them should look very familiar. You can see that for most of them there is a significant reduction in relative abundance from the initial sample to the follow up (p-values based on one-sided paired wilcoxon test). Interestngly, for Fusobacterium there is not a significant reduction unless you only compare cancer samples (`r sprintf('p=%.2g', wilcox.test(i_abunds[metaF$dx=='cancer',otus[3]],f_abunds[metaF$dx=='cancer',otus[3]], alternative='greater', paired=T)$p.value)`). 
+
+**Wild Speculation:**
+To me, these finding are consistent with the idea that these oral pathogens are enriched on tumors, because they like the environment. When the tumors are removed their abundance goes down. They may accelerate tumorigenesis when they colonize the tumor, but first it's the tumor and/or inflammation that enables them to colonize in the first place. It's also possible, as we've  hypothesized in lab meetings, that Fuso binds first during the earliest stages (or even prior to) tumorigenesis.  Its presence then enables the other pathogens to adhere and exacerbate disease (similar to the progression of periodontitis). That would explain why people often find Fuso associated with adenomas, while these other oral pathogens are more indicative of cancers.
+
+
+
+
+
