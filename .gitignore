@@ -1,6 +1,7 @@
 .Rproj.user
 .Rhistory
 .RData
-
+data/*.logfile
 *_cache/
+*_files/
 sample_refs/
