@@ -17,7 +17,7 @@ for (dep in deps){
   }
   library(dep, verbose=FALSE, character.only=TRUE)
 }
-#setwd('~/Desktop/Baxter_followUps_2016/')
+setwd('~/Desktop/Baxter_followUps_2016/')
 
 tax <- read.delim('data/followUps.final.an.unique_list.0.03.cons.taxonomy', sep='\t', header=T, row.names=1)
 shared <- read.delim('data/followUps.final.an.unique_list.0.03.subsample.0.03.filter.shared', header=T, sep='\t')
@@ -31,38 +31,57 @@ metaI$lesion[metaI$dx=='normal'] <-0
 metaI$lesion[metaI$dx!='normal'] <-1
 ```
 
+```{r pval, echo=F}
+pval <- function(p){
+  if(p < 0.001){p <- 'p<0.001'}
+  else{p <- sprintf('p=%.1g', p)}
+  return(p)
+}
 
+```
 
-```{r dists, echo=FALSE, fig.height=6, fig.width=6}
+```{r dists, echo=FALSE, fig.height=5, fig.width=10}
 source('code/read.dist.R')
 
 dist <- read.dist('data/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist')
-
 intra <- c()
 for(i in 1:nrow(metaF)){
   intra[i] <- as.numeric(dist[as.character(metaF$initial[i]),as.character(metaF$followUp[i])])
 }
-
 intra_ade <- intra[metaF$dx=='adenoma']
 intra_canc <- intra[metaF$dx=='cancer']
-
-inter_ade <- dist[as.character(metaF[metaF$dx=='adenoma','initial']),as.character(metaF[metaF$dx=='adenoma','initial'])]
-inter_ade <- as.numeric(as.vector(unlist(inter_ade)))
-
-inter_canc <- dist[as.character(metaF[metaF$dx=='cancer','initial']),as.character(metaF[metaF$dx=='cancer','initial'])]
-inter_canc <- as.numeric(as.vector(unlist(inter_canc)))
-
 inter <- dist[as.character(metaF$initial),as.character(metaF$followUp)]
 inter <- as.numeric(as.vector(unlist(inter)))
 
-
-plot(density(inter), type='l',lwd=3, col='royalblue', ylim=c(0,4), xlab='thetaYC distance', main='', las=1, tck=-0.02)
-#points(density(inter_ade), type='l', lwd=3, col='dark orange')
-#points(density(inter_canc), type='l', lwd=3, col='dark red')
+#pdf('figures/betaDiv.pdf', height=4.5, width=10)
+layout(matrix(c(1,2), nrow=1))
+par(mar=c(3,4,1,1), mgp=c(2,0.5,0))
+plot(density(inter), type='l',lwd=3, col='royalblue', ylim=c(0,4), xlab='thetaYC Index', main='', las=1, tck=-0.02)
 points(density(intra_ade), type='l', lwd=3, col='orange')
 points(density(intra_canc), type='l', lwd=3, col='red')
 legend('topleft', legend=c('Between individuals','Within individuals (adenoma)','Within individuals (cancer)'), lwd=3, col=c('blue','orange','red'))
+
+
+dist <- read.dist('data/followUps.final.an.unique_list.sharedsobs.0.03.lt.ave.dist')
+intra <- c()
+for(i in 1:nrow(metaF)){
+  intra[i] <- as.numeric(dist[as.character(metaF$initial[i]),as.character(metaF$followUp[i])])
+}
+intra_ade <- intra[metaF$dx=='adenoma']
+intra_canc <- intra[metaF$dx=='cancer']
+inter <- dist[as.character(metaF$initial),as.character(metaF$followUp)]
+inter <- as.numeric(as.vector(unlist(inter)))
+
+par(mar=c(3,4.5,1,1), mgp=c(2,0.5,0))
+plot(density(inter), type='l',lwd=3, col='royalblue', ylim=c(0,0.03), , ylab='', xlab='Shared OTUs', main='', las=1, tck=-0.02)
+axis(2, at=0.015, line=2.5, tick=F, labels='Density')
+points(density(intra_ade), type='l', lwd=3, col='orange')
+points(density(intra_canc), type='l', lwd=3, col='red')
+legend('topright', legend=c('Between individuals','Within individuals (adenoma)','Within individuals (cancer)'), lwd=3, col=c('blue','orange','red'))
+
+#dev.off()
 ```
+
 
 **Figure 1. Inter- vs Intra-personal Beta Diversity**  
 The first thing I tested was whether the microbiomes of patients were more similar to themselves over time than to others. Surprisingly, there was no difference between intra- and interindividual thetaYC distances. Distances within cancer patients seems to be slightly less than within adenomas, but the difference isn't significant.  There's no difference when splitting interindividual distances by diagnosis. There's also no difference when comparing distances between initial samples to distances between followups.
@@ -125,6 +144,7 @@ segments(3, metaF[metaF$dx=='cancer','fit_result']+0.1, 4, metaF[metaF$dx=='canc
 canc_p <- t.test(metaF[metaF$dx=='cancer','fit_result'], metaF[metaF$dx=='cancer','fit_followUp'], paired=T, alternative='greater')$p.value
 text(3.5, 3000, sprintf('p=%.1g',canc_p))
 
+abline(h=100, lty=2)
 ```
 
 **Figure 2B.** This next figure shows the change in FIT result from the initial to the follow up samples. For the adenomas, it's fairly random. Some go from positive to negative, but just as many go form negative to positive. For the cancers, however, a large portion of them go from high FIT results to zero, while none of them go from zero to higher results. As a result, there is a significant reduction in FIT results for cancers, but not for adenomas. 
@@ -145,6 +165,8 @@ points(rep(4,26), follow_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, l
 segments(3, initial_probs[metaF$dx=='cancer'], 4, follow_probs[metaF$dx=='cancer'], col='red')
 canc_p <- t.test(initial_probs[metaF$dx=='cancer'], follow_probs[metaF$dx=='cancer'], paired=T, alternative='greater')$p.value
 text(3.5, 1, sprintf('p=%.1g',canc_p))
+
+abline(h=cutoff, lty=2)
 ```
 
 **Figure 2C.** This next figure shows how the model results changed over time. Based on the previous figure, you'd expect outcome of the model to change more for the cancer samples than for the adenomas. Indeed, there is a significant reduction in the probability of lesion for the cancers but not the adenomas. This is most likely due to the reduction in FIT results indiviuduals that had cancers.
@@ -206,6 +228,7 @@ segments(3, initial_probs[metaF$dx=='cancer'], 4, follow_probs[metaF$dx=='cancer
 canc_p <- t.test(initial_probs[metaF$dx=='cancer'], follow_probs[metaF$dx=='cancer'], paired=T, alternative='greater')$p.value
 text(3.5, 1, sprintf('p=%.1g',canc_p))
 
+abline(h=cutoff, lty=2)
 ```
 
 **Figure 3B.** Unlike the combined model, there was significant reducation in probability of lesion for both patients with adenomas and those with cancer when using the microbiome only model.
@@ -232,7 +255,7 @@ for(i in 1:6){
   axis(1, at=c(-4,-3,-2,-1), labels=c(0,0.1,1,10) )
   axis(2, at=c(-4,-3,-2,-1), labels=c(0,0.1,1,10) )
   abline(a=0,b=1, lty=2)
-  legend('top', legend=sprintf('p=%.2g',wilcox.test(i_abunds[,otus[i]],f_abunds[,otus[i]], alternative='greater', paired=T)$p.value), bty='n')
+  #legend('top', legend=sprintf('p=%.2g',wilcox.test(i_abunds[,otus[i]],f_abunds[,otus[i]], alternative='greater', paired=T)$p.value), bty='n')
 }
 
 layout(matrix(c(1,1),nrow=1))
@@ -247,6 +270,48 @@ mtext('% Relative abundance (follow up)', side=2, line=3)
 To me, these finding are consistent with the idea that these oral pathogens are enriched on tumors, because they like the environment. When the tumors are removed their abundance goes down. They may accelerate tumorigenesis when they colonize the tumor, but first it's the tumor and/or inflammation that enables them to colonize in the first place. It's also possible, as we've  hypothesized in lab meetings, that Fuso binds first during the earliest stages (or even prior to) tumorigenesis.  Its presence then enables the other pathogens to adhere and exacerbate disease (similar to the progression of periodontitis). That would explain why people often find Fuso associated with adenomas, while these other oral pathogens are more indicative of cancers.
 
 
+```{r beforeVSafter, echo=FALSE, warning=FALSE, fig.height=6, fig.width=9, eval=FALSE}
+dim(shared)
+
+adeVcanc <- rbind(followups,initial)
+adeVcanc <- adeVcanc[,-1]
+adeVcanc$type <- c(rep(1),rep(0))
+adeVcanc$type <- as.factor(adeVcanc$type)
+
+set.seed(112015)
+rf_otu <- AUCRF(type~., data=adeVcanc, pdel=0.1, ntree=1000, ranking='MDA')
+rf_opt <- rf_otu$RFopt
 
 
 
+
+```
+
+
+```{r otu_abunds, echo=FALSE, fig.height=6, fig.width=6}
+i_abunds <- initial[,-c(1,2)]/10530 + 0.0001
+f_abunds <- followups[,-c(1,2)]/10530 + 0.0001
+taxa <- c('P. asaccharolytica','P. stomatis','F. nucleatum', 'P. micra')
+
+otus <- c("Otu000126", "Otu000566", "Otu000205", "Otu000397")
+
+pdf('figures/otu_abunds.pdf', height=4, width=8)
+layout(matrix(c(1:4), nrow=1))
+par(mar=c(4,0.5,1,0.5), oma=c(0,4,0,0))
+for(i in 1:length(otus)){
+  plot(0, type='n', log='y', xlim=c(0.75,2.25), ylim=c(0.0001,0.2), ylab='', xaxt='n', xlab='', yaxt='n', las=2)
+  points(rep(1,nrow(i_abunds)), i_abunds[,otus[i]], pch=21, bg=c('orange','red')[metaF$dx], cex=1, lwd=0.5)
+  points(rep(2,nrow(f_abunds)), f_abunds[,otus[i]], pch=21, bg=c('orange','red')[metaF$dx], cex=1, lwd=0.5)
+  segments(1, i_abunds[,otus[i]], 2, f_abunds[,otus[i]], col=c('orange','red')[metaF$dx])
+  axis(1, at=c(1,2), c('Initial','Follow Up'))
+  mtext(taxa[i], 1, line=2.5, cex=0.8)
+  p_c<-wilcox.test(initial[metaF$dx=='cancer',otus[i]], followups[metaF$dx=='cancer',otus[i]], paired=T, alternative='greater')$p.value
+  text(1.5,0.19, labels=sprintf('Carcinomas: p=%.2g', p_c))
+  p_a<-wilcox.test(initial[metaF$dx=='adenoma',otus[i]], followups[metaF$dx=='adenoma',otus[i]], paired=T, alternative='greater')$p.value
+  text(1.5,0.13, labels=sprintf('Adenomas: p=%.2g', p_a))
+  if(i==1){axis(2, at=c(0.0001,0.001,0.01,0.1,1), c(0,0.1,1,10,100))
+      mtext('% Relative Abundace', 2, line=2.5, cex=0.8)}
+  #if(i==4){legend('top', c('Adenoma','Carcinoma'), pch=21, pt.bg=c('orange','red'))}
+}
+dev.off()
+```
