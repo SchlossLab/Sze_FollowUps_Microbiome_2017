@@ -176,7 +176,8 @@ abline(h=cutoff, lty=2)
 # Make training set with samples withouth follow ups
 train <- merge(metaI, shared, by.x='sample', by.y='Group')
 train <- train[-match(metaF$initial, train$sample),]
-train <- train[,c('lesion',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
+train <- train[metaI$dx!='adenoma',c('lesion',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
+
 
 # Get OTU abundances for initial samples that have followups
 initial <- merge(metaF, shared, by.x='initial', by.y='Group')
@@ -212,6 +213,8 @@ text(0.1,0.9, labels=sprintf('%.1f%%', 100*sum(initial_probs<cutoff & follow_pro
 **Figure 3A. Otucome of Microbiome model (no FIT) on the initial and followup samples.** I did the same thing as figure 2, but left out the FIT results from the model. In this case the optimal used only `r rf_otu$Kopt-1` OTUs, yet it detected lesions nearly as well as the combined model. It detected detected `r sum(initial_probs[metaF$dx=='cancer']>cutoff)` of `r length(initial_probs[metaF$dx=='cancer'])` cancers (worse than the combined model) and `r sum(initial_probs[metaF$dx=='adenoma']>cutoff)` of `r length(initial_probs[metaF$dx=='adenoma'])` adenomas (better than the combined model) in the initial samples. Of the `r sum(initial_probs>cutoff)` initial samples that tested positive, `r sum(initial_probs>cutoff & follow_probs>cutoff)` remained positive. In summary, compared to the combined model, the microbiome only model was better at detected adenomas, worse at detecting cancers, and individuals were more likely to appear to "normal" at the follow up.
 
 ```{r dif_otu, echo=FALSE, fig.height=6, fig.width=6}
+
+
 plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
 mtext(text=c('Adenoma','Cancer'), at=c(1.5,3.5), side=1, line=2, font=2)
 axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
@@ -222,8 +225,8 @@ segments(1, initial_probs[metaF$dx=='adenoma'], 2, follow_probs[metaF$dx=='adeno
 ade_p<-t.test(initial_probs[metaF$dx=='adenoma'], follow_probs[metaF$dx=='adenoma'], paired=T, alternative='greater')$p.value
 text(1.5, 1, sprintf('p=%.1g',ade_p))
 
-points(rep(3,26), initial_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
-points(rep(4,26), follow_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
+points(rep(3,26), initial_probs[metaF$dx=='cancer'], pch=c(21,22,23,24,25)[metaF$stage], bg='red', cex=0.8, lwd=0.5)
+points(rep(4,26), follow_probs[metaF$dx=='cancer'], pch=c(21,22,23,24,25)[metaF$stage], bg='red', cex=0.8, lwd=0.5)
 segments(3, initial_probs[metaF$dx=='cancer'], 4, follow_probs[metaF$dx=='cancer'], col='red')
 canc_p <- t.test(initial_probs[metaF$dx=='cancer'], follow_probs[metaF$dx=='cancer'], paired=T, alternative='greater')$p.value
 text(3.5, 1, sprintf('p=%.1g',canc_p))
@@ -232,6 +235,76 @@ abline(h=cutoff, lty=2)
 ```
 
 **Figure 3B.** Unlike the combined model, there was significant reducation in probability of lesion for both patients with adenomas and those with cancer when using the microbiome only model.
+
+
+
+```{r diff_by_stage, echo=FALSE, cache=TRUE, fig.height=5, fig.width=6}
+# Make training set with samples withouth follow ups
+train <- merge(metaI, shared, by.x='sample', by.y='Group')
+train <- train[-match(metaF$initial, train$sample),]
+train <- train[, c('lesion',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
+
+# Get OTU abundances for initial samples that have followups
+initial <- merge(metaF, shared, by.x='initial', by.y='Group')
+initial <- initial[,c('lesion',colnames(initial)[grep('Otu[0123456789]', colnames(initial))])]
+
+# Get OTU abundances for follow ups
+followups <- merge(metaF, shared, by.x='followUp', by.y='Group')
+followups <- followups[,c('lesion',colnames(followups)[grep('Otu[0123456789]', colnames(followups))])]
+
+set.seed(050216)
+rf_otu <- AUCRF(lesion~., data=train, pdel=0.1, ntree=500, ranking='MDA')
+rf_opt <- rf_otu$RFopt
+#plot(rf_otu)
+
+train_probs <- predict(rf_opt, type='prob')[,2]
+initial_probs <- predict(rf_opt, initial, type='prob')[,2]
+follow_probs <- predict(rf_opt, followups, type='prob')[,2]
+
+layout(matrix(c(1,2,3,4), nrow=1))
+par(mar=c(5,3,1,0.5))
+#non advanced
+plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
+mtext(text='Nonadvanced\nAdenoma', at=c(1.5), side=1, line=4, font=2)
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+stripchart(at=1, initial_probs[metaF$Dx=='Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
+stripchart(at=2, follow_probs[metaF$Dx=='Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
+segments(1, initial_probs[metaF$Dx=='Adenoma'], 2, follow_probs[metaF$Dx=='Adenoma'], col='orange')
+ade_p<-t.test(initial_probs[metaF$Dx=='Adenoma'], follow_probs[metaF$Dx=='Adenoma'], paired=T, alternative='greater')$p.value
+text(1.5, 1, sprintf('p=%.1g',ade_p))
+
+#advanced
+plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
+mtext(text='Advanced\nAdenoma', at=c(1.5), side=1, line=4, font=2)
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+stripchart(at=1, initial_probs[metaF$Dx=='adv Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
+stripchart(at=2, follow_probs[metaF$Dx=='adv Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
+segments(1, initial_probs[metaF$Dx=='adv Adenoma'], 2, follow_probs[metaF$Dx=='adv Adenoma'], col='orange')
+ade_p<-t.test(initial_probs[metaF$Dx=='adv Adenoma'], follow_probs[metaF$Dx=='adv Adenoma'], paired=T, alternative='greater')$p.value
+text(1.5, 1, sprintf('p=%.1g',ade_p))
+
+#Early (stage 1 or 2)
+plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
+mtext(text='Cancer\nStage I or II', at=c(1.5), side=1, line=4, font=2)
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+stripchart(at=1, initial_probs[metaF$stage==1 | metaF$stage==2], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
+stripchart(at=2, follow_probs[metaF$stage==1 | metaF$stage==2], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
+segments(1, initial_probs[metaF$stage==1 | metaF$stage==2], 2, follow_probs[metaF$stage==1 | metaF$stage==2], col='red')
+ade_p<-t.test(initial_probs[metaF$stage==1 | metaF$stage==2], follow_probs[metaF$stage==1 | metaF$stage==2], paired=T, alternative='greater')$p.value
+text(1.5, 1, sprintf('p=%.1g',ade_p))
+
+
+#Early (stage 3 or 4)
+plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
+mtext(text='Cancer\nStage III or IV', at=c(1.5), side=1, line=4, font=2)
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+stripchart(at=1, initial_probs[metaF$stage==3 | metaF$stage==4], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
+stripchart(at=2, follow_probs[metaF$stage==3 | metaF$stage==4], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
+segments(1, initial_probs[metaF$stage==3 | metaF$stage==4], 2, follow_probs[metaF$stage==3 | metaF$stage==4], col='red')
+ade_p<-t.test(initial_probs[metaF$stage==3 | metaF$stage==4], follow_probs[metaF$stage==3 | metaF$stage==4], paired=T, alternative='greater')$p.value
+text(1.5, 1, sprintf('p=%.1g',ade_p))
+
+```
 
 
 ```{r time, echo=FALSE, fig.height=5, fig.width=5}
