@@ -313,35 +313,6 @@ plot(metaF$time, follow_probs-initial_probs, ylim=c(-0.8,0.5), xlab='Time betwee
 
 **Figure 4.** I thought perhaps a longer time between sampling would increase the likelihood that an individual would appear "normal". However, there was no correlation between the change in model outcome and the time between samples. 
 
-```{r, echo=FALSE, warning=FALSE, fig.height=6, fig.width=9}
-#OTU Scatterplots
-i_abunds <- initial[,-c(1,2)]/10530 + 0.0001
-f_abunds <- followups[,-c(1,2)]/10530 + 0.0001
-taxa <- c('Porphyromonas (OTU126)','Peptostreptococcus (OTU566)','Fusobacterium (OTU205)', 'Odoribacter (OTU164)', 'Prevotella (OTU147)','Parvimonas (OTU397)')
-
-otus <- c("Otu000126", "Otu000566", "Otu000205", "Otu000164", "Otu000147", "Otu000397")
-
-layout(matrix(c(1,2,3,4,5,6),nrow=2, byrow=T))
-par(mar=c(1.5,1.5,2.5,1),oma=c(3,3,1,1))
-for(i in 1:6){
-  plot(log10(jitter(i_abunds[,otus[i]], amount=0.00001)), log10(jitter(f_abunds[,otus[i]], amount=0.00001)), xaxt='n', yaxt='n', ylab='', xlab='', pch=21, bg=c('orange','red')[metaF$dx], main=taxa[i], xlim=c(-4,max(log10(i_abunds[,otus[i]]))), ylim=c(-4,max(log10(i_abunds[,otus[i]]))), cex=1.5)
-  axis(1, at=c(-4,-3,-2,-1), labels=c(0,0.1,1,10) )
-  axis(2, at=c(-4,-3,-2,-1), labels=c(0,0.1,1,10) )
-  abline(a=0,b=1, lty=2)
-  #legend('top', legend=sprintf('p=%.2g',wilcox.test(i_abunds[,otus[i]],f_abunds[,otus[i]], alternative='greater', paired=T)$p.value), bty='n')
-}
-
-layout(matrix(c(1,1),nrow=1))
-mtext('% Relative abundance (initial)', side=1, line=3)
-mtext('% Relative abundance (follow up)', side=2, line=3)
-```
-
-
-**Figure 6. The usual suspects.** Finally I wanted to see whether the OTUs most commonly associated with cancer were less abundant in the follow up samples. The figure above shows 6 of the 14 OTUs used in the microbiota only model. Most of them should look very familiar. You can see that for most of them there is a significant reduction in relative abundance from the initial sample to the follow up (p-values based on one-sided paired wilcoxon test). Interestngly, for Fusobacterium there is not a significant reduction unless you only compare cancer samples (`r sprintf('p=%.2g', wilcox.test(i_abunds[metaF$dx=='cancer',otus[3]],f_abunds[metaF$dx=='cancer',otus[3]], alternative='greater', paired=T)$p.value)`). 
-
-**Wild Speculation:**
-To me, these finding are consistent with the idea that these oral pathogens are enriched on tumors, because they like the environment. When the tumors are removed their abundance goes down. They may accelerate tumorigenesis when they colonize the tumor, but first it's the tumor and/or inflammation that enables them to colonize in the first place. It's also possible, as we've  hypothesized in lab meetings, that Fuso binds first during the earliest stages (or even prior to) tumorigenesis.  Its presence then enables the other pathogens to adhere and exacerbate disease (similar to the progression of periodontitis). That would explain why people often find Fuso associated with adenomas, while these other oral pathogens are more indicative of cancers.
-
 
 ```{r beforeVSafter, echo=FALSE, warning=FALSE, fig.height=6, fig.width=9, eval=FALSE}
 dim(shared)
@@ -388,3 +359,24 @@ for(i in 1:length(otus)){
 }
 dev.off()
 ```
+
+
+```{r in_vs_fu, echo=FALSE, fig.height=6, fig.width=6}
+init_vs_follow <- rbind(initial,followups)[,-1]
+init_vs_follow$time <- factor(NA, levels=c(0,1))
+init_vs_follow$time[1:67]<-0
+init_vs_follow$time[68:134]<-1
+
+pvals <- c()
+for(i in 1:(ncol(init_vs_follow)-1)){
+  pvals[i]<-aov(time~init_vs_follow[,i], data=init_vs_follow)$p.value
+}
+
+
+
+
+#rf_time <- AUCRF(time~., data=init_vs_follow, ntree=500, pdel=0.1, ranking='MDA')
+
+
+```
+
