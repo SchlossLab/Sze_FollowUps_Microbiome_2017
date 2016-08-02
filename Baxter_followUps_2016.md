@@ -45,6 +45,7 @@ Next, I generated a random forest model for distinguishing normal from lesion us
 
 ![](Baxter_followUps_2016_files/figure-html/diff_by_stage-1.png)
 
+There doesn't seem to be a difference in the outcome of the model by stage.
 
 ![](Baxter_followUps_2016_files/figure-html/time-1.png)
 

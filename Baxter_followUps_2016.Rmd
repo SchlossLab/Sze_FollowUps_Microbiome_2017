@@ -243,7 +243,8 @@ abline(h=cutoff, lty=2)
 
 
 
-```{r diff_by_stage, echo=FALSE, cache=TRUE, fig.height=5, fig.width=6}
+```{r diff_by_stage, echo=FALSE, cache=TRUE, fig.height=4, fig.width=7}
+
 # Make training set with samples without follow ups
 train <- merge(metaI, shared, by.x='sample', by.y='Group')
 train <- train[-which(train$sample %in% metaF$initial),]
@@ -268,7 +269,7 @@ initial_probs <- predict(rf_opt, initial, type='prob')[,2]
 follow_probs <- predict(rf_opt, followups, type='prob')[,2]
 
 layout(matrix(c(1,2,3,4), nrow=1))
-par(mar=c(5,3,1,0.5))
+par(mar=c(5,3,1,0.5), mgp=c(1.5,0.5,0))
 #non advanced
 plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
 mtext(text='Nonadvanced\nAdenoma', at=c(1.5), side=1, line=4, font=2)
@@ -312,6 +313,7 @@ text(1.5, 1, sprintf('p=%.1g',ade_p))
 
 ```
 
+There doesn't seem to be a difference in the outcome of the model by stage.
 
 ```{r time, echo=FALSE, fig.height=5, fig.width=5}
 plot(metaF$time, follow_probs-initial_probs, ylim=c(-0.8,0.5), xlab='Time between samples (days)',ylab='Change in model outcome')
