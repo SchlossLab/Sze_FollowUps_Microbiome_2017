@@ -1,5 +1,5 @@
 ---
-title: "Follow Up Samples"
+title: "Follow-up Samples"
 author: "Niel"
 date: "November 20, 2015"
 output: 
@@ -40,7 +40,7 @@ pval <- function(p){
 
 ```
 
-```{r dists, echo=FALSE, fig.height=5, fig.width=10}
+```{r dists, echo=FALSE, fig.height=5, fig.width=10, cache=T}
 source('code/read.dist.R')
 
 dist <- read.dist('data/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist')
@@ -101,8 +101,8 @@ initial <- initial[,c('lesion','fit_result',colnames(initial)[grep('Otu[01234567
 followups <- merge(metaF, shared, by.x='followUp', by.y='Group')
 followups <- followups[,c('lesion','fit_result',colnames(followups)[grep('Otu[0123456789]', colnames(followups))])]
 
-set.seed(112015)
-rf <- AUCRF(lesion~., data=train, pdel=0.1, ntree=1000, ranking='MDA')
+set.seed(050416)
+rf <- AUCRF(lesion~., data=train, pdel=0.05, ntree=500, ranking='MDA')
 rf_opt <- rf$RFopt
 #plot(rf)
 
@@ -127,9 +127,9 @@ text(0.1,0.9, labels=sprintf('%.1f%%', 100*sum(initial_probs<cutoff & follow_pro
 Next, I generated a random forest model for distinguishing normal from lesion using all of the initial samples that didn't have follow ups (n=422). The optimal model used `r rf$Kopt-1` OTUs and FIT. I then applied the model to the other initial samples and their follow ups. The scatter plot below shows how the model classified each individual's initial and follow up samples (n=67). The model detected `r sum(initial_probs[metaF$dx=='cancer']>cutoff)` of `r length(initial_probs[metaF$dx=='cancer'])` cancers and `r sum(initial_probs[metaF$dx=='adenoma']>cutoff)` of `r length(initial_probs[metaF$dx=='adenoma'])` adenomas in the initial samples. Of the `r sum(initial_probs>cutoff)` individuals who tested positive with the initial sample, `r sum(initial_probs>cutoff & follow_probs>cutoff)` remained positive with the follow up sample. 10.4% of individuls were negative for both the initial and followups (all adenomas). Surprisingly, 13.4% of individuals were negative at the initial sampling, but became positive at the follow up.
 
 ```{r fit_dif, echo=FALSE, fig.height=6, fig.width=6, warning=FALSE}
-plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0.05,5000), log='y', ylab='FIT Results (ng/ml)', xaxt='n', xlab='', yaxt='n')
+plot(1, type='n', xlim=c(0.5,4.5), ylim=c(0.05,5000), log='y', ylab='FIT Results (ng/ml)', xaxt='n', xlab='', yaxt='n')
 mtext(text=c('Adenoma','Cancer'), at=c(1.5,3.5), side=1, line=2, font=2)
-axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow-up','Baseline','Follow-up'))
 axis(2, at=c(0.1,1.1,10.1,100.1,1000.1), labels=c(0,1,10,100,1000))
 
 points(rep(1,41), metaF[metaF$dx=='adenoma','fit_result']+0.1, pch=21, bg='orange', cex=0.8, lwd=0.5)
@@ -150,34 +150,39 @@ abline(h=100, lty=2)
 **Figure 2B.** This next figure shows the change in FIT result from the initial to the follow up samples. For the adenomas, it's fairly random. Some go from positive to negative, but just as many go form negative to positive. For the cancers, however, a large portion of them go from high FIT results to zero, while none of them go from zero to higher results. As a result, there is a significant reduction in FIT results for cancers, but not for adenomas. 
 
 ```{r comb_dif, echo=FALSE, fig.height=6, fig.width=6}
-plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0,1.1), ylab='Probability of lesion (Combined model)', xaxt='n', xlab='')
+pdf('figures/mmt_dif.pdf', height=6, width=8)
+layout(1)
+par(mgp=c(2.5,0.5,0))
+plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0,1), ylab='Probability of lesion (Combined model)', xaxt='n', xlab='', las=2)
 mtext(text=c('Adenoma','Cancer'), at=c(1.5,3.5), side=1, line=2, font=2)
-axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(1, at=c(1,2,3,4), labels=c('Initial','Follow-up','Initial','Follow-up'))
 
-points(rep(1,41), initial_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
-points(rep(2,41), follow_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
+jit <- jitter(rep(0,41), amount=0.05)
+points(rep(1,41)+jit, initial_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=1, lwd=0.5)
+points(rep(2,41)+jit, follow_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=1, lwd=0.5)
 segments(1, initial_probs[metaF$dx=='adenoma'], 2, follow_probs[metaF$dx=='adenoma'], col='orange')
 ade_p<-t.test(initial_probs[metaF$dx=='adenoma'], follow_probs[metaF$dx=='adenoma'], paired=T, alternative='greater')$p.value
 text(1.5, 1, sprintf('p=%.1g',ade_p))
 
-points(rep(3,26), initial_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
-points(rep(4,26), follow_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=0.8, lwd=0.5)
+jit <- jitter(rep(0,26), amount=0.05)
+points(rep(3,26)+jit, initial_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=1, lwd=0.5)
+points(rep(4,26)+jit, follow_probs[metaF$dx=='cancer'], pch=21, bg='red', cex=1, lwd=0.5)
 segments(3, initial_probs[metaF$dx=='cancer'], 4, follow_probs[metaF$dx=='cancer'], col='red')
 canc_p <- t.test(initial_probs[metaF$dx=='cancer'], follow_probs[metaF$dx=='cancer'], paired=T, alternative='greater')$p.value
 text(3.5, 1, sprintf('p=%.1g',canc_p))
 
 abline(h=cutoff, lty=2)
+dev.off()
 ```
 
 **Figure 2C.** This next figure shows how the model results changed over time. Based on the previous figure, you'd expect outcome of the model to change more for the cancer samples than for the adenomas. Indeed, there is a significant reduction in the probability of lesion for the cancers but not the adenomas. This is most likely due to the reduction in FIT results indiviuduals that had cancers.
 
 
-```{r otu_model, echo=FALSE, cache=TRUE, fig.height=5, fig.width=6}
+```{r otu_model, echo=FALSE, cache=TRUE, fig.height=5, fig.width=6, eval=T}
 # Make training set with samples withouth follow ups
 train <- merge(metaI, shared, by.x='sample', by.y='Group')
-train <- train[-match(metaF$initial, train$sample),]
-train <- train[metaI$dx!='adenoma',c('lesion',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
-
+train <- train[-which(train$sample %in% metaF$initial),]
+train <- train[,c('lesion',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
 
 # Get OTU abundances for initial samples that have followups
 initial <- merge(metaF, shared, by.x='initial', by.y='Group')
@@ -188,9 +193,9 @@ followups <- merge(metaF, shared, by.x='followUp', by.y='Group')
 followups <- followups[,c('lesion',colnames(followups)[grep('Otu[0123456789]', colnames(followups))])]
 
 set.seed(112015)
-rf_otu <- AUCRF(lesion~., data=train, pdel=0.1, ntree=1000, ranking='MDA')
+rf_otu <- AUCRF(lesion~., data=train, pdel=0.1, ntree=500, ranking='MDA')
 rf_opt <- rf_otu$RFopt
-#plot(rf_otu)
+
 
 train_probs <- predict(rf_opt, type='prob')[,2]
 initial_probs <- predict(rf_opt, initial, type='prob')[,2]
@@ -217,7 +222,7 @@ text(0.1,0.9, labels=sprintf('%.1f%%', 100*sum(initial_probs<cutoff & follow_pro
 
 plot(0, type='n', xlim=c(0.5,4.5), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
 mtext(text=c('Adenoma','Cancer'), at=c(1.5,3.5), side=1, line=2, font=2)
-axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow-up','Baseline','Follow-up'))
 
 points(rep(1,41), initial_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
 points(rep(2,41), follow_probs[metaF$dx=='adenoma'], pch=21, bg='orange', cex=0.8, lwd=0.5)
@@ -239,10 +244,11 @@ abline(h=cutoff, lty=2)
 
 
 ```{r diff_by_stage, echo=FALSE, cache=TRUE, fig.height=5, fig.width=6}
-# Make training set with samples withouth follow ups
+# Make training set with samples without follow ups
 train <- merge(metaI, shared, by.x='sample', by.y='Group')
-train <- train[-match(metaF$initial, train$sample),]
+train <- train[-which(train$sample %in% metaF$initial),]
 train <- train[, c('lesion',colnames(train)[grep('Otu[0123456789]', colnames(train))])]
+
 
 # Get OTU abundances for initial samples that have followups
 initial <- merge(metaF, shared, by.x='initial', by.y='Group')
@@ -266,7 +272,7 @@ par(mar=c(5,3,1,0.5))
 #non advanced
 plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
 mtext(text='Nonadvanced\nAdenoma', at=c(1.5), side=1, line=4, font=2)
-axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow-up','Baseline','Follow-up'))
 stripchart(at=1, initial_probs[metaF$Dx=='Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
 stripchart(at=2, follow_probs[metaF$Dx=='Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
 segments(1, initial_probs[metaF$Dx=='Adenoma'], 2, follow_probs[metaF$Dx=='Adenoma'], col='orange')
@@ -276,7 +282,7 @@ text(1.5, 1, sprintf('p=%.1g',ade_p))
 #advanced
 plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
 mtext(text='Advanced\nAdenoma', at=c(1.5), side=1, line=4, font=2)
-axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow-up','Baseline','Follow-up'))
 stripchart(at=1, initial_probs[metaF$Dx=='adv Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
 stripchart(at=2, follow_probs[metaF$Dx=='adv Adenoma'], pch=21, bg='orange', cex=1.2, lwd=0.5, vertical=T, add=T)
 segments(1, initial_probs[metaF$Dx=='adv Adenoma'], 2, follow_probs[metaF$Dx=='adv Adenoma'], col='orange')
@@ -286,7 +292,7 @@ text(1.5, 1, sprintf('p=%.1g',ade_p))
 #Early (stage 1 or 2)
 plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
 mtext(text='Cancer\nStage I or II', at=c(1.5), side=1, line=4, font=2)
-axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow-up','Baseline','Follow-up'))
 stripchart(at=1, initial_probs[metaF$stage==1 | metaF$stage==2], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
 stripchart(at=2, follow_probs[metaF$stage==1 | metaF$stage==2], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
 segments(1, initial_probs[metaF$stage==1 | metaF$stage==2], 2, follow_probs[metaF$stage==1 | metaF$stage==2], col='red')
@@ -297,7 +303,7 @@ text(1.5, 1, sprintf('p=%.1g',ade_p))
 #Early (stage 3 or 4)
 plot(0, type='n', xlim=c(0.75,2.25), ylim=c(0,1.1), ylab='Probability of lesion (OTU model)', xaxt='n', xlab='')
 mtext(text='Cancer\nStage III or IV', at=c(1.5), side=1, line=4, font=2)
-axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow Up','Baseline','Follow Up'))
+axis(1, at=c(1,2,3,4), labels=c('Baseline','Follow-up','Baseline','Follow-up'))
 stripchart(at=1, initial_probs[metaF$stage==3 | metaF$stage==4], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
 stripchart(at=2, follow_probs[metaF$stage==3 | metaF$stage==4], pch=21, bg='red', cex=1.2, lwd=0.5, vertical=T, add=T)
 segments(1, initial_probs[metaF$stage==3 | metaF$stage==4], 2, follow_probs[metaF$stage==3 | metaF$stage==4], col='red')
@@ -323,31 +329,31 @@ adeVcanc$type <- c(rep(1),rep(0))
 adeVcanc$type <- as.factor(adeVcanc$type)
 
 set.seed(112015)
-rf_otu <- AUCRF(type~., data=adeVcanc, pdel=0.1, ntree=1000, ranking='MDA')
+rf_otu <- AUCRF(type~., data=adeVcanc, pdel=0.1, ntree=500, ranking='MDA')
 rf_opt <- rf_otu$RFopt
-
-
-
 
 ```
 
 
-```{r otu_abunds, echo=FALSE, fig.height=6, fig.width=6}
+```{r otu_abunds, echo=FALSE, message=F, warning=F, fig.height=4, fig.width=7}
 i_abunds <- initial[,-c(1,2)]/10530 + 0.0001
 f_abunds <- followups[,-c(1,2)]/10530 + 0.0001
 taxa <- c('P. asaccharolytica','P. stomatis','F. nucleatum', 'P. micra')
 
 otus <- c("Otu000126", "Otu000566", "Otu000205", "Otu000397")
 
-pdf('figures/otu_abunds.pdf', height=4, width=8)
 layout(matrix(c(1:4), nrow=1))
 par(mar=c(4,0.5,1,0.5), oma=c(0,4,0,0))
+
+jity<-jitter(rep(0,67), amount=0.00001)
+jitx<-jitter(rep(0,67), amount=0.05)
+
 for(i in 1:length(otus)){
-  plot(0, type='n', log='y', xlim=c(0.75,2.25), ylim=c(0.0001,0.2), ylab='', xaxt='n', xlab='', yaxt='n', las=2)
-  points(rep(1,nrow(i_abunds)), i_abunds[,otus[i]], pch=21, bg=c('orange','red')[metaF$dx], cex=1, lwd=0.5)
-  points(rep(2,nrow(f_abunds)), f_abunds[,otus[i]], pch=21, bg=c('orange','red')[metaF$dx], cex=1, lwd=0.5)
-  segments(1, i_abunds[,otus[i]], 2, f_abunds[,otus[i]], col=c('orange','red')[metaF$dx])
-  axis(1, at=c(1,2), c('Initial','Follow Up'))
+  plot(0, type='n', log='y', xlim=c(0.75,2.25), ylim=c(0.00009,0.2), ylab='', xaxt='n', xlab='', yaxt='n', las=2)
+  points(rep(1,nrow(i_abunds))+jitx, jity+i_abunds[,otus[i]], pch=21, bg=c('orange','red')[metaF$dx], cex=1, lwd=0.5)
+  points(rep(2,nrow(f_abunds))+jitx, jity+f_abunds[,otus[i]], pch=21, bg=c('orange','red')[metaF$dx], cex=1, lwd=0.5)
+  segments(1+jitx, i_abunds[,otus[i]], 2+jitx, f_abunds[,otus[i]], col=c('orange','red')[metaF$dx])
+  axis(1, at=c(1,2), c('Initial','Follow-up'))
   mtext(taxa[i], 1, line=2.5, cex=0.8)
   p_c<-wilcox.test(initial[metaF$dx=='cancer',otus[i]], followups[metaF$dx=='cancer',otus[i]], paired=T, alternative='greater')$p.value
   text(1.5,0.19, labels=sprintf('Carcinomas: p=%.2g', p_c))
@@ -357,26 +363,7 @@ for(i in 1:length(otus)){
       mtext('% Relative Abundace', 2, line=2.5, cex=0.8)}
   #if(i==4){legend('top', c('Adenoma','Carcinoma'), pch=21, pt.bg=c('orange','red'))}
 }
-dev.off()
 ```
 
-
-```{r in_vs_fu, echo=FALSE, fig.height=6, fig.width=6}
-init_vs_follow <- rbind(initial,followups)[,-1]
-init_vs_follow$time <- factor(NA, levels=c(0,1))
-init_vs_follow$time[1:67]<-0
-init_vs_follow$time[68:134]<-1
-
-pvals <- c()
-for(i in 1:(ncol(init_vs_follow)-1)){
-  pvals[i]<-aov(time~init_vs_follow[,i], data=init_vs_follow)$p.value
-}
-
-
-
-
-#rf_time <- AUCRF(time~., data=init_vs_follow, ntree=500, pdel=0.1, ranking='MDA')
-
-
-```
+**Figure 5.** I compared the abundance of the four main cancer-associated OTUs over time. There was a significant decrease in the abundance of these OTUs for patients with carcinomas, but for patients with adenomas.
 
