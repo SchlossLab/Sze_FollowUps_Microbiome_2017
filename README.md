@@ -1,4 +1,4 @@
-## The Bacterial Microbiome, Colorectal Cancer, and Follow Up Course
+## An Investigation of the Bacterial Microbiome and Colorectal Cancer during Follow Up
 
 At this moment in time the abstract has not been written but am working 
 through the data.  
