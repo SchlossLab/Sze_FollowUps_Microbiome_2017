@@ -5,3 +5,5 @@ data/*.logfile
 *_cache/
 *_files/
 sample_refs/
+data/raw/
+data/references/

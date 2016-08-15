@@ -1,0 +1,11 @@
+cluster.split(fasta=followUps.final.fasta, count=followUps.final.counts, taxonomy=followUps.final.taxonomy, splitmethod=classify, taxlevel=5, cutoff=0.1, processors=1, cluster=F, processors=8)
+cluster.split(file=followUps.final.file, processors=1)
+
+make.shared(list=followUps.final.an.unique_list.list, count=followUps.final.counts, label=0.03)
+classify.otu(list=followUps.final.an.unique_list.list, count=followUps.final.counts, taxonomy=followUps.final.taxonomy, label=0.03)
+
+sub.sample(shared=followUps.final.an.unique_list.shared)
+
+dist.shared(shared=followUps.final.an.unique_list.shared, calc=thetayc, subsample=T, label=0.03, processors=8, iters=100)
+nmds(phylip=followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist)
+filter.shared(shared=followUps.final.an.unique_list.0.03.subsample.shared, minpercentsamples=5, makerare=F)
