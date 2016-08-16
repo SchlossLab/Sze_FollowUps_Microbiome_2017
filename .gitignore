@@ -7,3 +7,4 @@ data/*.logfile
 sample_refs/
 data/raw/
 data/references/
+*.pbs
