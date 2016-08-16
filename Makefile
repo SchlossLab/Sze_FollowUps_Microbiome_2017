@@ -1,9 +1,10 @@
-STUDIES = brim geng weir dejea baxter lu ahn
+# Set local variables
 REFS = data/references
 FIGS = results/figures
 TABLES = results/tables
 PROC = data/process
 FINAL = submission/
+CODE = code/
 
 
 # utility function to print various variables. For example, running the
@@ -63,32 +64,8 @@ $(REFS)/trainset14_032015.% :
 #
 ################################################################################
 
-# Change gf_cdiff to the * part of your *.files file that lives in data/raw/
-STUB = $(foreach S, $(STUDIES), $(PROC)/$(S)/$(S))
-
-
-ALPHA = $(addsuffix .groups.ave-std.summary,$(STUB))
-BETA = $(addsuffix .braycurtis.0.03.lt.ave.dist,$(STUB))
-SHARED = $(addsuffix .shared,$(STUB))
-SUBSHARED = $(addsuffix .0.03.subsample.shared,$(STUB))
-FASTA = $(addsuffix .rep.seqs,$(STUB))
-TAXONOMY = $(addsuffix .taxonomy,$(STUB))
-METADATA = $(addsuffix .metadata,$(STUB))
-
-
-.SECONDEXPANSION:
-data/process/%.groups.ave-std.summary\
-	data/process/%.braycurtis.0.03.lt.ave.dist\
-	data/process/%.shared\
-	data/process/%.0.03.subsample.shared\
-	data/process/%.rep.seqs\
-	data/process/%.taxonomy\
-	data/process/%.metadata : code/$$(notdir $$*).batch code/$$(notdir $$*).R\
-			$(REFS)/silva.seed.align $(REFS)/silva.v4.align\
-			$(REFS)/trainset14_032015.pds.fasta\
-			$(REFS)/trainset14_032015.pds.tax
-	bash $<
-
+$(PROC)/follow_ups.shared : 
+	bash $(CODE)/mothur.batch
 
 
 
