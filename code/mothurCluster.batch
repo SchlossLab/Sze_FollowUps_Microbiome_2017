@@ -1,0 +1,34 @@
+#!bash
+
+#Load needed R
+module load R/3.3.0
+
+#Set local variables
+mothurRv=/mnt/EXT/Schloss-data/bin/mothur
+DOWNDIR=data/raw
+WORKDIR=data/process
+REF=data/references
+
+#Run mothur clustering and make shared process
+
+$mothurRv "#cluster.split(fasta=$WORKDIR/unmatched.fasta, count=$WORKDIR/unmatched.count_table, taxonomy=$WORKDIR/unmatched.taxonomy, splitmethod=classify, taxlevel=5, cutoff=0.1, cluster=F, processors=4);
+	cluster.split(file=$WORKDIR/unmatched.file, processors=1);
+	make.shared(list=current, count=current, label=0.03);
+	classify.otu(list=current, count=current, taxonomy=current, label=0.03);
+	get.oturep(fasta=current, count=current, list=current, label=0.03, method=abundance)"
+
+# Match the two metadata tables with the shared file
+R -e "source('code/alignData.R')"
+
+# Run diversity analysis on new aligned data set
+$mothurRv "#sub.sample(shared=$WORKDIR/final.shared, label=0.03);
+	dist.shared(shared=$WORKDIR/final.shared, calc=sharedsobs-thetayc, label=0.03, subsample=T, iters=100, processors=8);
+	summary.single(shared=$WORKDIR/final.shared, calc=nseqs-sobs-shannon-shannoneven, subsample=T)"
+
+mv $WORKDIR/*.cons.taxonomy $WORKDIR/final.taxonomy
+mv $WORKDIR/*0.03.rep.fasta $WORKDIR/final.rep.seqs
+
+
+# Remove raw files to free up space
+rm $WORKDIR/unmatched.* $WORKDIR/stability.* $WORKDIR/*.fastq $WORKDIR/*.temp
+rm $WORKDIR/*.rabund
