@@ -38,11 +38,17 @@ $mothurRv "#make.file(inputdir=$WORKDIR);
 	remove.seqs(fasta=current, accnos=current);
 	summary.seqs(fasta=current,count=current);
 	classify.seqs(fasta=current, count=current, reference=$REF/trainset14_032015.pds.fasta, taxonomy=$REF/trainset14_032015.pds.tax, cutoff=80);
-	remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota);
-	cluster.split(fasta=current, count=current, taxonomy=current, splitmethod=classify, taxlevel=5, cutoff=0.1, cluster=F, processors=4);
-	cluster.split(file=current, processors=1)
-	make.shared(list=current, count=current, label=0.03);
-	classify.otu(list=current, count=current, taxonomy=current, label=0.03)"
+	remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota)"
 
-#Match metadata with shared file
+
+# Rename final fasta, taxa, and count file to be used later
+
+mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta $WORKDIR/unmatched.fasta
+mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.pick.count_table $WORKDIR/unmatched.count_table
+mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pds.wang.pick.taxonomy $WORKDIR/unmatched.taxonomy
+
+# Remove the stored fastq.gz files
+
+rm $DOWNDIR/*.gz
+
 
