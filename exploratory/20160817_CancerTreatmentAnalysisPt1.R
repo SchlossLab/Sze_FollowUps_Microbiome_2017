@@ -1,28 +1,25 @@
 ## Explore Follow up data
 ## Marc Sze
 
-# Load packages
-library(ggplot2)
-library(gridExtra)
+###Load needed Libraries and functions
+source('code/functions.R')
+
+loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "wesanderson"))
 
 ### Read in necessary data 
 
-tax <- read.delim('data/followUps.final.an.unique_list.0.03.cons.taxonomy', 
+tax <- read.delim('data/process/followUps.final.an.unique_list.0.03.cons.taxonomy', 
                   sep='\t', header=T, row.names=1)
-shared <- read.delim('data/followUps.final.an.unique_list.0.03.subsample.0.03.filter.shared', 
+shared <- read.delim('data/process/followUps.final.an.unique_list.0.03.subsample.0.03.filter.shared', 
                      header=T, sep='\t')
 
 ### Organize tables for train and test sets
-metaF <- read.delim('data/followUps_metadata.txt', header=T, sep='\t')
-metaF$lesion <- factor(NA, levels=c(0,1))
-metaF$lesion[metaF$dx!='normal'] <-1
-metaI <- read.delim('data/initials_metadata.tsv', header=T, sep='\t')
-metaI$lesion <- factor(NA, levels=c(0,1))
-metaI$lesion[metaI$dx=='normal'] <-0
-metaI$lesion[metaI$dx!='normal'] <-1
+metaF <- read.delim('data/process/followUps_metadata.txt', header=T, sep='\t')
+metaI <- read.delim('data/process/initials_metadata.tsv', header=T, sep='\t')
+
 
 ### Need to amend and separate Adenoma and CRC
-outcomes_f <- read.csv('data/followUp_outcome_data.csv', header = T, 
+outcomes_f <- read.csv('data/process/followUp_outcome_data.csv', header = T, 
                        stringsAsFactors = F)
 
 ### Need to amend outcomes file so it matches the rest
@@ -34,7 +31,7 @@ outcomes_f <- outcomes_f[match(metaF$EDRN, outcomes_f$EDRN), ]
 source('code/functions.R')
 
 thetaCompTotal <- dissplit(
-  'data/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist', metaF)
+  'data/process/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist', metaF)
 
 intra_ade <- as.vector(unlist(thetaCompTotal['intra_ade']))
 intra_canc <- as.vector(unlist(thetaCompTotal['intra_canc']))
@@ -45,7 +42,7 @@ rm(thetaCompTotal)
 ###same person for all and split by adenoma or cancer
 
 sobsCompTotal <- dissplit(
-  'data/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist', metaF)
+  'data/process/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist', metaF)
 
 sobs_intra_ade <- as.vector(unlist(sobsCompTotal['intra_ade']))
 sobs_intra_canc <- as.vector(unlist(sobsCompTotal['intra_canc']))
@@ -54,13 +51,13 @@ rm(sobsCompTotal)
 
 # Get OTU abundances for initial samples that have followups
 initial <- merge(metaF, shared, by.x='initial', by.y='Group')
-initial <- initial[,c('lesion','fit_result',
+initial <- initial[,c('fit_result',
                       colnames(initial)[grep('Otu[0123456789]', 
                                              colnames(initial))])]
 
 # Get OTU abundances for follow ups
 followups <- merge(metaF, shared, by.x='followUp', by.y='Group')
-followups <- followups[,c('lesion','fit_result',
+followups <- followups[,c('fit_result',
                           colnames(followups)[grep('Otu[0123456789]', 
                                                    colnames(followups))])]
 
@@ -68,7 +65,7 @@ followups <- followups[,c('lesion','fit_result',
 cancer_out_f <- outcomes_f[which(outcomes_f$Diagnosis == "adenocarcinoma" | 
                                    outcomes_f$Diagnosis == "N/D"), ]
 
-meta_cancer <- merge(metaFConly, cancer_out_f, by.x='EDRN', by.y='EDRN')
+meta_cancer <- merge(metaF, cancer_out_f, by.x='EDRN', by.y='EDRN')
 
 
 ### Grab specific OTUs and fit results that were selected as important features for classification
@@ -106,10 +103,17 @@ meta_cancer$both_treatments[which(
   meta_cancer$chemo_received == "yes" & meta_cancer$radiation_received == "yes")] <- "yes"
 
 
+# Create statistics test for each OTU and create a summary table.
+
+pValue_test_data <- rename(meta_cancer, Group = followUp) %>% inner_join(shared, by = "Group") %>% 
+  select(Group, chemo_received, radiation_received, number_of_meds, both_treatments, one_of(select_otus))
+
+pValue_table_chemo_rad <- getCorrectedPvalue(
+  pValue_test_data, select_otus, c("chemo_received", "radiation_received", "both_treatments"))
+
 # Make data table of graph 
-specific_data <- rename(meta_cancer, Group = followUp) %>% inner_join(shared, by = "Group") %>% 
-  select(Group, chemo_received, radiation_received, number_of_meds, both_treatments, one_of(select_otus)) %>% 
-  melt(id = c("Group", "chemo_received", "radiation_received", "both_treatments", "number_of_meds"))
+specific_data <- melt(pValue_test_data, 
+                      id = c("Group", "chemo_received", "radiation_received", "both_treatments", "number_of_meds"))
 
 # Visualize breakdown by Chemo Recieved
     # mean_cl_boot obtains population confidence limits via nonparametric bootstraping for mean without assuming normality
