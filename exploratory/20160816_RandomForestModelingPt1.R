@@ -86,6 +86,8 @@ set.seed(050416)
 cancer_rf_opt <- AUCRF(cancer~., data=train, pdel=0.05, ntree=500, ranking='MDA')$RFopt
 cancer_train_probs <- predict(cancer_rf_opt, type='prob')[,2]
 
+cancer_train_roc <- roc(train$cancer ~ cancer_train_probs)
+
 # ID important factors for Cancer using Boruta 
 set.seed(050416)
 cancer_impFactorData <- Boruta(cancer~., data=train, mcAdj=TRUE, maxRuns=1000)
@@ -101,10 +103,7 @@ set.seed(050416)
 cancer_selected_rf_opt <- AUCRF(cancer~., data=cancer_selected_train, pdel=0.99, ntree=500, ranking='MDA')$RFopt
 cancer_selected_train_probs <- predict(cancer_selected_rf_opt, type='prob')[,2]
 
-
-
-
-
+cancer_selected_train_roc <- roc(train$cancer ~ cancer_selected_train_probs)
 
 
 # Using the seperation as Lesion
@@ -116,6 +115,24 @@ set.seed(050416)
 lesion_rf_opt <- AUCRF(lesion~., data=train, pdel=0.05, ntree=500, ranking='MDA')$RFopt
 lesion_train_probs <- predict(lesion_rf_opt, type='prob')[,2]
 
+lesion_train_roc <- roc(train$lesion ~ lesion_train_probs)
+
+# ID important factors for lesion using Boruta 
+set.seed(050416)
+lesion_impFactorData <- Boruta(lesion~., data=train, mcAdj=TRUE, maxRuns=1000)
+# Does not change after increasing runs to 2000
+
+# Get the confirmed important variables
+lesion_confirmed_vars <- as.data.frame(cancer_impFactorData['finalDecision'])  %>% 
+  mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# Use the selected data set in AUCRF now
+lesion_selected_train <- select(train, lesion, one_of(lesion_confirmed_vars[, 'otus']))
+set.seed(050416)
+lesion_selected_rf_opt <- AUCRF(lesion~., data=lesion_selected_train, pdel=0.99, ntree=500, ranking='MDA')$RFopt
+lesion_selected_train_probs <- predict(lesion_selected_rf_opt, type='prob')[,2]
+
+lesion_selected_train_roc <- roc(train$lesion ~ lesion_selected_train_probs)
 
 # Using the seperation as SRNlesion
 train <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
@@ -126,15 +143,47 @@ set.seed(050416)
 SRNlesion_rf_opt <- AUCRF(SRNlesion~., data=train, pdel=0.05, ntree=500, ranking='MDA')$RFopt
 SRNlesion_train_probs <- predict(SRNlesion_rf_opt, type='prob')[,2]
 
+SRNlesion_train_roc <- roc(train$SRNlesion ~ SRNlesion_train_probs)
+
+# ID important factors for lesion using Boruta 
+set.seed(050416)
+SRNlesion_impFactorData <- Boruta(SRNlesion~., data=train, mcAdj=TRUE, maxRuns=1000)
+# Does not change after increasing runs to 2000
+
+# Get the confirmed important variables
+SRNlesion_confirmed_vars <- as.data.frame(SRNlesion_impFactorData['finalDecision'])  %>% 
+  mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# Use the selected data set in AUCRF now
+SRNlesion_selected_train <- select(train, SRNlesion, one_of(SRNlesion_confirmed_vars[, 'otus']))
+set.seed(050416)
+SRNlesion_selected_rf_opt <- AUCRF(SRNlesion~., data=SRNlesion_selected_train, pdel=0.99, ntree=500, ranking='MDA')$RFopt
+SRNlesion_selected_train_probs <- predict(SRNlesion_selected_rf_opt, type='prob')[,2]
+
+SRNlesion_selected_train_roc <- roc(train$SRNlesion ~ SRNlesion_selected_train_probs)
 
 
+### Graph the ROC curves for each of the different models and test for difference
 
+# Created needed vectors and lists
+rocNameList <- list(cancer_train_roc = cancer_train_roc, cancer_selected_train_roc = cancer_selected_train_roc, 
+                    SRNlesion_train_roc = SRNlesion_train_roc, SRNlesion_selected_train_roc = SRNlesion_selected_train_roc, 
+                    lesion_train_roc = lesion_train_roc, lesion_selected_train_roc = lesion_selected_train_roc)
 
+variableList <- c("sensitivities", "specificities")
+modelList <- c("cancerALL", "cancerSELECT", "SRNlesionALL", "SRNlesionSELECT", "lesionALL", "lesionSELECT")
 
+sens_specif_table <- makeSensSpecTable(rocNameList, variableList, modelList)
 
+# Create the graph
+ggplot(sens_specif_table, aes(sensitivities, specificities)) + 
+  geom_line(aes(group = model, color = model), size = 1.5) + scale_x_continuous(trans = "reverse") + 
+  theme_bw() + xlab("Sensitivity") + ylab("Specificity") + 
+  theme(axis.title = element_text(face = "bold"))
 
+# Run the statistic test
 
-
+test <- unname(unlist(roc.test(cancer_train_roc, cancer_selected_train_roc)['p.value']))
 
 
 
