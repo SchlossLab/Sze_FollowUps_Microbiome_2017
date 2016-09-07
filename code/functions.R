@@ -64,7 +64,32 @@ getCorrectedPvalue <- function(testTable, variableList, group){
 }
 
 
+# This functioncreates a table from different ROC lists and creates a ggplot 
+# useable table of sensitivities and specificities
+makeSensSpecTable <- function(rocNameList, variableList, modelList){
+  # Load needed library if not already installed and loaded and initialize empty table
+  loadLibs("dplyr")
+  sens_specif_table <- c()
+  # loop to iterate through each of the listed ROC lists
+  for (i in 1:length(modelList)){
+    # Gets senstivities and specificities and converts them to a data frame
+    tempfile <- as.data.frame.list(rocNameList[[i]][variableList])
+    # create a column that specifies model used
+    tempfile2 <- mutate(tempfile, model = rep(modelList[i], length(rownames(tempfile))))
+    # Add this to existing data frame
+    sens_specif_table <- rbind(sens_specif_table, tempfile2)
+  }
+  # Align factor levels with order in modeList
+  sens_specif_table$model <- factor(sens_specif_table$model, levels = modelList)
+  # Output final table
+  return(sens_specif_table)
+}
 
+
+
+getROCPvalue <- function(rocNameList, totalModels){
+  
+}
 
 
 
