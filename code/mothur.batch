@@ -1,3 +1,4 @@
+#!bash
 
 #Set local variables
 mothurRv=/mnt/EXT/Schloss-data/bin/mothur
@@ -41,11 +42,15 @@ $mothurRv "#make.file(inputdir=$WORKDIR);
 	remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota)"
 
 
-# Rename final fasta, taxa, and count file to be used later
+# Rename final fasta, taxa, and count file
 
 mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta $WORKDIR/unmatched.fasta
 mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.pick.count_table $WORKDIR/unmatched.count_table
 mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pds.wang.pick.taxonomy $WORKDIR/unmatched.taxonomy
+
+# Split the files for clustering
+
+$mothurRv "#cluster.split(fasta=$WORKDIR/unmatched.fasta, count=$WORKDIR/unmatched.count_table, taxonomy=$WORKDIR/unmatched.taxonomy, splitmethod=classify, taxlevel=5, cutoff=0.1, cluster=F, processors=4)"
 
 # Remove the stored fastq.gz files
 

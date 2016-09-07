@@ -11,8 +11,7 @@ REF=data/references
 
 #Run mothur clustering and make shared process
 
-$mothurRv "#cluster.split(fasta=$WORKDIR/unmatched.fasta, count=$WORKDIR/unmatched.count_table, taxonomy=$WORKDIR/unmatched.taxonomy, splitmethod=classify, taxlevel=5, cutoff=0.1, cluster=F, processors=4);
-	cluster.split(file=$WORKDIR/unmatched.file, processors=1);
+$mothurRv "#cluster.split(file=$WORKDIR/unmatched.file, processors=1);
 	make.shared(list=current, count=current, label=0.03);
 	classify.otu(list=current, count=current, taxonomy=current, label=0.03);
 	get.oturep(fasta=current, count=current, list=current, label=0.03, method=abundance)"
@@ -22,7 +21,7 @@ R -e "source('code/alignData.R')"
 
 # Run diversity analysis on new aligned data set
 $mothurRv "#sub.sample(shared=$WORKDIR/final.shared, label=0.03);
-	dist.shared(shared=$WORKDIR/final.shared, calc=sharedsobs-thetayc, label=0.03, subsample=T, iters=100, processors=8);
+	dist.shared(shared=$WORKDIR/final.shared, calc=sharedsobs-thetayc, label=0.03, subsample=T, iters=100);
 	summary.single(shared=$WORKDIR/final.shared, calc=nseqs-sobs-shannon-shannoneven, subsample=T)"
 
 mv $WORKDIR/*.cons.taxonomy $WORKDIR/final.taxonomy
