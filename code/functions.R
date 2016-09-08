@@ -64,7 +64,7 @@ getCorrectedPvalue <- function(testTable, variableList, group){
 }
 
 
-# This functioncreates a table from different ROC lists and creates a ggplot 
+# This function creates a table from different ROC lists and creates a ggplot 
 # useable table of sensitivities and specificities
 makeSensSpecTable <- function(rocNameList, variableList, modelList){
   # Load needed library if not already installed and loaded and initialize empty table
@@ -86,10 +86,54 @@ makeSensSpecTable <- function(rocNameList, variableList, modelList){
 }
 
 
-
-getROCPvalue <- function(rocNameList, totalModels){
+# This function compares all possible ROC curves generated against each other and can 
+# initialize a multiple comparison correction if necessary.
+getROCPvalue <- function(rocNameList, modelList, totalModels, multi = F){
+  # Load needed library and set up initial conditions
+  loadLibs("pROC")
+  dataTable <- c()
+  x <- 1
+  # Set up initial loop to run through the different models
+  for (i in 1:totalModels){
+    # Make sure that it only compares groups that have not had any comparisons completed yet
+    if (i != totalModels){
+      # Create an empty data table
+      tempVector <- c()
+      # Initialize second loop for the comparison group
+      for (j in (i+1):totalModels){
+        # Run the actual DeLong's test for correlated ROC curves and grab p-value
+        tempVector <- c(tempVector, unname(unlist(roc.test(rocNameList[[i]], rocNameList[[j]])['p.value'])))
+      }
+      # Initialize statement for adding NA's if comparing against self
+      if (i != 1){
+        # Runs the NA addition and adds to counter
+        tempVector <- c(rep(NA, totalModels - (totalModels - x)), tempVector)
+        x <- x + 1
+      }
+      # Combine newly generated vector to existing stored data table
+      dataTable <- cbind(dataTable, tempVector)
+    }
+  }
+  # Add row names and column names for easier interpretation
+  rownames(dataTable) <- modelList[2:totalModels]
+  colnames(dataTable) <- modelList[1:(totalModels - 1)]
+  # If bonferroni correction is wanted then it will enter here before returning the data table
+  if (multi == T){
+    # Get the total number of comparisons that were made
+    totalComparisons <- unname(table(is.na(dataTable))["FALSE"])
+    # Create a for loop bounded by the total comparisons made
+    for (k in 1:length(colnames(dataTable))){
+      # Run the p adjust base function over each column
+      dataTable[, k] <- p.adjust(dataTable[, k], method = "bonferroni", n = totalComparisons)
+    }
+  }
   
+  # Output final data table with p-values for each comparison
+  return(as.data.frame(dataTable))
 }
+
+
+
 
 
 

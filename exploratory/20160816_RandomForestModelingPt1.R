@@ -5,7 +5,8 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson"))
+loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
+           "gridExtra", "scales", "wesanderson"))
 
 ### Read in necessary data 
 
@@ -175,16 +176,98 @@ modelList <- c("cancerALL", "cancerSELECT", "SRNlesionALL", "SRNlesionSELECT", "
 
 sens_specif_table <- makeSensSpecTable(rocNameList, variableList, modelList)
 
+# Obtain the pvalue statistics as well as the bonferroni corrected values
+
+corr_pvalue_ROC_table <- getROCPvalue(rocNameList, modelList, 6, multi = T)
+
 # Create the graph
 ggplot(sens_specif_table, aes(sensitivities, specificities)) + 
   geom_line(aes(group = model, color = model), size = 1.5) + scale_x_continuous(trans = "reverse") + 
   theme_bw() + xlab("Sensitivity") + ylab("Specificity") + 
   theme(axis.title = element_text(face = "bold"))
 
-# Run the statistic test
 
-test <- unname(unlist(roc.test(cancer_train_roc, cancer_selected_train_roc)['p.value']))
+### Investigate how these models do with initial and follow up samples
 
+# Get threshold used by each of the different models to make the call
+
+cutoffs <- unlist(lapply(rocNameList, function(y) coords(y, x='best', ret='thr')))
+    #take the threshold point used for the best sensitivity and specificty
+
+# Create data frames to be used for initial and follow up samples
+
+initial <- inner_join(good_metaf, shared, by = c("initial" = "Group")) %>% 
+  select(cancer, lesion, SRNlesion, fit_result, contains("Otu0"))
+
+
+good_metaf$lesionf[good_metaf$Disease_Free == 'n'] <- 1
+good_metaf$lesionf[good_metaf$Disease_Free == 'y' | good_metaf$Disease_Free == 'unknown'] <- 0
+
+
+followups <- inner_join(good_metaf, shared, by = c("followUp" = "Group")) %>% 
+  select(lesionf, fit_result, contains("Otu0")) %>% rename(SRNlesion = lesionf)
+
+followups <- cbind(good_metaf$lesionf, good_metaf$lesionf, followups)
+colnames(followups)[1:2] <- c("cancer", "lesion")
+
+# Get the prediction tables for each group using initial and follow up data
+
+rf_opt_NameList <- list(cancer_rf_opt = cancer_rf_opt, cancer_selected_rf_opt = cancer_selected_rf_opt, 
+                    SRNlesion_rf_opt = SRNlesion_rf_opt, SRNlesion_selected_rf_opt = SRNlesion_selected_rf_opt, 
+                    lesion_rf_opt= lesion_rf_opt, lesion_selected_rf_opt = lesion_selected_rf_opt)
+
+initial_predictions <- lapply(rf_opt_NameList, function(x) predict(x, initial, type='prob'))
+
+followup_predictions <- lapply(rf_opt_NameList, function(x) predict(x, followups, type='prob'))
+
+######## can use full data set since predict function automatically selects variables from rf object to be used
+######## Can use melt with defaults to create a ggplot useable table (0 is neg, 1 is pos)
+
+df_initial_neg <- melt(initial_predictions) %>% filter(Var2 == 0)
+df_initial_pos <- melt(initial_predictions) %>%  filter(Var2 == 1)
+
+df_initial_preds <- cbind(rename(select(df_initial_neg, value), negative = value), 
+                          rename(select(df_initial_pos, value, L1), positive = value))
+
+rm(df_initial_neg, df_initial_pos)
+
+df_initial_preds$model[grep("cancer_", df_initial_preds$L1)] <- "cancer"
+df_initial_preds$model[grep("lesion", df_initial_preds$L1)] <- "lesion"
+df_initial_preds$model[grep("SRN", df_initial_preds$L1)] <- "SRNlesion"
+
+df_initial_preds$dataset[grep("rf", df_initial_preds$L1)] <- "All"
+df_initial_preds$dataset[grep("selected", df_initial_preds$L1)] <- "Select"
+
+df_followups_neg <- melt(followup_predictions) %>% filter(Var2 == 0)
+df_followups_pos <- melt(followup_predictions) %>% filter(Var2 == 1)
+
+df_followups_preds <- cbind(rename(select(df_followups_neg, value), negative = value), 
+                          rename(select(df_followups_pos, value, L1), positive = value))
+
+rm(df_followups_neg, df_followups_pos)
+
+df_followups_preds$model[grep("cancer_", df_followups_preds$L1)] <- "cancer"
+df_followups_preds$model[grep("lesion", df_followups_preds$L1)] <- "lesion"
+df_followups_preds$model[grep("SRN", df_followups_preds$L1)] <- "SRNlesion"
+
+df_followups_preds$dataset[grep("rf", df_followups_preds$L1)] <- "All"
+df_followups_preds$dataset[grep("selected", df_followups_preds$L1)] <- "Select"
+
+# Create labels and graph  to visualize the data
+
+Names_facet <- c('cancer' = "Classify Cancer", 'SRNlesion' = "Classify SRN + Cancer", 'lesion' = "Classify Lesion")
+
+
+
+ggplot(df_initial_preds, aes(dataset, negative)) + 
+  geom_point(aes(color=L1)) + facet_wrap(~model, labeller = as_labeller(Names_facet)) + 
+  ylab("Subsampled Sequence Reads") + 
+  xlab("") + theme_bw() + theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
+                                axis.ticks.x = element_blank())
+
+
+# Need to add a coloring for whether they are actually positive or negative as well as a cutoff value.
+# Might be better off using grid.arrange on three seperate graphs rather then the facet wrap here.
 
 
 
