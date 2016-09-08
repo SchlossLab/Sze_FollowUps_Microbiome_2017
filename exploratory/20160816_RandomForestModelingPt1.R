@@ -175,15 +175,16 @@ modelList <- c("cancerALL", "cancerSELECT", "SRNlesionALL", "SRNlesionSELECT", "
 
 sens_specif_table <- makeSensSpecTable(rocNameList, variableList, modelList)
 
+# Obtain the pvalue statistics as well as the bonferroni corrected values
+
+corr_pvalue_ROC_table <- getROCPvalue(rocNameList, modelList, 6, multi = T)
+
 # Create the graph
 ggplot(sens_specif_table, aes(sensitivities, specificities)) + 
   geom_line(aes(group = model, color = model), size = 1.5) + scale_x_continuous(trans = "reverse") + 
   theme_bw() + xlab("Sensitivity") + ylab("Specificity") + 
   theme(axis.title = element_text(face = "bold"))
 
-# Run the statistic test
-
-test <- unname(unlist(roc.test(cancer_train_roc, cancer_selected_train_roc)['p.value']))
 
 
 
