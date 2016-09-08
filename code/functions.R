@@ -64,7 +64,7 @@ getCorrectedPvalue <- function(testTable, variableList, group){
 }
 
 
-# This functioncreates a table from different ROC lists and creates a ggplot 
+# This function creates a table from different ROC lists and creates a ggplot 
 # useable table of sensitivities and specificities
 makeSensSpecTable <- function(rocNameList, variableList, modelList){
   # Load needed library if not already installed and loaded and initialize empty table
@@ -131,6 +131,8 @@ getROCPvalue <- function(rocNameList, modelList, totalModels, multi = F){
   # Output final data table with p-values for each comparison
   return(as.data.frame(dataTable))
 }
+
+
 
 
 
