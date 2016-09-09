@@ -191,8 +191,14 @@ ggplot(sens_specif_table, aes(sensitivities, specificities)) +
 
 # Get threshold used by each of the different models to make the call
 
-cutoffs <- unlist(lapply(rocNameList, function(y) coords(y, x='best', ret='thr')))
-    #take the threshold point used for the best sensitivity and specificty
+cutoffs <- as.data.frame(unlist(lapply(rocNameList, function(y) coords(y, x='best', ret='thr')))) %>% 
+  cbind(rownames(.), .) %>%  mutate(model = c(rep("cancer", 2), rep("SRNlesion", 2), rep("lesion", 2))) %>% 
+  mutate(dataset = rep(c("All", "Select"), length(rownames(.))/2))
+            #take the threshold point used for the best sensitivity and specificty
+
+colnames(cutoffs) <- c("L1", "cutoff", "model", "dataset")
+cutoffs$model <- factor(cutoffs$model, levels = c("cancer", "SRNlesion", "lesion"))
+    
 
 # Create data frames to be used for initial and follow up samples
 
@@ -237,6 +243,10 @@ df_initial_preds$model[grep("SRN", df_initial_preds$L1)] <- "SRNlesion"
 
 df_initial_preds$dataset[grep("rf", df_initial_preds$L1)] <- "All"
 df_initial_preds$dataset[grep("selected", df_initial_preds$L1)] <- "Select"
+df_initial_preds <- mutate(df_initial_preds, 
+                           diseaseFree = c(rep("n", 67*6))) %>% mutate(diagnosis = rep(good_metaf$Diagnosis, 6))
+
+df_initial_preds$time_point <- "initial"
 
 df_followups_neg <- melt(followup_predictions) %>% filter(Var2 == 0)
 df_followups_pos <- melt(followup_predictions) %>% filter(Var2 == 1)
@@ -252,22 +262,91 @@ df_followups_preds$model[grep("SRN", df_followups_preds$L1)] <- "SRNlesion"
 
 df_followups_preds$dataset[grep("rf", df_followups_preds$L1)] <- "All"
 df_followups_preds$dataset[grep("selected", df_followups_preds$L1)] <- "Select"
+df_followups_preds <- mutate(df_followups_preds, diseaseFree = rep(good_metaf$Disease_Free, 6)) %>% 
+  mutate(diagnosis = rep(good_metaf$Diagnosis, 6))
 
-# Create labels and graph  to visualize the data
+df_followups_preds$time_point <- "followup"
+
+df_InitFollow_ALL <- rbind(df_initial_preds, df_followups_preds)
+df_InitFollow_ALL$model <- factor(df_InitFollow_ALL$model, levels = c("cancer", "SRNlesion", "lesion"))
+
+# Create labels for subset of data on graph
 
 Names_facet <- c('cancer' = "Classify Cancer", 'SRNlesion' = "Classify SRN + Cancer", 'lesion' = "Classify Lesion")
 
+# Graph the ALL data only
+
+grid.arrange(
+  # Graph the adenoma ALL data only
+  filter(df_InitFollow_ALL, diagnosis == "adenoma" & dataset == "All") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=diseaseFree), width = 0.3) + 
+    scale_color_manual(name = "Adenoma\nFree", values = wes_palette("GrandBudapest")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Adenomas (Train on All Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")), 
+  
+  # Graph the cancer ALL data only
+  filter(df_InitFollow_ALL, diagnosis != "adenoma" & dataset == "All") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown"))), width = 0.3) + 
+    scale_color_manual(name = "Cancer\nFree", values = wes_palette("GrandBudapest")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Cancer (Train on All Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")),
+  
+  # Graph adenoma select data only
+  filter(df_InitFollow_ALL, diagnosis == "adenoma" & dataset == "Select") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=diseaseFree), width = 0.3) + 
+    scale_color_manual(name = "Adenoma\nFree", values = wes_palette("GrandBudapest")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Adenomas (Train on Select Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")), 
+  
+  # Graph cancer select data only
+  filter(df_InitFollow_ALL, diagnosis != "adenoma" & dataset == "Select") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown"))), width = 0.3) + 
+    scale_color_manual(name = "Cancer\nFree", values = wes_palette("GrandBudapest")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Cancer (Train on Select Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold"))
+)
 
 
-ggplot(df_initial_preds, aes(dataset, negative)) + 
-  geom_point(aes(color=L1)) + facet_wrap(~model, labeller = as_labeller(Names_facet)) + 
-  ylab("Subsampled Sequence Reads") + 
-  xlab("") + theme_bw() + theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
-                                axis.ticks.x = element_blank())
+
+## Need to try the opposite and look at what RF and Borutat would pull out when looking solely at those with 
+## follow up
+
+## Need to look into more detail into the differences between these models
+
+## Need to try this without fit at all.
 
 
-# Need to add a coloring for whether they are actually positive or negative as well as a cutoff value.
-# Might be better off using grid.arrange on three seperate graphs rather then the facet wrap here.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
