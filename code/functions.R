@@ -133,6 +133,56 @@ getROCPvalue <- function(rocNameList, modelList, totalModels, multi = F){
 }
 
 
+# Create a label key for the facet wrap function for ggplot2
+createTaxaLabeller <- function(taxaTable){
+  # collects all entries from the first data list that is not unclassified
+  dataList <- apply(taxaTable, 1, function(x) x[x != "unclassified"])
+  # creates a vector of the lowest ID taxonomy
+  tempCall <- unname(unlist(lapply(dataList, function(x) x[length(x)])))
+  # assigns names to the vector that are the OTU labels
+  names(tempCall) <- rownames(taxaTable)
+  # returns that vector
+  return(tempCall)
+}
+
+
+
+compare4ModelVariables <- function(variableList){
+  
+  loadLibs("VennDiagram")
+  
+  tempList <- list(n12 = c(), n13 = c(), n14 = c(), n23 = c(), n24 = c(), n34 = c(), 
+                   n123 = c(), n124 = c(), n134 = c(), n234 = c(), n1234 = c())
+  
+  tempSimOTUList <- list(n12 = c(), n13 = c(), n14 = c(), n23 = c(), n24 = c(), n34 = c())
+  
+  x = 1
+  
+  for (i in 1:length(variableList)){
+    
+    tempValues <- c()
+    if (i != length(variableList)){
+      
+      for (j in (i+1):length(variableList)){
+        
+        tempList[[x]] <- length(calculate.overlap(variableList[c(i,j)])[[3]])
+        tempSimOTUList[[x]] <- calculate.overlap(variableList[c(i,j)])[[3]]
+    
+        x <- x + 1
+      }
+      
+    }
+
+  }
+  tempList[['n123']] <- length(calculate.overlap(list(variableList[[3]], tempSimOTUList[['n12']])))
+  tempList[['n124']] <- length(calculate.overlap(list(variableList[[4]], tempSimOTUList[[1]])))
+  tempList[['n134']] <- length(calculate.overlap(list(variableList[[4]], tempSimOTUList[[2]])))
+  tempList[['n234']] <- length(calculate.overlap(list(variableList[[4]], tempSimOTUList[[4]])))
+  tempList[['n123']] <- length(calculate.overlap(list(tempSimOTUList[['n13']], tempSimOTUList[['n24']])))
+  
+  
+  return(tempList)
+}
 
 
 

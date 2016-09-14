@@ -6,7 +6,7 @@
 source('code/functions.R')
 
 loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson"))
+           "gridExtra", "scales", "wesanderson", "VennDiagram"))
 
 ### Read in necessary data 
 
@@ -43,6 +43,19 @@ metaF$SRNlesion <- factor(metaF$SRNlesion)
 metaI$SRNlesion[metaI$Dx_Bin =='High Risk Normal' | metaI$Dx_Bin == 'Normal' | metaI$Dx_Bin == 'Adenoma'] <- 0
 metaI$SRNlesion[metaI$Dx_Bin =='adv Adenoma' | metaI$Dx_Bin == 'Cancer'] <- 1
 metaI$SRNlesion <- factor(metaI$SRNlesion)
+
+### Run fourth organization to sort into three separate groups: normal, adenoma, cancer
+metaF$threeway[metaF$dx == 'normal'] <- 0
+metaF$threeway[metaF$dx == 'adenoma'] <- 1
+metaF$threeway[metaF$dx == 'cancer'] <- 2
+metaF$threeway <- factor(metaF$threeway)
+
+metaI$threeway[metaI$dx == 'normal'] <- 0
+metaI$threeway[metaI$dx == 'adenoma'] <- 1
+metaI$threeway[metaI$dx == 'cancer'] <- 2
+metaI$threeway <- factor(metaI$threeway)
+
+
 
 ### Need to amend and separate Adenoma and CRC
 good_metaf <- read.csv('data/process/followUp_outcome_data.csv', header = T, 
@@ -164,21 +177,52 @@ SRNlesion_selected_train_probs <- predict(SRNlesion_selected_rf_opt, type='prob'
 SRNlesion_selected_train_roc <- roc(train$SRNlesion ~ SRNlesion_selected_train_probs)
 
 
+# Using the seperation as threeway
+train <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
+  filter(!sample %in% good_metaf$initial) %>% 
+  select(threeway, fit_result, contains("Otu0")) %>% na.omit()
+
+set.seed(050416)
+threeway_rf_opt <- AUCRF(threeway~., data=train, pdel=0.05, ntree=500, ranking='MDA')$RFopt
+threeway_train_probs <- predict(threeway_rf_opt, type='prob')[,2]
+
+threeway_train_roc <- roc(train$threeway ~ threeway_train_probs)
+
+# ID important factors for lesion using Boruta 
+set.seed(050416)
+threeway_impFactorData <- Boruta(threeway~., data=train, mcAdj=TRUE, maxRuns=1000)
+# Does not change after increasing runs to 2000
+
+# Get the confirmed important variables
+threeway_confirmed_vars <- as.data.frame(threeway_impFactorData['finalDecision'])  %>% 
+  mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# Use the selected data set in AUCRF now
+threeway_selected_train <- select(train, threeway, one_of(threeway_confirmed_vars[, 'otus']))
+set.seed(050416)
+threeway_selected_rf_opt <- AUCRF(threeway~., data=threeway_selected_train, pdel=0.99, ntree=500, ranking='MDA')$RFopt
+threeway_selected_train_probs <- predict(threeway_selected_rf_opt, type='prob')[,2]
+
+threeway_selected_train_roc <- roc(train$threeway ~ threeway_selected_train_probs)
+
+
 ### Graph the ROC curves for each of the different models and test for difference
 
 # Created needed vectors and lists
-rocNameList <- list(cancer_train_roc = cancer_train_roc, cancer_selected_train_roc = cancer_selected_train_roc, 
+rocNameList <- list(threeway_train_roc = threeway_train_roc, threeway_selected_train_roc = threeway_selected_train_roc, 
+                    cancer_train_roc = cancer_train_roc, cancer_selected_train_roc = cancer_selected_train_roc, 
                     SRNlesion_train_roc = SRNlesion_train_roc, SRNlesion_selected_train_roc = SRNlesion_selected_train_roc, 
                     lesion_train_roc = lesion_train_roc, lesion_selected_train_roc = lesion_selected_train_roc)
 
 variableList <- c("sensitivities", "specificities")
-modelList <- c("cancerALL", "cancerSELECT", "SRNlesionALL", "SRNlesionSELECT", "lesionALL", "lesionSELECT")
+modelList <- c("ThreeGroupALL", "ThreeGroupSELECT", "cancerALL", "cancerSELECT", 
+               "SRNlesionALL", "SRNlesionSELECT", "lesionALL", "lesionSELECT")
 
 sens_specif_table <- makeSensSpecTable(rocNameList, variableList, modelList)
 
 # Obtain the pvalue statistics as well as the bonferroni corrected values
 
-corr_pvalue_ROC_table <- getROCPvalue(rocNameList, modelList, 6, multi = T)
+corr_pvalue_ROC_table <- getROCPvalue(rocNameList, modelList, 8, multi = T)
 
 # Create the graph
 ggplot(sens_specif_table, aes(sensitivities, specificities)) + 
@@ -192,18 +236,18 @@ ggplot(sens_specif_table, aes(sensitivities, specificities)) +
 # Get threshold used by each of the different models to make the call
 
 cutoffs <- as.data.frame(unlist(lapply(rocNameList, function(y) coords(y, x='best', ret='thr')))) %>% 
-  cbind(rownames(.), .) %>%  mutate(model = c(rep("cancer", 2), rep("SRNlesion", 2), rep("lesion", 2))) %>% 
+  cbind(rownames(.), .) %>%  mutate(model = c(rep("threeGroups", 2), rep("cancer", 2), rep("SRNlesion", 2), rep("lesion", 2))) %>% 
   mutate(dataset = rep(c("All", "Select"), length(rownames(.))/2))
             #take the threshold point used for the best sensitivity and specificty
 
 colnames(cutoffs) <- c("L1", "cutoff", "model", "dataset")
-cutoffs$model <- factor(cutoffs$model, levels = c("cancer", "SRNlesion", "lesion"))
+cutoffs$model <- factor(cutoffs$model, levels = c("threeGroups", "cancer", "SRNlesion", "lesion"))
     
 
 # Create data frames to be used for initial and follow up samples
 
 initial <- inner_join(good_metaf, shared, by = c("initial" = "Group")) %>% 
-  select(cancer, lesion, SRNlesion, fit_result, contains("Otu0"))
+  select(threeway, cancer, lesion, SRNlesion, fit_result, contains("Otu0")) %>% rename(threeGroup = threeway)
 
 
 good_metaf$lesionf[good_metaf$Disease_Free == 'n'] <- 1
@@ -213,12 +257,13 @@ good_metaf$lesionf[good_metaf$Disease_Free == 'y' | good_metaf$Disease_Free == '
 followups <- inner_join(good_metaf, shared, by = c("followUp" = "Group")) %>% 
   select(lesionf, fit_result, contains("Otu0")) %>% rename(SRNlesion = lesionf)
 
-followups <- cbind(good_metaf$lesionf, good_metaf$lesionf, followups)
-colnames(followups)[1:2] <- c("cancer", "lesion")
+followups <- cbind(good_metaf$lesionf, good_metaf$lesionf, good_metaf$lesionf, followups)
+colnames(followups)[1:3] <- c("threeGroup", "cancer", "lesion")
 
 # Get the prediction tables for each group using initial and follow up data
 
-rf_opt_NameList <- list(cancer_rf_opt = cancer_rf_opt, cancer_selected_rf_opt = cancer_selected_rf_opt, 
+rf_opt_NameList <- list(threeway_rf_opt = threeway_rf_opt, threeway_selected_rf_opt = threeway_selected_rf_opt, 
+                        cancer_rf_opt = cancer_rf_opt, cancer_selected_rf_opt = cancer_selected_rf_opt, 
                     SRNlesion_rf_opt = SRNlesion_rf_opt, SRNlesion_selected_rf_opt = SRNlesion_selected_rf_opt, 
                     lesion_rf_opt= lesion_rf_opt, lesion_selected_rf_opt = lesion_selected_rf_opt)
 
@@ -240,11 +285,12 @@ rm(df_initial_neg, df_initial_pos)
 df_initial_preds$model[grep("cancer_", df_initial_preds$L1)] <- "cancer"
 df_initial_preds$model[grep("lesion", df_initial_preds$L1)] <- "lesion"
 df_initial_preds$model[grep("SRN", df_initial_preds$L1)] <- "SRNlesion"
+df_initial_preds$model[grep("three", df_initial_preds$L1)] <- "threeGroups"
 
 df_initial_preds$dataset[grep("rf", df_initial_preds$L1)] <- "All"
 df_initial_preds$dataset[grep("selected", df_initial_preds$L1)] <- "Select"
 df_initial_preds <- mutate(df_initial_preds, 
-                           diseaseFree = c(rep("n", 67*6))) %>% mutate(diagnosis = rep(good_metaf$Diagnosis, 6))
+                           diseaseFree = c(rep("n", 67*8))) %>% mutate(diagnosis = rep(good_metaf$Diagnosis, 8))
 
 df_initial_preds$time_point <- "initial"
 
@@ -259,20 +305,22 @@ rm(df_followups_neg, df_followups_pos)
 df_followups_preds$model[grep("cancer_", df_followups_preds$L1)] <- "cancer"
 df_followups_preds$model[grep("lesion", df_followups_preds$L1)] <- "lesion"
 df_followups_preds$model[grep("SRN", df_followups_preds$L1)] <- "SRNlesion"
+df_followups_preds$model[grep("three", df_followups_preds$L1)] <- "threeGroups"
 
 df_followups_preds$dataset[grep("rf", df_followups_preds$L1)] <- "All"
 df_followups_preds$dataset[grep("selected", df_followups_preds$L1)] <- "Select"
-df_followups_preds <- mutate(df_followups_preds, diseaseFree = rep(good_metaf$Disease_Free, 6)) %>% 
-  mutate(diagnosis = rep(good_metaf$Diagnosis, 6))
+df_followups_preds <- mutate(df_followups_preds, diseaseFree = rep(good_metaf$Disease_Free, 8)) %>% 
+  mutate(diagnosis = rep(good_metaf$Diagnosis, 8))
 
 df_followups_preds$time_point <- "followup"
 
 df_InitFollow_ALL <- rbind(df_initial_preds, df_followups_preds)
-df_InitFollow_ALL$model <- factor(df_InitFollow_ALL$model, levels = c("cancer", "SRNlesion", "lesion"))
+df_InitFollow_ALL$model <- factor(df_InitFollow_ALL$model, levels = c("threeGroups", "cancer", "SRNlesion", "lesion"))
 
 # Create labels for subset of data on graph
 
-Names_facet <- c('cancer' = "Classify Cancer", 'SRNlesion' = "Classify SRN + Cancer", 'lesion' = "Classify Lesion")
+Names_facet <- c('threeGroups' = "Classify N, A, C", 'cancer' = "Classify Cancer", 
+                 'SRNlesion' = "Classify SRN + Cancer", 'lesion' = "Classify Lesion")
 
 # Graph the ALL data only
 
@@ -333,162 +381,33 @@ grid.arrange(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Get OTU abundances and calculate probabilities for initial samples that have follow ups from full data set
-initial <- inner_join(good_metaf, shared, by = c("initial" = "Group")) %>% 
-  select(lesion, fit_result, contains("Otu0"))
-
-initial_probs <- predict(rf_opt, initial, type='prob')[,2] 
-
-# create first new data column
-good_metaf$cancerPos[good_metaf$Disease_Free == 'n'] <- "y"
-good_metaf$cancerPos[good_metaf$Disease_Free == 'y'] <- "n"
-good_metaf$cancerPos[good_metaf$Disease_Free == 'unknown'] <- "u"
-good_metaf$cancerPos <- factor(good_metaf$cancerPos, levels = c("n", "y", "u"))
-
-# create second new data column
-good_metaf$lesionf[good_metaf$Disease_Free == 'n'] <- 1
-good_metaf$lesionf[good_metaf$Disease_Free == 'y' | good_metaf$Disease_Free == 'unknown'] <- 0
-
-followups <- inner_join(good_metaf, shared, by = c("followUp" = "Group")) %>% 
-  select(lesionf, fit_result, contains("Otu0")) %>% rename(lesion = lesionf)
-
-follow_probs <- predict(rf_opt, followups, type='prob')[,2]
-
-# Create a ROC curve for full data set
-train_roc <- roc(train$lesion~train_probs)
-cutoff <- coords(train_roc, x='best', ret='thr')
-    #take the threshold point used for the best sensitivity and specificty
-
-# Get a table and graph from the results
-followupsUpdate <- inner_join(good_metaf, shared, by = c("followUp" = "Group"))
-
-probs_table <- as.data.frame(cbind(initial_probs, follow_probs)) %>% mutate(cancer = initial$lesion) %>% 
-  mutate(cancerF = factor(followupsUpdate$cancerPos, levels = c("n", "y", "u")))
-
-
-### Generate classification model with Boruta feature selection
-
-# ID important factors using Boruta Independent of previous publications
-set.seed(050416)
-impFactorData <- Boruta(lesion~., data=train, mcAdj=TRUE, maxRuns=1000)
-  # Does not change after increasing runs to 2000
-
-# Get the confirmed important variables
-imp_confirmed_otus <- as.data.frame(impFactorData['finalDecision'])  %>% 
-                                  mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
-
-selected_train <- select(train, lesion, one_of(imp_confirmed_otus[, 'otus']))
-selected_initial <- select(initial, lesion, one_of(imp_confirmed_otus[, 'otus']))
-selected_followUp <- select(followups, lesion, one_of(imp_confirmed_otus[, 'otus']))
-
-selected_probs_table <- as.data.frame(cbind(initial_probs, follow_probs)) %>% mutate(cancer = initial$lesion) %>% 
-  mutate(cancerF = factor(followupsUpdate$cancerPos, levels = c("n", "y", "u")))
-
-
-#Generate AUCRF model and prediction results on this selected data
-set.seed(050416)
-selected_rf_opt <- AUCRF(lesion~., data=selected_train, pdel=0.05, ntree=500, ranking='MDA')$RFopt
-selected_train_probs <- predict(rf_opt, type='prob')[,2]
-
-selected_initial_probs <- predict(selected_rf_opt, selected_initial, type='prob')[,2]
-selected_follow_probs <- predict(selected_rf_opt, selected_followUp, type='prob')[,2]
-
-selected_probs_table <- as.data.frame(cbind(selected_initial_probs, selected_follow_probs)) %>% 
-  mutate(cancer = selected_initial$lesion) %>% 
-  mutate(cancerF = factor(followupsUpdate$cancerPos, levels = c("n", "y", "u")))
-
-
-selected_train_roc <- roc(selected_train$lesion~selected_train_probs)
-selected_cutoff <- coords(selected_train_roc, x='best', ret='thr')
-    #take the threshold point used for the best sensitivity and specificty
-
-
-### Graph output of model for all features and selected features 
-### Trainset is based on excluding samples with follow up data
-
-grid.arrange(
-  # Graph the initial data with cancer diagnosis uses all features (A)
-  ggplot(probs_table, aes(cancer, initial_probs)) + geom_jitter(aes(color = cancer), width = 0.25, size = 4) + theme_bw() + 
-    scale_color_manual(values = wes_palette("GrandBudapest"), labels = c("No", "Yes"))  + ylim(0, 1) + 
-    geom_hline(yintercept = cutoff, size = 2, linetype = 2) + scale_x_discrete(labels = c("No", "Yes")) + 
-    xlab("Initial Cancer Diagnosis") + ylab("Probability") + labs(colour = "Cancer at\nStool\nSampling") + 
-    ggtitle("A)    Initial Samples with All Features") + 
-    theme(axis.title = element_text(face = "bold"), legend.title = element_text(face = "bold"), 
-          plot.title = element_text(hjust = 0)), 
-  
-  # Graph the follow up data with cancer diagnosis uses all features (B)
-  ggplot(probs_table, aes(cancer, follow_probs)) + geom_jitter(aes(color = cancerF), width = 0.25, size = 4) + theme_bw() + 
-    scale_color_manual(values = wes_palette("GrandBudapest"), labels = c("No", "Yes"))  + ylim(0, 1) + 
-    geom_hline(yintercept = cutoff, size = 2, linetype = 2) + labs(colour = "Cancer at\nStool\nSampling") + 
-    scale_x_discrete(labels = c("No", "Yes")) + ylab("Probability") + xlab("Initial Cancer Diagnosis") + 
-    ggtitle("B)    Follow Up Samples with All Features") + 
-    theme(axis.title = element_text(face = "bold"), legend.title = element_text(face = "bold"), 
-          plot.title = element_text(hjust = 0)), 
-  
-  # Graph the initial data with cancer diagnosis selected features only (c)
-  ggplot(selected_probs_table, aes(cancer, selected_initial_probs)) + 
-    geom_jitter(aes(color = cancer), width = 0.25, size = 4) + theme_bw() + 
-    scale_color_manual(values = wes_palette("GrandBudapest"), labels = c("No", "Yes"))  + ylim(0, 1) + 
-    labs(colour = "Cancer at\nStool\nSampling") + xlab("Initial Cancer Diagnosis") + 
-    geom_hline(yintercept = selected_cutoff, size = 2, linetype = 2) + scale_x_discrete(labels = c("No", "Yes")) + 
-    ylab("Probability") + ggtitle("C)    Initial Samples with Selected Features") + 
-    theme(axis.title = element_text(face = "bold"), legend.title = element_text(face = "bold"), 
-          plot.title = element_text(hjust = 0)),  
-  
-  # Graph the follow up data with cancer diagnosis selected features only (D)
-  ggplot(selected_probs_table, aes(cancer, selected_follow_probs)) + 
-    geom_jitter(aes(color = cancerF), width = 0.25, size = 4) + theme_bw() + 
-    scale_color_manual(values = wes_palette("GrandBudapest"), labels = c("No", "Yes", "Unknown"))  + ylim(0, 1) + 
-    geom_hline(yintercept = selected_cutoff, size = 2, linetype = 2) + 
-    labs(colour = "Cancer at\nStool\nSampling") + scale_x_discrete(labels = c("No", "Yes")) + 
-    ylab("Probability") + xlab("Initial Cancer Diagnosis") + 
-    ggtitle("D)    Follow Up Samples with Selected Features") + 
-    theme(axis.title = element_text(face = "bold"), legend.title = element_text(face = "bold"), 
-          plot.title = element_text(hjust = 0))
-  )
-
-
-###Pull out the 4 important OTUs from previous manuscript and make a ggplot format table 
+###Pull out theimportant OTUs from previous manuscript and make a ggplot format table 
 ###for those with follow up###
 
-otus_int <- filter(imp_confirmed_otus, otus != "fit_result")[, 'otus']
-selected_taxa <- tax[otus_int, ] %>% select(Taxonomy)
+# Data tables that hold the information on the important features
+# cancer_confirmed_vars, lesion_confirmed_vars, SRNlesion_confirmed_vars, threeway_confirmed_vars
 
-taxa_int <- c('Otu000034' = "Collinsella", 
-              'Otu000059' = "Clostridiales(1)", 
-              'Otu000062' = "Odoribacter", 
-              'Otu000084' = "Bilophila", 
-              'Otu000103' = "Lachnospiraceae", 
-              'Otu000126' = "P.asaccharolytica",
-              'Otu000145' = "Enterorhabdus", 
-              'Otu000147' = "Prevotella", 
-              'Otu000205' = "F.nucleatum", 
-              'Otu000217' = "Coriobacteriaceae", 
-              'Otu000333' = "Fusobacterium", 
-              'Otu000381' = "Firmicutes", 
-              'Otu000397' = "P. micra", 
-              'Otu000563' = "Porphyromonas", 
-              'Otu000566' = "P.stomatis",
-              'Otu000671' = "Dialister", 
-              'Otu000902' = "Clostridiales(2)")
+# Convert taxa table to a data frame with columns for each taxonomic division
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+    # This uses the R regex to remove numerals and the brackets the \\ is used to escape specific function components
+
+# create needed labels for Boruta picked important variables for each model
+
+cancer_selected_taxa <- tax_df[filter(cancer_confirmed_vars, otus != "fit_result")[, 'otus'], ]
+cancer_selected_labs <- createTaxaLabeller(cancer_selected_taxa)
+
+SRNlesion_selected_taxa <- tax_df[filter(SRNlesion_confirmed_vars, otus != "fit_result")[, 'otus'], ]
+SRNlesion_selected_labs <- createTaxaLabeller(SRNlesion_selected_taxa)
+
+lesion_selected_taxa <- tax_df[filter(lesion_confirmed_vars, otus != "fit_result")[, 'otus'], ]
+lesion_selected_labs <- createTaxaLabeller(lesion_selected_taxa)
+
+threeway_selected_taxa <- tax_df[filter(threeway_confirmed_vars, otus != "fit_result")[, 'otus'], ]
+threeway_selected_labs <- createTaxaLabeller(threeway_selected_taxa)
+
 
 
 
@@ -497,78 +416,48 @@ taxa_int <- c('Otu000034' = "Collinsella",
 
 jitter_values <- jitter(rep(0, 67), amount = 0.08)
 
-cancer_positive <- as.data.frame(cbind(rep(as.character(good_metaf$cancerPos), 36), rep(good_metaf$EDRN, 36))) %>% 
-  rename(cancerPos = V1, EDRN = V2)
+cancer_positive <- as.data.frame(cbind(rep(as.character(good_metaf$Disease_Free), 36), rep(good_metaf$EDRN, 36))) %>% 
+  rename(DiseaseFree = V1, EDRN = V2)
 
 
 #creating the data tables to be used
 select_otu_data <- melt(
-  rbind(select(initial, lesion, one_of(otus_int)) %>% 
+  rbind(select(initial, cancer, one_of(rownames(cancer_selected_taxa))) %>% 
           mutate(sampleType = "initial", EDRN = good_metaf$EDRN, Diagnosis = good_metaf$Diagnosis), 
-        select(followups, lesion, one_of(otus_int)) %>% 
+        select(followups, cancer, one_of(rownames(cancer_selected_taxa))) %>% 
           mutate(sampleType = "follow_up", EDRN = good_metaf$EDRN, Diagnosis = good_metaf$Diagnosis)), 
-  id=c("sampleType", "Diagnosis", "EDRN")) %>% filter(variable != "lesion") %>% 
-  mutate(jitteredValues = as.numeric(value) + rep(jitter_values, 36)) %>% cbind(select(cancer_positive, cancerPos))
+  id=c("cancer", "sampleType", "Diagnosis", "EDRN")) %>% 
+  mutate(jitteredValues = as.numeric(value) + rep(jitter_values, 36)) %>% cbind(., select(cancer_positive, DiseaseFree))
 
 
-fit_results <- select(good_metaf, EDRN, Diagnosis, fit_result, fit_followUp) %>% 
-  rename(initial = fit_result, follow_up = fit_followUp) %>% melt(id=c("EDRN", "Diagnosis")) %>% 
-  mutate(jitteredValues = as.numeric(value) + rep(jitter_values, 2)) %>% mutate(cancerPos = rep(good_metaf$cancerPos, 2))
+fit_results <- select(good_metaf, cancer, EDRN, Diagnosis, fit_result, fit_followUp) %>% 
+  rename(initial = fit_result, follow_up = fit_followUp) %>% melt(id=c("cancer", "EDRN", "Diagnosis")) %>% 
+  mutate(jitteredValues = as.numeric(value) + rep(jitter_values, 2)) %>% 
+  mutate(DiseaseFree = rep(good_metaf$Disease_Free, 2))
 
-average_change <- select(good_metaf, EDRN, Diagnosis) %>% 
-  mutate(delta_Otu000126 = followups$Otu000126 - initial$Otu000126, 
-         delta_Otu000566 = followups$Otu000566 - initial$Otu000566, 
-         delta_Otu000205 = followups$Otu000205 - initial$Otu000205, 
-         delta_Otu000397 = followups$Otu000397 - initial$Otu000397, 
-         delta_fit = good_metaf$fit_followUp - good_metaf$fit_result) %>% 
-  melt(id=c("EDRN", "Diagnosis")) %>% filter(value != "NA")
-average_change$reduc_value[which(average_change$value >= 0)] <- "no"
-average_change$reduc_value[which(average_change$value < 0)] <- "yes"
-
-adenoma_count <- rbind(
-  filter(average_change, Diagnosis == "adenoma", variable == "delta_Otu000126") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenoma", variable == "delta_Otu000566") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenoma", variable == "delta_Otu000205") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenoma", variable == "delta_Otu000397") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenoma", variable == "delta_fit") %>% count(reduc_value)) %>% 
-  mutate(delta_index) %>% mutate(fraction = 
-           n/c(rep(length(rownames(metaFAonly)), 8), rep(length(rownames(
-             filter(average_change, Diagnosis == "adenoma", variable == "delta_fit"))), 2)))
-
-cancer_count <- rbind(
-  filter(average_change, Diagnosis == "adenocarcinoma", variable == "delta_Otu000126") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenocarcinoma", variable == "delta_Otu000566") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenocarcinoma", variable == "delta_Otu000205") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenocarcinoma", variable == "delta_Otu000397") %>% count(reduc_value), 
-  filter(average_change, Diagnosis == "adenocarcinoma", variable == "delta_fit") %>% count(reduc_value)) %>% 
-  mutate(delta_index) %>% mutate(fraction = 
-            n/(length(rownames(filter(average_change, Diagnosis == "adenocarcinoma", variable == "delta_Otu000397")))))
-
-
-
-###Create graph of the data
+###Create graph of the data for cancer model
 
 grid.arrange(
   # Make Adenoma OTU part of graph
   filter(select_otu_data, Diagnosis == "adenoma") %>% 
     ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
                log10(jitteredValues + 1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(cancerPos))) + geom_point(aes(color = factor(cancerPos))) +  
-    facet_wrap(~variable, labeller = as_labeller(taxa_int)) + scale_y_continuous(limits = c(0, 3)) + 
+    geom_line(aes(color = factor(DiseaseFree))) + geom_point(aes(color = factor(DiseaseFree))) +  
+    facet_wrap(~variable, labeller = as_labeller(cancer_selected_labs)) + scale_y_continuous(limits = c(0, 3)) + 
     theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Adenoma") + 
     scale_colour_manual(values = "blue") +  
     theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
           strip.text.x = element_text(size = 5), axis.text.x = element_text(size = 6)), 
   
   # Make Cancer OTU part of graph
-  filter(select_otu_data, Diagnosis == "adenocarcinoma") %>% 
+  filter(select_otu_data, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D") %>% 
     ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
                log10(jitteredValues+1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(cancerPos, levels = c("n", "y", "u")))) + 
-    geom_point(aes(color = factor(cancerPos, levels = c("n", "y", "u")))) + 
-    facet_wrap(~variable, labeller = as_labeller(taxa_int)) + scale_y_continuous(limits = c(0, 3)) + 
+    geom_line(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
+    geom_point(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
+    facet_wrap(~variable, labeller = as_labeller(cancer_selected_labs)) + scale_y_continuous(limits = c(0, 3)) + 
     theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Cancer") + 
-    scale_colour_manual(values = c("pink", "darkred", "red")) + 
+    scale_colour_manual(values = c("darkred", "pink", "red")) + 
     theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
           strip.text.x = element_text(size = 5), axis.text.x = element_text(size = 6)), 
   
@@ -576,7 +465,7 @@ grid.arrange(
   filter(fit_results, Diagnosis == "adenoma") %>% 
     ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
                log10(jitteredValues+1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(cancerPos))) + geom_point(aes(color = factor(cancerPos))) + 
+    geom_line(aes(color = factor(DiseaseFree))) + geom_point(aes(color = factor(DiseaseFree))) + 
     theme_bw() + ylab("Log FIT Result") + xlab("") + scale_y_continuous(limits = c(0, 3.5)) + 
     scale_colour_manual(values = "blue") + theme(legend.position="none"), 
   
@@ -584,25 +473,10 @@ grid.arrange(
   filter(fit_results, Diagnosis == "adenocarcinoma") %>% 
     ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
                log10(jitteredValues+1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(cancerPos, levels = c("n", "y", "u")))) + 
-    geom_point(aes(color = factor(cancerPos, levels = c("n", "y", "u")))) + 
+    geom_line(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
+    geom_point(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
     theme_bw() + ylab("Log FIT Result") + xlab("") + scale_y_continuous(limits = c(0, 3.5)) + 
-    scale_colour_manual(values = c("pink", "darkred", "red")) + theme(legend.position="none")
-  
-  # Make bar plot of adenomas with reduction
-#  ggplot(adenoma_count, aes(factor(delta_index), fraction, fill = reduc_value)) + geom_bar(stat="identity") + 
-#    scale_y_continuous(labels=percent_format()) + theme_bw() + ylab("Percent of Total") + xlab("") + 
-#    scale_fill_manual(values = c("darkblue", "lightblue"), name = "Reduction\nObserved") + labs(color = "Reduction Observed") + 
-#    scale_x_discrete(labels = c("FIT", "P.\nasaccharolytica", "P.\nstomatis", "F.\nnucleatum", "P.\nmicra")) + 
-#    theme(axis.text.x = element_text(size = 5)), 
-  
-  # Make a bar plot of cancers with reduction
-#  ggplot(cancer_count, aes(factor(delta_index), fraction, fill = reduc_value)) + geom_bar(stat="identity") + 
-#    scale_y_continuous(labels=percent_format()) + theme_bw() + ylab("Percent of Total") + xlab("") + 
-#    scale_fill_manual(values = c("darkred", "pink"), name = "Reduction\nObserved") + labs(color = "Reduction Observed") + 
-#    scale_x_discrete(labels = c("FIT", "P.\nasaccharolytica", "P.\nstomatis", "F.\nnucleatum", "P.\nmicra")) + 
-#    theme(axis.text.x = element_text(size = 5))
-  
+    scale_colour_manual(values = c("darkred", "pink", "red")) + theme(legend.position="none")
 )
 
 
