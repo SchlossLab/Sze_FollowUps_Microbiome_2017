@@ -7,7 +7,7 @@ source('code/functions.R')
 source('code/graphFunctions.R')
 
 loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson", "VennDiagram"))
+           "gridExtra", "scales", "wesanderson"))
 
 ### Read in necessary data 
 
@@ -138,7 +138,7 @@ lesion_impFactorData <- Boruta(lesion~., data=train, mcAdj=TRUE, maxRuns=1000)
 # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
-lesion_confirmed_vars <- as.data.frame(cancer_impFactorData['finalDecision'])  %>% 
+lesion_confirmed_vars <- as.data.frame(lesion_impFactorData['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
 
 # Use the selected data set in AUCRF now
@@ -370,15 +370,6 @@ grid.arrange(
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
           title = element_text(face="bold"))
 )
-
-
-
-## Need to try the opposite and look at what RF and Borutat would pull out when looking solely at those with 
-## follow up
-
-## Need to look into more detail into the differences between these models
-
-## Need to try this without fit at all.
 
 
 
