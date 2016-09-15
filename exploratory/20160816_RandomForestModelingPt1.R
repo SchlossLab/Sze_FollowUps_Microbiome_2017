@@ -4,6 +4,7 @@
 
 ###Load needed Libraries and functions
 source('code/functions.R')
+source('code/graphFunctions.R')
 
 loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
            "gridExtra", "scales", "wesanderson", "VennDiagram"))
@@ -408,82 +409,48 @@ lesion_selected_labs <- createTaxaLabeller(lesion_selected_taxa)
 threeway_selected_taxa <- tax_df[filter(threeway_confirmed_vars, otus != "fit_result")[, 'otus'], ]
 threeway_selected_labs <- createTaxaLabeller(threeway_selected_taxa)
 
-
-
-
-#delta_index <- c(rep("delta_Otu000126", 2), rep("delta_Otu000566", 2), rep("delta_Otu000205", 2), 
-#                rep("delta_Otu000397", 2), rep("delta_fit", 2))
-
-jitter_values <- jitter(rep(0, 67), amount = 0.08)
-
 cancer_positive <- as.data.frame(cbind(rep(as.character(good_metaf$Disease_Free), 36), rep(good_metaf$EDRN, 36))) %>% 
-  rename(DiseaseFree = V1, EDRN = V2)
+  rename(Disease_Free = V1, EDRN = V2)
 
 
-#creating the data tables to be used
-select_otu_data <- melt(
-  rbind(select(initial, cancer, one_of(rownames(cancer_selected_taxa))) %>% 
-          mutate(sampleType = "initial", EDRN = good_metaf$EDRN, Diagnosis = good_metaf$Diagnosis), 
-        select(followups, cancer, one_of(rownames(cancer_selected_taxa))) %>% 
-          mutate(sampleType = "follow_up", EDRN = good_metaf$EDRN, Diagnosis = good_metaf$Diagnosis)), 
-  id=c("cancer", "sampleType", "Diagnosis", "EDRN")) %>% 
-  mutate(jitteredValues = as.numeric(value) + rep(jitter_values, 36)) %>% cbind(., select(cancer_positive, DiseaseFree))
+# Graph the cancer model
 
+cancer_model_impf_graphs <- follow_Abundance_Fit_Graph(cancer_selected_taxa, cancer_selected_labs, 
+                                                       cancer_positive, initial, followups, good_metaf, 0.08, 67, "cancer", "Disease_Free", 
+                                                       "Cancer")
 
-fit_results <- select(good_metaf, cancer, EDRN, Diagnosis, fit_result, fit_followUp) %>% 
-  rename(initial = fit_result, follow_up = fit_followUp) %>% melt(id=c("cancer", "EDRN", "Diagnosis")) %>% 
-  mutate(jitteredValues = as.numeric(value) + rep(jitter_values, 2)) %>% 
-  mutate(DiseaseFree = rep(good_metaf$Disease_Free, 2))
+grid.arrange(cancer_model_impf_graphs[['adenoma_OTUs']], cancer_model_impf_graphs[['cancer_OTUs']], 
+             cancer_model_impf_graphs[['adenoma_fit']], cancer_model_impf_graphs[['cancer_fit']])
 
-###Create graph of the data for cancer model
+# Graph of the SRN lesion model
 
-grid.arrange(
-  # Make Adenoma OTU part of graph
-  filter(select_otu_data, Diagnosis == "adenoma") %>% 
-    ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
-               log10(jitteredValues + 1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(DiseaseFree))) + geom_point(aes(color = factor(DiseaseFree))) +  
-    facet_wrap(~variable, labeller = as_labeller(cancer_selected_labs)) + scale_y_continuous(limits = c(0, 3)) + 
-    theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Adenoma") + 
-    scale_colour_manual(values = "blue") +  
-    theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
-          strip.text.x = element_text(size = 5), axis.text.x = element_text(size = 6)), 
-  
-  # Make Cancer OTU part of graph
-  filter(select_otu_data, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D") %>% 
-    ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
-               log10(jitteredValues+1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
-    geom_point(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
-    facet_wrap(~variable, labeller = as_labeller(cancer_selected_labs)) + scale_y_continuous(limits = c(0, 3)) + 
-    theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Cancer") + 
-    scale_colour_manual(values = c("darkred", "pink", "red")) + 
-    theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
-          strip.text.x = element_text(size = 5), axis.text.x = element_text(size = 6)), 
-  
-  # Make Adenoma FIT part of graph
-  filter(fit_results, Diagnosis == "adenoma") %>% 
-    ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
-               log10(jitteredValues+1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(DiseaseFree))) + geom_point(aes(color = factor(DiseaseFree))) + 
-    theme_bw() + ylab("Log FIT Result") + xlab("") + scale_y_continuous(limits = c(0, 3.5)) + 
-    scale_colour_manual(values = "blue") + theme(legend.position="none"), 
-  
-  # Make Cancer OTU part of graph
-  filter(fit_results, Diagnosis == "adenocarcinoma") %>% 
-    ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
-               log10(jitteredValues+1.1), group = factor(EDRN))) + 
-    geom_line(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
-    geom_point(aes(color = factor(DiseaseFree, levels = c("n", "y", "unknown")))) + 
-    theme_bw() + ylab("Log FIT Result") + xlab("") + scale_y_continuous(limits = c(0, 3.5)) + 
-    scale_colour_manual(values = c("darkred", "pink", "red")) + theme(legend.position="none")
-)
+SRN_model_impf_graphs <- follow_Abundance_Fit_Graph(SRNlesion_selected_taxa, SRNlesion_selected_labs, 
+                                                       cancer_positive, initial, followups, good_metaf, 0.08, 67, "SRNlesion", "Disease_Free", 
+                                                    "Cancer")
+
+grid.arrange(SRN_model_impf_graphs[['adenoma_OTUs']], SRN_model_impf_graphs[['cancer_OTUs']], 
+             SRN_model_impf_graphs[['adenoma_fit']], SRN_model_impf_graphs[['cancer_fit']])
 
 
 
+# Graph of the lesion model
+
+lesion_model_impf_graphs <- follow_Abundance_Fit_Graph(lesion_selected_taxa, lesion_selected_labs, 
+                                                    cancer_positive, initial, followups, good_metaf, 0.08, 67, "lesion")
+
+grid.arrange(lesion_model_impf_graphs[['adenoma_OTUs']], lesion_model_impf_graphs[['cancer_OTUs']], 
+             lesion_model_impf_graphs[['adenoma_fit']], lesion_model_impf_graphs[['cancer_fit']])
 
 
+# Graph of the three group model
 
+
+three_model_impf_graphs <- follow_Abundance_Fit_Graph(threeway_selected_taxa, threeway_selected_labs, 
+                                                      cancer_positive, initial, followups, good_metaf %>% rename(threeGroup = threeway), 
+                                                      0.08, 67, "threeGroup")
+
+grid.arrange(three_model_impf_graphs[['adenoma_OTUs']], three_model_impf_graphs[['cancer_OTUs']], 
+             three_model_impf_graphs[['adenoma_fit']], three_model_impf_graphs[['cancer_fit']])
 
 
 
