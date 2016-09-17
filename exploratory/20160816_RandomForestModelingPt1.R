@@ -112,6 +112,9 @@ cancer_impFactorData <- Boruta(cancer~., data=train, mcAdj=TRUE, maxRuns=1000)
 cancer_confirmed_vars <- as.data.frame(cancer_impFactorData['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
 
+# write table to results to be used by other analysis components
+write.csv(cancer_confirmed_vars, "results/tables/cancer_confirmed_vars.csv", row.names = F)
+
 # Use the selected data set in AUCRF now
 cancer_selected_train <- select(train, cancer, one_of(cancer_confirmed_vars[, 'otus']))
 set.seed(050416)
@@ -141,6 +144,9 @@ lesion_impFactorData <- Boruta(lesion~., data=train, mcAdj=TRUE, maxRuns=1000)
 lesion_confirmed_vars <- as.data.frame(lesion_impFactorData['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
 
+# write table to results to be used by other analysis components
+write.csv(lesion_confirmed_vars, "results/tables/lesion_confirmed_vars.csv", row.names = F)
+
 # Use the selected data set in AUCRF now
 lesion_selected_train <- select(train, lesion, one_of(lesion_confirmed_vars[, 'otus']))
 set.seed(050416)
@@ -168,6 +174,9 @@ SRNlesion_impFactorData <- Boruta(SRNlesion~., data=train, mcAdj=TRUE, maxRuns=1
 # Get the confirmed important variables
 SRNlesion_confirmed_vars <- as.data.frame(SRNlesion_impFactorData['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# write table to results to be used by other analysis components
+write.csv(SRNlesion_confirmed_vars, "results/tables/SRNlesion_confirmed_vars.csv", row.names = F)
 
 # Use the selected data set in AUCRF now
 SRNlesion_selected_train <- select(train, SRNlesion, one_of(SRNlesion_confirmed_vars[, 'otus']))
@@ -197,6 +206,9 @@ threeway_impFactorData <- Boruta(threeway~., data=train, mcAdj=TRUE, maxRuns=100
 # Get the confirmed important variables
 threeway_confirmed_vars <- as.data.frame(threeway_impFactorData['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# write table to results to be used by other analysis components
+write.csv(threeway_confirmed_vars, "results/tables/threeGroups_confirmed_vars.csv", row.names = F)
 
 # Use the selected data set in AUCRF now
 threeway_selected_train <- select(train, threeway, one_of(threeway_confirmed_vars[, 'otus']))
@@ -244,6 +256,7 @@ cutoffs <- as.data.frame(unlist(lapply(rocNameList, function(y) coords(y, x='bes
 colnames(cutoffs) <- c("L1", "cutoff", "model", "dataset")
 cutoffs$model <- factor(cutoffs$model, levels = c("threeGroups", "cancer", "SRNlesion", "lesion"))
     
+write.csv(cutoffs, "results/tables/withFIT.cutoffs.csv", row.names = F)
 
 # Create data frames to be used for initial and follow up samples
 
@@ -317,6 +330,8 @@ df_followups_preds$time_point <- "followup"
 
 df_InitFollow_ALL <- rbind(df_initial_preds, df_followups_preds)
 df_InitFollow_ALL$model <- factor(df_InitFollow_ALL$model, levels = c("threeGroups", "cancer", "SRNlesion", "lesion"))
+write.csv(df_InitFollow_ALL, "results/tables/withFIT.models.datatable.csv", row.names = F)
+
 
 # Create labels for subset of data on graph
 

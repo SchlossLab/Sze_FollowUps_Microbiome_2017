@@ -192,10 +192,11 @@ cutoffs <- as.data.frame(unlist(lapply(rocNameList_OTUs, function(y) coords(y, x
 colnames(cutoffs) <- c("L1", "cutoff", "model", "dataset")
 cutoffs$model <- factor(cutoffs$model, levels = c("threeGroups", "SRNlesion", "lesion"))
 
+write.csv(cutoffs, "results/tables/noFIT.cutoffs.csv", row.names = F)
 
 # Create data frames to be used for initial and follow up samples
 
-initial <- inner_join(good_metaf, shared, by = c("initial" = "Group")) %>% 
+initial <- inner_join(metaF, shared, by = c("initial" = "Group")) %>% 
   select(threeGroup, lesion, SRNlesion, contains("Otu0"))
 
 good_metaf$lesionf[good_metaf$Disease_Free == 'n'] <- 1
@@ -260,6 +261,7 @@ df_followups_preds$time_point <- "followup"
 df_InitFollow_ALL <- rbind(df_initial_preds, df_followups_preds)
 df_InitFollow_ALL$model <- factor(df_InitFollow_ALL$model, levels = c("threeGroups", "SRNlesion", "lesion"))
 
+write.csv(df_InitFollow_ALL, "results/tables/noFIT.models.datatable.csv", row.names=F)
 
 # Create labels for subset of data on graph
 
