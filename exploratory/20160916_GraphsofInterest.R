@@ -35,8 +35,9 @@ grid.arrange(
   # With Fit in model performance with Adenoma (ALL data)
   filter(withFIT, diagnosis == "adenoma" & dataset == "All") %>%
     ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
-    geom_jitter(aes(color=diseaseFree), width = 0.3) + 
-    scale_color_manual(name = "Adenoma\nFree", values = wes_palette("GrandBudapest")) + 
+    geom_jitter(aes(color=detailed_diagnosis), width = 0.3) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
     facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(data = filter(withFIT_cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
     ggtitle("Adenomas with Fit (Train on All Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
@@ -46,14 +47,18 @@ grid.arrange(
     # Without Fit in model performance with Adenoma (ALL data)
   filter(noFIT, diagnosis == "adenoma" & dataset == "All") %>%
     ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
-    geom_jitter(aes(color=diseaseFree), width = 0.3) + 
-    scale_color_manual(name = "Adenoma\nFree", values = wes_palette("GrandBudapest")) + 
+    geom_jitter(aes(color=detailed_diagnosis), width = 0.3) + 
+    scale_color_manual(name = "Polyp Type", values = c("red", "darkred"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
     facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(data = filter(noFIT_cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
     ggtitle("Adenomas without Fit (Train on All Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
           title = element_text(face="bold"))
 )
+
+
+
 
 
 # Cancer graph only
