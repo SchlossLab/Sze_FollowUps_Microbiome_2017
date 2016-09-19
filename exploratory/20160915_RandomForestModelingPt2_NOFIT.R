@@ -194,6 +194,9 @@ cutoffs$model <- factor(cutoffs$model, levels = c("threeGroups", "SRNlesion", "l
 
 write.csv(cutoffs, "results/tables/noFIT.cutoffs.csv", row.names = F)
 
+# Join good_metaf table with metaF table
+combined_metaData <- inner_join(good_metaf, metaF, by = "EDRN")
+
 # Create data frames to be used for initial and follow up samples
 
 initial <- inner_join(metaF, shared, by = c("initial" = "Group")) %>% 
@@ -261,6 +264,10 @@ df_followups_preds$time_point <- "followup"
 df_InitFollow_ALL <- rbind(df_initial_preds, df_followups_preds)
 df_InitFollow_ALL$model <- factor(df_InitFollow_ALL$model, levels = c("threeGroups", "SRNlesion", "lesion"))
 
+df_InitFollow_ALL <- mutate(df_InitFollow_ALL, 
+                            detailed_diagnosis = rep(combined_metaData$Dx_Bin.y, 
+                                                     length(rownames(df_InitFollow_ALL))/length(rownames(combined_metaData))))
+
 write.csv(df_InitFollow_ALL, "results/tables/noFIT.models.datatable.csv", row.names=F)
 
 # Create labels for subset of data on graph
@@ -274,9 +281,10 @@ grid.arrange(
   # Graph the adenoma ALL data only
   filter(df_InitFollow_ALL, diagnosis == "adenoma" & dataset == "All") %>%
     ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
-    geom_jitter(aes(color=diseaseFree), width = 0.3) + 
-    scale_color_manual(name = "Adenoma\nFree", values = wes_palette("GrandBudapest")) + 
-    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    geom_jitter(aes(color=detailed_diagnosis), width = 0.3) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
     ggtitle("Adenomas (Train on All Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
@@ -287,7 +295,7 @@ grid.arrange(
     ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
     geom_jitter(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown"))), width = 0.3) + 
     scale_color_manual(name = "Cancer\nFree", values = wes_palette("GrandBudapest")) + 
-    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
     ggtitle("Cancer (Train on All Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
@@ -296,9 +304,10 @@ grid.arrange(
   # Graph adenoma select data only
   filter(df_InitFollow_ALL, diagnosis == "adenoma" & dataset == "Select") %>%
     ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
-    geom_jitter(aes(color=diseaseFree), width = 0.3) + 
-    scale_color_manual(name = "Adenoma\nFree", values = wes_palette("GrandBudapest")) + 
-    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    geom_jitter(aes(color=detailed_diagnosis), width = 0.3) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
     ggtitle("Adenomas (Train on Select Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
@@ -309,7 +318,7 @@ grid.arrange(
     ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
     geom_jitter(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown"))), width = 0.3) + 
     scale_color_manual(name = "Cancer\nFree", values = wes_palette("GrandBudapest")) + 
-    facet_wrap(~model, labeller = as_labeller(Names_facet)) + ylim(0, 1) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(data = filter(cutoffs, dataset == "All"), aes(yintercept = cutoff), linetype = 2) + 
     ggtitle("Cancer (Train on Select Data)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
@@ -323,20 +332,8 @@ grid.arrange(
 
 
 
-## Re-align the data so that those that have SRN and what not are classified correctly as such  (make it reflective of
-## actual groupings)
 
 
-
-
-
-
-## Need to try the opposite and look at what RF and Borutat would pull out when looking solely at those with 
-## follow up
-
-## Need to look into more detail into the differences between these models
-
-## Need to try this without fit at all (look at how thetayc changes between initial and follow up).
 
 
 

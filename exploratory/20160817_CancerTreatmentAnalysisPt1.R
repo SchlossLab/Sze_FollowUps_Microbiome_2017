@@ -192,3 +192,30 @@ ggplot(specific_data_lesion, aes(factor(both_treatments), log10(value + 1), grou
 
 # can add position=position_dodge(width=0.5) in the geom_jitter call instead of
 # width but lose the variation at the 0 point
+
+
+# Investigate if there is a higher proportion of fit positives in chemo/radiation received group
+
+testTable <- rbind(
+  c(length(rownames(filter(meta_cancer, fit_followUp > 0 & chemo_received == "yes"))), 
+    length(rownames(filter(meta_cancer, fit_followUp > 0 & chemo_received == "no")))), 
+  c(length(rownames(filter(meta_cancer, fit_followUp == 0 & chemo_received == "yes"))), 
+    length(rownames(filter(meta_cancer, fit_followUp == 0 & chemo_received == "no"))))
+)
+
+colnames(testTable) <- c("Yes", "No")
+rownames(testTable) <- c("Fit_Positive", "Fit_Negative")
+
+ChemoRadProp_fit_pvalue <- fisher.test(testTable)$p.value
+
+
+# Investigate if the FIT measurement is higher on average in chemo/rad versus surgery only group
+
+ChemoRadAmount_fit_pvalue <- wilcox.test(
+  filter(meta_cancer, chemo_received == "yes")[, 'fit_followUp'], 
+  filter(meta_cancer, chemo_received == "no")[, 'fit_followUp']
+)$p.value
+
+
+
+
