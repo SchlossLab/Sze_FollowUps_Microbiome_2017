@@ -79,13 +79,20 @@ lesion_train_probs_OTUs <- predict(lesion_rf_opt_OTUs, type='prob')[,2]
 lesion_train_roc_OTUs <- roc(train$lesion ~ lesion_train_probs_OTUs)
 
 # ID important factors for lesion using Boruta 
+lesion_rf_model_OTUs_used <- lesion_rf_opt_OTUs$importance
+
+selected_train <- select(train, lesion, one_of(rownames(lesion_rf_model_OTUs_used)))
+
 set.seed(050416)
-lesion_impFactorData_OTUs <- Boruta(lesion~., data=train, mcAdj=TRUE, maxRuns=1000)
+lesion_impFactorData_OTUs <- Boruta(lesion~., data=selected_train, mcAdj=TRUE, maxRuns=1000)
     # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
 lesion_confirmed_vars_OTUs <- as.data.frame(lesion_impFactorData_OTUs['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# write table to results to be used by other analysis components
+write.csv(lesion_confirmed_vars_OTUs, "results/tables/lesion_confirmed_vars_NOFIT.csv", row.names = F)
 
 # Use the selected data set in AUCRF now
 lesion_selected_train_OTUs <- select(train, lesion, one_of(lesion_confirmed_vars_OTUs[, 'otus']))
@@ -107,13 +114,20 @@ SRNlesion_train_probs_OTUs <- predict(SRNlesion_rf_opt_OTUs, type='prob')[,2]
 SRNlesion_train_roc_OTUs <- roc(train$SRNlesion ~ SRNlesion_train_probs_OTUs)
 
 # ID important factors for lesion using Boruta 
+SRNlesion_rf_model_OTUs_used <- SRNlesion_rf_opt_OTUs$importance
+
+selected_train <- select(train, SRNlesion, one_of(rownames(SRNlesion_rf_model_OTUs_used)))
+
 set.seed(050416)
-SRNlesion_impFactorData_OTUs <- Boruta(SRNlesion~., data=train, mcAdj=TRUE, maxRuns=1000)
+SRNlesion_impFactorData_OTUs <- Boruta(SRNlesion~., data=selected_train, mcAdj=TRUE, maxRuns=1000)
   # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
 SRNlesion_confirmed_vars_OTUs <- as.data.frame(SRNlesion_impFactorData_OTUs['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# write table to results to be used by other analysis components
+write.csv(SRNlesion_confirmed_vars_OTUs, "results/tables/SRNlesion_confirmed_vars_NOFIT.csv", row.names = F)
 
 # Use the selected data set in AUCRF now
 SRNlesion_selected_train_OTUs <- select(train, SRNlesion, one_of(SRNlesion_confirmed_vars_OTUs[, 'otus']))
@@ -137,13 +151,20 @@ threeGroup_train_probs_OTUs <- predict(threeGroup_rf_opt_OTUs, type='prob')[,2]
 threeGroup_train_roc_OTUs <- roc(train$threeGroup ~ threeGroup_train_probs_OTUs)
 
 # ID important factors for lesion using Boruta 
+threeGroup_rf_model_OTUs_used <- threeGroup_rf_opt_OTUs$importance
+
+selected_train <- select(train, threeGroup, one_of(rownames(threeGroup_rf_model_OTUs_used)))
+
 set.seed(050416)
-threeGroup_impFactorData_OTUs <- Boruta(threeGroup~., data=train, mcAdj=TRUE, maxRuns=1000)
+threeGroup_impFactorData_OTUs <- Boruta(threeGroup~., data=selected_train, mcAdj=TRUE, maxRuns=1000)
   # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
 threeGroup_confirmed_vars_OTUs <- as.data.frame(threeGroup_impFactorData_OTUs['finalDecision'])  %>% 
   mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# write table to results to be used by other analysis components
+write.csv(threeGroup_confirmed_vars_OTUs, "results/tables/threeGroups_confirmed_vars_NOFIT.csv", row.names = F)
 
 # Use the selected data set in AUCRF now
 threeGroup_selected_train_OTUs <- select(train, threeGroup, one_of(threeGroup_confirmed_vars_OTUs[, 'otus']))
@@ -168,10 +189,13 @@ variableList <- c("sensitivities", "specificities")
 modelList <- c("ThreeGroupALL", "ThreeGroupSELECT", "SRNlesionALL", "SRNlesionSELECT", "lesionALL", "lesionSELECT")
 
 sens_specif_table <- makeSensSpecTable(rocNameList_OTUs, variableList, modelList)
+write.csv(sens_specif_table, "results/tables/ROCCurve_sens_spec_NOFIT.csv")
 
 # Obtain the pvalue statistics as well as the bonferroni corrected values
 
 corr_pvalue_ROC_table <- getROCPvalue(rocNameList_OTUs, modelList, 6, multi = T)
+write.csv(corr_pvalue_ROC_table, "results/tables/ROCCurve_NOFIT_corrected_pvalues.csv")
+
 
 # Create the graph
 ggplot(sens_specif_table, aes(sensitivities, specificities)) + 

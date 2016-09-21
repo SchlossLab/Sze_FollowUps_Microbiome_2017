@@ -103,9 +103,15 @@ cancer_train_probs <- predict(cancer_rf_opt, type='prob')[,2]
 
 cancer_train_roc <- roc(train$cancer ~ cancer_train_probs)
 
+
 # ID important factors for Cancer using Boruta 
+
+cancer_rf_model_used <- cancer_rf_opt$importance
+
+selected_train <- select(train, cancer, one_of(rownames(cancer_rf_model_used)))
+
 set.seed(050416)
-cancer_impFactorData <- Boruta(cancer~., data=train, mcAdj=TRUE, maxRuns=1000)
+cancer_impFactorData <- Boruta(cancer~., data=selected_train, mcAdj=TRUE, maxRuns=1000)
 # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
@@ -136,8 +142,12 @@ lesion_train_probs <- predict(lesion_rf_opt, type='prob')[,2]
 lesion_train_roc <- roc(train$lesion ~ lesion_train_probs)
 
 # ID important factors for lesion using Boruta 
+lesion_rf_model_used <- lesion_rf_opt$importance
+
+selected_train <- select(train, lesion, one_of(rownames(lesion_rf_model_used)))
+
 set.seed(050416)
-lesion_impFactorData <- Boruta(lesion~., data=train, mcAdj=TRUE, maxRuns=1000)
+lesion_impFactorData <- Boruta(lesion~., data=selected_train, mcAdj=TRUE, maxRuns=1000)
 # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
@@ -167,8 +177,12 @@ SRNlesion_train_probs <- predict(SRNlesion_rf_opt, type='prob')[,2]
 SRNlesion_train_roc <- roc(train$SRNlesion ~ SRNlesion_train_probs)
 
 # ID important factors for lesion using Boruta 
+SRNlesion_rf_model_used <- SRNlesion_rf_opt$importance
+
+selected_train <- select(train, SRNlesion, one_of(rownames(SRNlesion_rf_model_used)))
+
 set.seed(050416)
-SRNlesion_impFactorData <- Boruta(SRNlesion~., data=train, mcAdj=TRUE, maxRuns=1000)
+SRNlesion_impFactorData <- Boruta(SRNlesion~., data=selected_train, mcAdj=TRUE, maxRuns=1000)
 # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
@@ -199,8 +213,12 @@ threeway_train_probs <- predict(threeway_rf_opt, type='prob')[,2]
 threeway_train_roc <- roc(train$threeway ~ threeway_train_probs)
 
 # ID important factors for lesion using Boruta 
+threeway_rf_model_used <- threeway_rf_opt$importance
+
+selected_train <- select(train, threeway, one_of(rownames(threeway_rf_model_used)))
+
 set.seed(050416)
-threeway_impFactorData <- Boruta(threeway~., data=train, mcAdj=TRUE, maxRuns=1000)
+threeway_impFactorData <- Boruta(threeway~., data=selected_train, mcAdj=TRUE, maxRuns=1000)
 # Does not change after increasing runs to 2000
 
 # Get the confirmed important variables
@@ -232,10 +250,12 @@ modelList <- c("ThreeGroupALL", "ThreeGroupSELECT", "cancerALL", "cancerSELECT",
                "SRNlesionALL", "SRNlesionSELECT", "lesionALL", "lesionSELECT")
 
 sens_specif_table <- makeSensSpecTable(rocNameList, variableList, modelList)
+write.csv(sens_specif_table, "results/tables/ROCCurve_sens_spec.csv")
 
 # Obtain the pvalue statistics as well as the bonferroni corrected values
 
 corr_pvalue_ROC_table <- getROCPvalue(rocNameList, modelList, 8, multi = T)
+write.csv(corr_pvalue_ROC_table, "results/tables/ROCCurve_corrected_pvalues.csv")
 
 # Create the graph
 ggplot(sens_specif_table, aes(sensitivities, specificities)) + 
