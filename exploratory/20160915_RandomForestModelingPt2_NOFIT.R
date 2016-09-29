@@ -350,18 +350,64 @@ grid.arrange(
 )
 
 
+### Create a new group with normals and follow ups without cancer: find OTUs that are still different
+followUp_Select <- rbind(filter(metaI, dx == "normal") %>% select(sample, dx) %>% mutate(dx = as.character(dx)) %>% 
+                           mutate(disease = rep(0, length(rownames(.)))), 
+                         select(metaF, followUp) %>% mutate(dx = rep("follow_up", 
+                                                                     length(rownames(metaF)))) %>% rename(sample = followUp) %>% 
+                           mutate(disease = rep(1, length(rownames(metaF))))) %>% 
+  inner_join(shared, by = c("sample" = "Group")) %>% select(disease, contains("Otu0")) %>% mutate(disease = factor(disease))
 
 
+set.seed(050416)
+follow_v_norm_diffs <- Boruta(disease~., data=followUp_Select, mcAdj=TRUE, maxRuns=1000)
+follow_v_norm_diffs_rf_opt <- AUCRF(disease~., data=followUp_Select, pdel=0.05, ntree=500, ranking='MDA')$RFopt
+
+# Get the confirmed important variables
+follow_v_norm_diffs_confirmed_vars_OTUs <- as.data.frame(follow_v_norm_diffs['finalDecision'])  %>% 
+  mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
 
 
+# create table for p-value test
+pValue_test_data <- as.data.frame(cbind(c(metaI$sample[metaI$dx == "normal"], metaF$initial, metaF$followUp), 
+                                                          c(rep("normal", length(rownames(metaI[metaI$dx == "normal", ]))), 
+                                                            rep("initial", length(rownames(metaF))), 
+                                                            rep("follow_up", length(rownames(metaF)))))) %>% 
+  rename(Group = V1, sampleType = V2) %>% mutate(Group = as.integer(as.character((Group)))) %>% 
+  inner_join(shared, by = "Group") %>% select(Group, sampleType, one_of(follow_v_norm_diffs_confirmed_vars_OTUs$otus)) %>% 
+  mutate(Otutotal8OTUs = rowSums(.[, follow_v_norm_diffs_confirmed_vars_OTUs$otus]))
 
 
+test <- getCorrectedPvalue(pValue_test_data, c(follow_v_norm_diffs_confirmed_vars_OTUs$otus, "Otutotal8OTUs"), 
+                           "Group", wilcox = F, kruskal = T)
+
+graph_data <- melt(pValue_test_data, id = c("Group", "sampleType"))
+
+# Graph
+
+# Convert taxa table to a data frame with columns for each taxonomic division
+tax <- read.delim('data/process/followUps.final.an.unique_list.0.03.cons.taxonomy', 
+                  sep='\t', header=T, row.names=1)
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+# This uses the R regex to remove numerals and the brackets the \\ is used to escape specific function components
+rm(tax)
+
+diffvNorm_selected_taxa <- tax_df[follow_v_norm_diffs_confirmed_vars_OTUs[, 'otus'], ]
+diffvNorm_selected_labs <- c(createTaxaLabeller(diffvNorm_selected_taxa), Otutotal8OTUs = "Total of OTUs")
 
 
-
-
-
-
+ggplot(graph_data, aes(factor(sampleType, levels = c("normal", "initial", "follow_up")), log(value+1), group = 1)) + 
+  geom_jitter(aes(color=factor(sampleType, levels = c("normal", "initial", "follow_up"))), width = 0.5) + 
+  scale_color_discrete(name = "Sample Type", breaks = c("normal", "initial", "follow_up"), 
+                       labels = c("normal", "initial", "follow_up")) + 
+  stat_summary(fun.y = mean, colour = "black", geom = "line") + ggtitle("Lesion Model") + 
+  stat_summary(fun.data = "mean_cl_boot", colour = "black") +  
+  facet_wrap(~variable, labeller = as_labeller(diffvNorm_selected_labs)) + ylab("Subsampled Sequence Reads") + 
+  xlab("") + theme_bw() + theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
+                                axis.ticks.x = element_blank(), plot.title = element_text(face = "bold")) 
 
 
 

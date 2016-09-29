@@ -1,0 +1,378 @@
+---
+title: 'CRC Follow up: Progress Report 1'
+author: "Marc Sze"
+date: "September 23, 2016"
+output: html_document
+---
+
+```{r read_relevent_libs, echo=FALSE, message=FALSE, warning=FALSE}
+
+source('code/functions.R')
+source('code/graphFunctions.R')
+
+loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
+           "gridExtra", "scales", "wesanderson", "vegan"))
+
+```
+
+
+Based on Niel's previous findings in his [Genome Medicine Paper](https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-016-0290-3) I had a good idea of why combining Fit with the bacterial microbiome was beneficial.  
+
+This follow up study focuses in on 67 individuals who had both a before surgery stool sample and a 1 year post-surgery stool sample.  The first thing that I wanted to do was rebuild the models that Niel used specifically for his preliminary analysis of this data.
+
+Training utilized those without follow up samples (n=490) and the testing utilized samples from those with follow up (n=67).  Initially looked at 4 models (normal vs. cancer, normal + adenoma vs. SRN + cancer, normal vs. lesion (adenoma + cancer), and three groups (normal vs. adenoma, vs. cancer)).  One of the things that I wanted to do was reduce the number of variables that were part of the model and investigate if I can do this without a corresponding loss in accuracy.  I used a specialized program known as [Boruta](https://cran.r-project.org/web/packages/Boruta/Boruta.pdf).  The number of variables fluctuate between 40-120 and Boruta can trim this list down to 10-30 variables.  Talking with Niel he suspects using cross-validation can also similarily shorten the list down as well.  The downside of using the `AUCRFcv` function is that it takes forever.
+
+
+```{r AUC_graph1, echo=FALSE, message=FALSE, warning=FALSE}
+
+# With Fit
+sens_specific_table <- read.csv("results/tables/ROCCurve_sens_spec.csv", header = T, row.names = 1)
+corr_pvalue_ROC_table <- read.csv("results/tables/ROCCurve_corrected_pvalues.csv", header = T, row.names = 1)
+
+# Without Fit
+sens_specific_table_noFit <- read.csv("results/tables/ROCCurve_sens_spec_NOFIT.csv", header = T, row.names = 1)
+corr_pvalue_ROC_table_noFit <-read.csv("results/tables/ROCCurve_NOFIT_corrected_pvalues.csv", header = T, row.names = 1)
+
+grid.arrange(
+  # With Fit graph
+  ggplot(sens_specific_table, aes(sensitivities, specificities)) + 
+  geom_line(aes(group = model, color = model), size = 1.5) + scale_x_continuous(trans = "reverse") + 
+  theme_bw() + xlab("Sensitivity") + ylab("Specificity") + ggtitle("With Fit") + 
+  theme(axis.title = element_text(face = "bold")), 
+  
+  # Without Fit graph
+  ggplot(sens_specific_table_noFit, aes(sensitivities, specificities)) + 
+  geom_line(aes(group = model, color = model), size = 1.5) + scale_x_continuous(trans = "reverse") + 
+  theme_bw() + xlab("Sensitivity") + ylab("Specificity") + ggtitle("Without Fit") + 
+  theme(axis.title = element_text(face = "bold"))
+  
+)
+
+```
+
+
+So one thing is that without Fit the models overall do worse but it seems that the Boruta selection is a quick way to remove data points without a loss in accuracy. For this part I am trying to wrap this up by comparing to the cross validated OTUs present in more than 50% of the runs.
+
+
+We can next look at the accuracy of prediction in the follow up samples.  For this I split them based on whether the initial sample was diagnosed with adenoma or cancer.  I also only want to focus in on the lesion and SRNlesion models since those are the most important.  If we look at the adenoma's first:
+
+```{r Accuracy_Adenoma_graph2, echo=FALSE, message=FALSE, warning=FALSE}
+
+cutoffs_withFit <- read.csv("results/tables/withFIT.cutoffs.csv")
+df_InitFollow_ALL_withFit <- read.csv("results/tables/withFIT.models.datatable.csv", header = T)
+
+
+cutoffs_noFit <- read.csv("results/tables/noFIT.cutoffs.csv")
+df_InitFollow_ALL_noFit <- read.csv("results/tables/noFIT.models.datatable.csv", header = T)
+
+Names_facet <- c('SRNlesion' = "Classify SRN + Cancer", 'lesion' = "Classify Lesion")
+
+grid.arrange(
+  
+  # With Fit in Model accuracy
+  filter(df_InitFollow_ALL_withFit, 
+         diagnosis == "adenoma" & dataset == "All" & model != "threeGroups" & model != "cancer") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=detailed_diagnosis), width = 0.3) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(cutoffs_withFit, dataset == "All" & model != "threeGroups" & model != "cancer"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Adenomas Prediction - Fit in Model") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")), 
+  
+  # Without Fit in Model accuracy
+   filter(df_InitFollow_ALL_noFit, diagnosis == "adenoma" & dataset == "All" & model != "threeGroups") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=detailed_diagnosis), width = 0.3) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(cutoffs_noFit, dataset == "All" & model != "threeGroups"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Adenomas Prediction - No Fit in Model") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold"))
+)
+
+
+```
+
+
+We can also look at the cancer ones as well.....
+
+```{r Accuracy_cancer_graph3, echo=FALSE, message=FALSE, warning=FALSE}
+
+grid.arrange(
+  
+  # With Fit model Cancer samples
+  filter(df_InitFollow_ALL_withFit, 
+         diagnosis != "adenoma" & dataset == "All" & model != "threeGroups" & model != "cancer") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown"))), width = 0.3) + 
+    scale_color_manual(name = "Cancer\nFree", values = wes_palette("GrandBudapest")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(cutoffs_withFit, dataset == "All" & model != "threeGroups" & model != "cancer"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("CRC Prediction - Fit in Model") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")), 
+  
+  
+   # Withot Fit model Cancer samples
+  filter(df_InitFollow_ALL_noFit, 
+         diagnosis != "adenoma" & dataset == "All" & model != "threeGroups") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive)) + 
+    geom_jitter(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown"))), width = 0.3) + 
+    scale_color_manual(name = "Cancer\nFree", values = wes_palette("GrandBudapest")) + 
+    facet_wrap(~model, labeller = as_labeller(Names_facet)) + coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(cutoffs_noFit, dataset == "All" & model != "threeGroups"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("CRC Prediction - Fit in Model") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold"))
+)
+  
+
+```
+
+
+So what I take from this overall is that the microbiome only model tends to do better with matching up with the inital and followup samples for the adenomas.  It doesn't do a good job of classifying cancers.  The question is why does having Fit in the model not make it align as well with the follow up samples?
+
+
+```{r Sig_Imp_OTUs_lesionNoFit_graph4, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Load needed data
+lesion_confirmed_vars_NOFIT <- read.csv('results/tables/lesion_confirmed_vars_NOFIT.csv', 
+                                  header = TRUE, stringsAsFactors = F) %>% filter(otus != "fit_result")
+SRNlesion_confirmed_vars_NOFIT <- read.csv('results/tables/SRNlesion_confirmed_vars_NOFIT.csv', 
+                                     header = TRUE, stringsAsFactors = F) %>% filter(otus != "fit_result")
+threeGroups_confirmed_vars_NOFIT <- read.csv('results/tables/threeGroups_confirmed_vars_NOFIT.csv', 
+                                       header = TRUE, stringsAsFactors = F) %>% filter(otus != "fit_result")
+
+
+tax <- read.delim('data/process/followUps.final.an.unique_list.0.03.cons.taxonomy', 
+                  sep='\t', header=T, row.names=1)
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+# This uses the R regex to remove numerals and the brackets the \\ is used to escape specific function components
+rm(tax)
+
+lesion_selected_taxa <- tax_df[lesion_confirmed_vars_NOFIT[, 'otus'], ]
+lesion_selected_labs <- createTaxaLabeller(lesion_selected_taxa)
+
+SRNlesion_selected_taxa <- tax_df[SRNlesion_confirmed_vars_NOFIT[, 'otus'], ]
+SRNlesion_selected_labs <- createTaxaLabeller(SRNlesion_selected_taxa)
+
+pvalue_summary_table_lesion <- read.csv("results/tables/lesion_Imp_vars_NOFIT_pvalue_summary.csv", header = T, row.names = 1)
+
+pvalue_summary_table_SRNlesion <- read.csv("results/tables/SRNlesion_Imp_vars_NOFIT_pvalue_summary.csv", 
+                                           header = T, row.names = 1)
+
+specific_data_lesion_init <- read.csv("results/tables/lesion_imp_OTUs_abundance_test_init.csv")
+
+specific_data_SRNlesion_init <- read.csv("results/tables/SRNlesion_imp_OTUs_abundance_test_init.csv")
+
+specific_data_lesion_follow <- read.csv("results/tables/lesion_imp_OTUs_abundance_test_follow.csv")
+
+specific_data_SRNlesion_follow <- read.csv("results/tables/SRNlesion_imp_OTUs_abundance_test_follow.csv")
+
+grid.arrange(
+  # Initial select microbiome sequences compared to normal
+  filter(specific_data_lesion_init, 
+         variable %in% rownames(pvalue_summary_table_lesion)[pvalue_summary_table_lesion$initial <= 0.05]) %>% 
+    ggplot(aes(factor(sampleType, levels = c("normal", "lesion")), log10(value+1), group = 1)) + 
+    geom_jitter(aes(color=factor(sampleType, levels = c("normal", "lesion"))), width = 0.5) + 
+    scale_color_discrete(name = "Sample Type", breaks = c("normal", "lesion"), labels = c("normal", "initial")) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + ggtitle("Lesion Model") + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black") + coord_cartesian(ylim = c(0, 3.5)) + 
+    facet_wrap(~variable, labeller = as_labeller(lesion_selected_labs)) + ylab("Log10 Subsampled Sequence Reads") + 
+    xlab("") + theme_bw() + theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
+                                  axis.ticks.x = element_blank(), plot.title = element_text(face = "bold")) + 
+    annotate("text", label = paste("P-value = ", format(round(pvalue_summary_table_lesion$initial[
+      pvalue_summary_table_lesion$initial <= 0.05], digits = 7))), x = 1.5, y = 3.5), 
+  
+  # Follow up microbiome sequences compared to normal
+  filter(specific_data_lesion_follow, 
+         variable %in% rownames(pvalue_summary_table_lesion)[pvalue_summary_table_lesion$initial <= 0.05]) %>% 
+    ggplot(aes(factor(sampleType, levels = c("normal", "lesion")), log10(value+1), group = 1)) + 
+    geom_jitter(aes(color=factor(sampleType, levels = c("normal", "lesion"))), width = 0.5) + 
+    scale_color_discrete(name = "Sample Type", breaks = c("normal", "lesion"), labels = c("normal", "follow up")) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black") + coord_cartesian(ylim = c(0, 3.5)) + 
+    facet_wrap(~variable, labeller = as_labeller(lesion_selected_labs)) + ylab("Log10 Subsampled Sequence Reads") + 
+    xlab("") + theme_bw() + theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
+                                  axis.ticks.x = element_blank()) + 
+    annotate("text", label = paste("P-value = ", format(round(pvalue_summary_table_lesion$follow_up[
+      pvalue_summary_table_lesion$initial <= 0.05], digits = 7))), x = 1.5, y = 3.5)
+)
+
+```
+
+
+If we look at this in more detail we can see that the OTUs that are used in the no FIT model (specifically Porphymonas since it is not in the Fit model) look more like the normals after follow up.
+
+
+```{r Sig_Imp_OTUs_SRNlesionNoFit_graph5, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Graph for SRN Lesion model only
+grid.arrange(
+  # Initial select microbiome sequences compared to normal
+  filter(specific_data_SRNlesion_init, 
+         variable %in% rownames(pvalue_summary_table_SRNlesion)[pvalue_summary_table_SRNlesion$initial <= 0.05]) %>% 
+    ggplot(aes(factor(sampleType, levels = c("normalorAdenoma", "SRNlesionORCancer")), log10(value+1), group = 1)) + 
+    geom_jitter(aes(color=factor(sampleType, levels = c("normalorAdenoma", "SRNlesionORCancer"))), width = 0.5) + 
+    scale_color_discrete(name = "Sample Type", breaks = c("normalorAdenoma", "SRNlesionORCancer"), 
+                         labels = c("Normal or Adenoma", "initial")) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + ggtitle("SRN + Cancer Model") + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black") + coord_cartesian(ylim = c(0, 3.5)) + 
+    facet_wrap(~variable, labeller = as_labeller(SRNlesion_selected_labs)) + ylab("Log10 Subsampled Sequence Reads") + 
+    xlab("") + theme_bw() + theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
+                                  axis.ticks.x = element_blank(), plot.title = element_text(face = "bold")) + 
+    annotate("text", label = paste("P-value = ", format(round(pvalue_summary_table_SRNlesion$initial[
+      pvalue_summary_table_SRNlesion$initial <= 0.05], digits = 7))), x = 1.5, y = 3.5), 
+  
+  # Follow up microbiome sequences compared to normal
+  filter(specific_data_SRNlesion_follow, 
+         variable %in% rownames(pvalue_summary_table_SRNlesion)[pvalue_summary_table_SRNlesion$initial <= 0.05]) %>% 
+    ggplot(aes(factor(sampleType, levels = c("normalorAdenoma", "SRNlesionORCancer")), log10(value+1), group = 1)) + 
+    geom_jitter(aes(color=factor(sampleType, levels = c("normalorAdenoma", "SRNlesionORCancer"))), width = 0.5) + 
+    scale_color_discrete(name = "Sample Type", breaks = c("normalorAdenoma", "SRNlesionORCancer"), 
+                         labels = c("Normal or Adenoma", "follow up")) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black") + coord_cartesian(ylim = c(0, 3.5)) + 
+    facet_wrap(~variable, labeller = as_labeller(SRNlesion_selected_labs)) + 
+    ylab("Log10 Subsampled Sequence Reads") + 
+    xlab("") + theme_bw() + theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
+                                  axis.ticks.x = element_blank()) + 
+    annotate("text", label = paste("P-value = ", format(round(pvalue_summary_table_SRNlesion$follow_up[
+      pvalue_summary_table_SRNlesion$initial <= 0.05], digits = 7))), x = 1.5, y = 3.5)
+)
+
+```
+
+This seems to hold true regardless of the model used.  So whether if it is lesion or SRN lesion the OTUs that are significantly different in the initials as a whole look more like normals on follow up.
+
+
+```{r Fit_graph6, echo=FALSE, message=FALSE, warning=FALSE}
+
+## Need to look at how FIT measurements compare to normal individuals
+
+metaI <- read.csv("data/process/metaI_modified.csv", header = T, row.names = 1)
+metaF <- read.csv("data/process/metaF_modified.csv", header = T, row.names = 1)
+
+normalFit <- filter(metaI, dx == "normal") %>% select(fit_result)
+
+initial_Fit_Pvalue <- wilcox.test(normalFit$fit_result, metaF$initial)$p.value
+followUp_Fit_Pvalue <- wilcox.test(normalFit$fit_result, metaF$fit_followUp)$p.value
+
+grid.arrange(
+  # Initial Fit compared to normal Fit
+  c(normalFit$fit_result, metaF$fit_result) %>% as.data.frame() %>% 
+    mutate(sampleType = c(rep("normal", length(rownames(normalFit))), 
+                                                           rep("initial", length(rownames(metaF))))) %>% 
+    ggplot(aes(factor(sampleType, levels = c("normal", "initial")), log10(.+1), group = 1)) + 
+    geom_jitter(aes(color=factor(sampleType, levels = c("normal", "initial"))), width = 0.5) + 
+    scale_color_discrete(name = "Sample Type") + coord_cartesian(ylim = c(0, 4)) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + ggtitle("Normal versus Initial") + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black")  + 
+    ylab("Fit Result (ng/mL)") + xlab("") + theme_bw() + 
+    theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), 
+                                  axis.ticks.x = element_blank(), plot.title = element_text(face = "bold")) + 
+    annotate("text", label = paste("P-value = ", format(round(initial_Fit_Pvalue, digits = 42), scientific = TRUE)), 
+             x = 1.5, y = 3), 
+  
+  # Follow up microbiome sequences compared to normal
+  c(normalFit$fit_result, metaF$fit_followUp) %>% as.data.frame() %>% 
+    mutate(sampleType = c(rep("normal", length(rownames(normalFit))), 
+                          rep("follow_up", length(rownames(metaF))))) %>% 
+    ggplot(aes(factor(sampleType, levels = c("normal", "follow_up")), log10(.+1), group = 1)) + 
+    geom_jitter(aes(color=factor(sampleType, levels = c("normal", "follow_up"))), width = 0.5) + 
+    scale_color_discrete(name = "Sample Type") + coord_cartesian(ylim = c(0, 4)) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + ggtitle("Normal versus Follow Up") + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black") + 
+    ylab("Fit Result (ng/mL)") + xlab("") + theme_bw() + 
+    theme(strip.text.x = element_text(size = 8), axis.text.x = element_blank(), plot.title = element_text(face = "bold"), 
+                                  axis.ticks.x = element_blank()) + 
+    annotate("text", label = paste("P-value = ", format(round(followUp_Fit_Pvalue, digits = 7))), x = 1.5, y = 3)
+)
+
+```
+
+In contrast the Fit values remain significantly elevated in the follow up samples versus those in the normal group.  This is probably the main driver of the difference between the with Fit and without FIt models and why the adenoma seems to do better with the no Fit model.  Another reason why it might do better is below:
+
+```{r amountChange_graph7, echo=FALSE, message=FALSE, warning=FALSE}
+
+thetaCompTotal <- dissplit('data/process/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist',split=F, meta = F)
+
+difference_table_treatment <- pickDistanceValues(
+  as.character(metaF$initial), as.character(metaF$followUp), thetaCompTotal, metaF, 
+  c("fit_result", "fit_followUp", "Dx_Bin", "dx")) %>% 
+  mutate(fit_difference = fit_result - fit_followUp)
+
+thetaDiff_follow_pvalue <- wilcox.test(distance ~ dx, data = difference_table_treatment)$p.value
+
+fitDiff_follow_pvalue <- wilcox.test(fit_difference ~ dx, data = difference_table_treatment)$p.value
+
+grid.arrange(
+  # Difference from bacterial community structure between adenoma and cancer
+  ggplot(difference_table_treatment, aes(factor(dx, levels = c("adenoma", "cancer")), distance, group = 1)) + 
+    geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + 
+    scale_color_manual(name = "Lesion Type", values = wes_palette("GrandBudapest"), 
+                       breaks = c("Adenoma", "adv Adenoma", "Cancer"), labels = c("Adenoma", "SRN", "Cancer")) + 
+    coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")) + 
+    annotate("text", label = paste("P-value = ", round(thetaDiff_follow_pvalue, digits = 2)), x = 1.5, y = 0.75), 
+  
+  # Difference from fit between adenoma and cancer
+  ggplot(difference_table_treatment, aes(factor(dx, levels = c("adenoma", "cancer")), fit_difference, group = 1)) + 
+    geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + 
+    scale_color_manual(name = "Lesion Type", values = wes_palette("GrandBudapest"), 
+                       breaks = c("Adenoma", "adv Adenoma", "Cancer"), labels = c("Adenoma", "SRN", "Cancer")) + 
+    ylab("Change in Fit from Initial to Follow Up") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")) + 
+    annotate("text", label = paste("P-value = ", format(round(fitDiff_follow_pvalue, digits = 7))), x = 1.5, y = 0)
+)
+
+
+```
+
+SO what this shows here is that there is a lot of change versus initial going on with cancer but very little with adenoma in fit.  Whereas a similar amount of change is going on in thetayc for both adenoma and cancer.  
+
+This leads into the final part where the thetayc of those with follow ups though still look different from normal.  So even though there are individual members changing with and without polyp/tumor the overall community still seems different than normal individuals.
+
+
+```{r NMDS_followSamples_vs_Norms_graph8, echo=FALSE, message=FALSE, warning=FALSE, results=FALSE}
+
+breakDown_samples <- c(rep("initial", length(rownames(metaF))), rep("follow_up", length(rownames(metaF))), 
+                       rep("normal", length(metaI$sample[metaI$dx == "normal"])))
+
+theta_init_follow_dist <- pickDistanceValues(
+  as.character(c(metaF$initial, metaF$followUp, metaI$sample[metaI$dx == "normal"])), 
+  as.character(c(metaF$initial, metaF$followUp, metaI$sample[metaI$dx == "normal"])), 
+  thetaCompTotal, withMeta = FALSE)
+
+set.seed(050416)
+thetayc.mds <- metaMDS(as.dist(theta_init_follow_dist), trace = 0) %>% scores() %>% as.data.frame() %>% 
+  mutate(samples = factor(breakDown_samples))
+
+ggplot(data = thetayc.mds, aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + theme_bw() + coord_equal() + 
+  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon")
+
+```
+
+However, overall the samples start off looking pretty similar to normals regardless.  There is a significant difference though between the groups as measured by PERMANOVA.
+
+
+
+

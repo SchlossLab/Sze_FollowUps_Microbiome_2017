@@ -16,47 +16,72 @@ loadLibs <- function(deps){
 
 # This function creates a square distance matrix and splits it based 
 # on specified criteria for init and follow. 
-dissplit <- function(file, metafile, init='initial', follow='followUp'){
+dissplit <- function(file, metafile, init='initial', follow='followUp', split=T, meta = T){
   source('code/read.dist.R')
   dist <- read.dist(file)
   intra <- c()
-  for(i in 1:nrow(metafile)){
-    intra[i] <- as.numeric(dist[
-      as.character(metafile[i, init]),as.character(metafile[i, follow])])
+  # Complete only if split is wanted
+  if (meta == T){
+    
+    for(i in 1:nrow(metafile)){
+      intra[i] <- as.numeric(dist[
+        as.character(metafile[i, init]),as.character(metafile[i, follow])])
+    }
+    intra_ade <- intra[metaF$dx=='adenoma']
+    intra_canc <- intra[metaF$dx=='cancer']
+    
+    ###Pull out only interindividual distances and convert to vector
+    inter <- dist[as.character(metaF$initial),as.character(metaF$followUp)]
+    
+    #Remove those that are in the intra and replace with NA
+    diag(inter) <- NA
+    #Check that it only took out 67 measurements
+    length(which(is.na(inter)))
+    
+    inter <- as.numeric(as.vector(unlist(inter)))
+    inter <- inter[!is.na(inter)]
+    
+    combined <- list(intra_ade, intra_canc, inter)
+    names(combined) <- c("intra_ade", "intra_canc", "inter")
+    
   }
-  intra_ade <- intra[metaF$dx=='adenoma']
-  intra_canc <- intra[metaF$dx=='cancer']
   
-  ###Pull out only interindividual distances and convert to vector
-  inter <- dist[as.character(metaF$initial),as.character(metaF$followUp)]
+ if (split == T){
+    return(combined)
+  } else {
+    return(dist)
+  }
   
-  #Remove those that are in the intra and replace with NA
-  diag(inter) <- NA
-  #Check that it only took out 67 measurements
-  length(which(is.na(inter)))
   
-  inter <- as.numeric(as.vector(unlist(inter)))
-  inter <- inter[!is.na(inter)]
-  
-  combined <- list(intra_ade, intra_canc, inter)
-  names(combined) <- c("intra_ade", "intra_canc", "inter")
-  
-  return(combined)
 }
 
 
 # This function obtains the Wilcoxson Rank Sum and generates the bonferroni corrected P-values based on supplied groups
-getCorrectedPvalue <- function(testTable, variableList, group){
+getCorrectedPvalue <- function(testTable, variableList, group, wilcox = T, kruskal = F){
   # Load needed library and initialize table
   loadLibs("dplyr")
   finalTable <- c()
   # Iterate through apply function to analyze p-value
   for (i in 1:length(group)){
-    # Runs that actual wilcoxson test across every column
-    tempData <- apply(select(testTable, one_of(variableList)), 2, function(x) 
-      wilcox.test(x~testTable[, group[i]])$p.value) %>% p.adjust(method = "bonferroni")
-    # Aggregate the table together
-    finalTable <- cbind(finalTable, tempData)
+    
+    if (wilcox == T){
+      
+      # Runs that actual wilcoxson test across every column
+      tempData <- apply(select(testTable, one_of(variableList)), 2, function(x) 
+        wilcox.test(x~testTable[, group[i]])$p.value) %>% p.adjust(method = "bonferroni")
+      # Aggregate the table together
+      finalTable <- cbind(finalTable, tempData)
+    }
+    
+    if (kruskal == T){
+      
+      # Runs that actual wilcoxson test across every column
+      tempData <- apply(select(testTable, one_of(variableList)), 2, function(x) 
+        kruskal.test(x~testTable[, group[i]])$p.value) %>% p.adjust(method = "bonferroni")
+      # Aggregate the table together
+      finalTable <- cbind(finalTable, tempData)
+    }
+    
   }
   # Change column names and return final table as a data frame
   colnames(finalTable) <- group
@@ -138,7 +163,15 @@ createTaxaLabeller <- function(taxaTable){
   # collects all entries from the first data list that is not unclassified
   dataList <- apply(taxaTable, 1, function(x) x[x != "unclassified"])
   # creates a vector of the lowest ID taxonomy
-  tempCall <- unname(unlist(lapply(dataList, function(x) x[length(x)])))
+  if (class(dataList) == "list"){
+    
+    tempCall <- unname(unlist(lapply(dataList, function(x) x[length(x)])))
+    
+  } else{
+    
+    tempCall <- apply(dataList, 2, function(x) x[length(x[x != "unclassified"])])
+  }
+  
   # assigns names to the vector that are the OTU labels
   names(tempCall) <- rownames(taxaTable)
   # returns that vector
@@ -146,7 +179,9 @@ createTaxaLabeller <- function(taxaTable){
 }
 
 
-
+# Get similarities of Important variables between models for a VennDiagram
+# Dereplicated since I decided not to got this route and 
+# Did not see the utility in having this information.
 compare4ModelVariables <- function(variableList){
   
   loadLibs("VennDiagram")
@@ -183,6 +218,130 @@ compare4ModelVariables <- function(variableList){
   
   return(tempList)
 }
+
+
+
+# Create a function that will pick distance values between samples based on user defined
+# two vectors and outputs a data frame.
+pickDistanceValues <- function(vec1, vec2, distanceTable, metadata, group, withMeta = TRUE){
+
+    tempDistance <- c()
+  
+  if (withMeta == TRUE){
+    
+    for (i in 1:length(vec1)){
+      
+      tempDistance <- c(tempDistance, distanceTable[vec1[i], vec2[i]])
+      
+    }
+    
+    tempTable <- cbind(as.data.frame(as.numeric(tempDistance)), metadata[, group])
+    colnames(tempTable) <- c("distance", group)
+    
+  } else{
+    
+    tempTable <- distanceTable[vec1, vec2]
+    
+  }
+      
+
+    
+  return(tempTable) 
+}
+
+
+
+
+# Function that creates a 2 x 2 table looking at the number of positives and negatives predicted
+makePosNegTable <- function(dataTable, variable = "positive", cutoffTable, rfDone = "threeway_rf_opt", model = "threeGroups", 
+                            cutdata_selection = "All", cutoffCall = "cutoff", cutModel_call = "model", datasetCall = "dataset", 
+                            filterDiagnosis = "adenoma", SampleTime = "initial", x = 2, y = 2){
+  # Load required library
+  loadLibs("dplyr")
+  # create the cutoff value to be used
+  test <- cutoffTable[, cutoffCall][withFIT_cutoffs[, cutModel_call] == paste(model) & 
+                                          withFIT_cutoffs[, datasetCall] == paste(cutdata_selection)]
+  # create an empty matrix to enter results into and name the rows and columns
+  test2 <- as.data.frame(matrix(nrow = x, ncol = y))
+  rownames(test2) <- c(paste(filterDiagnosis, "Group"), paste("Not", filterDiagnosis, "Group"))
+  colnames(test2) <- c("PredictPos", "PredictNeg")
+  
+  # Look at first group predicted positives
+  test2[paste(filterDiagnosis, "Group"), "PredictPos"] <- length(rownames(filter(
+    dataTable[dataTable[, variable] > test, ]  %>% filter(L1 == rfDone[1])  %>% filter(diagnosis == filterDiagnosis[1]), 
+    time_point == SampleTime[1])))
+  
+  # Look at first group predicted negatives
+  test2[paste(filterDiagnosis, "Group"), "PredictNeg"] <- length(rownames(filter(
+    dataTable[dataTable[, variable] < test, ]  %>% filter(L1 == rfDone[1])  %>% filter(diagnosis == filterDiagnosis[1]), 
+    time_point == SampleTime[1])))
+  
+  # Look at second group predicted positives
+  test2[paste("Not", filterDiagnosis, "Group"), "PredictPos"] <- length(rownames(filter(
+    dataTable[dataTable[, variable] > test, ]  %>% filter(L1 == rfDone[1])  %>% filter(diagnosis != filterDiagnosis[1]), 
+    time_point == SampleTime[1])))
+  
+  # Look at second groups predicted negatives
+  test2[paste("Not", filterDiagnosis, "Group"), "PredictNeg"] <- length(rownames(filter(
+    dataTable[dataTable[, variable] < test, ]  %>% filter(L1 == rfDone[1])  %>% filter(diagnosis != filterDiagnosis[1]), 
+    time_point == SampleTime[1])))
+  
+  return(test2)
+  
+}
+
+
+# Test function for foreach loop for modularizing AUCRF
+testdata <- function(dataList, group){
+  
+  loadLibs(c("dplyr", "AUCRF", "pROC"))
+  
+  #DataTable <- dataList[[group]] 
+  
+  assign("dataList", dataList, envir = globalenv())
+  assign("group", group, envir = globalenv())
+  
+  set.seed(050416)
+  assign("AUCdata", AUCRF(as.formula(paste(group, " ~ .", sep = "")), 
+                          dataList[[group]], pdel=0.05, ntree=500, ranking='MDA'), envir = globalenv())
+  
+  test_rf_opt <- AUCdata$RFopt
+  
+  assign("model_train_probs", predict(test_rf_opt, type='prob')[, 2], envir = globalenv())
+  
+  model_train_roc <- roc(as.formula(paste("dataList", "[[", "group", "]]", "$", group, "~ model_train_probs", sep = "")))
+  
+  set.seed(050416)
+  modelAUCRF_wCV <- AUCRFcv(AUCdata, 10, 20) # if works need to set this back to 10, 20
+  
+  modelAUCRF_wCV_selected <- as.data.frame(modelAUCRF_wCV$Psel[modelAUCRF_wCV$Psel > 0.5])
+  colnames(modelAUCRF_wCV_selected) <- "Probs_present"
+  
+  write.csv(modelAUCRF_wCV_selected, 
+            paste("data/process/old/",group,"_AUCRFwCV.csv", sep = ""))
+  #if works need to set back to data/process/old
+  
+  
+  
+  finalList <- list(model = AUCdata, modelRFopt = test_rf_opt, probs = model_train_probs, train_roc = model_train_roc, 
+                    wCV = modelAUCRF_wCV, selectedOTUs = modelAUCRF_wCV_selected)
+  
+
+  rm(group, dataList, model_train_probs, AUCdata, envir = globalenv())
+  
+  return(finalList)
+  
+  
+}
+
+
+
+
+
+
+
+
+
 
 
 

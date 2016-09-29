@@ -35,7 +35,7 @@ follow_Abundance_Fit_Graph <- function(taxaFile, labelFile, followUpFile, initia
     ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
                log10(jitteredValues + 1.1), group = factor(EDRN))) + 
     geom_line(aes(color = factor(Disease_Free))) + geom_point(aes(color = factor(Disease_Free))) +  
-    facet_wrap(~variable, labeller = as_labeller(labelFile)) + scale_y_continuous(limits = c(0, 3)) + 
+    facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 3)) + 
     theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Adenoma") + 
     scale_colour_manual(values = "blue") +  
     theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
@@ -47,7 +47,7 @@ follow_Abundance_Fit_Graph <- function(taxaFile, labelFile, followUpFile, initia
                log10(jitteredValues+1.1), group = factor(EDRN))) + 
     geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
     geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-    facet_wrap(~variable, labeller = as_labeller(labelFile)) + scale_y_continuous(limits = c(0, 3)) + 
+    facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 3)) + 
     theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle(paste(positiveTitle)) + 
     scale_colour_manual(values = c("darkred", "pink", "red")) + 
     theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
@@ -58,7 +58,7 @@ follow_Abundance_Fit_Graph <- function(taxaFile, labelFile, followUpFile, initia
     ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
                log10(jitteredValues+1.1), group = factor(EDRN))) + 
     geom_line(aes(color = factor(Disease_Free))) + geom_point(aes(color = factor(Disease_Free))) + 
-    theme_bw() + ylab("Log FIT Result") + xlab("") + scale_y_continuous(limits = c(0, 3.5)) + 
+    theme_bw() + ylab("Log FIT Result") + xlab("") + coord_cartesian(ylim = c(0, 3.5)) + 
     scale_colour_manual(values = "blue") + theme(legend.position="none")
   
   # Cancer Fit graph
@@ -67,7 +67,7 @@ follow_Abundance_Fit_Graph <- function(taxaFile, labelFile, followUpFile, initia
                log10(jitteredValues+1.1), group = factor(EDRN))) + 
     geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
     geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-    theme_bw() + ylab("Log FIT Result") + xlab("") + scale_y_continuous(limits = c(0, 3.5)) + 
+    theme_bw() + ylab("Log FIT Result") + xlab("") + coord_cartesian(ylim = c(0, 3.5)) + 
     scale_colour_manual(values = c("darkred", "pink", "red")) + theme(legend.position="none")
   
   return(list(adenoma_OTUs = adenomaOTUs, cancer_OTUs = cancerOTUs, adenoma_fit = adenomaFIT, cancer_fit = cancerFIT))
