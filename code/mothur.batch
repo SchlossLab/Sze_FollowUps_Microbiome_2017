@@ -52,8 +52,4 @@ mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.pic
 
 $mothurRv "#cluster.split(fasta=$WORKDIR/unmatched.fasta, count=$WORKDIR/unmatched.count_table, taxonomy=$WORKDIR/unmatched.taxonomy, splitmethod=classify, taxlevel=5, cutoff=0.1, cluster=F, processors=4)"
 
-# Remove the stored fastq.gz files
-
-rm $DOWNDIR/*.gz
-
 

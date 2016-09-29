@@ -1,6 +1,7 @@
 #!bash
 
 #Load needed R
+module load gcc/4.9.2
 module load R/3.3.0
 
 #Set local variables
@@ -17,15 +18,20 @@ $mothurRv "#cluster.split(file=$WORKDIR/unmatched.file, processors=1);
 	get.oturep(fasta=$WORKDIR/unmatched.fasta, count=current, list=current, label=0.03, method=abundance)"
 
 # Match the two metadata tables with the shared file
-R -e "source('code/alignData.R')"
+#R -e "source('code/alignData.R')"
+	# Having problems but only a total of three samples missing may not 
+	# be worth trouble shooting for such a small number missing only
+
+# Rename data files
+mv $WORKDIR/unmatched.an.unique_list.shared $WORKDIR/final.shared
+mv $WORKDIR/*.cons.taxonomy $WORKDIR/final.taxonomy
+mv $WORKDIR/*0.03.rep.fasta $WORKDIR/final.rep.seqs
+mv $WORKDIR/*.0.03.rep.count_table $WORKDIR/final.rep.count_table
 
 # Run diversity analysis on new aligned data set
 $mothurRv "#sub.sample(shared=$WORKDIR/final.shared, label=0.03);
 	dist.shared(shared=$WORKDIR/final.shared, calc=sharedsobs-thetayc, label=0.03, subsample=T, iters=100);
 	summary.single(shared=$WORKDIR/final.shared, calc=nseqs-sobs-shannon-shannoneven, subsample=T)"
-
-mv $WORKDIR/*.cons.taxonomy $WORKDIR/final.taxonomy
-mv $WORKDIR/*0.03.rep.fasta $WORKDIR/final.rep.seqs
 
 
 # Remove raw files to free up space

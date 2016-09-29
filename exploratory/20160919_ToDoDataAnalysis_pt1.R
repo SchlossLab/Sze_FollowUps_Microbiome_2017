@@ -53,6 +53,23 @@ grid.arrange(
 )
 
 
+## First, look at how the original data bacterial composition looks like
+
+test_set_theta_init_follow_dist <- thetaCompTotal[rownames(thetaCompTotal) %in% as.character(metaI$sample), 
+                                                  colnames(thetaCompTotal) %in% as.character(metaI$sample)]
+
+breakDown_samples <- metaI$dx[as.character(metaI$sample) %in% colnames(test_set_theta_init_follow_dist)]
+  
+set.seed(050416)
+adonis(as.dist(test_set_theta_init_follow_dist) ~ factor(breakDown_samples))
+
+set.seed(050416)
+thetayc.mds <- metaMDS(as.dist(test_set_theta_init_follow_dist)) %>% scores() %>% as.data.frame() %>% 
+  mutate(samples = factor(breakDown_samples))
+
+ggplot(data = thetayc.mds, aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + theme_bw() + coord_equal() + 
+  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon")
+
 ## Need to look at how the follow up samples look like versus their initial samples and then visualize versus
 ## the normal values
 
@@ -72,6 +89,51 @@ thetayc.mds <- metaMDS(as.dist(theta_init_follow_dist)) %>% scores() %>% as.data
   mutate(samples = factor(breakDown_samples))
 
 ggplot(data = thetayc.mds, aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + theme_bw() + coord_equal() + 
+  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon")
+
+
+## Try same thing but without the adenoma 
+
+crc_only_theta_init_follow_dist <- pickDistanceValues(
+  as.character(c(metaF$initial[metaF$dx != "adenoma"], metaF$followUp[metaF$dx != "adenoma"], 
+                 metaI$sample[metaI$dx == "normal"])), 
+  as.character(c(metaF$initial[metaF$dx != "adenoma"], metaF$followUp[metaF$dx != "adenoma"], 
+                 metaI$sample[metaI$dx == "normal"])), thetaCompTotal, withMeta = FALSE)
+
+breakDown_samples <- c(rep("initial", length(metaF$dx[metaF$dx != "adenoma"])), 
+                       rep("follow_up", length(metaF$dx[metaF$dx != "adenoma"])), 
+                       rep("normal", length(metaI$sample[metaI$dx == "normal"])))
+
+set.seed(050416)
+adonis(as.dist(crc_only_theta_init_follow_dist) ~ factor(breakDown_samples))
+
+set.seed(050416)
+crc_only_thetayc.mds <- metaMDS(as.dist(crc_only_theta_init_follow_dist)) %>% scores() %>% as.data.frame() %>% 
+  mutate(samples = factor(breakDown_samples))
+
+ggplot(data = crc_only_thetayc.mds, aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + theme_bw() + coord_equal() + 
+  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon")
+
+## Try the same thing but without crc
+
+polyp_only_theta_init_follow_dist <- pickDistanceValues(
+  as.character(c(metaF$initial[metaF$dx == "adenoma"], metaF$followUp[metaF$dx == "adenoma"], 
+                 metaI$sample[metaI$dx == "normal"])), 
+  as.character(c(metaF$initial[metaF$dx == "adenoma"], metaF$followUp[metaF$dx == "adenoma"], 
+                 metaI$sample[metaI$dx == "normal"])), thetaCompTotal, withMeta = FALSE)
+
+breakDown_samples <- c(rep("initial", length(metaF$dx[metaF$dx == "adenoma"])), 
+                       rep("follow_up", length(metaF$dx[metaF$dx == "adenoma"])), 
+                       rep("normal", length(metaI$sample[metaI$dx == "normal"])))
+
+set.seed(050416)
+adonis(as.dist(polyp_only_theta_init_follow_dist) ~ factor(breakDown_samples))
+
+set.seed(050416)
+poly_only_thetayc.mds <- metaMDS(as.dist(polyp_only_theta_init_follow_dist)) %>% scores() %>% as.data.frame() %>% 
+  mutate(samples = factor(breakDown_samples))
+
+ggplot(data = poly_only_thetayc.mds, aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + theme_bw() + coord_equal() + 
   stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon")
 
 
@@ -208,12 +270,16 @@ write.csv(pvalue_summary_table_SRNlesion, "results/tables/SRNlesion_Imp_vars_NOF
 
 
 specific_data_lesion_init <- melt(pValue_test_data_lesion_NOFIT_init, id = c("Group", "sampleType"))
+write.csv(specific_data_lesion_init, "results/tables/lesion_imp_OTUs_abundance_test_init.csv", row.names = F)
 
 specific_data_SRNlesion_init <- melt(pValue_test_data_SRNlesion_NOFIT_init, id = c("Group", "sampleType"))
+write.csv(specific_data_SRNlesion_init, "results/tables/SRNlesion_imp_OTUs_abundance_test_init.csv", row.names = F)
 
 specific_data_lesion_follow <- melt(pValue_test_data_lesion_NOFIT_follow, id = c("Group", "sampleType"))
+write.csv(specific_data_lesion_follow, "results/tables/lesion_imp_OTUs_abundance_test_follow.csv", row.names = F)
 
 specific_data_SRNlesion_follow <- melt(pValue_test_data_SRNlesion_NOFIT_follow, id = c("Group", "sampleType"))
+write.csv(specific_data_SRNlesion_follow, "results/tables/SRNlesion_imp_OTUs_abundance_test_follow.csv", row.names = F)
 
 # Graph for Lesion model only
 grid.arrange(
@@ -285,15 +351,16 @@ grid.arrange(
 ## follow up
 
 ## Need to look into more detail into the differences between these models
+  # Maybe
 
 
 ## Need to look at using random forest on follow up versus normal for what OTUs are different
+  # THis is done in the 20160915_RandomForestModelingPt2_NOFIT.R
 
+## Can combining specific features recapitulate the accuracy 
 
-
-
-
-
+      ## Spin on this idea and whether yes/no type of groupings for OTUs can improve classification
+      ## (e.g. can a similar thing be achieved with OTUs as with Fit)
 
 
 

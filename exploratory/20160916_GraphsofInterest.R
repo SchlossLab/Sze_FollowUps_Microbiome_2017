@@ -87,6 +87,29 @@ grid.arrange(
 )
 
 
+# Look at predicted postives and negatives based on model used
+
+# Tables with Fit (initial)
+lesion_pred_model_2by2_init <- makePosNegTable(withFIT, cutoffTable = withFIT_cutoffs, rfDone = "lesion_rf_opt", model = "lesion")
+SRNlesion_pred_model_2by2_init <- makePosNegTable(withFIT, cutoffTable = withFIT_cutoffs, rfDone = "SRNlesion_rf_opt", model = "SRNlesion")
+
+# Tables with Fit (Follow ups)
+lesion_pred_model_2by2_follow <- makePosNegTable(withFIT, cutoffTable = withFIT_cutoffs, rfDone = "lesion_rf_opt", model = "lesion", 
+                                                 SampleTime = "followup")
+SRNlesion_pred_model_2by2_follow <- makePosNegTable(withFIT, cutoffTable = withFIT_cutoffs, rfDone = "SRNlesion_rf_opt", model = "SRNlesion", 
+                                                    SampleTime = "followup")
+
+# Tables without Fit (initial)
+lesion_NOFIT_pred_model_2by2_init <- makePosNegTable(noFIT, cutoffTable = noFIT_cutoffs, rfDone = "lesion_rf_opt", model = "lesion")
+SRNlesion_NOFIT_pred_model_2by2_init <- makePosNegTable(noFIT, cutoffTable = noFIT_cutoffs, rfDone = "SRNlesion_rf_opt", model = "SRNlesion")
+
+
+# Tables without Fit (Follow ups)
+lesion_NOFIT_pred_model_2by2_follow <- makePosNegTable(noFIT, cutoffTable = noFIT_cutoffs, rfDone = "lesion_rf_opt", model = "lesion", 
+                                                 SampleTime = "followup")
+SRNlesion_NOFIT_pred_model_2by2_follow <- makePosNegTable(noFIT, cutoffTable = noFIT_cutoffs, rfDone = "SRNlesion_rf_opt", model = "SRNlesion", 
+                                                    SampleTime = "followup")
+
 
 
 
