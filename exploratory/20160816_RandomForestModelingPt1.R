@@ -467,7 +467,7 @@ grid.arrange(
 
 
 
-###Pull out theimportant OTUs from previous manuscript and make a ggplot format table 
+###Pull out the important OTUs from previous manuscript and make a ggplot format table 
 ###for those with follow up###
 
 # Data tables that hold the information on the important features
@@ -562,7 +562,7 @@ fitGroup_lesion_AUCRF_model<- AUCRF(lesion~., data=fit_group_train[["lesion"]], 
 fitGroup_lesion_rf_opt <- fitGroup_lesion_AUCRF_model$RFopt
 fitGroup_lesion_train_probs <- predict(fitGroup_lesion_rf_opt, type='prob')[,2]
 
-fitGroup_lesion_train_roc <- roc(train[["lesion"]]$lesion ~ fitGroup_lesion_train_probs)
+fitGroup_lesion_train_roc <- roc(fit_group_train[["lesion"]]$lesion ~ fitGroup_lesion_train_probs)
 
 
 # ID important factors for Cancer using Boruta 
@@ -601,7 +601,7 @@ fitGroup_SRNlesion_AUCRF_model<- AUCRF(SRNlesion~., data=fit_group_train[["SRNle
 fitGroup_SRNlesion_rf_opt <- fitGroup_SRNlesion_AUCRF_model$RFopt
 fitGroup_SRNlesion_train_probs <- predict(fitGroup_SRNlesion_rf_opt, type='prob')[,2]
 
-fitGroup_SRNlesion_train_roc <- roc(train[["SRNlesion"]]$SRNlesion ~ fitGroup_SRNlesion_train_probs)
+fitGroup_SRNlesion_train_roc <- roc(fit_group_train[["SRNlesion"]]$SRNlesion ~ fitGroup_SRNlesion_train_probs)
 
 
 # ID important factors for Cancer using Boruta 
@@ -640,10 +640,10 @@ fitGroup_threeway_AUCRF_model<- AUCRF(threeway~., data=fit_group_train[["threewa
 fitGroup_threeway_rf_opt <- fitGroup_threeway_AUCRF_model$RFopt
 fitGroup_threeway_train_probs <- predict(fitGroup_threeway_rf_opt, type='prob')[,2]
 
-fitGroup_threeway_train_roc <- roc(train[["threeway"]]$threeway ~ fitGroup_threeway_train_probs)
+fitGroup_threeway_train_roc <- roc(fit_group_train[["threeway"]]$threeway ~ fitGroup_threeway_train_probs)
 
 
-# ID important factors for Cancer using Boruta 
+# ID important factors for three way using Boruta 
 
 fitGroup_threeway_rf_model_used <- fitGroup_threeway_rf_opt$importance
 
@@ -696,6 +696,7 @@ ggplot(sens_specif_table, aes(sensitivities, specificities)) +
   geom_line(aes(group = model, color = model), size = 1.5) + scale_x_continuous(trans = "reverse") + 
   theme_bw() + xlab("Sensitivity") + ylab("Specificity") + 
   theme(axis.title = element_text(face = "bold"))
+
 
 
 
@@ -941,21 +942,329 @@ grid.arrange(three_model_impf_graphs[['adenoma_OTUs']], three_model_impf_graphs[
 
 
 
+### Explore possibility of creating group variables for specific OTUs and whether that will improve classifications
+
+# Create a list of the stored selected OTUs tables
+
+boruta_selected_list_data <- list(lesion = fitGroup_lesion_selected_train, SRNlesion = fitGroup_SRNlesion_selected_train, 
+                                  threeway = fitGroup_threeway_selected_train)
+
+# Get the average value of 1% abundance (might be to strict)
+
+abund_cutoff <- sum(
+  select(shared, contains("Otu0")) %>% 
+    rowSums())/length(select(shared, contains("Otu0")) %>% 
+                        rowSums()) * 0.01
+
+# First, look at simply using positive/negative as a cutoff
+catLesion_table <- makeCat(boruta_selected_list_data[["lesion"]], cutoff = 0)
+
+set.seed(050416)
+catLesion_table_AUCRF_model<- AUCRF(lesion~., data=catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+  # Throws out 14, 147, and 166 from equation
+  # Lets convert these back to numeric
+
+catLesion_table$Otu000014 <- boruta_selected_list_data[["lesion"]]$Otu000014
+catLesion_table$Otu000147 <- boruta_selected_list_data[["lesion"]]$Otu000147
+catLesion_table$Otu000166 <- boruta_selected_list_data[["lesion"]]$Otu000166
+
+#try again to see if that improved the classification
+set.seed(050416)
+part_catLesion_table_AUCRF_model<- AUCRF(lesion~., data=catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+#try a 1% cutoff
+onePercent_catLesion_table <- makeCat(boruta_selected_list_data[["lesion"]], cutoff = abund_cutoff)
+set.seed(050416)
+onePercent_catLesion_table_AUCRF_model<- AUCRF(lesion~., data=onePercent_catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+    # This definitely does not work
+
+
+#Look at SRN Lesion model
+SRNcatLesion_table <- makeCat(boruta_selected_list_data[["SRNlesion"]], cutoff = 0)
+set.seed(050416)
+catSRNLesion_table_AUCRF_model<- AUCRF(SRNlesion~., data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+    # 166 and 162 are not useful as categories    
+    # Lets convert these back to numeric
+
+SRNcatLesion_table$Otu000162 <- boruta_selected_list_data[["SRNlesion"]]$Otu000162
+SRNcatLesion_table$Otu000166 <- boruta_selected_list_data[["SRNlesion"]]$Otu000166
+SRNcatLesion_table$Otu000003 <- boruta_selected_list_data[["SRNlesion"]]$Otu000003
+SRNcatLesion_table$Otu000005 <- boruta_selected_list_data[["SRNlesion"]]$Otu000005
+SRNcatLesion_table$Otu000008 <- boruta_selected_list_data[["SRNlesion"]]$Otu000008
+
+#try again to see if that improved the classification
+set.seed(050416)
+part_catSRNLesion_table_AUCRF_model<- AUCRF(SRNlesion~., data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+# convert the higher abundance OTUs back to continuous and remove 162
+SRNcatLesion_table <- subset(SRNcatLesion_table, select = -c(Otu000162, Otu000003))
+
+set.seed(050416)
+part_catSRNLesion_table_AUCRF_model<- AUCRF(SRNlesion~., data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+#try a 1% cutoff
+onePercent_SRNcatLesion_table <- makeCat(boruta_selected_list_data[["SRNlesion"]], cutoff = abund_cutoff)
+set.seed(050416)
+onePercent_SRNcatLesion_table_AUCRF_model<- AUCRF(SRNlesion~., 
+                                               data=onePercent_SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+# This makes it worse but perhaps adding some as 1% cutoff will improve
+    # Replace 3, 5, and 8 with 1% cutoffs  since in previous tests it results in worse predictions
+
+SRNcatLesion_table <- makeCat(boruta_selected_list_data[["SRNlesion"]], cutoff = 0)
+SRNcatLesion_table$Otu000003 <- onePercent_SRNcatLesion_table$Otu000003
+SRNcatLesion_table$Otu000005 <- onePercent_SRNcatLesion_table$Otu000005
+SRNcatLesion_table$Otu000008 <- onePercent_SRNcatLesion_table$Otu000008
+
+onePercent_Part_SRNcatLesion_table_AUCRF_model<- AUCRF(SRNlesion~., 
+                                                       data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+# remove 162 and 147 due to worse predictions
+SRNcatLesion_table <- subset(SRNcatLesion_table, select = -c(Otu000162, Otu000147))
+set.seed(050416)
+onePercent_Part_SRNcatLesion_table_AUCRF_model<- AUCRF(SRNlesion~., 
+                                                       data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+# use fit as continuous not categorical
+SRNcatLesion_table$fit_positive <- metaI$fit_result
+set.seed(050416)
+onePercent_Part_SRNcatLesion_table_AUCRF_model<- AUCRF(SRNlesion~., 
+                                                       data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+# Perhaps adding number of known associated OTUs with CRC will help prediction
+SRNlesion_selected_taxa <- tax_df[filter(SRNlesion_confirmed_vars, otus != "fit_positive")[, 'otus'], ]
+SRNlesion_selected_labs <- createTaxaLabeller(SRNlesion_selected_taxa)
+
+
+knownCRC_vars <- c("Otu000566", "Otu000126", "Otu000205", "Otu000397", "Otu000563")
+
+SRNcatLesion_table$crc_bugs <- apply(SRNcatLesion_table[, knownCRC_vars], 1, function(x) getCount(x))
+set.seed(050416)
+onePercent_Part_SRNcatLesion_table_AUCRF_model<- AUCRF(SRNlesion~., 
+                                                       data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+  ## Still have 70 that are misclassified in the SRN + Cancer lesion group can this be improved with meta data on
+  ## other risk factors?
+
+# First convert crc_bugs back to sequence counts
+
+SRNcatLesion_table$Otu000566 <- boruta_selected_list_data[["SRNlesion"]]$Otu000566
+SRNcatLesion_table$Otu000126 <- boruta_selected_list_data[["SRNlesion"]]$Otu000126
+SRNcatLesion_table$Otu000205 <- boruta_selected_list_data[["SRNlesion"]]$Otu000205
+SRNcatLesion_table$Otu000397 <- boruta_selected_list_data[["SRNlesion"]]$Otu000397
+SRNcatLesion_table$Otu000563 <- boruta_selected_list_data[["SRNlesion"]]$Otu000563
+
+
+set.seed(050416)
+onePercent_Part_SRNcatLesion_table_AUCRF_model<- AUCRF(SRNlesion~., 
+                                                       data=SRNcatLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+# add metadata risk factors for CRC into model
+# additions are 
+  # overweight versus obese (normal (18.5-24.9) = 0, overweight (25.0 - 29.9) = 1, obese (> 30) = 2)
+  metaI$BMIcat[metaI$BMI < 25] <- 0  
+  metaI$BMIcat[metaI$BMI > 25 & metaI$BMI < 30] <- 1
+  metaI$BMIcat[metaI$BMI > 30] <- 2
+
+  # smoking (smoke variable), missing a variable so need to use na.action (already exists)
+  
+  # Age greater than 50 variable
+  metaI$great50[metaI$Age <= 50] <- 0
+  metaI$great50[metaI$Age > 50] <- 1
+  
+  # history of polyps (Hx_of_Polyps = 0, 1)  (already exists)
+  # history of cancer (Hx_Prev) (already exists)
+  # family history of crc (Hx_Fam_CRC) (already exists)
+  # african american (Black)
+  # diabetes (Diabetic)
+
+# Lets build the data table now with all the different arguments in here
+  allData_train <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
+    filter(!sample %in% good_metaf$initial) %>% 
+    select(SRNlesion, fit_positive, BMIcat, great50, Hx_of_Polyps, Hx_Prev, Hx_Fam_CRC, Black, Diabetic, 
+           one_of(fitGroup_SRNlesion_confirmed_vars[, 'otus'])) %>% na.omit()
+  
+  
+UPdated_SRNcatLesion_table <- makeCat(allData_train, cutoff = 0, ignorecols = 9)
+Updated_onePercent_SRNcatLesion_table <- makeCat(allData_train, cutoff = abund_cutoff, ignorecols = 9)
+UPdated_SRNcatLesion_table$crc_bugs <- apply(UPdated_SRNcatLesion_table[, knownCRC_vars], 1, function(x) getCount(x))
+
+#Replace specific high counts with greater or less than 1%
+UPdated_SRNcatLesion_table$Otu000003 <- Updated_onePercent_SRNcatLesion_table$Otu000003
+UPdated_SRNcatLesion_table$Otu000005 <- Updated_onePercent_SRNcatLesion_table$Otu000005
+UPdated_SRNcatLesion_table$Otu000008 <- Updated_onePercent_SRNcatLesion_table$Otu000008
+
+#Replace CRC OTUs with actual sequence counts
+UPdated_SRNcatLesion_table$Otu000566 <- allData_train$Otu000566
+UPdated_SRNcatLesion_table$Otu000126 <- allData_train$Otu000126
+UPdated_SRNcatLesion_table$Otu000205 <- allData_train$Otu000205
+UPdated_SRNcatLesion_table$Otu000397 <- allData_train$Otu000397
+UPdated_SRNcatLesion_table$Otu000563 <- allData_train$Otu000563
+
+set.seed(050416)
+test_SRNlesionModel_wmeta <- AUCRF(SRNlesion~., data=UPdated_SRNcatLesion_table, pdel=0.05, ntree=500, ranking='MDA')
+
+## Can I get a little better if I select specific measures (No I cannot, OOB error is 20.24% versus 18.55% - difference might be due to noise)
+
+set.seed(050416)
+Boruta_SRNlesionModel_wmeta <- Boruta(SRNlesion~., data=UPdated_SRNcatLesion_table, mcAdj=TRUE, maxRuns=1000)
+
+
+test_SRNlesion_confirmed_vars <- as.data.frame(Boruta_SRNlesionModel_wmeta['finalDecision'])  %>% 
+  mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# Use the selected data set in AUCRF now
+updated_SRNlesion_selected_train <- select(UPdated_SRNcatLesion_table, 
+                                            SRNlesion, one_of(test_SRNlesion_confirmed_vars[, 'otus']))
+
+set.seed(050416)
+selected_test_SRNlesionModel_wmeta <- AUCRF(SRNlesion~., data=updated_SRNlesion_selected_train, pdel=0.99, ntree=500, ranking='MDA')
 
 
 
 
+# What happens if instead of the harder problem of SRN lesion I apply this to lesion (normal vs. adenoma + cancer)
 
 
+# First, look at simply using positive/negative as a cutoff
+catLesion_table <- makeCat(boruta_selected_list_data[["lesion"]], cutoff = 0)
+
+set.seed(050416)
+catLesion_table_AUCRF_model<- AUCRF(lesion~., data=catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+# Throws out 14, 147, and 166 from equation
+# Lets convert these back to numeric
+
+catLesion_table$Otu000014 <- boruta_selected_list_data[["lesion"]]$Otu000014
+catLesion_table$Otu000147 <- boruta_selected_list_data[["lesion"]]$Otu000147
+catLesion_table$Otu000166 <- boruta_selected_list_data[["lesion"]]$Otu000166
+
+#try again to see if that improved the classification
+set.seed(050416)
+part_catLesion_table_AUCRF_model<- AUCRF(lesion~., data=catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+#try a 1% cutoff
+onePercent_catLesion_table <- makeCat(boruta_selected_list_data[["lesion"]], cutoff = abund_cutoff)
+
+catLesion_table$Otu000014 <- onePercent_catLesion_table$Otu000014
+
+set.seed(050416)
+onePercent_catLesion_table_AUCRF_model<- AUCRF(lesion~., data=catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+# Convert back since the latter has a better OOB-AUCopt
 
 
+# Perhaps adding number of known associated OTUs with CRC will help prediction
 
 
+knownCRC_vars <- c("Otu000566", "Otu000126", "Otu000205", "Otu000397", "Otu000563")
+
+catLesion_table$crc_bugs <- apply(SRNcatLesion_table[, knownCRC_vars], 1, function(x) getCount(x))
+set.seed(050416)
+onePercent_Part_catLesion_table_AUCRF_model<- AUCRF(lesion~., data=catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
+
+# First convert crc_bugs back to sequence counts
+
+catLesion_table$Otu000566 <- boruta_selected_list_data[["lesion"]]$Otu000566
+catLesion_table$Otu000126 <- boruta_selected_list_data[["lesion"]]$Otu000126
 
 
+set.seed(050416)
+onePercent_Part_catLesion_table_AUCRF_model<- AUCRF(lesion~., data=catLesion_table, pdel=0.99, ntree=500, ranking='MDA')
 
 
+# Lets build the data table now with all the different arguments in here
+allData_lesion_train <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
+  filter(!sample %in% good_metaf$initial) %>% 
+  mutate(crc_bugs = apply(.[, knownCRC_vars], 1, function(x) getCount(x))) %>% 
+  select(lesion, fit_positive, BMIcat, great50, Hx_of_Polyps, Hx_Prev, Hx_Fam_CRC, Black, Diabetic, crc_bugs, 
+         one_of(fitGroup_lesion_confirmed_vars[, 'otus'])) %>% na.omit()
 
+
+UPdated_Lesion_table <- makeCat(allData_lesion_train, cutoff = 0, ignorecols = 10)
+UPdated_onepercent_Lesion_table <- makeCat(allData_lesion_train, cutoff = abund_cutoff, ignorecols = 10)
+
+#Replace specific high counts with greater or less than 1%
+UPdated_Lesion_table$Otu000014 <- UPdated_onepercent_Lesion_table$Otu000014
+
+
+#Replace CRC OTUs with actual sequence counts
+UPdated_Lesion_table$Otu000566 <- allData_lesion_train$Otu000566
+UPdated_Lesion_table$Otu000126 <- allData_lesion_train$Otu000126
+
+
+set.seed(050416)
+test_lesionModel_wmeta <- AUCRF(lesion~., data=UPdated_Lesion_table, pdel=0.05, ntree=500, ranking='MDA')
+
+set.seed(050416)
+Boruta_lesionModel_wmeta <- Boruta(lesion~., data=UPdated_Lesion_table, mcAdj=TRUE, maxRuns=1000)
+
+
+test_lesion_confirmed_vars <- as.data.frame(Boruta_lesionModel_wmeta['finalDecision'])  %>% 
+  mutate(otus = rownames(.))  %>% filter(finalDecision == "Confirmed")  %>% select(otus)
+
+# Use the selected data set in AUCRF now
+updated_lesion_selected_train <- select(UPdated_Lesion_table, 
+                                           lesion, one_of(test_lesion_confirmed_vars[, 'otus']))
+
+set.seed(050416)
+selected_test_lesionModel_wmeta <- AUCRF(lesion~., data=updated_lesion_selected_train, pdel=0.99, ntree=500, ranking='MDA')
+
+## Can I get a little better if I select specific measures (No I cannot, OOB error is 20.24% versus 20% - difference might be due to noise)
+## But very low false negative rate (22/245 or 0.08979592 ~ 9%)
+
+
+## Need to remove history of polyps, cancer, and family crc to see how it performs without this information
+## Closer to real life pre screening
+
+# Lets build the data table now with all the different arguments in here
+noHX_allData_train <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
+  filter(!sample %in% good_metaf$initial) %>% mutate(crc_bugs = apply(.[, knownCRC_vars], 1, function(x) getCount(x))) %>% 
+  select(SRNlesion, fit_positive, BMIcat, great50, Black, Diabetic, crc_bugs, 
+         one_of(fitGroup_SRNlesion_confirmed_vars[, 'otus'])) %>% na.omit()
+
+
+noHx_SRNcat_table <- makeCat(noHX_allData_train, cutoff = 0, ignorecols = 7)
+noHx_onePercent_SRNcat_table <- makeCat(noHX_allData_train, cutoff = abund_cutoff, ignorecols = 7)
+
+#Replace specific high counts with greater or less than 1%
+noHx_SRNcat_table$Otu000003 <- noHx_onePercent_SRNcat_table$Otu000003
+noHx_SRNcat_table$Otu000005 <- noHx_onePercent_SRNcat_table$Otu000005
+noHx_SRNcat_table$Otu000008 <- noHx_onePercent_SRNcat_table$Otu000008
+
+#Replace CRC OTUs with actual sequence counts
+noHx_SRNcat_table$Otu000566 <- noHX_allData_train$Otu000566
+noHx_SRNcat_table$Otu000126 <- noHX_allData_train$Otu000126
+noHx_SRNcat_table$Otu000205 <- noHX_allData_train$Otu000205
+noHx_SRNcat_table$Otu000397 <- noHX_allData_train$Otu000397
+noHx_SRNcat_table$Otu000563 <- noHX_allData_train$Otu000563
+
+set.seed(050416)
+noHx_SRNlesionModel_wmeta <- AUCRF(SRNlesion~., data=noHx_SRNcat_table, pdel=0.05, ntree=500, ranking='MDA')
+    # OOB error is 21.24% about a 1% increase and an 0.02 decrease in AUC 
+
+# Let's try lesion now
+
+noHx_allData_lesion_train <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
+  filter(!sample %in% good_metaf$initial) %>% 
+  mutate(crc_bugs = apply(.[, knownCRC_vars], 1, function(x) getCount(x))) %>% 
+  select(lesion, fit_positive, BMIcat, great50, Black, Diabetic, crc_bugs, 
+         one_of(fitGroup_lesion_confirmed_vars[, 'otus'])) %>% na.omit()
+
+
+noHx_Lesion_table <- makeCat(noHx_allData_lesion_train, cutoff = 0, ignorecols = 7)
+noHx_onepercent_Lesion_table <- makeCat(noHx_allData_lesion_train, cutoff = abund_cutoff, ignorecols = 7)
+
+#Replace specific high counts with greater or less than 1%
+noHx_Lesion_table$Otu000014 <- noHx_onepercent_Lesion_table$Otu000014
+
+
+#Replace CRC OTUs with actual sequence counts
+noHx_Lesion_table$Otu000566 <- noHx_onepercent_Lesion_table$Otu000566
+noHx_Lesion_table$Otu000126 <- noHx_onepercent_Lesion_table$Otu000126
+
+set.seed(050416)
+noHx_lesionModel_wmeta <- AUCRF(lesion~., data=noHx_Lesion_table, pdel=0.05, ntree=500, ranking='MDA')
+  # OOB estimate of error becomes 26.49%
+
+# So something about SRN lesion is actually descriminative versus keeping all adenomas together
 
 
 
