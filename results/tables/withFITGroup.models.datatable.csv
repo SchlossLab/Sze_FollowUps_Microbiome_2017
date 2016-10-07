@@ -1,0 +1,537 @@
+"negative","positive","L1","model","dataset","diseaseFree","diagnosis","time_point","detailed_diagnosis","EDRN"
+0.39,0.61,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",13710
+0.282,0.718,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",1594
+0.408,0.592,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",1669
+0.64,0.36,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",21710
+0.32,0.68,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",1917
+0.396,0.604,"SRNlesion_rf_opt","SRNlesion","All","n","N/D","initial","Cancer",15610
+0.448,0.552,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",1826
+0.354,0.646,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",1941
+0.354,0.646,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2154
+0.498,0.502,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2097
+0.206,0.794,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2022
+0.542,0.458,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2352
+0.596,0.404,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2717
+0.368,0.632,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",1149
+0.126,0.874,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2287
+0.516,0.484,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2147
+0.26,0.74,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",3053
+0.404,0.596,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2865
+0.794,0.206,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",3376
+0.194,0.806,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2337
+0.326,0.674,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",3749
+0.362,0.638,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",20310
+0.16,0.84,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",2972
+0.366,0.634,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",3541
+0.132,0.868,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",3434
+0.352,0.648,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","initial","Cancer",32110
+0.328,0.672,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",901
+0.642,0.358,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",2610
+0.714,0.286,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",83
+0.652,0.348,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",661
+0.71,0.29,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",331
+0.774,0.226,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",484
+0.734,0.266,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",377
+0.728,0.272,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",457
+0.716,0.284,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",395
+0.68,0.32,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",6710
+0.63,0.37,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",947
+0.8,0.2,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",723
+0.686,0.314,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",803
+0.56,0.44,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",475
+0.624,0.376,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",11810
+0.51,0.49,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1545
+0.78,0.22,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",1222
+0.708,0.292,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1206
+0.774,0.226,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",974
+0.818,0.182,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1289
+0.716,0.284,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",1297
+0.442,0.558,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1784
+0.646,0.354,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1479
+0.668,0.332,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",1362
+0.7,0.3,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1271
+0.514,0.486,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1321
+0.602,0.398,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1727
+0.738,0.262,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",2469
+0.53,0.47,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",2048
+0.556,0.444,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1495
+0.608,0.392,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",1768
+0.622,0.378,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",2519
+0.634,0.366,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",2311
+0.694,0.306,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",3202
+0.312,0.688,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",2568
+0.474,0.526,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",2899
+0.502,0.498,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",38310
+0.5,0.5,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",3756
+0.69,0.31,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","Adenoma",4622
+0.648,0.352,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",5066
+0.636,0.364,"SRNlesion_rf_opt","SRNlesion","All","n","adenoma","initial","adv Adenoma",5009
+0.262,0.738,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",13710
+0.114,0.886,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",1594
+0.224,0.776,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",1669
+0.604,0.396,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",21710
+0.174,0.826,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",1917
+0.192,0.808,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","N/D","initial","Cancer",15610
+0.282,0.718,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",1826
+0.244,0.756,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",1941
+0.196,0.804,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2154
+0.412,0.588,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2097
+0.08,0.92,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2022
+0.662,0.338,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2352
+0.456,0.544,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2717
+0.316,0.684,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",1149
+0.012,0.988,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2287
+0.502,0.498,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2147
+0.224,0.776,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",3053
+0.492,0.508,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2865
+0.95,0.05,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",3376
+0.152,0.848,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2337
+0.236,0.764,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",3749
+0.18,0.82,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",20310
+0.044,0.956,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",2972
+0.254,0.746,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",3541
+0.012,0.988,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",3434
+0.232,0.768,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","initial","Cancer",32110
+0.126,0.874,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",901
+0.842,0.158,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",2610
+0.908,0.092,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",83
+0.554,0.446,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",661
+0.56,0.44,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",331
+0.766,0.234,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",484
+0.664,0.336,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",377
+0.954,0.046,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",457
+0.672,0.328,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",395
+0.688,0.312,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",6710
+0.77,0.23,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",947
+0.7,0.3,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",723
+0.94,0.06,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",803
+0.738,0.262,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",475
+0.584,0.416,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",11810
+0.704,0.296,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1545
+0.854,0.146,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",1222
+0.898,0.102,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1206
+0.73,0.27,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",974
+0.9,0.1,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1289
+0.806,0.194,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",1297
+0.456,0.544,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1784
+0.736,0.264,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1479
+0.896,0.104,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",1362
+0.812,0.188,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1271
+0.644,0.356,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1321
+0.578,0.422,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1727
+0.884,0.116,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",2469
+0.452,0.548,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",2048
+0.524,0.476,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1495
+0.62,0.38,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",1768
+0.778,0.222,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",2519
+0.55,0.45,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",2311
+0.694,0.306,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",3202
+0.306,0.694,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",2568
+0.472,0.528,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",2899
+0.806,0.194,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",38310
+0.412,0.588,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",3756
+0.694,0.306,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","Adenoma",4622
+0.578,0.422,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",5066
+0.822,0.178,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenoma","initial","adv Adenoma",5009
+0.4,0.6,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",13710
+0.084,0.916,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",1594
+0.17,0.83,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",1669
+0.242,0.758,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",21710
+0.138,0.862,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",1917
+0.1,0.9,"lesion_rf_opt","lesion","All","n","N/D","initial","Cancer",15610
+0.182,0.818,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",1826
+0.076,0.924,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",1941
+0.234,0.766,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2154
+0.406,0.594,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2097
+0.014,0.986,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2022
+0.524,0.476,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2352
+0.238,0.762,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2717
+0.08,0.92,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",1149
+0.034,0.966,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2287
+0.502,0.498,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2147
+0.072,0.928,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",3053
+0.28,0.72,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2865
+0.562,0.438,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",3376
+0.276,0.724,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2337
+0.198,0.802,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",3749
+0.056,0.944,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",20310
+0.05,0.95,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",2972
+0.102,0.898,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",3541
+0.068,0.932,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",3434
+0.306,0.694,"lesion_rf_opt","lesion","All","n","adenocarcinoma","initial","Cancer",32110
+0.094,0.906,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",901
+0.126,0.874,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",2610
+0.498,0.502,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",83
+0.378,0.622,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",661
+0.628,0.372,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",331
+0.502,0.498,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",484
+0.512,0.488,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",377
+0.77,0.23,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",457
+0.58,0.42,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",395
+0.784,0.216,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",6710
+0.694,0.306,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",947
+0.482,0.518,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",723
+0.572,0.428,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",803
+0.648,0.352,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",475
+0.48,0.52,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",11810
+0.352,0.648,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1545
+0.76,0.24,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",1222
+0.572,0.428,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1206
+0.762,0.238,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",974
+0.288,0.712,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1289
+0.55,0.45,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",1297
+0.244,0.756,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1784
+0.348,0.652,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1479
+0.662,0.338,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",1362
+0.634,0.366,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1271
+0.438,0.562,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1321
+0.482,0.518,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1727
+0.256,0.744,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",2469
+0.38,0.62,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",2048
+0.516,0.484,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1495
+0.32,0.68,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",1768
+0.224,0.776,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",2519
+0.368,0.632,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",2311
+0.556,0.444,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",3202
+0.048,0.952,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",2568
+0.256,0.744,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",2899
+0.524,0.476,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",38310
+0.184,0.816,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",3756
+0.908,0.092,"lesion_rf_opt","lesion","All","n","adenoma","initial","Adenoma",4622
+0.472,0.528,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",5066
+0.718,0.282,"lesion_rf_opt","lesion","All","n","adenoma","initial","adv Adenoma",5009
+0.398,0.602,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",13710
+0.074,0.926,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",1594
+0.022,0.978,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",1669
+0.206,0.794,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",21710
+0.02,0.98,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",1917
+0.026,0.974,"lesion_selected_rf_opt","lesion","Select","n","N/D","initial","Cancer",15610
+0.162,0.838,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",1826
+0.06,0.94,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",1941
+0.39,0.61,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2154
+0.518,0.482,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2097
+0,1,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2022
+0.488,0.512,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2352
+0.132,0.868,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2717
+0.104,0.896,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",1149
+0.012,0.988,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2287
+0.466,0.534,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2147
+0.14,0.86,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",3053
+0.238,0.762,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2865
+0.358,0.642,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",3376
+0.364,0.636,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2337
+0.046,0.954,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",3749
+0.06,0.94,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",20310
+0.008,0.992,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",2972
+0.016,0.984,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",3541
+0.138,0.862,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",3434
+0.162,0.838,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","initial","Cancer",32110
+0.066,0.934,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",901
+0.074,0.926,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",2610
+0.846,0.154,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",83
+0.38,0.62,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",661
+0.746,0.254,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",331
+0.282,0.718,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",484
+0.718,0.282,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",377
+0.876,0.124,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",457
+0.852,0.148,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",395
+0.454,0.546,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",6710
+0.974,0.026,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",947
+0.29,0.71,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",723
+0.354,0.646,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",803
+0.82,0.18,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",475
+0.36,0.64,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",11810
+0.334,0.666,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1545
+0.752,0.248,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",1222
+0.716,0.284,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1206
+0.592,0.408,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",974
+0.434,0.566,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1289
+0.372,0.628,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",1297
+0.238,0.762,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1784
+0.078,0.922,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1479
+0.724,0.276,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",1362
+0.582,0.418,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1271
+0.714,0.286,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1321
+0.382,0.618,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1727
+0.16,0.84,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",2469
+0.372,0.628,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",2048
+0.824,0.176,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1495
+0.866,0.134,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",1768
+0.278,0.722,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",2519
+0.184,0.816,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",2311
+0.858,0.142,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",3202
+0.034,0.966,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",2568
+0.268,0.732,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",2899
+0.666,0.334,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",38310
+0.07,0.93,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",3756
+0.992,0.008,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","Adenoma",4622
+0.592,0.408,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",5066
+0.796,0.204,"lesion_selected_rf_opt","lesion","Select","n","adenoma","initial","adv Adenoma",5009
+0.38,0.62,"SRNlesion_rf_opt","SRNlesion","All","n","adenocarcinoma","followup","Cancer",13710
+0.762,0.238,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",1594
+0.7,0.3,"SRNlesion_rf_opt","SRNlesion","All","unknown","adenocarcinoma","followup","Cancer",1669
+0.676,0.324,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",21710
+0.608,0.392,"SRNlesion_rf_opt","SRNlesion","All","unknown","adenocarcinoma","followup","Cancer",1917
+0.664,0.336,"SRNlesion_rf_opt","SRNlesion","All","unknown","N/D","followup","Cancer",15610
+0.638,0.362,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",1826
+0.5,0.5,"SRNlesion_rf_opt","SRNlesion","All","unknown","adenocarcinoma","followup","Cancer",1941
+0.554,0.446,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2154
+0.76,0.24,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2097
+0.64,0.36,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2022
+0.554,0.446,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2352
+0.8,0.2,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2717
+0.756,0.244,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",1149
+0.666,0.334,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2287
+0.404,0.596,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2147
+0.794,0.206,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",3053
+0.362,0.638,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2865
+0.668,0.332,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",3376
+0.728,0.272,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2337
+0.57,0.43,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",3749
+0.77,0.23,"SRNlesion_rf_opt","SRNlesion","All","unknown","adenocarcinoma","followup","Cancer",20310
+0.644,0.356,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",2972
+0.75,0.25,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",3541
+0.404,0.596,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",3434
+0.866,0.134,"SRNlesion_rf_opt","SRNlesion","All","y","adenocarcinoma","followup","Cancer",32110
+0.628,0.372,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",901
+0.546,0.454,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",2610
+0.778,0.222,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",83
+0.578,0.422,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",661
+0.684,0.316,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",331
+0.64,0.36,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",484
+0.724,0.276,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",377
+0.51,0.49,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",457
+0.41,0.59,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",395
+0.63,0.37,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",6710
+0.764,0.236,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",947
+0.776,0.224,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",723
+0.692,0.308,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",803
+0.7,0.3,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",475
+0.664,0.336,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",11810
+0.646,0.354,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1545
+0.816,0.184,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",1222
+0.72,0.28,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1206
+0.552,0.448,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",974
+0.784,0.216,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1289
+0.668,0.332,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",1297
+0.704,0.296,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1784
+0.774,0.226,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1479
+0.574,0.426,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",1362
+0.312,0.688,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1271
+0.7,0.3,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1321
+0.782,0.218,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1727
+0.656,0.344,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",2469
+0.542,0.458,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",2048
+0.724,0.276,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1495
+0.72,0.28,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",1768
+0.476,0.524,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",2519
+0.866,0.134,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",2311
+0.448,0.552,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",3202
+0.76,0.24,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",2568
+0.806,0.194,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",2899
+0.426,0.574,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",38310
+0.62,0.38,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",3756
+0.778,0.222,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","Adenoma",4622
+0.788,0.212,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",5066
+NA,NA,"SRNlesion_rf_opt","SRNlesion","All","y","adenoma","followup","adv Adenoma",5009
+0.298,0.702,"SRNlesion_selected_rf_opt","SRNlesion","Select","n","adenocarcinoma","followup","Cancer",13710
+0.772,0.228,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",1594
+0.974,0.026,"SRNlesion_selected_rf_opt","SRNlesion","Select","unknown","adenocarcinoma","followup","Cancer",1669
+0.624,0.376,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",21710
+0.802,0.198,"SRNlesion_selected_rf_opt","SRNlesion","Select","unknown","adenocarcinoma","followup","Cancer",1917
+0.636,0.364,"SRNlesion_selected_rf_opt","SRNlesion","Select","unknown","N/D","followup","Cancer",15610
+0.802,0.198,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",1826
+0.818,0.182,"SRNlesion_selected_rf_opt","SRNlesion","Select","unknown","adenocarcinoma","followup","Cancer",1941
+0.628,0.372,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2154
+0.956,0.044,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2097
+0.656,0.344,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2022
+0.738,0.262,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2352
+0.674,0.326,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2717
+0.796,0.204,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",1149
+0.504,0.496,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2287
+0.242,0.758,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2147
+0.962,0.038,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",3053
+0.232,0.768,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2865
+0.746,0.254,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",3376
+0.904,0.096,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2337
+0.836,0.164,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",3749
+0.754,0.246,"SRNlesion_selected_rf_opt","SRNlesion","Select","unknown","adenocarcinoma","followup","Cancer",20310
+0.552,0.448,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",2972
+0.694,0.306,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",3541
+0.216,0.784,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",3434
+0.956,0.044,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenocarcinoma","followup","Cancer",32110
+0.83,0.17,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",901
+0.586,0.414,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",2610
+0.886,0.114,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",83
+0.454,0.546,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",661
+0.57,0.43,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",331
+0.732,0.268,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",484
+0.888,0.112,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",377
+0.734,0.266,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",457
+0.144,0.856,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",395
+0.51,0.49,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",6710
+0.884,0.116,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",947
+0.718,0.282,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",723
+0.7,0.3,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",803
+0.774,0.226,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",475
+0.634,0.366,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",11810
+0.762,0.238,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1545
+0.934,0.066,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",1222
+0.786,0.214,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1206
+0.434,0.566,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",974
+0.802,0.198,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1289
+0.916,0.084,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",1297
+0.662,0.338,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1784
+0.65,0.35,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1479
+0.508,0.492,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",1362
+0.238,0.762,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1271
+0.724,0.276,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1321
+0.904,0.096,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1727
+0.658,0.342,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",2469
+0.612,0.388,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",2048
+0.898,0.102,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1495
+0.734,0.266,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",1768
+0.548,0.452,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",2519
+0.812,0.188,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",2311
+0.422,0.578,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",3202
+0.864,0.136,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",2568
+0.918,0.082,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",2899
+0.416,0.584,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",38310
+0.684,0.316,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",3756
+0.846,0.154,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","Adenoma",4622
+0.832,0.168,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",5066
+NA,NA,"SRNlesion_selected_rf_opt","SRNlesion","Select","y","adenoma","followup","adv Adenoma",5009
+0.118,0.882,"lesion_rf_opt","lesion","All","n","adenocarcinoma","followup","Cancer",13710
+0.704,0.296,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",1594
+0.548,0.452,"lesion_rf_opt","lesion","All","unknown","adenocarcinoma","followup","Cancer",1669
+0.454,0.546,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",21710
+0.568,0.432,"lesion_rf_opt","lesion","All","unknown","adenocarcinoma","followup","Cancer",1917
+0.692,0.308,"lesion_rf_opt","lesion","All","unknown","N/D","followup","Cancer",15610
+0.472,0.528,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",1826
+0.684,0.316,"lesion_rf_opt","lesion","All","unknown","adenocarcinoma","followup","Cancer",1941
+0.492,0.508,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2154
+0.61,0.39,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2097
+0.586,0.414,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2022
+0.59,0.41,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2352
+0.622,0.378,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2717
+0.762,0.238,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",1149
+0.792,0.208,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2287
+0.078,0.922,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2147
+0.666,0.334,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",3053
+0.082,0.918,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2865
+0.718,0.282,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",3376
+0.718,0.282,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2337
+0.484,0.516,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",3749
+0.488,0.512,"lesion_rf_opt","lesion","All","unknown","adenocarcinoma","followup","Cancer",20310
+0.784,0.216,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",2972
+0.716,0.284,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",3541
+0.134,0.866,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",3434
+0.554,0.446,"lesion_rf_opt","lesion","All","y","adenocarcinoma","followup","Cancer",32110
+0.412,0.588,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",901
+0.502,0.498,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",2610
+0.816,0.184,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",83
+0.432,0.568,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",661
+0.65,0.35,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",331
+0.588,0.412,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",484
+0.512,0.488,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",377
+0.87,0.13,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",457
+0.096,0.904,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",395
+0.482,0.518,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",6710
+0.6,0.4,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",947
+0.554,0.446,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",723
+0.538,0.462,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",803
+0.75,0.25,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",475
+0.29,0.71,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",11810
+0.362,0.638,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1545
+0.834,0.166,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",1222
+0.406,0.594,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1206
+0.48,0.52,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",974
+0.348,0.652,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1289
+0.418,0.582,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",1297
+0.49,0.51,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1784
+0.908,0.092,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1479
+0.566,0.434,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",1362
+0.08,0.92,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1271
+0.544,0.456,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1321
+0.59,0.41,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1727
+0.29,0.71,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",2469
+0.672,0.328,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",2048
+0.422,0.578,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1495
+0.732,0.268,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",1768
+0.386,0.614,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",2519
+0.68,0.32,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",2311
+0.58,0.42,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",3202
+0.408,0.592,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",2568
+0.574,0.426,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",2899
+0.24,0.76,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",38310
+0.25,0.75,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",3756
+0.642,0.358,"lesion_rf_opt","lesion","All","y","adenoma","followup","Adenoma",4622
+0.658,0.342,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",5066
+NA,NA,"lesion_rf_opt","lesion","All","y","adenoma","followup","adv Adenoma",5009
+0.206,0.794,"lesion_selected_rf_opt","lesion","Select","n","adenocarcinoma","followup","Cancer",13710
+0.588,0.412,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",1594
+0.514,0.486,"lesion_selected_rf_opt","lesion","Select","unknown","adenocarcinoma","followup","Cancer",1669
+0.628,0.372,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",21710
+0.794,0.206,"lesion_selected_rf_opt","lesion","Select","unknown","adenocarcinoma","followup","Cancer",1917
+0.958,0.042,"lesion_selected_rf_opt","lesion","Select","unknown","N/D","followup","Cancer",15610
+0.264,0.736,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",1826
+0.868,0.132,"lesion_selected_rf_opt","lesion","Select","unknown","adenocarcinoma","followup","Cancer",1941
+0.908,0.092,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2154
+0.816,0.184,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2097
+0.764,0.236,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2022
+0.526,0.474,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2352
+0.668,0.332,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2717
+0.884,0.116,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",1149
+0.942,0.058,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2287
+0.036,0.964,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2147
+0.752,0.248,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",3053
+0.038,0.962,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2865
+0.742,0.258,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",3376
+0.872,0.128,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2337
+0.148,0.852,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",3749
+0.638,0.362,"lesion_selected_rf_opt","lesion","Select","unknown","adenocarcinoma","followup","Cancer",20310
+0.638,0.362,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",2972
+0.534,0.466,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",3541
+0.098,0.902,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",3434
+0.512,0.488,"lesion_selected_rf_opt","lesion","Select","y","adenocarcinoma","followup","Cancer",32110
+0.51,0.49,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",901
+0.474,0.526,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",2610
+0.94,0.06,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",83
+0.358,0.642,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",661
+0.562,0.438,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",331
+0.764,0.236,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",484
+0.828,0.172,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",377
+0.856,0.144,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",457
+0.104,0.896,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",395
+0.26,0.74,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",6710
+0.85,0.15,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",947
+0.408,0.592,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",723
+0.366,0.634,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",803
+0.85,0.15,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",475
+0.18,0.82,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",11810
+0.45,0.55,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1545
+0.732,0.268,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",1222
+0.834,0.166,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1206
+0.416,0.584,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",974
+0.238,0.762,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1289
+0.354,0.646,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",1297
+0.358,0.642,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1784
+0.876,0.124,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1479
+0.846,0.154,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",1362
+0.07,0.93,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1271
+0.764,0.236,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1321
+0.704,0.296,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1727
+0.134,0.866,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",2469
+0.836,0.164,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",2048
+0.586,0.414,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1495
+0.664,0.336,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",1768
+0.762,0.238,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",2519
+0.748,0.252,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",2311
+0.946,0.054,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",3202
+0.496,0.504,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",2568
+0.69,0.31,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",2899
+0.178,0.822,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",38310
+0.406,0.594,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",3756
+0.342,0.658,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","Adenoma",4622
+0.774,0.226,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",5066
+NA,NA,"lesion_selected_rf_opt","lesion","Select","y","adenoma","followup","adv Adenoma",5009
