@@ -94,9 +94,6 @@ for(i in 1:length(fit_group_train)){
   rm(test_set, i)
 }
 
-# Save generated data so it does not need to be saved as multiple tables or csv files
-save.image("exploratory/RFwFitGroup.RData")
-
 ### Graph the ROC curves for each of the different models and test for difference
 
 # Created needed vectors and lists
@@ -114,6 +111,9 @@ write.csv(sens_specif_table, "results/tables/ROCCurve_sens_spec_RFGroup.csv")
 
 corr_pvalue_ROC_table <- getROCPvalue(rocNameList, modelList, 4, multi = T)
 write.csv(corr_pvalue_ROC_table, "results/tables/ROCCurve_corrected_pvalues_RFGroup.csv")
+
+# Save generated data so it does not need to be saved as multiple tables or csv files
+save.image("exploratory/RFwFitGroup.RData")
 
 # Create the graph
 ggplot(sens_specif_table, aes(sensitivities, specificities)) + 

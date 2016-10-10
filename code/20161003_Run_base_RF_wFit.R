@@ -89,9 +89,6 @@ for(i in 1:length(train)){
   rm(test_set, i)
 }
 
-# Save generated data so it does not need to be saved as multiple tables or csv files
-save.image("exploratory/RFwFit.RData")
-
 ### Graph the ROC curves for each of the different models and test for difference
 
 # Created needed vectors and lists
@@ -110,6 +107,9 @@ write.csv(sens_specif_table, "results/tables/ROCCurve_sens_spec.csv")
 corr_pvalue_ROC_table <- getROCPvalue(rocNameList, modelList, 4, multi = T)
 write.csv(corr_pvalue_ROC_table, "results/tables/ROCCurve_corrected_pvalues.csv")
 
+# Save generated data so it does not need to be saved as multiple tables or csv files
+save.image("exploratory/RFwFit.RData")
+
 # Create the graph
 ggplot(sens_specif_table, aes(sensitivities, specificities)) + 
   geom_line(aes(group = model, color = model), size = 1.5) + scale_x_continuous(trans = "reverse") + 
@@ -118,4 +118,6 @@ ggplot(sens_specif_table, aes(sensitivities, specificities)) +
 
 ggsave(file = "results/figures/ROCCurve_withFit.tiff", width=8, height = 8, dpi = 300)
 
+# Write out .csv for lesion variables of optimum RFmodel
+write.csv(rownames(orig_rf_opt$lesion$importance), "results/tables/lesion_RFOpt_Imp_Vars.csv", row.names = F)
 

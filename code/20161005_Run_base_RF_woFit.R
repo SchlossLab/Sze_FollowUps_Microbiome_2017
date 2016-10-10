@@ -119,8 +119,7 @@ ggplot(sens_specif_table, aes(sensitivities, specificities)) +
 
 ggsave(file = "results/figures/ROCCurve_withoutFit.tiff", width=8, height = 8, dpi = 300)
 
-
-
+write.csv(rownames(orig_rf_opt$lesion$importance), "results/tables/lesion_RFOpt_NOFIT_Imp_Vars.csv", row.names = F)
 
 
 
