@@ -2,12 +2,18 @@
 ### Measure proportions originally present versus no longer there
 ## Marc Sze
 
+###Load needed Libraries and functions
+source('code/functions.R')
+source('code/graphFunctions.R')
+
+loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
+           "gridExtra", "scales", "wesanderson"))
 
 # Read in data and remove unneeded tables and lists
 load("exploratory/RFwFit.RData")
 rm(corr_pvalue_ROC_table, data, metaF, metaI, selected_train, sens_specif_table, impfactor_Data_List, modelList, 
    orig_probs, orig_rf_opt, orig_RF_run, orig_roc, rocNameList, selected_probs, selected_rf_opt, selected_RF_run, 
-   selected_roc, train, variableList)
+   selected_roc, train, variableList, confirmed_vars)
 
 # Convert taxa table to a data frame with columns for each taxonomic division
 tax <- read.delim('data/process/followUps.final.an.unique_list.0.03.cons.taxonomy', 
@@ -20,8 +26,6 @@ tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", ""
 rm(tax)
 # This uses the R regex to remove numerals and the brackets the \\ is used to escape specific function components
 
-wFit_confirmed_vars <- confirmed_vars
-rm(confirmed_vars)
 
 # Read in data and remove unneeded tables and lists
 load("exploratory/RFwoFit.RData")
@@ -38,18 +42,12 @@ colnames(followups)[1] <- c("lesion")
 
 rm(corr_pvalue_ROC_table, metaF, metaI, selected_train, sens_specif_table, impfactor_Data_List, modelList, 
    orig_probs, orig_rf_opt, orig_RF_run, orig_roc, rocNameList, selected_probs, selected_rf_opt, selected_RF_run, 
-   selected_roc, train, variableList)
+   selected_roc, train, variableList, confirmed_vars)
 
 
-woFit_confirmed_vars <- confirmed_vars
-rm(confirmed_vars)
+RFopt_vars_wFit <- read.csv("results/tables/lesion_RFOpt_Imp_Vars.csv", stringsAsFactors = F, header = T) %>% rename(otus = x)
+RFopt_vars_woFit <- read.csv("results/tables/lesion_RFOpt_NOFIT_Imp_Vars.csv", stringsAsFactors = F, header = T) %>% rename(otus = x)
 
-###Load needed Libraries and functions
-source('code/functions.R')
-source('code/graphFunctions.R')
-
-loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson"))
 
 # Read in data tables to be used with prediction 
 withfit_model_data <- read.csv("results/tables/withFIT.models.datatable.csv", header = T, stringsAsFactors = F)
@@ -60,10 +58,10 @@ wofit_cutoffs <- read.csv("results/tables/noFIT.cutoffs.csv", header = T, string
 
 # create needed labels for Boruta picked important variables for each model
 
-lesion_selected_taxa_WF <- tax_df[filter(wFit_confirmed_vars[["lesion"]], otus != "fit_result")[, 'otus'], ]
+lesion_selected_taxa_WF <- tax_df[filter(RFopt_vars_wFit, otus != "fit_result")[, 'otus'], ]
 lesion_selected_labs_WF <- createTaxaLabeller(lesion_selected_taxa_WF)
 
-lesion_selected_taxa_WoF <- tax_df[filter(woFit_confirmed_vars[["lesion"]])[, 'otus'], ]
+lesion_selected_taxa_WoF <- tax_df[filter(RFopt_vars_woFit)[, 'otus'], ]
 lesion_selected_labs_WoF <- createTaxaLabeller(lesion_selected_taxa_WoF)
 
 
@@ -218,6 +216,26 @@ chemo_OTU_crcSp_pvalues_summary <- as.data.frame(cbind(
   chemo_OTU_crcSp_pvalues, p.adjust(chemo_OTU_crcSp_pvalues, method = "bonferroni"), as.character(tax_df[crcOTUs, "Genus"])))
 
 colnames(chemo_OTU_crcSp_pvalues_summary) <- c("chemo_pvalues", "chemo_adjust_pvalues", "Tax_ID") 
+
+# Write out important summary pvalue tables
+
+write.csv(OTU_WF_pvalues_summary, "results/tables/lesion_OTU_WF_Pvalue_summary.csv", row.names = F)
+write.csv(OTU_WoF_pvalues_summary, "results/tables/lesion_OTU_WoF_Pvalue_summary.csv", row.names = F)
+
+write.csv(chemo_OTU_WF_pvalues_summary, "results/tables/chemo_lesion_OTU_WF_Pvalue_summary.csv", row.names = F)
+write.csv(chemo_OTU_WoF_pvalues_summary, "results/tables/chemo_lesion_OTU_WoF_Pvalue_summary.csv", row.names = F)
+
+write.csv(OTU_crcSp_pvalues_summary, "results/tables/lesion_OTU_crcSp_Pvalue_summary.csv", row.names = F)
+write.csv(chemo_OTU_crcSp_pvalues_summary, "results/tables/chemo_lesion_OTU_crcSp_Pvalue_summary.csv", row.names = F)
+
+
+
+
+
+
+
+
+
 
 
 

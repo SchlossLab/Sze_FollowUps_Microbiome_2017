@@ -120,7 +120,7 @@ Names_facet <- c('SRNlesion' = "Classify SRN + Cancer", 'lesion' = "Classify Les
 
 # Graph the Adenoma data only
 
-grid.arrange(
+adn_graph <- grid.arrange(
   # Graph the adenoma ALL data only
   filter(df_InitFollow_ALL, diagnosis == "adenoma" & dataset == "All" & model != "threeGroups" & model != "cancer") %>%
     ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive, group = factor(EDRN))) + 
@@ -149,12 +149,12 @@ grid.arrange(
   
 )
 
-ggsave(file = "results/figures/adn_predictions_withFit.tiff", width=8, height = 8, dpi = 300)
+ggsave(file = "results/figures/adn_predictions_withFit.tiff", adn_graph, width=8, height = 8, dpi = 300)
 
 
 # Graph the Cancer data only
 
-grid.arrange(
+crc_graph <- grid.arrange(
   
   # Graph the cancer ALL data only
   filter(df_InitFollow_ALL, diagnosis != "adenoma" & dataset == "All" & model != "threeGroups" & model != "cancer") %>%
@@ -184,7 +184,7 @@ grid.arrange(
 )
 
 
-ggsave(file = "results/figures/crc_predictions_withFit.tiff", width=8, height = 8, dpi = 300)
+ggsave(file = "results/figures/crc_predictions_withFit.tiff", crc_graph, width=9, height = 17, dpi = 300)
 
 
 
