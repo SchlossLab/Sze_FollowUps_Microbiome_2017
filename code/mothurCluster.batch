@@ -12,11 +12,11 @@ REF=data/references
 
 #Run mothur clustering and make shared process
 
-#$mothurRv "#cluster.split(file=$WORKDIR/unmatched.file, processors=1);
-#	make.shared(list=current, count=$WORKDIR/unmatched.count_table, label=0.03);
-#	classify.otu(list=current, count=current, taxonomy=$WORKDIR/unmatched.taxonomy, label=0.03);
-#	get.oturep(fasta=$WORKDIR/unmatched.fasta, count=current, list=current, label=0.03, method=abundance);
-#	remove.groups(shared=current, groups=mock1-mock2-mock5-mock6-mock7)"
+$mothurRv "#cluster.split(file=$WORKDIR/unmatched.file, processors=1);
+	make.shared(list=current, count=$WORKDIR/unmatched.count_table, label=0.03);
+	classify.otu(list=current, count=current, taxonomy=$WORKDIR/unmatched.taxonomy, label=0.03);
+	get.oturep(fasta=$WORKDIR/unmatched.fasta, count=current, list=current, label=0.03, method=abundance);
+	remove.groups(shared=current, groups=mock1-mock2-mock5-mock6-mock7)"
 
 # Match the two metadata tables with the shared file
 #R -e "source('code/alignData.R')"

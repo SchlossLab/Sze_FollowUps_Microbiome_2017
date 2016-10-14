@@ -215,11 +215,13 @@ set.seed(050416)
 pValueList[["bdiver_Test_adn_IF"]] <- adonis(as.dist(polyp_only_theta_init_follow_dist) ~ factor(breakDown_samples))
 
 set.seed(050416)
-thetayc.mds.List[["bdiver_Test_adn_IF"]] <- metaMDS(as.dist(polyp_only_theta_init_follow_dist)) %>% 
+thetayc.mds.List[["bdiver_Test_adn_IF"]] <- metaMDS(as.dist(polyp_only_theta_init_follow_dist), trace = 0) %>% 
   scores() %>% as.data.frame() %>%  mutate(samples = factor(breakDown_samples))
 
 ggplot(data = thetayc.mds.List[["bdiver_Test_adn_IF"]], aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + theme_bw() + coord_equal() + 
-  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon")
+  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon") + 
+  annotate("text", label = paste("PERMANOVA = ", round(pValueList[["bdiver_Test_adn_IF"]]$aov.tab$`Pr(>F)`[1], 
+                                                       digits = 3)), x = 0.25, y = -0.50)
 
 
 ## Compare adenoma init, follow versus normal

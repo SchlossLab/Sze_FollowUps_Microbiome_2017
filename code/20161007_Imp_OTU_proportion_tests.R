@@ -112,9 +112,10 @@ for(i in 1:length(rownames(lesion_selected_taxa_WF))){
 }
 
 OTU_WF_pvalues_summary <- as.data.frame(cbind(
-  OTU_WF_pvalues, p.adjust(OTU_WF_pvalues, method = "bonferroni"), lesion_selected_labs_WF))
+  OTU_WF_pvalues, p.adjust(OTU_WF_pvalues, method = "bonferroni"), 
+  lesion_selected_labs_WF, rownames(lesion_selected_taxa_WF)))
 
-colnames(OTU_WF_pvalues_summary) <- c("OTU_WF_pvalues", "OTU_WF_adjust_pvalues", "Tax_ID") 
+colnames(OTU_WF_pvalues_summary) <- c("OTU_WF_pvalues", "OTU_WF_adjust_pvalues", "Tax_ID", "otus") 
 
 
 OTU_WoF_pvalues <- c()
@@ -126,9 +127,10 @@ for(i in 1:length(rownames(lesion_selected_taxa_WoF))){
 }
 
 OTU_WoF_pvalues_summary <- as.data.frame(cbind(
-  OTU_WoF_pvalues, p.adjust(OTU_WoF_pvalues, method = "bonferroni"), lesion_selected_labs_WoF))
+  OTU_WoF_pvalues, p.adjust(OTU_WoF_pvalues, method = "bonferroni"), 
+  lesion_selected_labs_WoF, rownames(lesion_selected_taxa_WoF)))
 
-colnames(OTU_WoF_pvalues_summary) <- c("OTU_WoF_pvalues", "OTU_WoF_adjust_pvalues", "Tax_ID") 
+colnames(OTU_WoF_pvalues_summary) <- c("OTU_WoF_pvalues", "OTU_WoF_adjust_pvalues", "Tax_ID", "otus") 
 
 
 # figure out if having any of the OTUs in more represented in those with chemo/rads versus none
@@ -144,9 +146,10 @@ for(i in 1:length(rownames(lesion_selected_taxa_WF))){
 }
 
 chemo_OTU_WF_pvalues_summary <- as.data.frame(cbind(
-  chemo_OTU_WF_pvalues, p.adjust(chemo_OTU_WF_pvalues, method = "bonferroni"), lesion_selected_labs_WF))
+  chemo_OTU_WF_pvalues, p.adjust(chemo_OTU_WF_pvalues, method = "bonferroni"), 
+  lesion_selected_labs_WF, rownames(lesion_selected_taxa_WF)))
 
-colnames(chemo_OTU_WF_pvalues_summary) <- c("chemo_pvalues", "chemo_adjust_pvalues", "Tax_ID") 
+colnames(chemo_OTU_WF_pvalues_summary) <- c("chemo_pvalues", "chemo_adjust_pvalues", "Tax_ID", "otus") 
 
 
 chemo_OTU_WoF_pvalues <- c()
@@ -160,9 +163,10 @@ for(i in 1:length(rownames(lesion_selected_taxa_WoF))){
 }
 
 chemo_OTU_WoF_pvalues_summary <- as.data.frame(cbind(
-  chemo_OTU_WoF_pvalues, p.adjust(chemo_OTU_WoF_pvalues, method = "bonferroni"), lesion_selected_labs_WoF))
+  chemo_OTU_WoF_pvalues, p.adjust(chemo_OTU_WoF_pvalues, method = "bonferroni"), 
+  lesion_selected_labs_WoF, rownames(lesion_selected_taxa_WoF)))
 
-colnames(chemo_OTU_WoF_pvalues_summary) <- c("chemo_pvalues", "chemo_adjust_pvalues", "Tax_ID") 
+colnames(chemo_OTU_WoF_pvalues_summary) <- c("chemo_pvalues", "chemo_adjust_pvalues", "Tax_ID", "otus") 
 
 
 # Do same thing but for only the big 4 OTU126, OTU566, OTU397, OTU205
@@ -195,9 +199,9 @@ for(i in 1:length(crcOTUs)){
 }
 
 OTU_crcSp_pvalues_summary <- as.data.frame(cbind(
-  OTU_crcSp_pvalues, p.adjust(OTU_crcSp_pvalues, method = "bonferroni"), as.character(tax_df[crcOTUs, "Genus"])))
+  OTU_crcSp_pvalues, p.adjust(OTU_crcSp_pvalues, method = "bonferroni"), as.character(tax_df[crcOTUs, "Genus"]), crcOTUs))
 
-colnames(OTU_crcSp_pvalues_summary) <- c("pvalues", "adjust_pvalues", "Tax_ID") 
+colnames(OTU_crcSp_pvalues_summary) <- c("pvalues", "adjust_pvalues", "Tax_ID", "otus") 
 
 
 # figure out if having any of the OTUs in more represented in those with chemo/rads versus none
@@ -213,9 +217,10 @@ for(i in 1:length(crcOTUs)){
 }
 
 chemo_OTU_crcSp_pvalues_summary <- as.data.frame(cbind(
-  chemo_OTU_crcSp_pvalues, p.adjust(chemo_OTU_crcSp_pvalues, method = "bonferroni"), as.character(tax_df[crcOTUs, "Genus"])))
+  chemo_OTU_crcSp_pvalues, p.adjust(chemo_OTU_crcSp_pvalues, method = "bonferroni"), 
+  as.character(tax_df[crcOTUs, "Genus"]), crcOTUs))
 
-colnames(chemo_OTU_crcSp_pvalues_summary) <- c("chemo_pvalues", "chemo_adjust_pvalues", "Tax_ID") 
+colnames(chemo_OTU_crcSp_pvalues_summary) <- c("chemo_pvalues", "chemo_adjust_pvalues", "Tax_ID", "otus") 
 
 # Write out important summary pvalue tables
 

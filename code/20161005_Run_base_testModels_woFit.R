@@ -51,6 +51,16 @@ initial_predictions <- lapply(rf_opt_NameList, function(x) predict(x, initial, t
 followup_predictions <- lapply(rf_opt_NameList, function(x) predict(x, followups, type='prob'))
 
 
+#Create ROC data for lesion model
+
+AUCData <- read.csv("results/tables/testSetAUC.csv", header = T, stringsAsFactors = F)
+
+lesion_combined_ROC <- roc(c(initial$lesion, followups$lesion) ~ 
+                             c(initial_predictions$lesion_rf_opt[, 2], followup_predictions$lesion_rf_opt[, 2]))
+
+write.csv(rbind(AUCData, c("woFit", lesion_combined_ROC$auc)), "results/tables/testSetAUC.csv", row.names = F)
+
+
 # Join good_metaf table with metaF table
 combined_metaData <- inner_join(good_metaf, metaF, by = "EDRN")
 
@@ -175,7 +185,8 @@ crc_graph <- grid.arrange(
 ggsave(file = "results/figures/crc_predictions_noFit.tiff", crc_graph, width=8, height = 8, dpi = 300)
 
 
-
+rm(list=setdiff(ls(), "lesion_combined_ROC"))
+save.image("exploratory/woFit_Test_ROC.RData")
 
 
 
