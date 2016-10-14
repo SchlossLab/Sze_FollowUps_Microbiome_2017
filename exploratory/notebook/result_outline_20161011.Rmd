@@ -1,0 +1,415 @@
+---
+title: 'CRC Follow up: Progress Report 2 - Result Outline'
+author: "Marc Sze"
+date: "October 11, 2016"
+output: html_document
+---
+
+```{r Load_Needed_Libraries, echo=FALSE, message=FALSE, warning=FALSE}
+
+source('code/functions.R')
+source('code/graphFunctions.R')
+
+loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
+           "gridExtra", "scales", "wesanderson", "vegan", "knitr"))
+
+```
+
+### Notes Figure 1 and 2
+
+For the first part of the results I want to focus on how the overall community doesn't really change between initial and follow ups.  So I am undecided on having alpha diversity (but this is a simple addition - possibly to the supplement).  Main focus on this part is how thetayc change is similar in adenoma and cancer (could show Fit changes - but this might be better in the supplement to keep focus on microbiome component) and how the overall community doesn't change between initial and follow up for adenoma but does for cancer.
+
+
+```{r Figure_1, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Load needed data
+thetaCompTotal <- dissplit('data/process/followUps.final.an.unique_list.thetayc.0.03.lt.ave.dist',split=F, meta = F)
+metaI <- read.csv("results/tables/mod_metadata/metaI_final.csv", stringsAsFactors = F, header = T)
+metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv", stringsAsFactors = F, header = T)
+good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
+
+difference_table_treatment <- pickDistanceValues(
+  as.character(metaF$initial), as.character(metaF$followUp), thetaCompTotal, metaF, 
+  c("fit_result", "fit_followUp", "Dx_Bin", "dx")) %>% 
+  mutate(fit_difference = fit_result - fit_followUp)
+
+
+pValueList <- list(thetaDiff = wilcox.test(distance ~ dx, data = difference_table_treatment)$p.value, 
+                   fitDiff = wilcox.test(fit_difference ~ dx, data = difference_table_treatment)$p.value)
+
+#Difference between initial and follow up for thetayc and fit broken down by adenoma and cancer
+diff_adn_v_crc <- grid.arrange(
+  # Difference from bacterial community structure between adenoma and cancer
+  ggplot(difference_table_treatment, aes(factor(dx, levels = c("adenoma", "cancer")), distance, group = 1)) + 
+    geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + 
+    scale_color_manual(name = "Lesion Type", values = wes_palette("GrandBudapest"), 
+                       breaks = c("Adenoma", "adv Adenoma", "Cancer"), labels = c("Adenoma", "SRN", "Cancer")) + 
+    coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")) + 
+    annotate("text", label = paste("P-value = ", round(pValueList[["thetaDiff"]], digits = 2)), x = 1.5, y = 0.75), 
+  
+  # Difference from fit between adenoma and cancer
+  ggplot(difference_table_treatment, aes(factor(dx, levels = c("adenoma", "cancer")), fit_difference, group = 1)) + 
+    geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
+    stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
+    stat_summary(fun.y = mean, colour = "black", geom = "line") + 
+    scale_color_manual(name = "Lesion Type", values = wes_palette("GrandBudapest"), 
+                       breaks = c("Adenoma", "adv Adenoma", "Cancer"), labels = c("Adenoma", "SRN", "Cancer")) + 
+    ylab("Change in Fit from Initial to Follow Up") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          title = element_text(face="bold")) + 
+    annotate("text", label = paste("P-value = ", format(round(pValueList[["fitDiff"]], digits = 7))), x = 1.5, y = 0)
+)
+
+```
+
+**Figure 1:** Shows Thetayc difference between samples from the same individual in adenoma or cancer as well as change in Fit between the same indivdiual in adenoma or cancer.
+
+
+```{r Figure_2, echo=FALSE, message=FALSE, warning=FALSE, results=FALSE, fig.width=6, fig.height=6}
+
+# Load in needed Adenoma Data
+polyp_only_theta_init_follow_dist <- pickDistanceValues(
+  as.character(c(metaF$initial[metaF$dx == "adenoma"], metaF$followUp[metaF$dx == "adenoma"])), 
+  as.character(c(metaF$initial[metaF$dx == "adenoma"], metaF$followUp[metaF$dx == "adenoma"])), 
+  thetaCompTotal, withMeta = FALSE)
+
+breakDown_samples <- c(rep("initial", length(metaF$dx[metaF$dx == "adenoma"])), 
+                       rep("follow_up", length(metaF$dx[metaF$dx == "adenoma"])))
+
+set.seed(050416)
+pValueList[["bdiver_Test_adn_IF"]] <- adonis(as.dist(polyp_only_theta_init_follow_dist) ~ factor(breakDown_samples))
+
+set.seed(050416)
+thetayc.mds.List <- list(bdiver_Test_adn_IF = metaMDS(as.dist(polyp_only_theta_init_follow_dist), trace = 0) %>% 
+    scores() %>% as.data.frame() %>%  mutate(samples = factor(breakDown_samples)))
+
+# Load in needed CRC data
+crc_only_theta_init_follow_dist <- pickDistanceValues(
+  as.character(c(metaF$initial[metaF$dx != "adenoma"], metaF$followUp[metaF$dx != "adenoma"])), 
+  as.character(c(metaF$initial[metaF$dx != "adenoma"], metaF$followUp[metaF$dx != "adenoma"])), 
+  thetaCompTotal, withMeta = FALSE)
+
+breakDown_samples <- c(rep("initial", length(metaF$dx[metaF$dx != "adenoma"])), 
+                       rep("follow_up", length(metaF$dx[metaF$dx != "adenoma"])))
+
+set.seed(050416)
+pValueList[["bdiver_Test_crc_IF"]] <- adonis(as.dist(crc_only_theta_init_follow_dist) ~ factor(breakDown_samples))
+
+set.seed(050416)
+thetayc.mds.List[["bdiver_Test_crc_IF"]] <- metaMDS(as.dist(crc_only_theta_init_follow_dist), trace = 0) %>% 
+  scores() %>% as.data.frame() %>% 
+  mutate(samples = factor(breakDown_samples))
+
+# Plot the data
+grid.arrange(
+  
+  ggplot(data = thetayc.mds.List[["bdiver_Test_adn_IF"]], aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + theme_bw() + coord_equal() + ggtitle("Adenoma") + 
+  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon") + 
+  annotate("text", label = paste("PERMANOVA = ", round(pValueList[["bdiver_Test_adn_IF"]]$aov.tab$`Pr(>F)`[1], 
+                                                       digits = 3)), x = 0.20, y = -0.50, size = 2.5), 
+  ggplot(data = thetayc.mds.List[["bdiver_Test_crc_IF"]], aes(x=NMDS1, y=NMDS2)) + 
+  geom_point(aes(color=samples)) + theme_bw() + coord_equal() + ggtitle("Cancer") + 
+  stat_ellipse(aes(group = samples, color = samples, fill = samples), alpha = 0.25, geom = "polygon") + 
+    annotate("text", label = paste("PERMANOVA = ", round(pValueList[["bdiver_Test_crc_IF"]]$aov.tab$`Pr(>F)`[1], 
+                                                       digits = 3)), x = 0.25, y = -0.50, size = 2.5), ncol = 1, nrow = 2 
+)
+
+
+```
+
+**Figure 2:** Shows overall bacterial community composition before and after polyp or Cancer removal.  THere is a significant change in the community for cancer but not for adenoma
+
+
+
+### Notes for Figure 3 and Figure 4
+
+Moving on from here I want to then talk about the previous Lesion model (Adenoma + CRC) that used Fit and the microbiome.  I think Figure 3 can be the ROC curve of the training model with and without Fit. It could possibly have in the legend the AUC on the test set.  For Figure 4 I would want to show the breakdown by Adenoma and CRC with respect to initial and follow up samples.
+
+
+```{r Figure_3, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Load in necessary Data
+testSetAUC <- read.csv("results/tables/testSetAUC.csv", stringsAsFactors = F, header = T)
+rownames(testSetAUC) <- testSetAUC$V1
+colnames(testSetAUC) <- c("Model", "AUC")
+wFit_ROC_table <- read.csv("results/tables/ROCCurve_sens_spec.csv")
+woFit_ROC_table <- read.csv("results/tables/ROCCurve_noFit_sens_spec.csv")
+
+load("exploratory/wFit_Test_ROC.RData")
+wFit_lesion <- lesion_combined_ROC
+rm(lesion_combined_ROC)
+
+load("exploratory/woFit_Test_ROC.RData")
+woFit_lesion <- lesion_combined_ROC
+rm(lesion_combined_ROC)
+
+#Create data table to be graphed
+
+graphData <- rbind(
+  mutate(wFit_ROC_table, FIT = rep("wFit", length(rownames(wFit_ROC_table)))) %>% 
+    filter(model == "lesionALL"), 
+  mutate(woFit_ROC_table, FIT = rep("woFit", length(rownames(woFit_ROC_table)))) %>% 
+    filter(model == "lesionALL")
+)
+
+# Get Pvalue difference between two ROCs
+
+ggplot(graphData, aes(sensitivities, specificities)) + 
+  geom_line(aes(group = FIT, color = FIT), size = 1.5) + scale_x_continuous(trans = "reverse") + 
+  theme_bw() + xlab("Sensitivity") + ylab("Specificity") + geom_abline(intercept = 1, linetype = 2) + 
+  scale_color_discrete(name = "Lesion Model", breaks = c("wFit", "woFit"), 
+                       labels = c(paste("with Fit\n", "(Test Set AUC = ", 
+                                        round(testSetAUC['withFit', 'AUC'], digits = 3), ")", sep=""), 
+                                  paste("without Fit\n", "(Test Set AUC = ", 
+                                        round(testSetAUC['woFit', 'AUC'], digits = 3), ")", sep=""))) + 
+  theme(axis.title = element_text(face = "bold"), 
+        legend.position = c(0.75, 0.4), legend.title = element_text(face="bold")) + 
+  annotate("text", label = paste("P-value = ", round(roc.test(wFit_lesion, woFit_lesion)$p.value, 
+                                                     digits = 3)), x = 0.9, y = 0.9, size = 4)
+
+
+```
+
+**Figure 3:** ROC curve of the lesion model with and without Fit.  Overall there is no significant difference between the two models.  This was built using a total of ```r length(rownames(metaI))``` individuals which was then tested on ```r length(rownames(metaF))``` which had initial and follow up data available.
+
+
+```{r Figure_4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=8, fig.height=12}
+
+# Read in needed data
+withFit_cutoffs <- read.csv("results/tables/withFIT.cutoffs.csv", header = T, stringsAsFactors = F)
+woFit_cutoffs <- read.csv("results/tables/noFIT.cutoffs.csv", header = T, stringsAsFactors = F)
+
+withFit_data <- read.csv("results/tables/withFIT.models.datatable.csv", header = T, stringsAsFactors = F)
+woFit_data <- read.csv("results/tables/noFIT.models.datatable.csv", header = T, stringsAsFactors = F)
+
+pvalue_data <- read.csv("results/tables/lesion_WF_IF_pvalue_summary.csv", header = T, stringsAsFactors = F)
+rownames(pvalue_data) <- pvalue_data$Disease
+
+
+# Graph the Adenoma data only
+
+grid.arrange(
+  # Graph the adenoma ALL data only
+  filter(withFit_data, diagnosis == "adenoma" & dataset == "All" & model == "lesion") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive, group = factor(EDRN))) + 
+    geom_point(aes(color=detailed_diagnosis)) + geom_line(aes(color = detailed_diagnosis)) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
+    coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(withFit_cutoffs, model == "lesion", dataset == "All"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Adenomas (With Fit)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          legend.position = "none", title = element_text(face="bold")), 
+  
+  # Graph adenoma select data only
+  filter(woFit_data, diagnosis == "adenoma" & dataset == "All" & model == "lesion") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive, group = factor(EDRN))) + 
+    geom_point(aes(color=detailed_diagnosis)) + geom_line(aes(color = detailed_diagnosis)) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("Adenoma", "adv Adenoma"), labels = c("Adenoma", "SRN")) + 
+    coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(woFit_cutoffs, model == "lesion", dataset == "All"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Adenomas (Without Fit)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          legend.position = c(-1, 0.15), title = element_text(face="bold")), 
+  
+  # Graph the cancer ALL data only
+  filter(withFit_data, diagnosis != "adenoma" & dataset == "All" & model == "lesion") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive, group = factor(EDRN))) + 
+    geom_point(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown")))) + 
+    geom_line(linetype = 2, alpha = 0.3) + 
+    scale_color_manual(name = "Cancer\nFree", values = wes_palette("GrandBudapest")) + 
+    coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(withFit_cutoffs, model == "lesion", dataset == "All"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Cancer (With Fit)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          legend.position = "none", title = element_text(face="bold")), 
+  
+  # Graph cancer select data only
+  filter(woFit_data,  diagnosis != "adenoma" & dataset == "All" & model == "lesion") %>%
+    ggplot(aes(factor(time_point, levels = c("initial", "followup")), positive, group = factor(EDRN))) + 
+    geom_point(aes(color=factor(diseaseFree, levels = c("n", "y", "unknown")))) + 
+    geom_line(linetype = 2, alpha = 0.3) + 
+    scale_color_manual(name = "Cancer Free", label = c("No", "Yes", "Unknown"), values = wes_palette("GrandBudapest")) + 
+    coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(data = filter(woFit_cutoffs, model == "lesion", dataset == "All"), 
+               aes(yintercept = cutoff), linetype = 2) + 
+    ggtitle("Cancer (Without Fit)") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
+          legend.position = c(-1, 0.15), title = element_text(face="bold"))
+)
+
+```
+
+**Figure 4:** Statistics utilized a Fisher exact Test with bonferroni correction to test if there was a signifcant drop in positive calls for adenomas, advanced adenomas (SRN), or cancer.  For the Fit model the adjusted pvalues were ```r round(pvalue_data['Adenoma', 'WF_padjust'], digits = 3)```, ```r round(pvalue_data['advAdenoma', 'WF_padjust'], digits = 3)```, and ```r format(pvalue_data['Cancer', 'WF_padjust'], scientific = TRUE, digits = 3)``` for adenoma, SRN, and cancer. Conversely, the adjusted pvalues for the model without Fit was ```r round(pvalue_data['Adenoma', 'WoF_padjust'], digits = 3)```, ```r round(pvalue_data['advAdenoma', 'WoF_padjust'], digits = 3)```, and ```r format(pvalue_data['Cancer', 'WoF_padjust'], scientific = TRUE, digits = 3)``` for adenoma, SRN, and cancer.
+
+
+### Notes for Figure 5 and Supplement tables
+
+Here I want to show that there are one, two, and two significant OTUs that have a significant decrease in proportion between intiial and follow up in lesion w/fit, lesion w/o fit, and the 4 common CRC bugs.  Figure 5 can focus on the two specific OTUs that were significant in either all three (Porphymonas) or only two of the three models (Parvimonas).  I can have the statistic test tables for lesion with fit, lesion without fit, and the four common literature OTUs in the supplemental as well I also want to show that it is not due to anything but the surgery itself (supplement table).  So there is no diference in proportion of those with and without Chemo with respect to these OTUs.
+
+
+
+```{r Figure_5, echo=FALSE, message=FALSE, warning=FALSE, fig.width=8, fig.height=12}
+
+# Read in needed data
+
+good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
+shared <- read.delim('data/process/followUps.final.an.unique_list.0.03.subsample.0.03.filter.shared', 
+                     header=T, sep='\t')
+
+tax <- read.delim('data/process/followUps.final.an.unique_list.0.03.cons.taxonomy', 
+                  sep='\t', header=T, row.names=1)
+
+wfit_pvalue_summary <- read.csv("results/tables/lesion_OTU_WF_Pvalue_summary.csv", header = T, stringsAsFactors = F)
+wofit_pvalue_summary <- read.csv("results/tables/lesion_OTU_WoF_Pvalue_summary.csv", header = T, stringsAsFactors = F)
+crcSp_pvalue_summary <- read.csv("results/tables/lesion_OTU_crcSp_Pvalue_summary.csv", header = T, stringsAsFactors = F)
+
+# Create needed initial and follow up data tables
+initial <- inner_join(good_metaf, shared, by = c("initial" = "Group")) %>% 
+  select(SRNlesion, lesion, fit_result, contains("Otu0"))
+
+followups <- inner_join(good_metaf, shared, by = c("followUp" = "Group")) %>% 
+  select(lesionf, fit_followUp, contains("Otu0")) %>% rename(SRNlesion = lesionf) %>% rename(fit_result = fit_followUp)
+
+followups <- cbind(good_metaf$lesionf, followups)
+colnames(followups)[1] <- c("lesion")
+
+
+# Convert taxa table to a data frame with columns for each taxonomic division
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+rm(tax)
+# This uses the R regex to remove numerals and the brackets the \\ is used to escape specific function components
+
+# create needed labels for Boruta picked important variables for each model
+
+lesion_selected_taxa <- tax_df[filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05)[, 'otus'], ]
+lesion_selected_labs <- createTaxaLabeller(lesion_selected_taxa)
+
+
+cancer_positive <- as.data.frame(cbind(rep(as.character(good_metaf$Disease_Free), 2), rep(good_metaf$EDRN, 2))) %>% 
+  rename(Disease_Free = V1, EDRN = V2)
+
+lesion_model_impf_graphs <- follow_Abundance_Fit_Graph(lesion_selected_taxa, lesion_selected_labs, 
+                                                       cancer_positive, initial, followups, select(good_metaf, -lesionf), 
+                                                       0.08, 67, "lesion", fit = FALSE)
+
+grid.arrange(
+  lesion_model_impf_graphs$adenoma_OTUs, lesion_model_impf_graphs$cancer_OTUs
+)
+
+```
+
+**Figure 5:** Porphyromonas (```r paste(filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05 & Tax_ID == "Porphyromonas")[, 'otus'])```) and Parvimonas (```r paste(filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05 & Tax_ID == "Parvimonas")[, 'otus'])```) Log 10 total subsampled sequences for initial and follow split by whether the individual had an adenoma or cancer.  There was a significant decrease in the proportion of individuals in the cancer group who had either Porphyromonas (```r round(as.numeric(filter(wfit_pvalue_summary, OTU_WF_adjust_pvalues < 0.05 & Tax_ID == "Porphyromonas")[, 'OTU_WF_adjust_pvalues']), digits = 3)```) in the with Fit model.  In the without Fit model both Porphyromonas (```r round(as.numeric(filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05 & Tax_ID == "Porphyromonas")[, 'OTU_WoF_adjust_pvalues']), digits = 3)```) and Parvimonas (```r round(as.numeric(filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05 & Tax_ID == "Parvimonas")[, 'OTU_WoF_adjust_pvalues']), digits = 3)```) had a significant decrease in proportion for the cancer group.
+
+
+**Supplemental Table 1:** List of Important OTU variables in the with Fit model
+
+```{r Supplemental_Table1, echo=FALSE, message=FALSE, warning=FALSE}
+
+supplemental_table1 <- wfit_pvalue_summary
+
+colnames(supplemental_table1) <- c("P-values", "Adjusted P-values", "Lowest Taxonomic ID", "OTU")
+
+
+
+kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
+```
+
+
+**Supplemental Table 2:** List of Important OTU variables in the without Fit model
+
+```{r Supplemental_Table2, echo=FALSE, message=FALSE, warning=FALSE}
+
+supplemental_table2 <- wofit_pvalue_summary
+
+colnames(supplemental_table2) <- c("P-values", "Adjusted P-values", "Lowest Taxonomic ID", "OTU")
+
+
+
+kable(supplemental_table2, format = "markdown", align = 'c', padding = 2)
+
+```
+
+
+**Supplemental Table 3:** List of Important OTU variables in the with Fit model and whether there is an increased proportion based on surgery alone versus surgery and chemo with or without radiation in those with cancer. 
+
+```{r Supplemental_Table3, echo=FALSE, message=FALSE, warning=FALSE}
+
+supplemental_table3 <- read.csv("results/tables/chemo_lesion_OTU_WF_Pvalue_summary.csv", stringsAsFactors = F, header = T)
+
+colnames(supplemental_table3) <- c("P-values", "Adjusted P-values", "Lowest Taxonomic ID", "OTU")
+
+kable(supplemental_table3, format = "markdown", align = 'c', padding = 2)
+
+```
+
+
+**Supplemental Table 4:** List of Important OTU variables in the without Fit model and whether there is an increased proportion based on surgery alone versus surgery and chemo with or without radiation in those with cancer. 
+
+
+```{r Supplemental_Table4, echo=FALSE, message=FALSE, warning=FALSE}
+
+supplemental_table4 <- read.csv("results/tables/chemo_lesion_OTU_WoF_Pvalue_summary.csv", stringsAsFactors = F, header = T)
+
+colnames(supplemental_table4) <- c("P-values", "Adjusted P-values", "Lowest Taxonomic ID", "OTU")
+
+kable(supplemental_table4, format = "markdown", align = 'c', padding = 2)
+
+
+```
+
+
+
+### Final notes and Summary Statistics
+
+
+```{r create_count_data, echo=FALSE, message=FALSE, warning=FALSE}
+
+selectData <- inner_join(shared, good_metaf, by = c("Group" = "initial")) %>% select(Diagnosis, one_of(filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05)[, 'otus'])) 
+
+testTable <- matrix(nrow = 2, ncol = 2, dimnames = list(rows = c("Cancer", "Adenoma"), cols = c("Yes", "No")))
+
+testTable["Cancer", "Yes"] <- length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 > 0 & Diagnosis != "adenoma"))) + length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 == 0 & Diagnosis != "adenoma"))) + length(rownames(filter(selectData, Otu000126 == 0 & Otu000397 > 0 & Diagnosis != "adenoma")))
+
+testTable["Cancer", "No"] <- length(rownames(filter(selectData, Diagnosis != "adenoma"))) - testTable["Cancer", "Yes"]
+
+testTable["Adenoma", "Yes"] <- length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 > 0 & Diagnosis == "adenoma"))) + length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 == 0 & Diagnosis == "adenoma"))) + length(rownames(filter(selectData, Otu000126 == 0 & Otu000397 > 0 & Diagnosis == "adenoma")))
+
+testTable["Adenoma", "No"] <- length(rownames(filter(selectData, Diagnosis == "adenoma"))) - testTable["Adenoma", "Yes"]
+
+crc2bugs_pvalue <- fisher.test(testTable)$p.value
+
+```
+
+A total of ```r round(((length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 > 0 & Diagnosis != "adenoma"))) + length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 == 0 & Diagnosis != "adenoma"))) + length(rownames(filter(selectData, Otu000126 == 0 & Otu000397 > 0 & Diagnosis != "adenoma")))) / length(rownames(filter(selectData, Diagnosis != "adenoma")))) * 100, digits = 2)```% of all cancer cases in the test set had either one of Porphyromonas or Parvimonas or both detected in their intial stool sample.  In contrast for all the adenoma cases this was```r round(((length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 > 0 & Diagnosis == "adenoma"))) + length(rownames(filter(selectData, Otu000126 > 0 & Otu000397 == 0 & Diagnosis == "adenoma"))) + length(rownames(filter(selectData, Otu000126 == 0 & Otu000397 > 0 & Diagnosis == "adenoma")))) / length(rownames(filter(selectData, Diagnosis == "adenoma")))) * 100, digits = 2)```%.  This increase in proportion is statistically significant at p-value = ```r format(crc2bugs_pvalue, scientific = TRUE, digits = 3)```.  
+
+
+
+Finally, there does not seem to be a difference based on length of time of sampling, with respect to initial versus follow up thetayc.
+
+```{r supplemental_Figure, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+source('20161011_Supplemental_work.R')
+rownames(pvalues_summary) <- pvalues_summary[, "test_values"]
+
+time_graph
+
+```
+**Figure S1:** Thetayc distance between initial and follow up versus time to follow up sample. There is a significant difference in time of second sampling between the adenoma and cancer group p-value = ```r format(as.numeric(pvalues_summary["time", "uncorrected_p_value"]), scientific = TRUE, digits = 3)```.   
+
+
+
+
+

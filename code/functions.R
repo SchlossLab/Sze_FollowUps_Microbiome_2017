@@ -335,41 +335,145 @@ testdata <- function(dataList, group){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-create.table <- function(initial_data, follow_data, otus, variable_list){
-  otuData <- unname(unlist(c(
-    initial_data[, otus], follow_data[, otus])))
+# A function to convert into a categorical based on a defined cutoff
+makeCat <- function(dataTable, cutoff, ignorecols = 2){
   
-  temp_file <- c()
-  for(i in 1:length(otus)){
-    temp_file <- c(temp_file, rep(otus[i], length(rownames(initial_c_shared))))
+  tempData <- as.data.frame(matrix(nrow = length(rownames(dataTable)), ncol = length(colnames(dataTable))))
+  
+  for(i in (ignorecols+1):length(colnames(dataTable))){
+    tempVector <- rep(NA, length(dataTable[, i]))
+    tempVector[dataTable[, i] <= cutoff] <- 0
+    tempVector[dataTable[, i] > cutoff] <- 1
+    tempData[, i] <- tempVector
+  }
+  
+  for(j in 1:ignorecols){
     
-    if(i == length(otus)){
-      OTUcat <- rep(temp_file, 
-                   length(otuData)/length(temp_file))
+    tempData[, j] <- dataTable[, j] 
+  }
+  
+  colnames(tempData) <- colnames(dataTable)
+  
+  return(tempData)
+}
+
+
+# Function to count the number of appearances that are greater than 0
+getCount <- function(vectorOfinterest){
+  
+  count = 0
+  for (i in 1:length(vectorOfinterest)){
+    if(vectorOfinterest[i] > 0){
+      
+      count = count + 1
+
+    } else {
+      
+      count = count
+    }
+    
+  }
+  return(count)
+}
+
+
+
+# Function to create a count table
+# Create so that initial and follow ups are created from one table and not overwriting themselves
+# Add place for disease group to be in a column
+
+createCountTable <- function(data, cutoff, L1_analysis, time_point_analyzed, diagnosis_used){
+  
+  testTable <- as.data.frame(matrix(nrow = length(diagnosis_used)*length(time_point_analyzed), ncol = 4))
+  colnames(testTable) <- c("timePoint", "Predicted", "GroupTotal", "DiseaseGroup")
+  
+  x <- 1
+  
+  for(i in 1:length(time_point_analyzed)){
+ 
+    for(j in 1:length(diagnosis_used)){
+      
+      testTable$Predicted[x] <- 
+        length(rownames(filter(withFit_data, L1 == paste(L1_analysis), time_point == paste(time_point_analyzed[i]), 
+                               detailed_diagnosis == paste(diagnosis_used[j]), positive > cutoff)))
+      
+      testTable$timePoint[x] <- time_point_analyzed[i]
+      
+      testTable$GroupTotal[x] <- 
+        length(rownames(filter(withFit_data, L1 == paste(L1_analysis), time_point == paste(time_point_analyzed[i]), 
+                               detailed_diagnosis == paste(diagnosis_used[j])))) 
+      
+      testTable$DiseaseGroup[x] <- diagnosis_used[j]
+      
+      x <- x + 1
+     
     }
   }
   
+  return(testTable)
 }
 
 
-test_operation <- function(x){
-  AUCRF(lesion~., data=x, pdel=0.05, ntree=500, ranking='MDA')
+# Made to take input created from function createCountTable and run fisher exact test for proportions
+# side controls the alternative argument in function fisher.test
+# for this want to test one sided only (if initial is greater than followup)
+runFisherTest <- function(data, Group_inv, side){
+  
+  temptable <- filter(data, DiseaseGroup == paste(Group_inv))
+  
+  testmatrix <- matrix(nrow = 2, ncol = 2, dimnames = list(c("initial", "followup"), c("Yes", "No")))
+  
+  time_vector <- rownames(testmatrix)
+  
+  for(i in 1:length(time_vector)){
+    
+    testmatrix[time_vector[i], "Yes"] <- filter(temptable, timePoint == paste(time_vector[i]))[['Predicted']]
+    testmatrix[time_vector[i], "No"] <- 
+      filter(temptable, timePoint == paste(time_vector[i]))[['GroupTotal']] - testmatrix[time_vector[i], "Yes"]
+  }
+  
+  return(fisher.test(testmatrix, alternative = paste(side)))
 }
 
 
+# create a 2 by 2 matrix to be used for a Fisher exact test
+# Need to make sure ahead of time that data1 and data2 are ordered correctly
+# function assumes that col 1, row 1 for data1 is the same persons as col1 row 1 in data2
+create_two_by_two <- function(data1, data2, OTU){
+  
+  finalTable <- as.data.frame(matrix(nrow = 2, ncol = 2))
+  colnames(finalTable) <- c("Yes", "No")
+  rownames(finalTable) <- c("initial", "follow")
+  
+  # populate matrix with values
+  finalTable["initial", "Yes"] <- length(rownames(data1[data1[, OTU] > 0, ]))
+  finalTable["follow", "Yes"] <- length(rownames(data2[data2[, OTU] > 0, ]))
+  finalTable["initial", "No"] <- length(rownames(data1[data1[, OTU] == 0, ]))
+  finalTable["follow", "No"] <- length(rownames(data2[data2[, OTU] == 0, ]))
+  
+  
+  return(finalTable)
+}
 
 
+# create a 2 by 2 matrix to be used for a Fisher exact test
+# Need to make sure ahead of time that data1 and data2 are ordered correctly
+# function assumes that col 1, row 1 for data1 is the same persons as col1 row 1 in data2
+advanced_two_by_two <- function(data1, data2, OTU, Treatment){
+  
+  finalTable <- as.data.frame(matrix(nrow = 2, ncol = 2))
+  colnames(finalTable) <- c("Yes", "No")
+  rownames(finalTable) <- c("Yes", "No")
+  
+  # populate matrix with values
+  finalTable["Yes", "Yes"] <- length(rownames(data1[data1[, OTU] > 0 & data1[, Treatment] == 'yes', ]))
+  finalTable["No", "Yes"] <- length(rownames(data1[data1[, OTU] > 0 & data1[, Treatment] == 'no', ]))
+  finalTable["Yes", "No"] <- length(rownames(data1[data1[, OTU] == 0 & data1[, Treatment] == 'yes', ]))
+  finalTable["No", "No"] <- length(rownames(data1[data1[, OTU] == 0 & data1[, Treatment] == 'no', ]))
+  
+  
+  return(finalTable)
+}
 
 
 
