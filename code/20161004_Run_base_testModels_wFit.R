@@ -53,9 +53,9 @@ rf_opt_NameList <- list(SRNlesion_rf_opt = orig_rf_opt[["SRNlesion"]],
                         SRNlesion_selected_rf_opt = selected_rf_opt[["SRNlesion"]], 
                         lesion_rf_opt= orig_rf_opt[["lesion"]], lesion_selected_rf_opt = selected_rf_opt[["lesion"]])
 
-initial_predictions <- lapply(rf_opt_NameList, function(x) predict(x, initial, type='prob'))
+initial_predictions <- lapply(rf_opt_NameList, function(x) predict(x, newdata = initial, type='prob'))
 
-followup_predictions <- lapply(rf_opt_NameList, function(x) predict(x, followups, type='prob'))
+followup_predictions <- lapply(rf_opt_NameList, function(x) predict(x, newdata = followups, type='prob'))
 
 
 #Create ROC data for lesion model
@@ -65,6 +65,10 @@ lesion_combined_ROC <- roc(c(initial$lesion, followups$lesion) ~
 
 write.csv(matrix(c("withFit", lesion_combined_ROC$auc), ncol = 2), "results/tables/testSetAUC.csv", row.names = F)
 
+variableList <- c("sensitivities", "specificities")
+sens_specif_table <- makeSensSpecTable(list(lesion = lesion_combined_ROC), variableList, modelList = "withFitTest")
+
+write.csv(sens_specif_table, "results/tables/wFit_test_ROCCurve_sens_spec.csv")
 
 # Join good_metaf table with metaF table
 combined_metaData <- inner_join(good_metaf, metaF, by = "EDRN")
