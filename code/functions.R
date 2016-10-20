@@ -476,5 +476,63 @@ advanced_two_by_two <- function(data1, data2, OTU, Treatment){
 }
 
 
+# obtain wilcoxson p-values from initial and follow up data tables and correct for multiple comparisons
+get_abund_pvalues <- function(initialData, followupData, multi = T, correction = "bonferroni", start = 2){
+  
+  pvalues <- c()
+  
+  for(i in start:length(colnames(initialData))){
+    
+    pvalues <- c(pvalues, 
+                 wilcox.test(initialData[, i], followupData[, i])$p.value)
+  }
+  
+  if(multi == T){
+    
+    padjust_vals <- p.adjust(pvalues, method = paste(correction))
+    
+    temptable <- as.data.frame(cbind(colnames(initialData)[start:length(colnames(initialData))], pvalues, padjust_vals))
+    colnames(temptable) <- c("otus", "pvalues", "adj_pvalues")
+    temptable$pvalues <- as.numeric(as.character(temptable$pvalues))
+    temptable$adj_pvalues <- as.numeric(as.character(temptable$adj_pvalues))
+    temptable$otus <- as.character(temptable$otus)
+    
+    
+  }else{
+    
+    temptable <- as.data.frame(cbind(colnames(initialData)[start:length(colnames(initialData))], pvalues))
+    colnames(temptable) <- c("otus", "pvalues")
+    as.data.frame(temptable)
+    temptable$pvalues <- as.numeric(as.character(temptable$pvalues))
+    temptable$otus <- as.character(temptable$otus)
+  }
+  
+ return(temptable)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

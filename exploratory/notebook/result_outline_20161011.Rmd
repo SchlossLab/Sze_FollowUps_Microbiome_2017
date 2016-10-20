@@ -49,19 +49,19 @@ diff_adn_v_crc <- grid.arrange(
     coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + xlab("") + theme_bw() + 
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
           title = element_text(face="bold")) + 
-    annotate("text", label = paste("P-value = ", round(pValueList[["thetaDiff"]], digits = 2)), x = 1.5, y = 0.75), 
+    annotate("text", label = paste("P-value = ", round(pValueList[["thetaDiff"]], digits = 2)), x = 1.5, y = 0.7), 
   
   # Difference from fit between adenoma and cancer
-  ggplot(difference_table_treatment, aes(factor(dx, levels = c("adenoma", "cancer")), fit_difference, group = 1)) + 
+  ggplot(difference_table_treatment, aes(factor(dx, levels = c("adenoma", "cancer")), fit_difference*-1, group = 1)) + 
     geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
     stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
     stat_summary(fun.y = mean, colour = "black", geom = "line") + 
     scale_color_manual(name = "Lesion Type", values = wes_palette("GrandBudapest"), 
                        breaks = c("Adenoma", "adv Adenoma", "Cancer"), labels = c("Adenoma", "SRN", "Cancer")) + 
-    ylab("Change in Fit from Initial to Follow Up") + xlab("") + theme_bw() + 
+    ylab("Change in Fit from Follow up to Initial") + xlab("") + theme_bw() + 
     theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"), 
           title = element_text(face="bold")) + 
-    annotate("text", label = paste("P-value = ", format(round(pValueList[["fitDiff"]], digits = 7))), x = 1.5, y = 0)
+    annotate("text", label = paste("P-value = ", format(round(pValueList[["fitDiff"]], digits = 7))), x = 1.5, y = 100)
 )
 
 ```
@@ -138,6 +138,8 @@ rownames(testSetAUC) <- testSetAUC$V1
 colnames(testSetAUC) <- c("Model", "AUC")
 wFit_ROC_table <- read.csv("results/tables/ROCCurve_sens_spec.csv")
 woFit_ROC_table <- read.csv("results/tables/ROCCurve_noFit_sens_spec.csv")
+wFit_test_ROC_table <- read.csv("results/tables/wFit_test_ROCCurve_sens_spec.csv")
+woFit_test_ROC_table <- read.csv("results/tables/woFit_test_ROCCurve_sens_spec.csv")
 
 load("exploratory/wFit_Test_ROC.RData")
 wFit_lesion <- lesion_combined_ROC
@@ -147,34 +149,48 @@ load("exploratory/woFit_Test_ROC.RData")
 woFit_lesion <- lesion_combined_ROC
 rm(lesion_combined_ROC)
 
+load("exploratory/wFit_Test_ROC.RData")
+test_wFit_lesion <- lesion_combined_ROC
+rm(lesion_combined_ROC)
+
+load("exploratory/woFit_Test_ROC.RData")
+test_woFit_lesion <- lesion_combined_ROC
+rm(lesion_combined_ROC)
+
 #Create data table to be graphed
 
 graphData <- rbind(
   mutate(wFit_ROC_table, FIT = rep("wFit", length(rownames(wFit_ROC_table)))) %>% 
     filter(model == "lesionALL"), 
   mutate(woFit_ROC_table, FIT = rep("woFit", length(rownames(woFit_ROC_table)))) %>% 
-    filter(model == "lesionALL")
+    filter(model == "lesionALL"), 
+  mutate(wFit_test_ROC_table, FIT = rep("wFitTest", length(rownames(wFit_test_ROC_table)))), 
+  mutate(woFit_test_ROC_table, FIT = rep("woFitTest", length(rownames(woFit_test_ROC_table))))
 )
 
-# Get Pvalue difference between two ROCs
+#Get the pvalues
+
+corr_pvalue_ROC_table <- getROCPvalue(rocNameList = list(
+  wfit = wFit_lesion, wofit = woFit_lesion, test_wfit = test_wFit_lesion, test_wofit = test_woFit_lesion), 
+  modelList = c("wfit", "wofit", "test_wfit", "test_wofit"), 4, multi = F)
+
+# Get Pvalue difference between two ROCs (Plot the test set data as well)
 
 ggplot(graphData, aes(sensitivities, specificities)) + 
   geom_line(aes(group = FIT, color = FIT), size = 1.5) + scale_x_continuous(trans = "reverse") + 
   theme_bw() + xlab("Sensitivity") + ylab("Specificity") + geom_abline(intercept = 1, linetype = 2) + 
-  scale_color_discrete(name = "Lesion Model", breaks = c("wFit", "woFit"), 
-                       labels = c(paste("with Fit\n", "(Test Set AUC = ", 
-                                        round(testSetAUC['withFit', 'AUC'], digits = 3), ")", sep=""), 
-                                  paste("without Fit\n", "(Test Set AUC = ", 
-                                        round(testSetAUC['woFit', 'AUC'], digits = 3), ")", sep=""))) + 
+  scale_color_discrete(name = "Lesion Model", breaks = c("wFit", "woFit", "wFitTest", "woFitTest"), 
+                       labels = c(paste("with Fit (Train Set)\n", sep = ""), 
+                                  paste("without Fit (Train Set)\n", sep=""), 
+                                  paste("with Fit (Test Set)\n", sep=""), 
+                                  paste("without Fit (Test Set)\n", sep=""))) + 
   theme(axis.title = element_text(face = "bold"), 
-        legend.position = c(0.75, 0.4), legend.title = element_text(face="bold")) + 
-  annotate("text", label = paste("P-value = ", round(roc.test(wFit_lesion, woFit_lesion)$p.value, 
-                                                     digits = 3)), x = 0.9, y = 0.9, size = 4)
+        legend.position = c(0.75, 0.4), legend.title = element_text(face="bold"))
 
 
 ```
 
-**Figure 3:** ROC curve of the lesion model with and without Fit.  Overall there is no significant difference between the two models.  This was built using a total of ```r length(rownames(metaI))``` individuals which was then tested on ```r length(rownames(metaF))``` which had initial and follow up data available.
+**Figure 3:** ROC curve of the lesion model with and without Fit for the training and test set.  Overall there was no significant difference between with and without Fit models for the training set (```r paste("P-value = ", round(roc.test(wFit_lesion, woFit_lesion)$p.value, digits = 3))```).  This was built using a total of ```r length(rownames(metaI))``` individuals which was then tested on ```r length(rownames(metaF))``` which had initial and follow up data available.
 
 
 ```{r Figure_4, echo=FALSE, message=FALSE, warning=FALSE, fig.width=8, fig.height=12}
@@ -293,11 +309,12 @@ rm(tax)
 
 # create needed labels for Boruta picked important variables for each model
 
-lesion_selected_taxa <- tax_df[filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05)[, 'otus'], ]
+lesion_selected_taxa <- tax_df[filter(wofit_pvalue_summary, OTU_WoF_adjust_pvalues < 0.05 | otus == "Otu000205")[, 'otus'], ]
+lesion_selected_taxa <- lesion_selected_taxa[c("Otu000126", "Otu000397", "Otu000205"), ]
 lesion_selected_labs <- createTaxaLabeller(lesion_selected_taxa)
 
 
-cancer_positive <- as.data.frame(cbind(rep(as.character(good_metaf$Disease_Free), 2), rep(good_metaf$EDRN, 2))) %>% 
+cancer_positive <- as.data.frame(cbind(rep(as.character(good_metaf$Disease_Free), 3), rep(good_metaf$EDRN, 3))) %>% 
   rename(Disease_Free = V1, EDRN = V2)
 
 lesion_model_impf_graphs <- follow_Abundance_Fit_Graph(lesion_selected_taxa, lesion_selected_labs, 

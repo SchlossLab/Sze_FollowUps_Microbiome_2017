@@ -60,6 +60,12 @@ lesion_combined_ROC <- roc(c(initial$lesion, followups$lesion) ~
 
 write.csv(rbind(AUCData, c("woFit", lesion_combined_ROC$auc)), "results/tables/testSetAUC.csv", row.names = F)
 
+variableList <- c("sensitivities", "specificities")
+sens_specif_table <- makeSensSpecTable(list(lesion = lesion_combined_ROC), variableList, modelList = "woFitTest")
+
+write.csv(sens_specif_table, "results/tables/woFit_test_ROCCurve_sens_spec.csv")
+
+
 
 # Join good_metaf table with metaF table
 combined_metaData <- inner_join(good_metaf, metaF, by = "EDRN")
