@@ -43,11 +43,11 @@ followups_lesion_wfit <- inner_join(good_metaf, shared, by = c("followUp" = "Gro
   select(lesionf, one_of(filter(wfit_RFOpt_vars, vars != "fit_result")[, "vars"])) %>% 
            rename(lesion = lesionf)
 
-adjusted_pvalues_abund <- get_abund_pvalues(initial_lesion_wfit, followups_lesion_wfit)
+adjusted_pvalues_abund <- get_abund_pvalues(initial_lesion_wfit, followups_lesion_wfit, correction = "BH")
 
 
 # create needed labels for Boruta picked important variables for each model
-lesion_wfit_taxa <- tax_df[filter(adjusted_pvalues_abund, adj_pvalues < 0.1)[, 'otus'], ]
+lesion_wfit_taxa <- tax_df[filter(adjusted_pvalues_abund, adj_pvalues < 0.05)[, 'otus'], ]
 lesion_wfit_labs <- createTaxaLabeller(lesion_wfit_taxa)
 
 
@@ -59,10 +59,10 @@ followups_lesion_wofit <- inner_join(good_metaf, shared, by = c("followUp" = "Gr
   select(lesionf, one_of(filter(wofit_RFOpt_vars, vars != "fit_result")[, "vars"])) %>% 
   rename(lesion = lesionf)
 
-wofit_adjusted_pvalues_abund <- get_abund_pvalues(initial_lesion_wofit, followups_lesion_wofit)
+wofit_adjusted_pvalues_abund <- get_abund_pvalues(initial_lesion_wofit, followups_lesion_wofit, correction = "BH")
 
 # create needed labels for Boruta picked important variables for each model
-lesion_wofit_taxa <- tax_df[filter(wofit_adjusted_pvalues_abund, adj_pvalues < 0.1)[, 'otus'], ]
+lesion_wofit_taxa <- tax_df[filter(wofit_adjusted_pvalues_abund, adj_pvalues < 0.05)[, 'otus'], ]
 lesion_wofit_labs <- createTaxaLabeller(lesion_wofit_taxa)
 
 
