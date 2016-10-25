@@ -7,7 +7,7 @@
 # These are at initial and follow up sampling.
 follow_Abundance_Fit_Graph <- function(taxaFile, labelFile, followUpFile, initialData, followData, metadata, 
                                        jitterAmount = 0.08, n, modelOFinterest, rowOFinterest = "Disease_Free", 
-                                       positiveTitle = "Cancer", fit = TRUE){
+                                       positiveTitle = "Cancer", fit = FALSE){
   
   loadLibs(c("dplyr", "ggplot2", "reshape2", "wesanderson"))
   
@@ -32,83 +32,56 @@ follow_Abundance_Fit_Graph <- function(taxaFile, labelFile, followUpFile, initia
   
   # Create graphs to be used
   
-  if(fit == TRUE){
-    
-    # Adenoma OTUs graph
-    adenomaOTUs <- filter(select_otu_data, Diagnosis == "adenoma") %>% 
-      ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
-                 log10(jitteredValues + 1.1), group = factor(EDRN))) + 
-      geom_line(aes(color = factor(Disease_Free))) + geom_point(aes(color = factor(Disease_Free))) +  
-      facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 4)) + 
-      theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Adenoma") + 
-      scale_colour_manual(values = "blue") +  
-      theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
-            strip.text.x = element_text(size = 5), axis.text.x = element_text(size = 6))
-    
-    # Cancer OTUs graph
-    cancerOTUs <- filter(select_otu_data, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D") %>% 
-      ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
-                 log10(jitteredValues+1.1), group = factor(EDRN))) + 
-      geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-      geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-      facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 4)) + 
-      theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle(paste(positiveTitle)) + 
-      scale_colour_manual(values = c("darkred", "pink", "red")) + 
-      theme(legend.position="none", plot.title = element_text(size=20, face="bold"), 
-            strip.text.x = element_text(size = 5), axis.text.x = element_text(size = 6))
-    
-    # Adenoma Fit graph
-    adenomaFIT <- filter(fit_results, Diagnosis == "adenoma") %>% 
-      ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
-                 log10(jitteredValues+1.1), group = factor(EDRN))) + 
-      geom_line(aes(color = factor(Disease_Free))) + geom_point(aes(color = factor(Disease_Free))) + 
-      theme_bw() + ylab("Log FIT Result") + xlab("") + coord_cartesian(ylim = c(0, 3.5)) + 
-      scale_colour_manual(values = "blue") + theme(legend.position="none")
-    
-    # Cancer Fit graph
-    cancerFIT <- filter(fit_results, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D") %>% 
-      ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
-                 log10(jitteredValues+1.1), group = factor(EDRN))) + 
-      geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-      geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-      theme_bw() + ylab("Log FIT Result") + xlab("") + coord_cartesian(ylim = c(0, 3.5)) + 
-      scale_colour_manual(values = c("darkred", "pink", "red")) + theme(legend.position="none")
+  # Adenoma OTUs graph
+  adenomaOTUs <- filter(select_otu_data, Diagnosis == "adenoma") %>% 
+    ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
+               log10(jitteredValues + 1.1), group = factor(EDRN))) + 
+    geom_line(aes(color = factor(Disease_Free))) + geom_point(aes(color = factor(Disease_Free))) +  
+    facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 4)) + 
+    theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Adenoma") + 
+    scale_colour_manual(values = "blue") +  
+    theme(legend.position="none", plot.margin = unit(c(1, 1, 1, 1), "lines"), 
+          plot.title = element_text(size=20, face="bold"))
+  
+  # Cancer OTUs graph
+  cancerOTUs <- filter(select_otu_data, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D") %>% 
+    ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
+               log10(jitteredValues+1.1), group = factor(EDRN))) + 
+    geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
+    geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
+    facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 4)) + 
+    theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle(paste(positiveTitle)) + 
+    scale_colour_manual(name = "Cancer Free", labels = c("No", "Yes", "Unknown"), values = c("darkred", "orange", "red")) + 
+    theme(legend.position=c(0.9,0.8), plot.margin = unit(c(1, 1, 1, 1), "lines"), 
+          plot.title = element_text(size=20, face="bold"), legend.title = element_text(face="bold"))
+  
+  # Adenoma Fit graph
+  adenomaFIT <- filter(fit_results, Diagnosis == "adenoma") %>% 
+    ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
+               log10(jitteredValues+1.1), group = factor(EDRN))) + 
+    geom_line(aes(color = factor(Disease_Free))) + geom_point(aes(color = factor(Disease_Free))) + 
+    theme_bw() + ylab("Log FIT Result") + xlab("") + coord_cartesian(ylim = c(0, 3.5)) + 
+    scale_colour_manual(values = "blue") + theme(legend.position="none")
+  
+  # Cancer Fit graph
+  cancerFIT <- filter(fit_results, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D") %>% 
+    ggplot(aes(factor(variable, levels = c("initial", "follow_up")), 
+               log10(jitteredValues+1.1), group = factor(EDRN))) + 
+    geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
+    geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
+    theme_bw() + ylab("Log FIT Result") + xlab("") + coord_cartesian(ylim = c(0, 3.5)) + 
+    scale_colour_manual(values = c("darkred", "pink", "red")) + theme(legend.position="none")
+  
+  
+  if(fit != FALSE){
     
     return(list(adenoma_OTUs = adenomaOTUs, cancer_OTUs = cancerOTUs, adenoma_fit = adenomaFIT, cancer_fit = cancerFIT))
     
   } else{
     
-    # Adenoma OTUs graph
-    adenomaOTUs <- filter(select_otu_data, Diagnosis == "adenoma") %>% 
-      ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
-                 log10(jitteredValues + 1.1), group = factor(EDRN))) + 
-      geom_line(aes(color = factor(Disease_Free))) + geom_point(aes(color = factor(Disease_Free))) +  
-      facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 4)) + 
-      theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle("Adenoma") + 
-      scale_colour_manual(values = "blue") +  
-      theme(legend.position="none", plot.margin = unit(c(1, 1, 1, 1), "lines"), 
-            plot.title = element_text(size=20, face="bold"))
-    
-    # Cancer OTUs graph
-    cancerOTUs <- filter(select_otu_data, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D") %>% 
-      ggplot(aes(factor(sampleType, levels = c("initial", "follow_up")), 
-                 log10(jitteredValues+1.1), group = factor(EDRN))) + 
-      geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-      geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-      facet_wrap(~variable, labeller = as_labeller(labelFile)) + coord_cartesian(ylim = c(0, 4)) + 
-      theme_bw() + ylab("Log Total Sequences") + xlab("") + ggtitle(paste(positiveTitle)) + 
-      scale_colour_manual(name = "Cancer Free", labels = c("No", "Yes", "Unknown"), values = c("darkred", "orange", "red")) + 
-      theme(legend.position=c(0.9,0.8), plot.margin = unit(c(1, 1, 1, 1), "lines"), 
-            plot.title = element_text(size=20, face="bold"), legend.title = element_text(face="bold"))
-   
-    
     return(list(adenoma_OTUs = adenomaOTUs, cancer_OTUs = cancerOTUs)) 
   }
-  
-  
- 
-  
-  
+
 }
 
 

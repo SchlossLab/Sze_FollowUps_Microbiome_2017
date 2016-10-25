@@ -1,5 +1,0 @@
-"L1","cutoff","model","dataset"
-"SRNlesion_train_roc",0.403367289190719,"SRNlesion","All"
-"SRNlesion_selected_train_roc",0.413752913752914,"SRNlesion","Select"
-"lesion_train_roc",0.527933832709114,"lesion","All"
-"lesion_selected_train_roc",0.608702077975821,"lesion","Select"

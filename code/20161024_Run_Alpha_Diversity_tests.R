@@ -7,8 +7,7 @@
 source('code/functions.R')
 source('code/graphFunctions.R')
 
-loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson", "vegan", "knitr"))
+loadLibs(c("dplyr", "tidyr"))
 
 
 # Load in needed data

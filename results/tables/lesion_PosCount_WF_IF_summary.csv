@@ -1,7 +1,0 @@
-"timePoint","Predicted","GroupTotal","DiseaseGroup"
-"initial",26,26,"Cancer"
-"initial",10,19,"adv Adenoma"
-"initial",12,22,"Adenoma"
-"followup",9,26,"Cancer"
-"followup",5,19,"adv Adenoma"
-"followup",4,22,"Adenoma"

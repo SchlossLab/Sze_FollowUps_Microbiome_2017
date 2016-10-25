@@ -477,14 +477,15 @@ advanced_two_by_two <- function(data1, data2, OTU, Treatment){
 
 
 # obtain wilcoxson p-values from initial and follow up data tables and correct for multiple comparisons
-get_abund_pvalues <- function(initialData, followupData, multi = T, correction = "bonferroni", start = 2){
+get_abund_pvalues <- function(initialData, followupData, multi = T, correction = "bonferroni", 
+                              pairedTest = TRUE, start = 2){
   
   pvalues <- c()
   
   for(i in start:length(colnames(initialData))){
     
     pvalues <- c(pvalues, 
-                 wilcox.test(initialData[, i], followupData[, i])$p.value)
+                 wilcox.test(initialData[, i], followupData[, i], paired = pairedTest)$p.value)
   }
   
   if(multi == T){
@@ -509,6 +510,31 @@ get_abund_pvalues <- function(initialData, followupData, multi = T, correction =
   
  return(temptable)
 }
+
+
+# Run alpha diversity tests
+# Order of paired samples has to already be set
+get_alpha_pvalues <- function(data_table, numComp = 3, rows_names = c("sobs", "shannon", "evenness"), 
+                              multi = "BH"){
+  
+  alpha_pvalue_table <- as.data.frame(matrix(ncol = 2, nrow = numComp, dimnames = list(rows = rows_names, 
+                                                                                 cols = c("pvalue", "BH_adj_pvalue"))))
+  
+  for(i in 1:length(rownames(alpha_pvalue_table))){
+    # The 1 is to ignore the sample names (group) column
+    alpha_pvalue_table[i, 'pvalue'] <- wilcox.test(x = filter(data_table, sampleType == "initial")[, 1+i], 
+                                                   y = filter(data_table, sampleType == "followups")[, 1+i], 
+                                                   paired = TRUE)$p.value
+  }
+  
+  alpha_pvalue_table$BH_adj_pvalue <- p.adjust(alpha_pvalue_table$pvalue, method = paste(multi))
+  
+  return(alpha_pvalue_table)
+}
+
+
+
+
 
 
 

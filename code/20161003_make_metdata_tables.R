@@ -5,17 +5,18 @@
 source('code/functions.R')
 source('code/graphFunctions.R')
 
-loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson"))
+loadLibs(c("dplyr", "tidyr"))
 
 
 ### Organize tables for train and test sets (first focus is to look at non-cancer versus cancer)
-metaF <- read.delim('data/process/followUps_metadata.txt', header=T, sep='\t') %>% mutate(lesion = factor(NA, levels=c(0,1)))
+metaF <- read.delim('data/raw/metadata/followUps_metadata.txt', 
+	header=T, sep='\t') %>% mutate(lesion = factor(NA, levels=c(0,1)))
 metaF$cancer[metaF$dx =='normal' | metaF$dx =='adenoma'] <- 0
 metaF$cancer[metaF$dx =='cancer'] <- 1
 metaF$cancer <- factor(metaF$cancer)
 
-metaI <- read.delim('data/process/initials_metadata.tsv', header=T, sep='\t') %>% mutate(lesion = factor(NA, levels=c(0,1)))
+metaI <- read.delim('data/raw/metadata/initials_metadata.tsv', 
+	header=T, sep='\t') %>% mutate(lesion = factor(NA, levels=c(0,1)))
 metaI$cancer[metaI$dx == 'normal' | metaI$dx == 'adenoma'] <- 0
 metaI$cancer[metaI$dx == 'cancer'] <- 1
 metaI$cancer <- factor(metaI$cancer)
@@ -63,12 +64,18 @@ metaF$fit_follow_positive[metaF$fit_followUp < 100] <- 0
 
 
 ### Need to amend and separate Adenoma and CRC
-good_metaf <- read.csv('data/process/followUp_outcome_data.csv', header = T, 
-                       stringsAsFactors = F) %>% inner_join(metaF, by="EDRN")
+good_metaf <- read.csv('data/raw/metadata/followUp_outcome_data.csv', 
+	header = T, stringsAsFactors = F) %>% inner_join(metaF, by="EDRN")
 
-metaFConly <- filter(good_metaf, Diagnosis == "adenocarcinoma" | Diagnosis == "N/D")
+metaFConly <- filter(good_metaf, Diagnosis == "adenocarcinoma" | 
+	Diagnosis == "N/D")
 
 metaFAonly <- filter(good_metaf, Diagnosis == "adenoma")
+
+
+### Add finalized column of finalized lesion call the good_metaf
+good_metaf$lesionf[good_metaf$Disease_Free == 'n'] <- 1
+good_metaf$lesionf[good_metaf$Disease_Free == 'y' | good_metaf$Disease_Free == 'unknown'] <- 0
 
 
 write.csv(metaI, "results/tables/mod_metadata/metaI_final.csv", row.names = F)
