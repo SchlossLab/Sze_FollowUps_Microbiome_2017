@@ -86,7 +86,8 @@ $(TABLES)/alpha_table_summary.csv :
 	R -e "source('code/20161024_Run_Alpha_Diversity_tests.R')"
 
 
-
+$(FIGS)/Figure1.pdf : 
+	R -e "source('code/20161024_Run_change_theta_Fit.R')"
 
 
 
