@@ -78,6 +78,12 @@ $(PROC)/final.% :
 #
 ################################################################################
 
+$(TABLES)/mod_metadata/good_metaf_final.csv :
+	R -e "source('code/20161003_make_metdata_tables.R')"
+
+
+$(TABLES)/alpha_table_summary.csv : 
+	R -e "source('code/20161024_Run_Alpha_Diversity_tests.R')"
 
 
 
