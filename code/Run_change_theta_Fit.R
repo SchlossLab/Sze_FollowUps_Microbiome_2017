@@ -76,10 +76,10 @@ diff_adn_v_crc <- grid.arrange(
                        breaks = c("Adenoma", "adv Adenoma", "Cancer"), 
                        labels = c("Adenoma", "SRN", "Cancer")) + 
     coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + 
-    xlab("") + theme_bw() + 
+    xlab("") + theme_bw() + ggtitle("A") + 
     theme(axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-          title = element_text(face="bold")) + 
+          title = element_text(face="bold", hjust = 0)) + 
     annotate("text", label = paste("P-value = ", 
       round(pValueList[["thetaDiff"]], digits = 2)), x = 1.5, y = 0.7), 
   
@@ -95,10 +95,10 @@ diff_adn_v_crc <- grid.arrange(
                        breaks = c("Adenoma", "adv Adenoma", "Cancer"), 
                        labels = c("Adenoma", "SRN", "Cancer")) + 
     ylab("Change in Fit from Follow up to Initial") + 
-    xlab("") + theme_bw() + 
+    xlab("") + theme_bw() + ggtitle("B") + 
     theme(axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-          title = element_text(face="bold")) + 
+          title = element_text(face="bold", hjust = 0)) + 
     annotate("text", label = paste("P-value = ", 
       format(round(pValueList[["fitDiff"]], digits = 7))), x = 1.5, y = 100)
 )
