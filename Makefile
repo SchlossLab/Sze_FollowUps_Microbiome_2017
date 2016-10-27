@@ -79,15 +79,21 @@ $(PROC)/final.% :
 ################################################################################
 
 $(TABLES)/mod_metadata/good_metaf_final.csv :
-	R -e "source('code/20161003_make_metdata_tables.R')"
+	R -e "source('code/make_metadata_tables.R')"
 
 
 $(TABLES)/alpha_table_summary.csv : 
-	R -e "source('code/20161024_Run_Alpha_Diversity_tests.R')"
+	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
 
 $(FIGS)/Figure1.pdf : 
-	R -e "source('code/20161024_Run_change_theta_Fit.R')"
+	R -e "source('code/Run_change_theta_Fit.R')"
+
+$(FIGS)/Figure2.pdf :
+	R -e "source('code/Run_Beta_Diversity_tests.R')"
+
+$(FIGS)/Figure3.pdf : 
+	R -e "source('code/Run_RF.R')"
 
 
 
