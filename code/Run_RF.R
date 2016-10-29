@@ -96,6 +96,21 @@ for(i in 1:length(followups)){
     newdata = followups[[i]], type='prob')
 }
 
+# Create table for prediction Graph (to be used later)
+rf_prediction_summary <- cbind(
+  postive_probability = c(initial_predictions[["wfit"]][, 2], 
+    initial_predictions[["wofit"]][, 2], 
+    followup_predictions[["wfit"]][, 2], 
+    followup_predictions[["wofit"]][, 2]), 
+  model = c(rep("wfit", length(rownames(good_metaf))), 
+    rep("wofit", length(rownames(good_metaf))), 
+    rep("wfit", length(rownames(good_metaf))), 
+    rep("wofit", length(rownames(good_metaf)))), 
+  sample_type = c(rep("initial",  length(rownames(good_metaf))*2), 
+                  rep("followup",  length(rownames(good_metaf))*2)), 
+  diagnosis = rep(good_metaf$Diagnosis, 2), 
+  initial_lesion = rep(initials[["wfit"]]$lesion, 2), 
+  return_lesion = rep(followups[["wfit"]]$lesion, 2))
 
 #Create Test set ROCs for AUCs 
 #The 2 represents the specificity
@@ -177,7 +192,8 @@ write.csv(corr_pvalue_ROC_table,
   "results/tables/roc_corr_pvalue_summary.csv")
 write.csv(rf_imp_vars_summary, 
   "results/tables/rf_imp_vars_summary.csv", row.names = F)
-
+write.csv(rf_prediction_summary, 
+  "results/tables/rf_prediction_summary.csv", row.names = F)
 
 
 
