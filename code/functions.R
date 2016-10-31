@@ -149,7 +149,7 @@ getROCPvalue <- function(rocNameList, modelList, totalModels, multi = F){
     # Create a for loop bounded by the total comparisons made
     for (k in 1:length(colnames(dataTable))){
       # Run the p adjust base function over each column
-      dataTable[, k] <- p.adjust(dataTable[, k], method = "bonferroni", n = totalComparisons)
+      dataTable[, k] <- p.adjust(dataTable[, k], method = "BH", n = totalComparisons)
     }
   }
   
@@ -534,16 +534,67 @@ get_alpha_pvalues <- function(data_table, numComp = 3, rows_names = c("sobs", "s
 
 
 
+# Create a 2 by 2 table and analyze by fisher exact test 
+# Returns a two-sided P-value of the measurement
 
+makeANDfish_2by2 <- function(data_table, rows_2by2, cols_2by2, 
+                             cutoff_table, model = TRUE, model_sample_type = NULL, 
+                             model_type = NULL, remove_sample = "adenoma"){
+  
+  data_2by2 <- as.data.frame(matrix(nrow = 2, ncol = 2, dimnames = list(
+    rows = rows_2by2, cols = cols_2by2)))
+  
+  if (model == TRUE & is.null(model_sample_type) == FALSE){
+    
+    for(i in 1:length(cols_2by2)){
+      
+      for(j in 1:length(rows_2by2)){
+        
+        data_2by2[j, i] <- 
+          length(rownames(filter(data_table, model == paste(rows_2by2[j]) & 
+                                   sample_type == paste(model_sample_type) & 
+                                   diagnosis != paste(remove_sample) & 
+                                   postive_probability > cutoff_table[, rows_2by2[j]])))
+        
+        if(i == 2){
+          
+          data_2by2[j, i] <- 
+            length(rownames(filter(data_table, model == paste(rows_2by2[j]) & 
+                                     sample_type == paste(model_sample_type) & 
+                                     diagnosis != paste(remove_sample) & 
+                                     postive_probability < cutoff_table[, rows_2by2[j]])))
+        }
+        
+      }
+      
 
-
-
-
-
-
-
-
-
+    }
+  } else if(model == FALSE & is.null(model_type) == FALSE){
+    
+    for(i in 1:length(cols_2by2)){
+    
+      for(j in 1:length(rows_2by2)){
+        
+        data_2by2[j, i] <- 
+          length(rownames(filter(data_table, model == paste(model_type) & 
+                                   sample_type == paste(rows_2by2[j]) & diagnosis != paste(remove_sample) & 
+                                   postive_probability > cutoff_table[, model_type])))
+        
+        if(i == 2){
+          
+          data_2by2[j, i] <- 
+            length(rownames(filter(data_table, model == paste(model_type) & 
+                                     sample_type == paste(rows_2by2[j]) & diagnosis != paste(remove_sample) & 
+                                     postive_probability < cutoff_table[, model_type])))
+        }
+        
+      }
+    }
+  }
+  
+ return(fisher.test(data_2by2)$p.value)
+  
+}
 
 
 

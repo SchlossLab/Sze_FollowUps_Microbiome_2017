@@ -95,6 +95,9 @@ $(FIGS)/Figure2.pdf :
 $(FIGS)/Figure3.pdf : 
 	R -e "source('code/Run_RF.R')"
 
+$(FIGS)/Figure4.pdf : 
+	R -e "source('code/Run_Figure4.R')"
+
 
 
 
