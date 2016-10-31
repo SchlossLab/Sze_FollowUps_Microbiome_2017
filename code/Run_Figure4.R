@@ -219,7 +219,7 @@ accuracy_plot <- grid.arrange(
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-      legend.position = c(0.5, 0.15), 
+      legend.position = c(0.5, 0.5), 
       plot.title = element_text(face="bold", hjust = 0))
 )
 
