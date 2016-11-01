@@ -24,6 +24,7 @@ aucrf_model_cutoff <- read.csv('results/tables/aucrf_model_cutoffs.csv',
 
 # Add an extra column for definitions to the rf summary table
 rf_prediction_summary$Dx_Bin <- rep(good_metaf$Dx_Bin, 4)
+rf_prediction_summary$EDRN <- rep(good_metaf$EDRN, 4)
 
 # Create variable vectors to cycle through during the for loop
 model_used <- c("wfit", "wofit")
