@@ -151,7 +151,7 @@ accuracy_plot <- grid.arrange(
     geom_line(aes(color = factor(
       rep(filter(good_metaf, Diagnosis == "adenoma")[, "Dx_Bin"], 2)))) + 
     scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
-                       breaks = c("Adenoma", "adv Adenoma"), 
+                       breaks = c("adenoma", "adv_adenoma"), 
                        labels = c("Adenoma", "SRN")) + 
     scale_x_discrete(
       breaks = c("initial", "followup"), 
@@ -207,7 +207,7 @@ accuracy_plot <- grid.arrange(
     scale_color_manual(
       name = "Polyp Type", 
       values = c("cyan", "blue"), 
-      breaks = c("Adenoma", "adv Adenoma"), 
+      breaks = c("adenoma", "adv_adenoma"), 
       labels = c("Adenoma", "SRN")) + 
     scale_x_discrete(
       breaks = c("initial", "followup"), 
@@ -219,7 +219,7 @@ accuracy_plot <- grid.arrange(
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-      legend.position = c(0.5, 0.5), 
+      legend.position = c(0.20, 0.15), 
       plot.title = element_text(face="bold", hjust = 0))
 )
 

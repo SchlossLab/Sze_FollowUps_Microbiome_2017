@@ -85,7 +85,6 @@ $(TABLES)/mod_metadata/good_metaf_final.csv :
 $(TABLES)/alpha_table_summary.csv : 
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
-
 $(FIGS)/Figure1.pdf : 
 	R -e "source('code/Run_change_theta_Fit.R')"
 
@@ -97,8 +96,10 @@ $(FIGS)/Figure3.pdf :
 
 $(FIGS)/Figure4.pdf : 
 	R -e "source('code/Run_Figure4.R')"
+	rm Rplots.pdf
 
-
+$(TABLES)/adn_vs_srn_pvalue_summary.csv : 
+	R -e "source('code/Run_SRN_Adenoma_Comparisons.R')"
 
 
 ################################################################################
