@@ -12,10 +12,11 @@ loadLibs(c("dplyr", "caret","scales", "wesanderson"))
 
 # Read in necessary data frames
 
-shared <- read.delim('data/process/final.0.03.subsample.shared', header=T, sep='\t') %>% 
-  select(Group, contains("Otu0"))
+shared <- read.delim('data/process/final.0.03.subsample.shared', 
+  header=T, sep='\t') %>% select(Group, contains("Otu0"))
 
-metaI <- read.csv("results/tables/mod_metadata/metaI_final.csv", stringsAsFactors = F, header = T) 
+metaI <- read.csv("results/tables/mod_metadata/metaI_final.csv", 
+  stringsAsFactors = F, header = T) 
 
 #################################################################################
 #                                                                               #
@@ -31,21 +32,31 @@ rm(shared)
 # Filter and use only specific data
 
 test_data <- test_data %>% 
-  select(sample, fit_result, Hx_Prev, Hx_Fam_CRC, White, BMI, Age, Gender, contains("Otu0")) %>% 
+  select(sample, fit_result, Hx_Prev, Hx_Fam_CRC, White, 
+    BMI, Age, Gender, contains("Otu0")) %>% 
   mutate(Gender = factor(Gender)) %>% 
-  mutate(Hx_Prev = factor(Hx_Prev), Hx_Fam_CRC = factor(Hx_Fam_CRC), White = factor(White))
+  mutate(Hx_Prev = factor(Hx_Prev), 
+    Hx_Fam_CRC = factor(Hx_Fam_CRC), White = factor(White))
 
 #Filter out rows that are not all complete
 
 test_data <- test_data[complete.cases(test_data), ]
 
+#Reduce MetaI to match the test_data
+metaI <- filter(
+  metaI, as.character(sample) %in% as.character(test_data$sample))
+
 # Need to create dummy variables for those that are factor classes
-temp_dummy <- dummyVars(~Gender + Hx_Prev + Hx_Fam_CRC + White, data = test_data)
-useable_dummy_vars <- as.data.frame(predict(temp_dummy, newdata = test_data))
+temp_dummy <- dummyVars(~Gender + Hx_Prev + Hx_Fam_CRC + White, 
+  data = test_data)
+useable_dummy_vars <- as.data.frame(predict(temp_dummy, 
+  newdata = test_data))
 
 # Combine data frame back together and covert samples to rownames
-test_data <- useable_dummy_vars %>% mutate(sample = (test_data$sample)) %>% 
-  inner_join(test_data, by = "sample") %>% select(-Gender, -Hx_Prev, -Hx_Fam_CRC, -White)
+test_data <- useable_dummy_vars %>% 
+mutate(sample = (test_data$sample)) %>% 
+  inner_join(test_data, by = "sample") %>% 
+  select(-Gender, -Hx_Prev, -Hx_Fam_CRC, -White)
 
 rownames(test_data) <- test_data$sample
 test_data <- select(test_data, -sample)
@@ -88,14 +99,75 @@ rm(test_matrix, temp_dummy, nzv, highly_correlated)
 
 test_for_combos <- findLinearCombos(test_data) # Found none so don't need to worry about this
 
-# Center and Scale the data for better modeling
+# Creates factor variables
+test_data <- test_data %>% 
+  mutate(
+    Gender.m = factor(Gender.m, 
+      levels = c(0, 1), labels = c("No", "Yes")), 
+    Hx_Prev.1 = factor(Hx_Prev.1, 
+      levels = c(0, 1), labels = c("No", "Yes")), 
+    Hx_Fam_CRC.1 = factor(Hx_Fam_CRC.1, 
+      levels = c(0, 1), labels = c("No", "Yes")), 
+    White.1 = factor(White.1, 
+      levels = c(0, 1), labels = c("No", "Yes"))) 
+
+# Add the lesion variable to the test_data
+test_data <- cbind(lesion = factor(metaI$lesion, 
+  levels = c(0, 1), labels = c("No", "Yes")), test_data)
+
+# Center, Scale, Yeo Johnson Transform, and pca for better modeling
+woPCA <- preProcess(test_data, 
+  method = c("center", "scale", "YeoJohnson"))  
+
+wPCA <- preProcess(test_data, 
+  method = c("center", "scale", "YeoJohnson", "pca"), thresh = 0.99)  
+
+woPCA_test_data <- predict(woPCA, test_data)
+
+wPCA_test_data <- predict(wPCA, test_data)
 
 
-  
+#################################################################################
+#                                                                               #
+#                                                                               #
+#               Data Splitting to create train set                              #
+#                                                                               #
+#################################################################################
+
+# Split data evenly 
+set.seed(3457)
+eighty_twenty_splits <- createDataPartition(woPCA$lesion, 
+  p = 0.8, list = FALSE, times = 100)
+
+
+#################################################################################
+#                                                                               #
+#                                                                               #
+#               Model Training and Parameter Tuning                             #
+#                                                                               #
+#################################################################################
+
+#Get test data
+train_test_data <- woPCA[eighty_twenty_splits[, 1], ]
+
+#Create Overall specifications for model tuning
+fitControl <- trainControl(## 10-fold CV
+  method = "repeatedcv",
+  number = 10,
+  ## repeated ten times
+  repeats = 10, 
+  p = 0.8, 
+  classProbs = TRUE, 
+  summaryFunction = twoClassSummary)
+
+#Train the model
+set.seed(3457)
+test_tune <- train(lesion ~ ., data = train_test_data, 
+                 method = "rf", 
+                 trControl = fitControl,
+                 metric = "Sens", 
+                 verbose = FALSE)
 
 
 
-
-
-
-
+save.image("exploratory/test_model_RF.RData")
