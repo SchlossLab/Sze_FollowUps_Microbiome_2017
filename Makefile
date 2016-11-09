@@ -101,6 +101,9 @@ $(FIGS)/Figure4.pdf :
 $(TABLES)/adn_vs_srn_pvalue_summary.csv : 
 	R -e "source('code/Run_SRN_Adenoma_Comparisons.R')"
 
+$(TABLES)/wofit_inc_otu_pvalue_summary.csv : 
+	R -e "source('code/Run_Sample_Compare.R')"
+
 
 ################################################################################
 #
