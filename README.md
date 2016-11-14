@@ -42,7 +42,7 @@ through the data.
 ### How to regenerate this repository
 #### Dependencies and locations  
 * Gnu Make (v3.81) should be located in the user's PATH  
-* mothur (v1.38.1) should be located in the user's PATH
+* mothur (v1.37.5) should be located in the user's PATH
 	* Note v1.37.0 causes all sorts of headaches  	
 * R (v. 3.3.0) should be located in the user's PATH  
 
