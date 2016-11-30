@@ -19,7 +19,8 @@
 source('code/functions.R')
 source('code/graphFunctions.R')
 
-loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "caret"))
+loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", 
+           "wesanderson", "caret", "pROC"))
 
 
 # Set up relevent environment variables
@@ -28,7 +29,6 @@ run_info_list <- list()
 run_predictions <- list()
 best_tune <- list()
 probs_predictions <- list()
-model_cutoff <- list()
 n <- 100
 
 best_model_data <- as.data.frame(matrix(nrow = 100, ncol = 6))
@@ -39,6 +39,7 @@ for(i in 1:n){
   
   if(i == 1){
     write.csv(eighty_twenty_splits, "results/tables/test_data_splits.csv", row.names = F)
+    write.csv(test_data, "results/tables/test_tune_data.csv", row.names = F)
   }
   
   probs_predictions[[paste("run_", i, sep = "")]] <- 
@@ -46,8 +47,7 @@ for(i in 1:n){
   
   rm(list = setdiff(ls(), c("test_tune_list", "test_predictions", "best_tune", "best_model_data", 
                             "imp_vars_list", "run_info_list", "run_predictions", "n", "i", 
-                            "probs_predictions")))
-  
+                            "probs_predictions", "all_runs_list")))
   
   best_tune[paste("run_", i, sep = "")] <- test_tune_list[[paste("data_split", i, sep = "")]]$bestTune
   
@@ -99,10 +99,7 @@ OTU_appearance_table <- filter(OTU_appearance_table, total_appearance > 50)
 # Write out the important variables to a table
 write.csv(OTU_appearance_table, "results/tables/rf_wCV_imp_vars_summary.csv", row.names = F)
 
-# Pull out best model and middle(ish) model from runs and use that in the prediction of lesion in 
-
-best_run <- as.numeric(strsplit((mutate(best_model_data, run = rownames(best_model_data)) %>% 
-  filter(ROC == max(best_model_data$ROC)) %>% select(run))[1,], "_")[[1]][2])
+# Pull out middle(ish) model from runs and use that in the prediction of lesion in 
 
 middle_run <- as.numeric(strsplit((best_model_data[order(desc(best_model_data$ROC)), ] %>% 
                                      mutate(run = rownames(.)) %>% 
@@ -146,16 +143,21 @@ rm(list = setdiff(ls(), c("test_tune_list", "test_predictions", "best_tune", "be
 # Load in test data set
 follow_up_data <- read.csv("results/tables/follow_up_prediction_table.csv")
 
-test3 <- cbind(select(follow_up_data, -contains("Otu0")), select(shared, -Group))
+test_data <- cbind(select(follow_up_data, -contains("Otu0")), select(shared, -Group))
 
 
 # Make predictions on samples with follow up
 initial_predictions <- predict(test_tune_list[[paste("data_split", middle_run, sep = "")]], 
-                               newdata = test3[1:(length(rownames(follow_up_data))/2), ], type='prob')
+                               newdata = test_data[1:(length(rownames(follow_up_data))/2), ], type='prob')
 
-followup_predictions <- predict(test_tune_list[[paste("data_split", middle_run, sep = "")]], newdata = 
-                                  test3[((length(rownames(follow_up_data))/2)+1):
+followup_predictions <- predict(test_tune_list[[paste("data_split", middle_run, sep = "")]], 
+                                newdata = test_data[((length(rownames(follow_up_data))/2)+1):
                                           length(rownames(follow_up_data)), ], type='prob')
+
+# Make predictions on all train samples
+actual_data <- read.csv("results/tables/test_tune_data.csv", header = T)
+all_test_predictions <- predict(test_tune_list[[paste("data_split", middle_run, sep = "")]], 
+                                newdata = actual_data, type = 'prob')
 
 # Create data table needed for figure 4
 
@@ -172,10 +174,62 @@ probability_data_table <- cbind(No = c(initial_predictions[, "No"], followup_pre
 
 write.csv(probability_data_table, "results/tables/follow_up_probability_summary.csv", row.names = F)
 
-## Modify Run_Figure4 to update with the new information
+
+# Get Ranges of 100 10-fold 20 times CV data (worse, middle, best)
+
+data_splits <- read.csv("results/tables/test_data_splits.csv", header = T, stringsAsFactors = F)
+
+best_run <- as.numeric(strsplit((mutate(best_model_data, run = rownames(best_model_data)) %>% 
+                                   filter(ROC == max(best_model_data$ROC)) %>% select(run))[1,], "_")[[1]][2])
+
+worse_run <- as.numeric(strsplit((mutate(best_model_data, run = rownames(best_model_data)) %>% 
+                                    filter(ROC == min(best_model_data$ROC)) %>% select(run))[1,], "_")[[1]][2])
+
+best_split <- data_splits[, best_run]
+worse_split <- data_splits[, worse_run]
+middle_split <- data_splits[, middle_run]
+
+roc_data_list <- list(best_roc = roc(actual_data[-best_split, ]$lesion ~ 
+                                       probs_predictions[[best_run]][, "Yes"]), 
+                      middle_roc = roc(actual_data[-middle_split, ]$lesion ~ 
+                                         probs_predictions[[middle_run]][, "Yes"]), 
+                      worse_roc = roc(actual_data[-worse_split, ]$lesion ~ 
+                                        probs_predictions[[worse_run]][, "Yes"]))
 
 
+# Build data table for figure 3A
+full_data_roc <- roc(actual_data$lesion ~ all_test_predictions[, "Yes"])
 
+full_data_roc_data <- cbind(sensitivities = full_data_roc$sensitivities, 
+                                specificities = full_data_roc$specificities)
+
+write.csv(full_data_roc_data, "results/tables/all_data_roc.csv", row.names = F)
+
+
+# Build data table for figure 3B
+test_roc_data <- cbind(sensitivities = c(roc_data_list[["best_roc"]]$sensitivities, 
+                                roc_data_list[["middle_roc"]]$sensitivities, 
+                                roc_data_list[["worse_roc"]]$sensitivities), 
+              specificities = c(roc_data_list[["best_roc"]]$specificities, 
+                                roc_data_list[["middle_roc"]]$specificities, 
+                                roc_data_list[["worse_roc"]]$specificities), 
+              run = c(rep("best_roc", length(roc_data_list[["best_roc"]]$sensitivities)), 
+                      rep("middle_roc", length(roc_data_list[["middle_roc"]]$sensitivities)), 
+                      rep("worse_roc", length(roc_data_list[["worse_roc"]]$sensitivities))))
+
+write.csv(test_roc_data, "results/tables/test_data_roc.csv", row.names = F)
+
+# Create AUC data table for figure 3
+
+auc_data_table <- as.data.frame(matrix(nrow = 4, ncol = 1, 
+                                       dimnames = list(
+                                         nrows = c("all", "best", "middle", "worse"), 
+                                         ncols = "AUC")))
+
+auc_data_table[, "AUC"] <- c(full_data_roc$auc, roc_data_list[["best_roc"]]$auc, 
+                             roc_data_list[["middle_roc"]]$auc, roc_data_list[["worse_roc"]]$auc)
+
+write.csv(auc_data_table, "results/tables/auc_summary.csv")
 
 ### Complete Comparison R file
 
