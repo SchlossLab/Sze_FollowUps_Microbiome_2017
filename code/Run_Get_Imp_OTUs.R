@@ -134,6 +134,10 @@ test_data$lesion.1 <- factor(test_data$lesion.1,
 
 test_data <- rename(test_data, lesion = lesion.1)
 
+#write out table for future use
+
+write.csv(test_data, "results/tables/follow_up_prediction_table.csv", 
+  row.names = F)
 
 #################################################################################
 #                                                                               #
@@ -201,11 +205,11 @@ tunegrid <- expand.grid(.mtry=c(1:441),
 # number controls fold of cross validation
 # Repeats control the number of times to run it
 
-fitControl <- trainControl(## 10-fold CV
+fitControl <- trainControl(## 5-fold CV
   method = "repeatedcv",
-  number = 5,
+  number = 10,
   ## repeated ten times
-  repeats = 10, 
+  repeats = 20, 
   p = 0.8, 
   classProbs = TRUE, 
   summaryFunction = twoClassSummary)
@@ -216,7 +220,7 @@ registerDoMC(cores = 8)
 test_tune_list <- list()
 test_predictions <- list()
 
-for(i in 1:length(rownames(eighty_twenty_splits))){
+for(i in 1:length(colnames(eighty_twenty_splits))){
   
   #Get test data
   train_test_data <- test_data[eighty_twenty_splits[, i], ]
@@ -225,8 +229,8 @@ for(i in 1:length(rownames(eighty_twenty_splits))){
   set.seed(3457)
   test_tune_list[[paste("data_split", i, sep = "")]] <- 
     train(lesion ~ ., data = train_test_data, 
-          method = customRF, 
-          tuneGrid = tunegrid, 
+          method = "rf", 
+          ntree = 2000, 
           trControl = fitControl, 
           metric = "ROC", 
           na.action = na.omit, 
