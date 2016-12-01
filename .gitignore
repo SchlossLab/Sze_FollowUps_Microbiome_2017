@@ -8,3 +8,5 @@ sample_refs/
 data/raw/
 data/references/
 *.pbs
+wfit/
+exploratory/wfit/
