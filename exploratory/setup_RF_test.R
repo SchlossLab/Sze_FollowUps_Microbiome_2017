@@ -32,7 +32,7 @@ rm(shared)
 # Filter and use only specific data
 
 test_data <- test_data %>% 
-  select(sample, fit_result, Hx_Prev, Hx_Fam_CRC, White, 
+  select(sample, Hx_Prev, Hx_Fam_CRC, White, 
     BMI, Age, Gender, contains("Otu0")) %>% 
   mutate(Gender = factor(Gender)) %>% 
   mutate(Hx_Prev = factor(Hx_Prev), 
