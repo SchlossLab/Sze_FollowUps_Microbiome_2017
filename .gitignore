@@ -10,3 +10,4 @@ data/references/
 *.pbs
 wfit/
 exploratory/wfit/
+nofit/
