@@ -38,6 +38,7 @@ run_96_RF.pbs run_97_RF.pbs run_98_RF.pbs run_99_RF.pbs run_9_RF.pbs"
 
 for s in ${submission_twelve}
 do
-	qsub -W depend=afterok:1191231 $s
-	sleep 10
+	#qsub $s
+	qsub -W depend=afterok:1194181 $s
+	sleep 1
 done
