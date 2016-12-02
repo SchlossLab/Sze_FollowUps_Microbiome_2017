@@ -1,0 +1,9 @@
+"","otu","Domain","Phyla","Order","Class","Family","Genus","Pvalue","BH_corr"
+"Otu000012","Otu000012","Bacteria","Firmicutes","Clostridia","Clostridiales","Lachnospiraceae","Blautia",0.00375230706734716,0.0300184565387772
+"Otu000005","Otu000005","Bacteria","Bacteroidetes","Bacteroidia","Bacteroidales","Bacteroidaceae","Bacteroides",0.233013467237621,0.266301105414424
+"Otu000008","Otu000008","Bacteria","Firmicutes","Clostridia","Clostridiales","Ruminococcaceae","Faecalibacterium",0.164705587876988,0.21960745050265
+"Otu000018","Otu000018","Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacteriales","Enterobacteriaceae","Escherichia/Shigella",0.0431082326143337,0.114955286971556
+"Otu000002","Otu000002","Bacteria","Firmicutes","Clostridia","Clostridiales","Lachnospiraceae","Anaerostipes",0.269417859574974,0.269417859574974
+"Otu000114","Otu000114","Bacteria","Firmicutes","Clostridia","Clostridiales","Lachnospiraceae","Clostridium_XlVa",0.0425791777923462,0.114955286971556
+"Otu000124","Otu000124","Bacteria","Firmicutes","Clostridia","Clostridiales","Clostridiales_unclassified","Bacteria",0.100624641614361,0.201249283228722
+"Otu000020","Otu000020","Bacteria","Firmicutes","Clostridia","Clostridiales","Ruminococcaceae","Bacteria",0.13904920881343,0.21960745050265
