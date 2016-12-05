@@ -132,28 +132,29 @@ early detection being used as a key component in mitigating deaths due
 to the disease. Previous research suggests that the bacterial microbiome
 can be used as a biomarker for colorectal cancer (CRC). These reports
 have mostly focused on investigating how the bacterial microbiome is
-used at a single point in time to predict disease. In this study we
+used at a single point in time to predict disease. In this study, we
 assessed whether a model built with bacterial microbiome data could
 accurately predict adenoma or carcinoma and adjust positive probability
-for either, after surgical treatment. This model was tested on a
-\texttt{66} person group that included samples before and after
-treatment to allow for the assessment of how the model adjusts risk
-after treatment. The model chosen had a 10-fold cross validated AUC of
-\texttt{0.819} and a test set AUC of \texttt{0.815}. There was a
-significant decrease in probabliity of lesion from the model after
-treatment for both the adenoma (P-value = \texttt{8.48e-07}) and
-carcinoma (P-value = \texttt{5.96e-08}) group. The top 5 most important
-operational taxonomic units (OTUs) for prediction of lesion classified
-to \texttt{Lachnospiraceae\ (Otu000013)},
+for lesion (adenoma or carcinoma) after surgical treatment. This model
+was tested on a \texttt{66} person group that included samples before
+and after treatment to allow for the assessment of how the model adjusts
+risk after treatment. The model chosen had a 10-fold cross validated AUC
+of \texttt{0.819} and a test set AUC of \texttt{0.815}. : For the follow
+up samples our Random Forest model significantly decreased the positive
+probability of lesion compared to the initial samples for both adenoma
+(P-value = \texttt{8.48e-07}) and carcinoma (P-value =
+\texttt{5.96e-08}). The top 5 most important operational taxonomic units
+(OTUs) for prediction of lesion classified to
+\texttt{Lachnospiraceae\ (Otu000013)},
 \texttt{Escherichia/Shigella\ (Otu000018)},
 \texttt{Ruminococcaceae\ (Otu000020)},
 \texttt{Ruminococcus\ (Otu000017)}, and
-\texttt{Porphyromonas\ (Otu000153)}. The prediction of lesion on initial
-samples had a sensitivity of \texttt{98.5}\% (\texttt{65/66}) while
-follow up it was \texttt{100}\% (\texttt{1\ /\ 1}). Overall, this model
-could accurately predict those with an adenoma or carcinoma and lower
-probability of having a lesion based on follow up samples after
-treatment.
+\texttt{Porphyromonas\ (Otu000153)}. In the test set, the prediction of
+lesion for the initial samples had a sensitivity of \texttt{98.5}\%
+(\texttt{65/66}) while follow up it was \texttt{100}\%
+(\texttt{1\ /\ 1}). Overall, this model could accurately predict those
+with an adenoma or carcinoma and lower probability of having a lesion
+based on follow up samples after treatment.
 
 \newpage
 
