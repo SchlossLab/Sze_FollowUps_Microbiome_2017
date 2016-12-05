@@ -3,7 +3,7 @@ REFS = data/references
 FIGS = results/figures
 TABLES = results/tables
 PROC = data/process
-FINAL = submission/
+FINAL = submission
 CODE = code
 
 
@@ -122,16 +122,11 @@ $(TABLES)/time_pvalues.csv :
 ################################################################################
 
 
-#$(FINAL)/study.% : 			\ #include data files that are needed for paper
-#						$(FINAL)/peerj.csl\
-#						$(FINAL)/references.bib\
-#						$(FINAL)/study.Rmd
-#	R -e 'render("$(FINAL)/study.Rmd", clean=FALSE)'
-#	mv $(FINAL)/study.knit.md $@
-#	rm $(FINAL)/study.utf8.md
+write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
+		$(TABLES)/mod_metadata/good_metaf_final.csv\
+		$(TABLES)/alpha_table_summary.csv\
+		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
+		$(FIGS)/Figure3.pdf $(FIGS)/Figure4.pdf\
+		$(FIGS)/Figure5.pdf $(TABLES)/time_pvalues.csv 
+	R -e "source('code/Run_render_paper.R')"
 
-#write.paper : $(TABLES)/table_1.pdf $(TABLES)/table_2.pdf\ #customize to include
-#				$(FIGS)/figure_1.pdf $(FIGS)/figure_2.pdf\	# appropriate tables and
-#				$(FIGS)/figure_3.pdf $(FIGS)/figure_4.pdf\	# figures
-#				$(FINAL)/study.Rmd $(FINAL)/study.md\
-#				$(FINAL)/study.tex $(FINAL)/study.pdf
