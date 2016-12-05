@@ -7,7 +7,7 @@
 source('code/functions.R')
 source('code/graphFunctions.R')
 
-loadLibs(c("dplyr", "caret","scales", "wesanderson"))
+loadLibs(c("dplyr", "caret","scales", "wesanderson", "doMC"))
 
 
 # Read in necessary data frames
@@ -136,7 +136,7 @@ wPCA_test_data <- predict(wPCA, test_data)
 
 # Split data evenly 
 set.seed(3457)
-eighty_twenty_splits <- createDataPartition(woPCA$lesion, 
+eighty_twenty_splits <- createDataPartition(woPCA_test_data$lesion, 
   p = 0.8, list = FALSE, times = 100)
 
 
@@ -148,26 +148,65 @@ eighty_twenty_splits <- createDataPartition(woPCA$lesion,
 #################################################################################
 
 #Get test data
-train_test_data <- woPCA[eighty_twenty_splits[, 1], ]
+train_test_data <- woPCA_test_data[eighty_twenty_splits[, 1], ]
+
+### Create a custom RF list to train and tune both mtry and ntree
+
+#Create the initial list with baseline parameters
+customRF <- list(type = "Classification", 
+  library = "randomForest", loop = NULL)
+# Create parameters for algorithm to be used
+customRF$parameters <- data.frame(
+  parameter = c("mtry", "ntree"), 
+  class = rep("numeric", 2), 
+  label = c("mtry", "ntree"))
+# Function to look for the tunegrid data frame
+customRF$grid <- function(
+  x, y, len = NULL, search = "grid") {}
+# Function used to execute the random forest algorithm
+customRF$fit <- function(
+  x, y, wts, param, lev, last, weights, classProbs, ...) {
+  randomForest(x, y, mtry = param$mtry, ntree=param$ntree, ...)
+}
+# Function used to generate the prediction on the seperated data
+customRF$predict <- function(
+  modelFit, newdata, preProc = NULL, submodels = NULL)
+  predict(modelFit, newdata)
+# Function used to generate the probabilities from the seperated data
+customRF$prob <- function(
+  modelFit, newdata, preProc = NULL, submodels = NULL)
+  predict(modelFit, newdata, type = "prob")
+# Used to order by mtry
+customRF$sort <- function(x) x[order(x[,1]),]
+# Used to pull out variables optimized
+customRF$levels <- function(x) x$classes
+
+
+# Create the tune grid to be used
+tunegrid <- expand.grid(
+  .mtry=c(1:441), .ntree=c(250, 500, 1000, 1500, 2000))
 
 #Create Overall specifications for model tuning
 fitControl <- trainControl(## 10-fold CV
   method = "repeatedcv",
   number = 10,
   ## repeated ten times
-  repeats = 10, 
+  repeats = 100, 
   p = 0.8, 
   classProbs = TRUE, 
   summaryFunction = twoClassSummary)
 
+# Call number of processors to use
+registerDoMC(cores = 8)
+
 #Train the model
 set.seed(3457)
 test_tune <- train(lesion ~ ., data = train_test_data, 
-                 method = "rf", 
+                 method = customRF, 
+                 tuneGrid = tunegrid, 
                  trControl = fitControl,
-                 metric = "Sens", 
+                 metric = "ROC", 
                  verbose = FALSE)
 
 
-
-save.image("exploratory/test_model_RF.RData")
+save.image("exploratory/test_model_RF3.RData")
