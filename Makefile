@@ -4,7 +4,7 @@ FIGS = results/figures
 TABLES = results/tables
 PROC = data/process
 FINAL = submission/
-CODE = code/
+CODE = code
 
 
 # utility function to print various variables. For example, running the
@@ -92,14 +92,22 @@ $(FIGS)/Figure2.pdf :
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
 $(FIGS)/Figure3.pdf : 
+	mkdir $(CODE)/wfit
 	R -e "source('code/setup_RF_test.R')"
 	bash $(CODE)/createDuplicates.sh
 	bash $(CODE)/create_pbs.sh
+	bash $(CODE)/qsubmission.sh
+	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
 	R -e "source('code/Run_Figure3.R')"
 
 $(FIGS)/Figure4.pdf : 
 	R -e "source('code/Run_Figure4.R')"
 	rm Rplots.pdf
+
+$(FIGS)/Figure5.pdf : 
+	R -e "source('code/Run_Get_Imp_OTUs.R')"
+	R -e "source('code/Run_ID_imp_OTUs.R')"
+	R -e "source('code/Run_Compare_models.R')"
 
 $(TABLES)/time_pvalues.csv : 
 	R -e "source('code/Run_Supplemental_time_table.R')"
