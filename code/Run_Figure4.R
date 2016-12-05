@@ -12,12 +12,14 @@ loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2",
            "gridExtra", "scales", "wesanderson", "caret"))
 
 
-follow_up_probability <- read.csv("results/tables/follow_up_probability_summary.csv", 
-                                  header = T, stringsAsFactors = F)
+follow_up_probability <- read.csv(
+  "results/tables/follow_up_probability_summary.csv", 
+  header = T, stringsAsFactors = F)
 
 # Read in data tables
 good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
-                       stringsAsFactors = F, header = T) %>% filter(!is.na(fit_followUp))
+                       stringsAsFactors = F, header = T) %>% 
+filter(!is.na(fit_followUp))
 
 
 # create table to hold wilcoxson paired tests pvalues
@@ -46,36 +48,45 @@ for(i in 1:length(lesion_type)){
 
 
 # Add Benjamini-Hochberg correction
-wilcox_pvalue_summary <- cbind(wilcox_pvalue_summary, 
-                               BH_correction = p.adjust(wilcox_pvalue_summary$Pvalue, method = "BH")) 
+wilcox_pvalue_summary <- cbind(
+  wilcox_pvalue_summary, 
+  BH_correction = p.adjust(wilcox_pvalue_summary$Pvalue, 
+    method = "BH")) 
+
 # Create a confusion matrix
-follow_up_probability <- mutate(follow_up_probability, 
-                                predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
-  mutate(initial_call = factor(c(rep("Yes", length(rownames(good_metaf))), 
-                          ifelse(good_metaf$Disease_Free == "n", "Yes", "No"))))
+follow_up_probability <- mutate(
+  follow_up_probability, 
+  predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
+  mutate(
+    initial_call = factor(c(rep("Yes", length(rownames(good_metaf))), 
+      ifelse(good_metaf$Disease_Free == "n", "Yes", "No"))))
 
-confusion_initial <- confusionMatrix(follow_up_probability$predict_call[1:length(rownames(good_metaf))], 
-                        follow_up_probability$initial_call[1:length(rownames(good_metaf))], 
-                        positive = "Yes")
+confusion_initial <- confusionMatrix(
+  follow_up_probability$predict_call[1:length(rownames(good_metaf))], 
+  follow_up_probability$initial_call[1:length(rownames(good_metaf))], 
+  positive = "Yes")
 
-confusion_follow <- confusionMatrix(follow_up_probability$predict_call[(length(rownames(good_metaf))+1):
-                                                              length(rownames(follow_up_probability))], 
-                         follow_up_probability$initial_call[(length(rownames(good_metaf))+1):
-                                                              length(rownames(follow_up_probability))], 
-                         positive = "Yes")
+confusion_follow <- confusionMatrix(
+  follow_up_probability$predict_call[(length(rownames(good_metaf))+1):
+  length(rownames(follow_up_probability))], 
+  follow_up_probability$initial_call[(length(rownames(good_metaf))+1):
+  length(rownames(follow_up_probability))], positive = "Yes")
 
-confusion_summary <- cbind(initial = c(confusion_initial$overall, confusion_initial$byClass), 
-                           followup = c(confusion_follow$overall, confusion_follow$byClass))
+confusion_summary <- cbind(
+  initial = c(confusion_initial$overall, confusion_initial$byClass), 
+  followup = c(confusion_follow$overall, confusion_follow$byClass))
     #McNemar's P-value gives information on whether the 
     #prediction is significantly different than the actual
 
 
 
 c_initial_table <- matrix(confusion_initial$table, nrow = 2, ncol = 2, 
-               dimnames = list(nrow = c("pred_no", "pred_yes"), ncol = c("ref_no", "ref_yes")))
+               dimnames = list(nrow = c("pred_no", "pred_yes"), 
+                ncol = c("ref_no", "ref_yes")))
 
 c_follow_table <- matrix(confusion_follow$table, nrow = 2, ncol = 2, 
-                          dimnames = list(nrow = c("pred_no", "pred_yes"), ncol = c("ref_no", "ref_yes")))
+                          dimnames = list(nrow = c("pred_no", "pred_yes"), 
+                            ncol = c("ref_no", "ref_yes")))
 
 
 # Create Figure 4 
@@ -84,9 +95,10 @@ c_follow_table <- matrix(confusion_follow$table, nrow = 2, ncol = 2,
 accuracy_plot <- grid.arrange(
   # Graph the carcinoma wFIT data only
   filter(follow_up_probability, diagnosis != "adenoma") %>% 
-    ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
-               Yes, group = factor(EDRN))) + 
-    geom_point(aes(color=factor(disease_free, levels = c("n", "y", "unknown"))), size = 2) + 
+    ggplot(aes(factor(sampleType, 
+      levels = c("initial", "followup")), Yes, group = factor(EDRN))) + 
+    geom_point(aes(color=factor(disease_free, 
+      levels = c("n", "y", "unknown"))), size = 2) + 
     geom_line(linetype = 2, alpha = 0.3) + 
     scale_color_manual(name = "Cancer Free", 
                        label = c("No", "Yes", "Unknown"),  
@@ -94,7 +106,8 @@ accuracy_plot <- grid.arrange(
     scale_x_discrete(breaks = c("initial", "followup"), 
                      labels = c("Initial", "Follow Up")) + 
     coord_cartesian(ylim = c(0, 1)) + 
-    geom_hline(aes(yintercept = 0.5), linetype = 2) + ggtitle("A") + ylab("Postive Probability") + 
+    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
+    ggtitle("A") + ylab("Postive Probability") + 
     xlab("") + theme_bw() + theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 

@@ -32,7 +32,7 @@ rm(shared)
 # Filter and use only specific data
 
 test_data <- test_data %>% 
-  select(sample, Hx_Prev, Hx_Fam_CRC, White, 
+  select(sample, fit_result, Hx_Prev, Hx_Fam_CRC, White, 
     BMI, Age, Gender, contains("Otu0")) %>% 
   mutate(Gender = factor(Gender)) %>% 
   mutate(Hx_Prev = factor(Hx_Prev), 
@@ -190,7 +190,7 @@ tunegrid <- expand.grid(
 fitControl <- trainControl(## 10-fold CV
   method = "repeatedcv",
   number = 10,
-  ## repeated ten times
+  ## repeated twenty times
   repeats = 20, 
   p = 0.8, 
   classProbs = TRUE, 
