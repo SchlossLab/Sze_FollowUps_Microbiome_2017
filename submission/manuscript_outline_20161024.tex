@@ -143,18 +143,15 @@ of \texttt{0.819} and a test set AUC of \texttt{0.815}. : For the follow
 up samples our Random Forest model significantly decreased the positive
 probability of lesion compared to the initial samples for both adenoma
 (P-value = \texttt{8.48e-07}) and carcinoma (P-value =
-\texttt{5.96e-08}). The top 5 most important operational taxonomic units
-(OTUs) for prediction of lesion classified to
-\texttt{Lachnospiraceae\ (Otu000013)},
-\texttt{Escherichia/Shigella\ (Otu000018)},
-\texttt{Ruminococcaceae\ (Otu000020)},
-\texttt{Ruminococcus\ (Otu000017)}, and
-\texttt{Porphyromonas\ (Otu000153)}. In the test set, the prediction of
-lesion for the initial samples had a sensitivity of \texttt{98.5}\%
-(\texttt{65/66}) while follow up it was \texttt{100}\%
-(\texttt{1\ /\ 1}). Overall, our model accurately predicted those with
-an adenoma or carcinoma and following treatment it also decreased the
-positive probability of having a lesion.
+\texttt{5.96e-08}). In the test set, the prediction of lesion for the
+initial samples had a sensitivity of \texttt{98.5}\% (\texttt{65/66})
+while follow up it was \texttt{100}\% (\texttt{1\ /\ 1}). Our model
+predicted that \texttt{39.4}\% of the 67-person cohort had normal colons
+and \texttt{60.6}\% had a lesion. Our model suggests that treatment does
+significantly reduce the probability of having a colonic lesion. Further
+surveillance of these individuals will enable us to determine whether
+models such as the one we present here can also be used to predict
+recurrence of colorectal cancer.
 
 \newpage
 
@@ -325,19 +322,19 @@ of the values observed in the control training set {[}Figure 5{]}.
 
 \subsection{Discussion}\label{discussion}
 
-In this study we show that the overall community structure shows very
-little change between controls and those with either adenoma or
-carcinoma {[}Table S1{]} in our larger training set. With respect to the
-follow up sample group there was very little difference in thetayc
+In this study we show that the overall community structure as measured
+by different alpha diversity metrics, shows very little change between
+controls and those with either adenoma or carcinoma {[}Table S1{]} in
+our larger training set. With respect to the follow up sample group
+there was very little difference in magnitude of change in the thetayc
 distance metric between those with adenoma or carcinoma{[}Figure 1a{]}.
 FIT had a large change in the initial and follow up samples in the
-carcinoma group versus the adenoma {[}Figure 1b{]}. When investigating
-the bacterial community, specifically between these individuals, there
-was very little change in overall community in the adenoma group but
-there was a change in the carcinoma group {[}Figure 2{]}. This
-information showed that the removal and treatment of carcinoma for these
-cursory metrics had the largest response. Yet these metrics alone would
-not be able to identify differences in adenomas.
+carcinoma group versus the adenoma {[}Figure 1b{]}. An NMDS showed that
+there was very little change between initial and follow up for the
+adenoma group but there was a change in the carcinoma group {[}Figure
+2{]}. This information showed that the removal and treatment of
+carcinoma for these cursory metrics had the largest response. Yet these
+metrics alone would not be able to identify differences in adenomas.
 
 We next created a model that incorporated both patient metadata, FIT,
 and the bacterial microbiome to be able to predict lesions (adenoma or

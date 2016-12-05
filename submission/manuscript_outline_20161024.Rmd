@@ -17,11 +17,10 @@ bibliography: null
 
 ```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 
-source('code/functions.R')
-source('code/graphFunctions.R')
+source('../code/functions.R')
+source('../code/graphFunctions.R')
 
-loadLibs(c("pROC","randomForest","AUCRF", "Boruta", "dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson", "vegan", "knitr"))
+loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 
 opts_chunk$set("tidy" = TRUE)
 opts_chunk$set("echo" = FALSE)
@@ -35,34 +34,34 @@ opts_chunk$set("message" = FALSE)
 
 ```{r rdata_tables}
 # Extra data and meta data needed
-good_metaf <- read.csv('results/tables/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
-metaI <- read.csv('results/tables/mod_metadata/metaI_final.csv', header = T, stringsAsFactors = F)
-total_sub_Seqs <- read.delim('data/process/final.0.03.subsample.shared', header = T) %>% 
+good_metaf <- read.csv('../results/tables/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
+metaI <- read.csv('../results/tables/mod_metadata/metaI_final.csv', header = T, stringsAsFactors = F)
+total_sub_Seqs <- read.delim('../data/process/final.0.03.subsample.shared', header = T) %>% 
   select(contains("Otu0")) %>% rowSums()
 
 # initial microbiome and FIT description data 
-change_summary <- read.csv('results/tables/change_theta_fit_summary.csv', header = T, row.names = 1)
-alpha_summary <- read.csv('results/tables/alpha_table_summary.csv', header = T, row.names = 1)
-beta_summary <- read.csv('results/tables/beta_diver_summary.csv', header = T, row.names = 1)
-time_pvalues <- read.csv("results/tables/time_pvalues.csv", header = T, row.names = 1)
+change_summary <- read.csv('../results/tables/change_theta_fit_summary.csv', header = T, row.names = 1)
+alpha_summary <- read.csv('../results/tables/alpha_table_summary.csv', header = T, row.names = 1)
+beta_summary <- read.csv('../results/tables/beta_diver_summary.csv', header = T, row.names = 1)
+time_pvalues <- read.csv("../results/tables/time_pvalues.csv", header = T, row.names = 1)
 
 # training of model data
-model_train_summary <- read.csv('results/tables/ROC_model_summary.csv', header = T)
-model_test_AUC_summary <- read.csv('results/tables/auc_summary.csv', header = T, row.names = 1)
-imp_model_vars <- read.csv('results/tables/rf_wCV_imp_vars_summary.csv', stringsAsFactors = F, header = T)
-rf_otu_tax <- read.csv('results/tables/rf_otu_tax.csv', stringsAsFactors = F, header = T, row.names = 1)
+model_train_summary <- read.csv('../results/tables/ROC_model_summary.csv', header = T)
+model_test_AUC_summary <- read.csv('../results/tables/auc_summary.csv', header = T, row.names = 1)
+imp_model_vars <- read.csv('../results/tables/rf_wCV_imp_vars_summary.csv', stringsAsFactors = F, header = T)
+rf_otu_tax <- read.csv('../results/tables/rf_otu_tax.csv', stringsAsFactors = F, header = T, row.names = 1)
 rf_lowest_ID <- createTaxaLabeller(rf_otu_tax)
 
 # model prediction and adjustment performance
-IF_model_wilcox_paired_summary <- read.csv('results/tables/IF_model_wicox_paired_pvalue_summary.csv', header = T, row.names = 1)
-confusion_summary <- read.csv('results/tables/confusion_summary.csv', header = T, row.names = 1)
-follow_up_prob_summary <- read.csv('results/tables/follow_up_probability_summary.csv', header = T)
-followup_cm <- read.csv('results/tables/followup_confusion_matrix.csv', header = T, row.names = 1)
-initial_cm <- read.csv('results/tables/initial_confusion_matrix.csv', header = T, row.names = 1)
-roc_pvalues <- read.csv('results/tables/roc_pvalue_summary.csv', header = T, row.names = 1)
+IF_model_wilcox_paired_summary <- read.csv('../results/tables/IF_model_wicox_paired_pvalue_summary.csv', header = T, row.names = 1)
+confusion_summary <- read.csv('../results/tables/confusion_summary.csv', header = T, row.names = 1)
+follow_up_prob_summary <- read.csv('../results/tables/follow_up_probability_summary.csv', header = T)
+followup_cm <- read.csv('../results/tables/followup_confusion_matrix.csv', header = T, row.names = 1)
+initial_cm <- read.csv('../results/tables/initial_confusion_matrix.csv', header = T, row.names = 1)
+roc_pvalues <- read.csv('../results/tables/roc_pvalue_summary.csv', header = T, row.names = 1)
 
 # Predictive of both initial and follow up and in lesion model
-pvalue_common_imp_vars <- read.csv('results/tables/pvalue_common_imp_vars.csv', header = T, row.names = 1)
+pvalue_common_imp_vars <- read.csv('../results/tables/pvalue_common_imp_vars.csv', header = T, row.names = 1)
 
 ```
 
@@ -93,7 +92,7 @@ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 
 ## Abstract
 
-Colorectal cancer (CRC) continues to be a worldwide health problem with early detection being used as a key component in mitigating deaths due to the disease.  Previous research suggests that the bacterial microbiome can be used as a biomarker for colorectal cancer (CRC).  These reports have mostly focused on investigating how the bacterial microbiome is used at a single point in time to predict disease.  In this study, we assessed whether a model built with bacterial microbiome data could accurately predict adenoma or carcinoma and adjust positive probability for lesion (adenoma or carcinoma) after surgical treatment.  This model was tested on a ```r sum(initial_cm$ref_yes)``` person group that included samples before and after treatment to allow for the assessment of how the model adjusts risk after treatment. The model chosen had a 10-fold cross validated AUC of ```r format(model_test_AUC_summary["middle", "ROC_cv"], digits = 3)``` and a test set AUC of ```r format(model_test_AUC_summary["middle", "AUC"], digits = 3)```.  : For the follow up samples our Random Forest model significantly decreased the positive probability of lesion compared to the initial samples for both adenoma (P-value = ```r format(IF_model_wilcox_paired_summary['all_adenoma', 'BH_correction'], scientific = TRUE, digits = 3)```) and carcinoma (P-value = ```r format(IF_model_wilcox_paired_summary['carcinoma_only', 'BH_correction'], scientific = TRUE, digits = 3)```).  The top 5 most important operational taxonomic units (OTUs) for prediction of lesion classified to ```r paste(rf_lowest_ID[1], " (", names(rf_lowest_ID)[1], ")", sep = "")```,  ```r paste(rf_lowest_ID[2], " (", names(rf_lowest_ID)[2], ")", sep = "")```, ```r paste(rf_lowest_ID[3], " (", names(rf_lowest_ID)[3], ")", sep = "")```, ```r paste(rf_lowest_ID[4], " (", names(rf_lowest_ID)[4], ")", sep = "")```, and ```r paste(rf_lowest_ID[5], " (", names(rf_lowest_ID)[5], ")", sep = "")```.  In the test set, the prediction of lesion for the initial samples had a sensitivity of ```r format(confusion_summary["Sensitivity", "initial"]*100, digits = 3)```% (```r paste(initial_cm["pred_yes", "ref_yes"], "/", sum(initial_cm$ref_yes), sep = "")```) while follow up it was ```r format(confusion_summary["Sensitivity", "followup"]*100, digits = 3)```% (```r paste(followup_cm["pred_yes", "ref_yes"], "/", sum(followup_cm$ref_yes))```).  Overall, our model accurately predicted those with an adenoma or carcinoma and following treatment it also decreased the positive probability of having a lesion.  
+Colorectal cancer (CRC) continues to be a worldwide health problem with early detection being used as a key component in mitigating deaths due to the disease.  Previous research suggests that the bacterial microbiome can be used as a biomarker for colorectal cancer (CRC).  These reports have mostly focused on investigating how the bacterial microbiome is used at a single point in time to predict disease.  In this study, we assessed whether a model built with bacterial microbiome data could accurately predict adenoma or carcinoma and adjust positive probability for lesion (adenoma or carcinoma) after surgical treatment.  This model was tested on a ```r sum(initial_cm$ref_yes)``` person group that included samples before and after treatment to allow for the assessment of how the model adjusts risk after treatment. The model chosen had a 10-fold cross validated AUC of ```r format(model_test_AUC_summary["middle", "ROC_cv"], digits = 3)``` and a test set AUC of ```r format(model_test_AUC_summary["middle", "AUC"], digits = 3)```.  : For the follow up samples our Random Forest model significantly decreased the positive probability of lesion compared to the initial samples for both adenoma (P-value = ```r format(IF_model_wilcox_paired_summary['all_adenoma', 'BH_correction'], scientific = TRUE, digits = 3)```) and carcinoma (P-value = ```r format(IF_model_wilcox_paired_summary['carcinoma_only', 'BH_correction'], scientific = TRUE, digits = 3)```).  In the test set, the prediction of lesion for the initial samples had a sensitivity of ```r format(confusion_summary["Sensitivity", "initial"]*100, digits = 3)```% (```r paste(initial_cm["pred_yes", "ref_yes"], "/", sum(initial_cm$ref_yes), sep = "")```) while follow up it was ```r format(confusion_summary["Sensitivity", "followup"]*100, digits = 3)```% (```r paste(followup_cm["pred_yes", "ref_yes"], "/", sum(followup_cm$ref_yes))```).  Our model predicted that ```r format((followup_cm["pred_no", "ref_no"]/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)```% of the 67-person cohort had normal colons and ```r format(((followup_cm["pred_yes", "ref_no"] + sum(followup_cm$ref_yes))/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)```% had a lesion.  Our model suggests that treatment does significantly reduce the probability of having a colonic lesion.  Further surveillance of these individuals will enable us to determine whether models such as the one we present here can also be used to predict recurrence of colorectal cancer.  
 
 \newpage
 
@@ -148,7 +147,7 @@ Overall, there were a total of ```r length(rownames(pvalue_common_imp_vars))``` 
 
 
 ## Discussion
-In this study we show that the overall community structure shows very little change between controls and those with either adenoma or carcinoma [Table S1] in our larger training set.  With respect to the follow up sample group there was very little difference in thetayc distance metric between those with adenoma or carcinoma[Figure 1a].  FIT had a large change in the initial and follow up samples in the carcinoma group versus the adenoma [Figure 1b].  When investigating the bacterial community, specifically between these individuals, there was very little change in overall community in the adenoma group but there was a change in the carcinoma group [Figure 2].  This information showed that the removal and treatment of carcinoma for these cursory metrics had the largest response.  Yet these metrics alone would not be able to identify differences in adenomas.  
+In this study we show that the overall community structure as measured by different alpha diversity metrics, shows very little change between controls and those with either adenoma or carcinoma [Table S1] in our larger training set.  With respect to the follow up sample group there was very little difference in magnitude of change in the thetayc distance metric between those with adenoma or carcinoma[Figure 1a].  FIT had a large change in the initial and follow up samples in the carcinoma group versus the adenoma [Figure 1b].  An NMDS showed that there was very little change between initial and follow up for the adenoma group but there was a change in the carcinoma group [Figure 2].  This information showed that the removal and treatment of carcinoma for these cursory metrics had the largest response.  Yet these metrics alone would not be able to identify differences in adenomas.  
 
 We next created a model that incorporated both patient metadata, FIT, and the bacterial microbiome to be able to predict lesions (adenoma or carcinoma).  We chose the middle training model, based on AUC, from 100 80/20 (train/test) splits.  It's 10-fold cross validated AUC was similar to it's test set AUC which was not the case for both the best and worse training model [Figure 3].  Using this model we predicted the probability of a lesion in the inital and follow up samples [Figure 4].  There was a signficant decrease in positive probability regardless of whether the sample as a carcinoma or adenoma.  The overall sensitivity for lesion detection in the intial samples was ```r format(confusion_summary["Sensitivity", "initial"]*100, digits = 3)``` and for follow ups was ```r format(confusion_summary["Sensitivity", "followup"]*100, digits = 3)```.  Although there was a decrease in overall probability of an adenoma or carcinoma only ```r followup_cm["pred_no", "ref_no"]``` were below the 0.5 threshold out of the total ```r sum(followup_cm$ref_no)``` individuals who were diagnosed as not having a carcinoma on follow up.  
 
