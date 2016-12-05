@@ -1,7 +1,9 @@
-## An Investigation of the Bacterial Microbiome and Colorectal Cancer during Follow Up
+## Differences in the Stool Microbiome Before and After Colorectal Cancer Treatment
 
-At this moment in time the abstract has not been written but am working 
-through the data.  
+Colorectal cancer (CRC) continues to be a worldwide health problem with early detection being used as a key component in mitigating deaths due to the disease. Previous research suggests that the bacterial microbiome can be used as a biomarker for colorectal cancer (CRC). These reports have mostly focused on investigating how the bacterial microbiome is used at a single point in time to predict disease. In this study, we assessed whether a model built with bacterial microbiome data could accurately predict adenoma
+or carcinoma and adjust positive probability for lesion (adenoma or carcinoma) after surgical treatment. This model was tested on a 66 person group that included samples before and after treatment to allow for the assessment of how the model adjusts risk after treatment. The model chosen had a 10-fold cross validated AUC of 0.819 and a test set AUC of 0.815. : For the follow up samples our Random Forest model significantly decreased the positive probability of lesion compared to the initial samples for both adenoma (P-value = 8.48e-07) and carcinoma (P-value = 5.96e-08). The top 5 most important operational taxonomic units (OTUs) for prediction of lesion classified to
+Lachnospiraceae (Otu000013), Escherichia/Shigella (Otu000018), Ruminococcaceae (Otu000020), Ruminococcus (Otu000017), and Porphyromonas (Otu000153). In the test set, the prediction of lesion for the initial samples had a sensitivity of 98.5% (65/66) while follow up it was 100% (1 / 1). Overall, our model accurately predicted those with an adenoma or carcinoma and following treatment it also decreased the positive probability of having a lesion.
+
 
 ### Overview
 	project
