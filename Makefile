@@ -92,17 +92,17 @@ $(FIGS)/Figure2.pdf :
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
 $(FIGS)/Figure3.pdf : 
-	R -e "source('code/Run_RF.R')"
+	R -e "source('code/setup_RF_test.R')"
+	bash $(CODE)/createDuplicates.sh
+	bash $(CODE)/create_pbs.sh
+	R -e "source('code/Run_Figure3.R')"
 
 $(FIGS)/Figure4.pdf : 
 	R -e "source('code/Run_Figure4.R')"
 	rm Rplots.pdf
 
-$(TABLES)/adn_vs_srn_pvalue_summary.csv : 
-	R -e "source('code/Run_SRN_Adenoma_Comparisons.R')"
-
-$(TABLES)/wofit_inc_otu_pvalue_summary.csv : 
-	R -e "source('code/Run_Sample_Compare.R')"
+$(TABLES)/time_pvalues.csv : 
+	R -e "source('code/Run_Supplemental_time_table.R')"
 
 
 ################################################################################
