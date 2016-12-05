@@ -9,6 +9,6 @@ source('code/graphFunctions.R')
 loadLibs(c("knitr", "rmarkdown"))
 
 # Render the final pdfs
-render('submission/manuscript_outline_20161024.Rmd', run_pandoc = FALSE, clean = FALSE)
+render('submission/manuscript_outline_20161024.Rmd', clean = FALSE)
 
-render('submission/supplemental_outline_20161024.Rmd', run_pandoc = FALSE, clean=FALSE)
+render('submission/supplemental_outline_20161024.Rmd', clean=FALSE)
