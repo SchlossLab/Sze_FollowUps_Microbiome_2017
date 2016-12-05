@@ -13,3 +13,4 @@ exploratory/wfit/
 nofit/
 exploratory/wofit/
 code/wfit/
+exploratory/*.RData
