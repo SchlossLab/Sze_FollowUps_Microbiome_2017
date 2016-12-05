@@ -36,9 +36,17 @@ run_87_RF.pbs run_88_RF.pbs run_89_RF.pbs run_8_RF.pbs"
 submission_twelve="run_90_RF.pbs run_91_RF.pbs run_92_RF.pbs run_93_RF.pbs run_94_RF.pbs run_95_RF.pbs 
 run_96_RF.pbs run_97_RF.pbs run_98_RF.pbs run_99_RF.pbs run_9_RF.pbs"
 
-for s in ${submission_twelve}
+x=1
+
+for s in ${submission}
 do
-	#qsub $s
-	qsub -W depend=afterok:1195789 $s
+	if [ $(( $x % 2)) -eq 0 ]; then
+		echo $x
+		qsub -W depend=afterok:$run_job wfit/$s
+	else
+		run_job=`qsub wfit/$s`
+	fi
+	
+	x=`expr $x + 1`
 	sleep 1
 done
