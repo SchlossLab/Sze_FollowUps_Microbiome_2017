@@ -84,11 +84,11 @@ test_follow_up_data <- cbind(select(follow_up_data, -contains("Otu0")),
 
 # Make predictions on samples with follow up
 initial_predictions <- predict(full_model, 
-  newdata = test_data[1:(length(rownames(test_follow_up_data))/2), ], 
+  newdata = test_follow_up_data[1:(length(rownames(test_follow_up_data))/2), ], 
   type='prob')
 
 followup_predictions <- predict(full_model, 
-  newdata = test_data[((length(rownames(
+  newdata = test_follow_up_data[((length(rownames(
     follow_up_data))/2)+1):length(rownames(test_follow_up_data)), ], 
   type='prob')
 
