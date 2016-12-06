@@ -98,6 +98,8 @@ $(FIGS)/Figure3.pdf :
 	bash $(CODE)/create_pbs.sh
 	bash $(CODE)/qsubmission.sh
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
+	R -e "source('code/Run_Get_Imp_OTUs.R')"
+	R -e "source('code/Run_Create_Use_Best_Model.R')"
 	R -e "source('code/Run_Figure3.R')"
 
 $(FIGS)/Figure4.pdf : 
@@ -105,7 +107,6 @@ $(FIGS)/Figure4.pdf :
 	rm Rplots.pdf
 
 $(FIGS)/Figure5.pdf : 
-	R -e "source('code/Run_Get_Imp_OTUs.R')"
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
 

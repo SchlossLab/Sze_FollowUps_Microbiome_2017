@@ -24,19 +24,22 @@ roc_curve_graph <- ggplot(test_roc, aes(sensitivities, specificities)) +
   scale_x_continuous(trans = "reverse") + theme_bw() + 
   xlab("Sensitivity") + ylab("Specificity") + 
   geom_abline(intercept = 1, linetype = 2) + 
-  scale_color_discrete(
+  scale_color_manual(
     name = "Train Set Models", 
-    breaks = c("best_roc", "middle_roc", "worse_roc"), 
+    breaks = c("best_roc", "middle_roc", "worse_roc", "full_roc"), 
     labels = c(
-      paste("Best Training Model\n(cvROC = ", 
+      paste("Best Training Model\n(cvAUC = ", 
         round(auc_info["best", "ROC_cv"], digits = 3), ")", sep = ""), 
-      paste("Middle Training Model\n(cvROC = ", 
+      paste("Middle Training Model\n(cvAUC = ", 
         round(auc_info["middle", "ROC_cv"], digits = 3), ")", sep=""), 
-      paste("Worse Training Model\n(cvROC = ", 
-        round(auc_info["worse", "ROC_cv"], digits = 3), ")", sep=""))) + 
+      paste("Worse Training Model\n(cvAUC = ", 
+        round(auc_info["worse", "ROC_cv"], digits = 3), ")", sep=""), 
+      paste("Full Training Model\n(AUC = ", 
+            round(auc_info["full", "AUC"], digits = 3), ")", sep = "")), 
+    values = c("darkred", "black", "red", "pink")) + 
   theme(
     axis.title = element_text(face = "bold"), 
-    legend.position = c(0.75, 0.4), 
+    legend.position = c(0.75, 0.3), 
     legend.title = element_text(face="bold"), 
     legend.text = element_text(size = 10), 
     legend.key = element_rect(size = 15), 

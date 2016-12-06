@@ -122,92 +122,8 @@ middle_run <- as.numeric(
     slice(length(rownames(best_model_data))/2) %>% 
     select(run))[1,], "_")[[1]][2])
 
-#load in best model
-load(paste("exploratory/RF_model_", middle_run, ".RData", sep=""))
-
-#load in metadata to get IDs to select shared file by
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
-  stringsAsFactors = F, header = T)
-
-#create vector in correct order
-
-samples <- c(good_metaf$initial, good_metaf$followUp)
-
-#read in shared file and keep only the samples that are needed
-shared <- read.delim('data/process/final.0.03.subsample.shared', 
-  header=T, sep='\t') %>% select(-label, -numOtus)
-rownames(shared) <- shared$Group
-shared <- shared[as.character(samples), ]
-
-# one sample has no follow up fit so need to remove that
-samplesToRemove <- filter(good_metaf, is.na(fit_followUp)) %>% 
-select(initial, followUp)
-
-# Update good_metaf
-updated_metaf <- filter(
-  good_metaf, initial != samplesToRemove[, "initial"])
-
-
-# Remove the sample
-shared <- filter(
-  shared, Group != samplesToRemove[, "initial"], 
-  Group != samplesToRemove[, "followUp"])
-
-# Keep only OTUs in test data
-shared <- select(shared, Group, one_of(colnames(train_test_data)))
-
-
-# Keep only needed things
-rm(list = setdiff(ls(), 
-  c("test_tune_list", "test_predictions", "best_tune", "best_model_data", 
-    "imp_vars_list", "run_info_list", "run_predictions", "n", 
-    "updated_metaf", "probs_predictions", "OTU_appearance_table", 
-    "middle_run", "shared")))
-
-# Load in test data set
-follow_up_data <- read.csv("results/tables/follow_up_prediction_table.csv")
-
-test_data <- cbind(select(follow_up_data, -contains("Otu0")), 
-  select(shared, -Group))
-
-
-# Make predictions on samples with follow up
-initial_predictions <- predict(
-  test_tune_list[[paste("data_split", middle_run, sep = "")]], 
-  newdata = test_data[1:(length(rownames(follow_up_data))/2), ], 
-  type='prob')
-
-followup_predictions <- predict(
-  test_tune_list[[paste("data_split", middle_run, sep = "")]], 
-  newdata = test_data[((length(rownames(
-    follow_up_data))/2)+1):length(rownames(follow_up_data)), ], 
-  type='prob')
-
-# Make predictions on all train samples
-actual_data <- read.csv("results/tables/test_tune_data.csv", header = T)
-all_test_predictions <- predict(
-  test_tune_list[[paste("data_split", middle_run, sep = "")]], 
-  newdata = actual_data, type = 'prob')
-
-# Create data table needed for figure 4
-
-probability_data_table <- cbind(
-  No = c(initial_predictions[, "No"], followup_predictions[, "No"]), 
-  Yes = c(initial_predictions[, "Yes"], followup_predictions[, "Yes"]), 
-  sampleType = c(rep("initial", length(rownames(initial_predictions))), 
-    rep("followup", length(rownames(followup_predictions)))), 
-  disease_free = rep(updated_metaf$Disease_Free, 2), 
-  diagnosis = rep(updated_metaf$Diagnosis, 2), 
-  Dx_Bin = rep(updated_metaf$Dx_Bin, 2), 
-  chemo = rep(updated_metaf$chemo_received, 2), 
-  rads = rep(updated_metaf$radiation_received, 2), 
-  EDRN = rep(updated_metaf$EDRN, 2))
-
-write.csv(probability_data_table, 
-  "results/tables/follow_up_probability_summary.csv", row.names = F)
-
-
 # Get Ranges of 100 10-fold 20 times CV data (worse, middle, best)
+actual_data <- read.csv("results/tables/full_test_data.csv", header = T, row.names = 1)
 
 data_splits <- read.csv("results/tables/test_data_splits.csv", 
   header = T, stringsAsFactors = F)
@@ -235,19 +151,7 @@ roc_data_list <- list(
   worse_roc = roc(actual_data[-worse_split, ]$lesion ~ 
     probs_predictions[[worse_run]][, "Yes"]))
 
-
-# Build data table for figure 3A
-full_data_roc <- roc(actual_data$lesion ~ all_test_predictions[, "Yes"])
-
-full_data_roc_data <- cbind(
-  sensitivities = full_data_roc$sensitivities, 
-  specificities = full_data_roc$specificities)
-
-write.csv(full_data_roc_data, "results/tables/all_data_roc.csv", 
-  row.names = F)
-
-
-# Build data table for figure 3B
+# Build data table for figure 3
 test_roc_data <- cbind(
   sensitivities = c(roc_data_list[["best_roc"]]$sensitivities, 
     roc_data_list[["middle_roc"]]$sensitivities, 
@@ -266,19 +170,36 @@ write.csv(test_roc_data,
 # Create AUC data table for figure 3
 
 auc_data_table <- as.data.frame(matrix(
-  nrow = 4, ncol = 1, dimnames = list(
-    nrows = c("all", "best", "middle", "worse"), ncols = "AUC")))
+  nrow = 3, ncol = 4, dimnames = list(
+    nrows = c("best", "middle", "worse"), ncols = c("AUC", "ROC_cv", "Sens_cv", "Spec_cv"))))
 
-auc_data_table[, "AUC"] <- c(full_data_roc$auc, 
+auc_data_table[, "AUC"] <- c( 
   roc_data_list[["best_roc"]]$auc, 
   roc_data_list[["middle_roc"]]$auc, 
   roc_data_list[["worse_roc"]]$auc)
 
+auc_data_table[, "ROC_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "ROC"], 
+  best_model_data[paste("run_", middle_run, sep = ""), "ROC"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "ROC"])
+
+auc_data_table[, "Sens_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "Sens"], 
+  best_model_data[paste("run_", middle_run, sep = ""), "Sens"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "Sens"])
+
+auc_data_table[, "Spec_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "Spec"], 
+  best_model_data[paste("run_", middle_run, sep = ""), "Spec"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "Spec"])
+
+
 write.csv(auc_data_table, "results/tables/auc_summary.csv")
 
 
-
-
+# Keep everything but roc_data_list in memory
+rm(list = setdiff(ls(), "roc_data_list"))
+save.image("exploratory/rocs.RData")
 
 
 
