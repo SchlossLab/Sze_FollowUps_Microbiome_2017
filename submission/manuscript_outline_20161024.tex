@@ -9,10 +9,12 @@
 \else % if luatex or xelatex
   \ifxetex
     \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
   \else
     \usepackage{fontspec}
   \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -22,12 +24,7 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1.0in]{geometry}
-\usepackage{hyperref}
-\hypersetup{unicode=true,
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
-\usepackage{graphicx,grffile}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -36,25 +33,27 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{0}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
 
 %%% Use protect on footnotes to avoid problems with footnotes in titles
 \let\rmarkdownfootnote\footnote%
@@ -96,6 +95,9 @@
 
 \begin{document}
 
+\maketitle
+
+
 \section{Differences in the Stool Microbiome Before and After Colorectal
 Cancer
 Treatment}\label{differences-in-the-stool-microbiome-before-and-after-colorectal-cancer-treatment}
@@ -122,7 +124,6 @@ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 \end{center}
 
 \newpage
-
 \linenumbers
 
 \subsection{Abstract}\label{abstract}
@@ -145,7 +146,7 @@ probability of lesion compared to the initial samples for both adenoma
 (P-value = \texttt{8.48e-07}) and carcinoma (P-value =
 \texttt{5.96e-08}). In the test set, the prediction of lesion for the
 initial samples had a sensitivity of \texttt{98.5}\% (\texttt{65/66})
-while follow up it was \texttt{100}\% (\texttt{1\ /\ 1}). Our model
+while follow up it was \texttt{100}\% (\texttt{1 / 1}). Our model
 predicted that \texttt{39.4}\% of the 67-person cohort had normal colons
 and \texttt{60.6}\% had a lesion. Our model suggests that treatment does
 significantly reduce the probability of having a colonic lesion. Further
@@ -250,19 +251,17 @@ model test set AUC = \texttt{0.682}, middle training model test set AUC
 That is to say it had the smallest change in AUC in comparison to the
 other minimum and maximum AUC trained models. There was no significant
 difference between the AUC of the best and middle training models
-(P-value = \texttt{0.0698}). There was a significant difference between
+(P-value = \texttt{NULL}). There was a significant difference between
 the worse training model and both the best training model (P-value =
-\texttt{0.000397}) and middle training model (P-value =
-\texttt{0.0444}).
+\texttt{NULL}) and middle training model (P-value = \texttt{NULL}).
 
 \textbf{\emph{Most Important Variables to the Model}} Overall, there
 were a total of \texttt{32} variables identified as being present in
 more than 50\% of the training models {[}Table S2{]}. The top 5 most
-important bacterial OTUs were \texttt{Lachnospiraceae\ (Otu000013)},
-\texttt{Escherichia/Shigella\ (Otu000018)},
-\texttt{Ruminococcaceae\ (Otu000020)},
-\texttt{Ruminococcus\ (Otu000017)}, and
-\texttt{Porphyromonas\ (Otu000153)}. These 5 OTUs were present in at
+important bacterial OTUs were \texttt{Bacteria (Otu000013)},
+\texttt{Escherichia/Shigella (Otu000018)},
+\texttt{Bacteria (Otu000020)}, \texttt{Ruminococcus (Otu000017)}, and
+\texttt{Porphyromonas (Otu000153)}. These 5 OTUs were present in at
 least \texttt{99} out of the total \texttt{100} different 80/20 runs.
 
 \textbf{\emph{Surgical Removal of an Adenoma or Carcinoma Results in a
@@ -293,19 +292,19 @@ There was \texttt{1} individual who still clearly had CRC on follow up
 as well as \texttt{5} individuals whose status on follow up was unknown.
 Although the \texttt{1} individual had a decrease in positive
 probability their follow up sample was still higher than the cutoff
-threshold of 0.5 (positive probability = \texttt{0.902}). Interestingly,
+threshold of 0.5 (positive probability = \texttt{0.927}). Interestingly,
 \texttt{2} individuals who were unknown on follow up still were over the
 threshold cutoff of 0.5 even though, like the \texttt{1} individual with
 clear CRC on follow up, the probability of an adenoma or carcinoma
 decreased {[}Table S3{]}.
 
 The follow up positive probabilities were not affected by either
-chemotherapy treatment (uncorrected P-value = \texttt{0.583}) or
-radiation therapy (uncorrected P-value = \texttt{0.809}). There was also
-no difference in the amount of change in the positive probability based
-on whether individuals received chemotherapy (unccorected P-value =
-\texttt{0.224}) or radiation therapy (uncorrected P-value =
-\texttt{0.846}).
+chemotherapy treatment (uncorrected P-value = \texttt{0.919}) or
+radiation therapy (uncorrected P-value = \texttt{1}). There was also no
+difference in the amount of change in the positive probability based on
+whether individuals received chemotherapy (unccorected P-value =
+\texttt{0.578}) or radiation therapy (uncorrected P-value =
+\texttt{0.904}).
 
 \textbf{\emph{Specific OTUs in the Lesion Model are not Detected in
 Follow Up Versus Initial Samples}} Overall, there were a total of
@@ -486,7 +485,7 @@ Non-binary data was checked for near zero variance and auto correlation.
 Data columns that had near zero variance were removed. Columns that were
 correlated with each other over a Spearman correlation coefficient of
 0.75 had one of the two columns removed. This pre-processing was
-performed with the R package caret (v\texttt{6.0.73}). The method of
+performed with the R package caret (v\texttt{6.0.72}). The method of
 choosing the best model involved taking the \texttt{490} samples and
 making 100 80/20 (train/test) splits in the data where control and
 lesion were equally represented in the 80 and 20 split, respectively.
@@ -513,7 +512,7 @@ model and common OTUs were selected to test for changes between initial
 and follow up using a paired wilcoxson rank sum test.
 
 \textbf{\emph{Statistical Analysis}} The R software package
-(v\texttt{3.3.0}) was used for all statisitical analysis. Comparisons
+(v\texttt{3.3.2}) was used for all statisitical analysis. Comparisons
 between bacterial community structure utilized PERMANOVA (\textbf{insert
 citation}) in the vegan package (v\texttt{2.4.1}) while comparisons
 between ROC curves utilized the method by DeLong et al. (\textbf{insert
@@ -581,6 +580,5 @@ Initial}
 \newpage
 
 \subsection{References}\label{references}
-
 
 \end{document}
