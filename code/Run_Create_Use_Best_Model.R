@@ -112,12 +112,31 @@ write.csv(probability_data_table,
 
 # Create data table for significance ROC testing
 
+roc_data_list[["full_roc"]] <- full_model_roc
 
+p_values_summary <- matrix(nrow = 4, ncol = 3, dimnames = list(
+  nrow = c("best", "middle", "worse", "full"), 
+  ncol = c("middle", "worse", "full")))
 
+BH_pvalues_summary <- matrix(nrow = 4, ncol = 3, dimnames = list(
+  nrow = c("best", "middle", "worse", "full"), 
+  ncol = c("middle", "worse", "full")))
 
+for(i in 1:length(roc_data_list)){
+  
+  for(j in i:length(roc_data_list)){
+    
+    if(i != j){
+      
+      p_values_summary[i, j-1] <- roc.test(roc_data_list[[i]], roc_data_list[[j]])$p.value
+      BH_pvalues_summary[i, j-1] <- p.adjust(p_values_summary[i, j-1], method = "BH", n = 6)
+      
+    }
+  }
+}
 
-
-
+write.csv(BH_pvalues_summary, "results/tables/roc_pvalue_summary.csv")
+write.csv(p_values_summary, "results/tables/roc_nonBH_pvalue_summary.csv")
 
 
 
