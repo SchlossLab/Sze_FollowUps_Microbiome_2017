@@ -23,6 +23,7 @@ maximized_mtry <- as.numeric(names(mtry_table[mtry_table == max(mtry_table)]))
 
 # Create Random Forest model
 
+set.seed(3457)
 full_model <- randomForest(lesion ~ ., data = test_data, mtry = maximized_mtry, ntree = 2000)
 
 full_model_probs_predictions <- full_model$votes

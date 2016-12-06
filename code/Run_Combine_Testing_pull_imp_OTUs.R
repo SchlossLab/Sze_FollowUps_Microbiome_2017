@@ -151,18 +151,7 @@ roc_data_list <- list(
     probs_predictions[[worse_run]][, "Yes"]))
 
 
-# Build data table for figure 3A
-full_data_roc <- roc(actual_data$lesion ~ all_test_predictions[, "Yes"])
-
-full_data_roc_data <- cbind(
-  sensitivities = full_data_roc$sensitivities, 
-  specificities = full_data_roc$specificities)
-
-write.csv(full_data_roc_data, "results/tables/all_data_roc.csv", 
-  row.names = F)
-
-
-# Build data table for figure 3B
+# Build data table for figure 3
 test_roc_data <- cbind(
   sensitivities = c(roc_data_list[["best_roc"]]$sensitivities, 
     roc_data_list[["middle_roc"]]$sensitivities, 
