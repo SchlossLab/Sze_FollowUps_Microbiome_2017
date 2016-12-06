@@ -11,7 +11,7 @@ loadLibs(c("dplyr", "caret","scales", "wesanderson", "randomForest", "pROC"))
 
 
 # Read in necessary data frames
-
+load("exploratory/rocs.RData")
 test_data <- read.csv("results/tables/full_test_data.csv", header = TRUE, row.names = 1)
 split_data_results <- read.csv("results/tables/ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
 test_data_roc <- read.csv("results/tables/test_data_roc.csv", header = TRUE, stringsAsFactors = F)
@@ -111,6 +111,8 @@ write.csv(probability_data_table,
           "results/tables/follow_up_probability_summary.csv", row.names = F)
 
 # Create data table for significance ROC testing
+
+
 
 
 

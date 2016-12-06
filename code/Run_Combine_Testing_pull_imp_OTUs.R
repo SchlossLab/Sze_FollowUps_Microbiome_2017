@@ -123,6 +123,7 @@ middle_run <- as.numeric(
     select(run))[1,], "_")[[1]][2])
 
 # Get Ranges of 100 10-fold 20 times CV data (worse, middle, best)
+actual_data <- read.csv("results/tables/full_test_data.csv", header = T, row.names = 1)
 
 data_splits <- read.csv("results/tables/test_data_splits.csv", 
   header = T, stringsAsFactors = F)
@@ -150,7 +151,6 @@ roc_data_list <- list(
   worse_roc = roc(actual_data[-worse_split, ]$lesion ~ 
     probs_predictions[[worse_run]][, "Yes"]))
 
-
 # Build data table for figure 3
 test_roc_data <- cbind(
   sensitivities = c(roc_data_list[["best_roc"]]$sensitivities, 
@@ -170,19 +170,36 @@ write.csv(test_roc_data,
 # Create AUC data table for figure 3
 
 auc_data_table <- as.data.frame(matrix(
-  nrow = 4, ncol = 1, dimnames = list(
-    nrows = c("all", "best", "middle", "worse"), ncols = "AUC")))
+  nrow = 3, ncol = 4, dimnames = list(
+    nrows = c("best", "middle", "worse"), ncols = c("AUC", "ROC_cv", "Sens_cv", "Spec_cv"))))
 
-auc_data_table[, "AUC"] <- c(full_data_roc$auc, 
+auc_data_table[, "AUC"] <- c( 
   roc_data_list[["best_roc"]]$auc, 
   roc_data_list[["middle_roc"]]$auc, 
   roc_data_list[["worse_roc"]]$auc)
 
+auc_data_table[, "ROC_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "ROC"], 
+  best_model_data[paste("run_", middle_run, sep = ""), "ROC"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "ROC"])
+
+auc_data_table[, "Sens_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "Sens"], 
+  best_model_data[paste("run_", middle_run, sep = ""), "Sens"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "Sens"])
+
+auc_data_table[, "Spec_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "Spec"], 
+  best_model_data[paste("run_", middle_run, sep = ""), "Spec"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "Spec"])
+
+
 write.csv(auc_data_table, "results/tables/auc_summary.csv")
 
 
-
-
+# Keep everything but roc_data_list in memory
+rm(list = setdiff(ls(), "roc_data_list"))
+save.image("exploratory/rocs.RData")
 
 
 
