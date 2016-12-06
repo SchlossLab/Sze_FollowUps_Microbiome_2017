@@ -99,6 +99,7 @@ $(FIGS)/Figure3.pdf :
 	bash $(CODE)/qsubmission.sh
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
+	R -e "source('code/Run_Create_Use_Best_Model.R')"
 	R -e "source('code/Run_Figure3.R')"
 
 $(FIGS)/Figure4.pdf : 
