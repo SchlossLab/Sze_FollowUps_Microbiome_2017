@@ -1,5 +1,5 @@
 "Variable","total_appearance"
-"FIT",100
+"fit_result",100
 "Age",100
 "Otu000013",100
 "Otu000018",100
@@ -11,7 +11,7 @@
 "Otu000010",98
 "Otu000007",98
 "Otu000003",97
-"Gender",92
+"Gender.mYes",92
 "Otu000006",92
 "Otu000045",90
 "Otu000114",88
