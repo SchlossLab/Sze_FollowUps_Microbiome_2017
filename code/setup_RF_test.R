@@ -115,16 +115,8 @@ test_data <- test_data %>%
 test_data <- cbind(lesion = factor(metaI$lesion, 
   levels = c(0, 1), labels = c("No", "Yes")), test_data)
 
-# Center, Scale, Yeo Johnson Transform, and pca for better modeling
-#woPCA <- preProcess(test_data, 
-#  method = c("center", "scale", "YeoJohnson"))  
-
-#wPCA <- preProcess(test_data, 
-#  method = c("center", "scale", "YeoJohnson", "pca"), thresh = 0.99)  
-
-#woPCA_test_data <- predict(woPCA, test_data)
-
-#wPCA_test_data <- predict(wPCA, test_data)
+# Write data table for future use
+write.csv(test_data, "results/tables/full_test_data.csv")
 
 
 #################################################################################
