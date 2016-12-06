@@ -1,5 +1,4 @@
 ### Build the best lesion model possible
-### Try XG-Boost, RF, Logit (GLM), C5.0, SVM
 ### Find the best based on Jenna Wiens suggestions on test and training
 ## Marc Sze
 
