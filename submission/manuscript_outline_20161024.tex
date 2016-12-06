@@ -250,18 +250,19 @@ model test set AUC = \texttt{0.682}, middle training model test set AUC
 That is to say it had the smallest change in AUC in comparison to the
 other minimum and maximum AUC trained models. There was no significant
 difference between the AUC of the best and middle training models
-(P-value = \texttt{0.0698}). There was a significant difference between
-the worse training model and both the best training model (P-value =
-\texttt{0.000397}) and middle training model (P-value =
-\texttt{0.0444}).
+(P-value = \texttt{0.419}). There was also no difference in the middle
+model versus worse (P-value = \texttt{0.178}) or full data model
+(P-value = \texttt{1}). The two comparisons with a significant
+difference were between the worse training model and the best training
+model (P-value = \texttt{7.94e-04}) and the worse training model and
+full data model (P-value = \texttt{3.52e-03}).
 
 \textbf{\emph{Most Important Variables to the Model}} Overall, there
 were a total of \texttt{32} variables identified as being present in
 more than 50\% of the training models {[}Table S2{]}. The top 5 most
-important bacterial OTUs were \texttt{Lachnospiraceae\ (Otu000013)},
+important bacterial OTUs were \texttt{Bacteria\ (Otu000013)},
 \texttt{Escherichia/Shigella\ (Otu000018)},
-\texttt{Ruminococcaceae\ (Otu000020)},
-\texttt{Ruminococcus\ (Otu000017)}, and
+\texttt{Bacteria\ (Otu000020)}, \texttt{Ruminococcus\ (Otu000017)}, and
 \texttt{Porphyromonas\ (Otu000153)}. These 5 OTUs were present in at
 least \texttt{99} out of the total \texttt{100} different 80/20 runs.
 
@@ -293,19 +294,19 @@ There was \texttt{1} individual who still clearly had CRC on follow up
 as well as \texttt{5} individuals whose status on follow up was unknown.
 Although the \texttt{1} individual had a decrease in positive
 probability their follow up sample was still higher than the cutoff
-threshold of 0.5 (positive probability = \texttt{0.902}). Interestingly,
+threshold of 0.5 (positive probability = \texttt{0.927}). Interestingly,
 \texttt{2} individuals who were unknown on follow up still were over the
 threshold cutoff of 0.5 even though, like the \texttt{1} individual with
 clear CRC on follow up, the probability of an adenoma or carcinoma
 decreased {[}Table S3{]}.
 
 The follow up positive probabilities were not affected by either
-chemotherapy treatment (uncorrected P-value = \texttt{0.583}) or
-radiation therapy (uncorrected P-value = \texttt{0.809}). There was also
-no difference in the amount of change in the positive probability based
-on whether individuals received chemotherapy (unccorected P-value =
-\texttt{0.224}) or radiation therapy (uncorrected P-value =
-\texttt{0.846}).
+chemotherapy treatment (uncorrected P-value = \texttt{0.919}) or
+radiation therapy (uncorrected P-value = \texttt{1}). There was also no
+difference in the amount of change in the positive probability based on
+whether individuals received chemotherapy (unccorected P-value =
+\texttt{0.578}) or radiation therapy (uncorrected P-value =
+\texttt{0.904}).
 
 \textbf{\emph{Specific OTUs in the Lesion Model are not Detected in
 Follow Up Versus Initial Samples}} Overall, there were a total of
