@@ -110,6 +110,8 @@ probability_data_table <- cbind(
 write.csv(probability_data_table, 
           "results/tables/follow_up_probability_summary.csv", row.names = F)
 
+# Create data table for significance ROC testing
+
 
 
 
