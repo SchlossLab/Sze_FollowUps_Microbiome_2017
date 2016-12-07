@@ -191,6 +191,10 @@ In order to assess which variables were most central to all the models we counte
 A second model using the same types of conditions was used to identify OTUs that could predict initial and follow up samples.  These OTUs were considered the most important for predicting initial and follow up samples.  This new model important OTUs were then compared to the overall lesion model important OTUs and the resulting common OTUs to both models were selected to test for changes between initial and follow up using a paired wilcoxson rank sum test.   
 
 
+***Investigation of Important CRC Bacteria***
+In order to investigate how specific bacteria that have been previously associated with CRC with selected OTUs that taxonomically classified to Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus Assacharolytica, and Porphyromonas Stomatis.  Specifically we wanted to observe if there were any differences based on whether the individual had an adenoma or carcinoma that may have been missed with our lesion versus normal model.  
+
+
 ***Statistical Analysis***
 The R software package (v`r paste(version$major, ".", version$minor, sep = "")`) was used for all statisitical analysis.  Comparisons between bacterial community structure utilized PERMANOVA (**insert citation**) in the vegan package (v`r paste(packageVersion("vegan"))`) while comparisons between ROC curves utilized the method by DeLong et al. (**insert citation**) executed by the pROC (v`r paste(packageVersion("pROC"))`) package.  Comparisons between probabilities as well as overall amount of OTU between initial and follow up samples utilized a paired wilcoxson ranked sum test.  Where multiple comparison testing was needed a Benjamini-Hochberg (BH) correction was applied (**insert citation**) and a corrected P-value of less than 0.05 was considered significant.  Unless otherwise stated the P-values reported are those of the BH corrected ones.      
 

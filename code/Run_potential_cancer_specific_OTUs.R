@@ -84,6 +84,42 @@ crc_select_data <- as.data.frame(cbind(value = c(shared[, good_counts_init[1]],
 
 write.csv(crc_select_data, "results/tables/adn_crc_maybe_diff.csv", row.names = F)
 
+# Run statistics testing
+
+pvalue_summary <- matrix(nrow = 4, ncol = 4, dimnames = list(
+  nrow = c("fn", "parv", "pept", "porp"), ncol = c("crc_pvalue", "crc_BH", "adn_pvalue", "adn_BH")))
+
+for(i in 1:length(good_counts_init)){
+  
+  pvalue_summary[i, "crc_pvalue"] <- wilcox.test(
+    filter(crc_select_data, otu == good_counts_init[i], Dx_Bin == "cancer", 
+           sampleType == "initial")[, "value"], 
+    filter(crc_select_data, otu == good_counts_init[i], Dx_Bin == "cancer", 
+           sampleType == "followup")[, "value"], paired = TRUE)$p.value
+  
+  pvalue_summary[i, "crc_BH"] <- p.adjust(pvalue_summary[i, "crc_pvalue"], method = "BH", n = 4)
+  
+}
+
+
+for(i in 1:length(good_counts_init)){
+  
+  pvalue_summary[i, "adn_pvalue"] <- wilcox.test(
+    filter(crc_select_data, otu == good_counts_init[i], Dx_Bin != "cancer", 
+           sampleType == "initial")[, "value"], 
+    filter(crc_select_data, otu == good_counts_init[i], Dx_Bin != "cancer", 
+           sampleType == "followup")[, "value"], paired = TRUE)$p.value
+  
+  pvalue_summary[i, "adn_BH"] <- p.adjust(pvalue_summary[i, "adn_pvalue"], method = "BH", n = 4)
+  
+}
+
+# Write out the pvalue table for future use
+
+write.csv(pvalue_summary, "results/tables/adn_crc_maybe_pvalue_summary.csv", row.names = F)
+
+
+
 
 
 
