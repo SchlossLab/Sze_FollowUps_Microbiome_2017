@@ -85,9 +85,8 @@ beta_diver_summary['Adenoma', ] <- c(
 # Create NMDS axis of Adenoma only from thetayc distances
 set.seed(050416)
 thetayc.mds.List <- list(
-  bdiver_Test_adn_IF = metaMDS(as.dist(polyp_only_theta_init_follow_dist), 
-    trace = 0) %>% scores() %>% as.data.frame() %>%  
-  mutate(samples = factor(breakDown_samples)))
+  bdiver_Test_adn_IF = metaMDS(as.dist(polyp_only_theta_init_follow_dist), trymax = 3000) %>% 
+    scores() %>% as.data.frame() %>% mutate(samples = factor(breakDown_samples)))
 
 # Load in needed Carcinoma data
 crc_only_theta_init_follow_dist <- pickDistanceValues(
@@ -115,7 +114,7 @@ beta_diver_summary['Carcinoma', ] <- c(
 # Create NMDS axis of Carcinoma only from thetayc distances
 set.seed(050416)
 thetayc.mds.List[["bdiver_Test_crc_IF"]] <- metaMDS(
-  as.dist(crc_only_theta_init_follow_dist), trace = 0) %>% 
+  as.dist(crc_only_theta_init_follow_dist), trymax = 1000) %>% 
   scores() %>% as.data.frame() %>% 
   mutate(samples = factor(breakDown_samples))
 

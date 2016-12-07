@@ -1,0 +1,804 @@
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{}
+  \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
+
+\begin{document}
+
+\section{Differences in the Stool Microbiome Before and After Colorectal
+Cancer
+Treatment}\label{differences-in-the-stool-microbiome-before-and-after-colorectal-cancer-treatment}
+
+\vspace{10mm}
+
+\begin{center}
+Marc A Sze, Nielson T Baxter, Mack T Ruffin IV, Mary AM Rogers, and Patrick D Schloss
+
+\vspace{10mm}
+
+Supplemental
+\end{center}
+
+\newpage
+
+\textbf{Table S1: P-values of Differences between Initial and Follow Up
+Samples for Richness, Shannon Diversity, and Evenness.}
+
+\begin{longtable}[]{@{}cccc@{}}
+\toprule
+Comparison & Alpha Metric & P-value & BH Adjusted P-value\tabularnewline
+\midrule
+\endhead
+all & sobs & 0.2542809 & 0.3536011\tabularnewline
+all & shannon & 0.3536011 & 0.3536011\tabularnewline
+all & evenness & 0.3251909 & 0.3536011\tabularnewline
+adn & sobs & 0.7195598 & 0.7195598\tabularnewline
+adn & shannon & 0.6168494 & 0.7195598\tabularnewline
+adn & evenness & 0.4485818 & 0.7195598\tabularnewline
+crc & sobs & 0.1573652 & 0.1573652\tabularnewline
+crc & shannon & 0.0407472 & 0.0611208\tabularnewline
+crc & evenness & 0.0236109 & 0.0611208\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\textbf{Table S2: Summary of Most Important Variables For the Model}
+
+\begin{longtable}[]{@{}ccc@{}}
+\toprule
+Variable & Lowest Taxonomic ID & Total Model Appearances\tabularnewline
+\midrule
+\endhead
+fit\_result & NA & 100\tabularnewline
+Age & NA & 100\tabularnewline
+Otu000013 & Bacteria & 100\tabularnewline
+Otu000018 & Escherichia/Shigella & 100\tabularnewline
+Otu000020 & Bacteria & 100\tabularnewline
+BMI & NA & 100\tabularnewline
+Otu000017 & Ruminococcus & 99\tabularnewline
+Otu000153 & Porphyromonas & 99\tabularnewline
+Otu000012 & Blautia & 99\tabularnewline
+Otu000010 & Blautia & 98\tabularnewline
+Otu000007 & Bacteroides & 98\tabularnewline
+Otu000003 & Roseburia & 97\tabularnewline
+Gender.mYes & NA & 92\tabularnewline
+Otu000006 & Bacteria & 92\tabularnewline
+Otu000045 & Bacteria & 90\tabularnewline
+Otu000114 & Clostridium\_XlVa & 88\tabularnewline
+Otu000015 & Parabacteroides & 88\tabularnewline
+Otu000008 & Faecalibacterium & 86\tabularnewline
+Otu000016 & Bacteroides & 86\tabularnewline
+Otu000046 & Bacteroides & 85\tabularnewline
+Otu000061 & Bacteria & 83\tabularnewline
+Otu000032 & Bacteroides & 81\tabularnewline
+Otu000089 & Ruminococcus & 80\tabularnewline
+Otu000231 & Alistipes & 69\tabularnewline
+Otu000002 & Anaerostipes & 67\tabularnewline
+Otu000088 & Bacteria & 65\tabularnewline
+Otu000005 & Bacteroides & 65\tabularnewline
+Otu000124 & Bacteria & 61\tabularnewline
+Otu000034 & Clostridium\_XlVa & 57\tabularnewline
+Otu000220 & Clostridium\_IV & 55\tabularnewline
+Otu000036 & Phascolarctobacterium & 54\tabularnewline
+Otu000049 & Barnesiella & 52\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\textbf{Table S3: Summary of Probability Assignment of Follow Up
+Individuals}
+
+\begin{longtable}[]{@{}cccc@{}}
+\toprule
+\begin{minipage}[b]{0.24\columnwidth}\centering\strut
+Initial Positive Probability\strut
+\end{minipage} & \begin{minipage}[b]{0.26\columnwidth}\centering\strut
+Follow Up Positive Probability\strut
+\end{minipage} & \begin{minipage}[b]{0.22\columnwidth}\centering\strut
+Disease Free on Follow Up\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\centering\strut
+Initial Diagnosis\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9855\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9275\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+No\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9570\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7255\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9300\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7975\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Unknown\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9635\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8785\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9820\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7580\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Unknown\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9380\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3340\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Unknown\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9500\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4930\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9610\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3465\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Unknown\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9845\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7365\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8090\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6040\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9515\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8870\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9705\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6820\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9785\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7600\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9655\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.5860\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9715\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3440\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9190\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9290\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8060\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3600\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9730\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9370\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7785\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.2710\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8855\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4750\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9350\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9020\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9325\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3420\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Unknown\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9850\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3250\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9595\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6970\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9590\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8770\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9900\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4170\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+cancer\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9595\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6190\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8070\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4295\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7265\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4200\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7895\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4710\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7390\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4180\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7845\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.5715\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9570\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7940\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8310\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4080\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8995\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8525\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8840\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7940\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8625\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7740\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9460\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8350\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9110\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6160\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9545\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8710\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8350\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6095\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9590\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9185\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7410\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4550\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8825\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7670\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9265\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8790\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9735\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6035\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8425\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.2030\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8290\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.6525\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8035\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3405\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9940\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.5190\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9775\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9715\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9435\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.5615\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8220\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7395\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9225\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9285\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9370\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3410\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7685\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.5425\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9275\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7890\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7620\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3775\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.8775\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.7920\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7660\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3530\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9425\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.3385\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9550\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4755\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7710\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.8150\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9735\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9295\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.9870\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.9120\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adenoma\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\centering\strut
+0.7530\strut
+\end{minipage} & \begin{minipage}[t]{0.26\columnwidth}\centering\strut
+0.4330\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\centering\strut
+Yes\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+adv\_adenoma\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\textbf{Table S4: Summary of OTUs in both Lesion and Initial/Follow Up
+Models}
+
+\begin{longtable}[]{@{}cccc@{}}
+\toprule
+OTU & Lowest Taxonomic ID & P-value & BH Corrected
+P-value\tabularnewline
+\midrule
+\endhead
+Otu000012 & Blautia & 0.0037523 & 0.0300185\tabularnewline
+Otu000005 & Bacteroides & 0.2330135 & 0.2663011\tabularnewline
+Otu000008 & Faecalibacterium & 0.1647056 & 0.2196075\tabularnewline
+Otu000018 & Escherichia/Shigella & 0.0431082 & 0.1149553\tabularnewline
+Otu000002 & Anaerostipes & 0.2694179 & 0.2694179\tabularnewline
+Otu000114 & Clostridium\_XlVa & 0.0425792 & 0.1149553\tabularnewline
+Otu000124 & Bacteria & 0.1006246 & 0.2012493\tabularnewline
+Otu000020 & Bacteria & 0.1390492 & 0.2196075\tabularnewline
+\bottomrule
+\end{longtable}
+
+
+\end{document}
