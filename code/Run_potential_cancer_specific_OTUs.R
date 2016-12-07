@@ -76,7 +76,9 @@ crc_select_data <- as.data.frame(cbind(value = c(shared[, good_counts_init[1]],
                     rep(as.character(tax_df[good_counts_init[4], "Genus"]), length(good_metaf$EDRN)*2))) %>% 
   mutate(EDRN = rep(good_metaf$EDRN, length(good_counts_init)*2)) %>% 
   mutate(Disease_Free = rep(good_metaf$Disease_Free, length(good_counts_init)*2)) %>% 
-  mutate(Dx_Bin = rep(good_metaf$Dx_Bin, length(good_counts_init)*2))
+  mutate(Dx_Bin = rep(good_metaf$Dx_Bin, length(good_counts_init)*2)) %>% 
+  mutate(sampleType = rep(c(rep("initial", length(good_metaf$EDRN)), 
+                            rep("followup", length(good_metaf$EDRN))), length(good_counts_init)))
 
 # Write out table for future use
 
