@@ -136,22 +136,20 @@ used at a single point in time to predict disease. In this study, we
 assessed whether a model built with bacterial microbiome data could
 accurately predict adenoma or carcinoma and adjust positive probability
 for lesion (adenoma or carcinoma) after surgical treatment. This model
-was tested on a \texttt{66} person group that included samples before
-and after treatment to allow for the assessment of how the model adjusts
-risk after treatment. The model chosen had a 10-fold cross validated AUC
-of \texttt{0.819} and a test set AUC of \texttt{0.815}. : For the follow
-up samples our Random Forest model significantly decreased the positive
-probability of lesion compared to the initial samples for both adenoma
-(P-value = \texttt{8.48e-07}) and carcinoma (P-value =
-\texttt{5.96e-08}). In the test set, the prediction of lesion for the
-initial samples had a sensitivity of \texttt{98.5}\% (\texttt{65/66})
-while follow up it was \texttt{100}\% (\texttt{1\ /\ 1}). Our model
-predicted that \texttt{39.4}\% of the 67-person cohort had normal colons
-and \texttt{60.6}\% had a lesion. Our model suggests that treatment does
-significantly reduce the probability of having a colonic lesion. Further
-surveillance of these individuals will enable us to determine whether
-models such as the one we present here can also be used to predict
-recurrence of colorectal cancer.
+was tested on a 66 person group that included samples before and after
+treatment to allow for the assessment of how the model adjusts risk
+after treatment. The model used for prediction had an AUC of 0.813. For
+the follow up samples our Random Forest model significantly decreased
+the positive probability of lesion compared to the initial samples for
+both adenoma (P-value = 7.95e-08) and carcinoma (P-value = 7.95e-08).
+Our model predicted that 36.4\% of the 67-person cohort had normal
+colons and 63.6\% had a lesion. Some OTUs that changed the most before
+and after treatment included OTUs that were affiliated with members of
+Blautia, Clostridium\_XlVa and Escherichia/Shigella. Our model suggests
+that treatment does significantly reduce the probability of having a
+colonic lesion. Further surveillance of these individuals will enable us
+to determine whether models such as the one we present here can also be
+used to predict recurrence of colorectal cancer.
 
 \newpage
 
@@ -221,121 +219,112 @@ lesion refers to both adenoma and carcinoma.
 \textbf{\emph{Bacterial Community and Fit Changes before and after
 Treatment}} Based on thetayc distance metrics comparing the initial to
 the follow up samples there was no difference between the adenoma and
-carcinoma group (P-value = \texttt{0.697}) {[}Figure 1a{]}. There was a
+carcinoma group (P-value = 0.697) {[}Figure 1a{]}. There was a
 difference in FIT between initial and follow up samples with the
 carcinoma group having a significant decrease in FIT versus the adenoma
-group (P-value = \texttt{2.15e-05}) {[}Figure 1b{]}. Although the
-thetayc distance metric change was similar between adenoma and carcinoma
-the directionality of the change was significant in the cancer group
-between initial and follow up (P-value = \texttt{0.001}) but not for the
-adenoma group (P-value = \texttt{1}) {[}Figure 2{]}. When all follow up
-samples were compared to each other there was no significant overall
-difference between them (P-value = \texttt{0.643}). There was no
-significant difference between initial and follow up samples for
-observed OTUs, Shannon diversity, and evenness after correction for
-multiple comparisons {[}Table S1{]}. Time of follow up sample from
-initial sampling did not have an effect on our prediction data set
-(uncorrected P-value = \texttt{0.784}).
+group (P-value = 2.15e-05) {[}Figure 1b{]}. Although the thetayc
+distance metric change was similar between adenoma and carcinoma the
+directionality of the change was significant in the cancer group between
+initial and follow up (P-value = 0.002) but not for the adenoma group
+(P-value = 0.997) {[}Figure 2{]}. When all follow up samples were
+compared to each other there was no significant overall difference
+between them (P-value = 0.085). There was no significant difference
+between initial and follow up samples for observed OTUs, Shannon
+diversity, and evenness after correction for multiple comparisons
+{[}Table S1{]}. Time of follow up sample from initial sampling did not
+have an effect on our prediction data set (uncorrected P-value = 0.784).
 
 \textbf{\emph{Outcome of Model Training}} The range of the AUC for model
-training ranged from a minimum of \texttt{0.795} to a maximum of
-\texttt{0.854}. To be conservative the model chosen for prediction of
-disease in the follow up samples had an AUC in the middle of all the
-\texttt{100} runs which was \texttt{0.819}. Interestingly, the worst AUC
-model from training performed the best on it's respective 80/20 split
-test data {[}Figure 3{]}. In fact the 80/20 test performance showed that
-the AUC for the middle model chosen was the most stable (best training
-model test set AUC = \texttt{0.682}, middle training model test set AUC
-= \texttt{0.815}, worse training model test set AUC = \texttt{0.931}).
+training ranged from a minimum of 0.795 to a maximum of 0.854. To be
+conservative the model chosen for prediction of disease in the follow up
+samples had an AUC in the middle of all the 100 runs which was 0.819.
+Interestingly, the worst AUC model from training performed the best on
+it's respective 80/20 split test data {[}Figure 3{]}. In fact the 80/20
+test performance showed that the AUC for the middle model chosen was the
+most stable (best training model test set AUC = 0.682, middle training
+model test set AUC = 0.815, worse training model test set AUC = 0.931).
 That is to say it had the smallest change in AUC in comparison to the
 other minimum and maximum AUC trained models. There was no significant
 difference between the AUC of the best and middle training models
-(P-value = \texttt{0.419}). There was also no difference in the middle
-model versus worse (P-value = \texttt{0.178}) or full data model
-(P-value = \texttt{1}). The two comparisons with a significant
-difference were between the worse training model and the best training
-model (P-value = \texttt{7.94e-04}) and the worse training model and
-full data model (P-value = \texttt{3.52e-03}).
+(P-value = 0.419). There was also no difference in the middle model
+versus worse (P-value = 0.178) or full data model (P-value = 1). The two
+comparisons with a significant difference were between the worse
+training model and the best training model (P-value = 7.94e-04) and the
+worse training model and full data model (P-value = 3.52e-03).
 
 \textbf{\emph{Most Important Variables to the Model}} Overall, there
-were a total of \texttt{32} variables identified as being present in
-more than 50\% of the training models {[}Table S2{]}. The top 5 most
-important bacterial OTUs were \texttt{Bacteria\ (Otu000013)},
-\texttt{Escherichia/Shigella\ (Otu000018)},
-\texttt{Bacteria\ (Otu000020)}, \texttt{Ruminococcus\ (Otu000017)}, and
-\texttt{Porphyromonas\ (Otu000153)}. These 5 OTUs were present in at
-least \texttt{99} out of the total \texttt{100} different 80/20 runs.
+were a total of 32 variables identified as being present in more than
+50\% of the training models {[}Table S2{]}. The top 5 most important
+bacterial OTUs were Bacteria (Otu000013), Escherichia/Shigella
+(Otu000018), Bacteria (Otu000020), Ruminococcus (Otu000017), and
+Porphyromonas (Otu000153). These 5 OTUs were present in at least 99 out
+of the total 100 different 80/20 runs.
 
 \textbf{\emph{Surgical Removal of an Adenoma or Carcinoma Results in a
-Decrease in Positive Probability Prediction}} A total of \texttt{1}
-sample was omitted from the original \texttt{67} sample set since it was
-missing a complete set of follow up data. This left a total of
-\texttt{66} samples for test predictions. After multiple comparison
-correction there was a significant overall decrease in positive
-probability of a carcinoma and adenoma (P-value = \texttt{8.27e-11})
-{[}Figure 4{]}. This decrease was significant for both adenoma (P-value
-= \texttt{8.48e-07} {[}Figure 4a{]} and carcinoma (P-value =
-\texttt{5.96e-08}) {[}Figure 4b{]} alone. This also held specifically
-for those with screen relative neoplasias (SRN) (P-value =
-\texttt{1.45e-04}). A total of \texttt{65} or \texttt{98.5}\% of all
-samples were correctly predicted to have an adenoma or carcinoma.
-Although there was a decrease in positive probability only \texttt{26}
-of the total \texttt{66} individuals were classified as adenoma or
-carcinoma free on follow up (successful classification of
-\texttt{40.9}\%). There was no significant difference between the
-predictions and actual diagnosis as measured by the Mcnemar test
-(P-value = \texttt{1}). However, the predictions were significantly
+Decrease in Positive Probability Prediction}} A total of 1 sample was
+omitted from the original 67 sample set since it was missing a complete
+set of follow up data. This left a total of 66 samples for test
+predictions. After multiple comparison correction there was a
+significant overall decrease in positive probability of a carcinoma and
+adenoma (P-value = 1.14e-11) {[}Figure 4{]}. This decrease was
+significant for both adenoma (P-value = 7.95e-08 {[}Figure 4a{]} and
+carcinoma (P-value = 7.95e-08) {[}Figure 4b{]} alone. This also held
+specifically for those with screen relative neoplasias (SRN) (P-value =
+5.35e-04). A total of 66 or 100\% of all samples were correctly
+predicted to have an adenoma or carcinoma. Although there was a decrease
+in positive probability only 24 of the total 66 individuals were
+classified as adenoma or carcinoma free on follow up (successful
+classification of 37.9\%). There was no significant difference between
+the predictions and actual diagnosis for the initial samples in the
+67-sample cohort test set. However, the predictions were significantly
 discordent with the diagnosis for the follow up samples (P-value =
-\texttt{1.17e-09}). Although there were discordent results the
-respective sensitivity for the initial group was \texttt{98.5}\% and for
-follow up was \texttt{100}\%, respectively.
+4.19e-10). Although there were discordent results the respective
+sensitivity for the initial group was 100\% and for follow up was 100\%,
+respectively.
 
-There was \texttt{1} individual who still clearly had CRC on follow up
-as well as \texttt{5} individuals whose status on follow up was unknown.
-Although the \texttt{1} individual had a decrease in positive
-probability their follow up sample was still higher than the cutoff
-threshold of 0.5 (positive probability = \texttt{0.927}). Interestingly,
-\texttt{2} individuals who were unknown on follow up still were over the
-threshold cutoff of 0.5 even though, like the \texttt{1} individual with
-clear CRC on follow up, the probability of an adenoma or carcinoma
-decreased {[}Table S3{]}.
+There was 1 individual who still clearly had CRC on follow up as well as
+5 individuals whose status on follow up was unknown. Although the 1
+individual had a decrease in positive probability their follow up sample
+was still higher than the cutoff threshold of 0.5 (positive probability
+= 0.927). Interestingly, 2 individuals who were unknown on follow up
+still were over the threshold cutoff of 0.5 even though, like the 1
+individual with clear CRC on follow up, the probability of an adenoma or
+carcinoma decreased {[}Table S3{]}.
 
 The follow up positive probabilities were not affected by either
-chemotherapy treatment (uncorrected P-value = \texttt{0.919}) or
-radiation therapy (uncorrected P-value = \texttt{1}). There was also no
-difference in the amount of change in the positive probability based on
-whether individuals received chemotherapy (unccorected P-value =
-\texttt{0.578}) or radiation therapy (uncorrected P-value =
-\texttt{0.904}).
+chemotherapy treatment (uncorrected P-value = 0.919) or radiation
+therapy (uncorrected P-value = 1). There was also no difference in the
+amount of change in the positive probability based on whether
+individuals received chemotherapy (unccorected P-value = 0.578) or
+radiation therapy (uncorrected P-value = 0.904).
 
 \textbf{\emph{Specific OTUs in the Lesion Model are not Detected in
-Follow Up Versus Initial Samples}} Overall, there were a total of
-\texttt{8} OTUs that were common between the main lesion model and the
-model for classifying initial and follow up samples specifically
-{[}Table S4{]}. A total of \texttt{1} OTU was still significant after
-multiple comparison correction and it's lowest taxonomic identification
-was to \texttt{Blautia}. In general, \texttt{Otu000012}
-(\texttt{Blautia}) was decreased from initial to follow up {[}Figure
-5{]}. The relative abundance was not drastically different then the mean
-of the values observed in the control training set {[}Figure 5{]}.
+Follow Up Versus Initial Samples}} Overall, there were a total of 8 OTUs
+that were common between the main lesion model and the model for
+classifying initial and follow up samples specifically {[}Table S4{]}. A
+total of 1 OTU was still significant after multiple comparison
+correction and it's lowest taxonomic identification was to Blautia. In
+general, Otu000012 (Blautia) was decreased from initial to follow up
+{[}Figure 5{]}. The relative abundance was not drastically different
+then the mean of the values observed in the control training set
+{[}Figure 5{]}.
 
 \newpage
 
 \subsection{Discussion}\label{discussion}
 
-In this study we show that the overall community structure as measured
-by different alpha diversity metrics, shows very little change between
-controls and those with either adenoma or carcinoma {[}Table S1{]} in
-our larger training set. With respect to the follow up sample group
-there was very little difference in magnitude of change in the thetayc
-distance metric between those with adenoma or carcinoma{[}Figure 1a{]}.
-FIT had a large change in the initial and follow up samples in the
-carcinoma group versus the adenoma {[}Figure 1b{]}. An NMDS showed that
-there was very little change between initial and follow up for the
-adenoma group but there was a change in the carcinoma group {[}Figure
-2{]}. This information showed that the removal and treatment of
-carcinoma for these cursory metrics had the largest response. Yet these
-metrics alone would not be able to identify differences in adenomas.
+In our training set we show that the overall community structure as
+measured by different alpha diversity metrics, shows very little change
+between controls and those with either adenoma or carcinoma {[}Table
+S1{]}. With respect to our test set there was very little difference in
+magnitude of change in the thetayc distance metric between those with
+adenoma or carcinoma {[}Figure 1a{]}. In contrast, FIT had a large
+change in the initial and follow up samples in the carcinoma group
+versus the adenoma {[}Figure 1b{]}. An NMDS showed that there was very
+little observable change between initial and follow up for the adenoma
+group but there was one for the carcinoma group {[}Figure 2{]}. This
+cursory information is suggestive that treatment of carcinoma, had the
+largest response.
 
 We next created a model that incorporated both patient metadata, FIT,
 and the bacterial microbiome to be able to predict lesions (adenoma or
@@ -346,28 +335,27 @@ training model {[}Figure 3{]}. Using this model we predicted the
 probability of a lesion in the inital and follow up samples {[}Figure
 4{]}. There was a signficant decrease in positive probability regardless
 of whether the sample as a carcinoma or adenoma. The overall sensitivity
-for lesion detection in the intial samples was \texttt{98.5} and for
-follow ups was \texttt{100}. Although there was a decrease in overall
-probability of an adenoma or carcinoma only \texttt{26} were below the
-0.5 threshold out of the total \texttt{65} individuals who were
-diagnosed as not having a carcinoma on follow up.
+for lesion detection in the intial samples was 100 and for follow ups
+was 100. Although there was a decrease in overall probability of an
+adenoma or carcinoma only 24 were below the 0.5 threshold out of the
+total 65 individuals who were diagnosed as not having a carcinoma on
+follow up.
 
 We then investigated which OTUs could potentially be more important in
 our model {[}Figure 5 \& Table S4{]}. Only a single OTU was significant
 after multiple comparison correction and the lowest taxonomic
-identification of \texttt{Otu000012} was to \texttt{Blautia}. Although
-there was a difference in the relative abundance at initial and follow
-up these values were not drastically different from the relative
-abundance values observed in the control individuals of the training set
-{[}Figure 5{]}. This research provides evidence that it is possible to
-create a highily sensitive model for detection of adenoma or carcinoma
-with bacterial microbiome data. It accomplishes this by using a unique
-sample set in which before and after stool samples are available for
-assessment. By using these types of samples we are able to show that
-this model is reactive. That is to say that after surgery for removal of
-the adenoma or carcinoma it decreases the positive probability to
-reflect a lower likelihood of the individual having an adenoma or
-carcinoma.
+identification of Otu000012 was to Blautia. Although there was a
+difference in the relative abundance at initial and follow up these
+values were not drastically different from the relative abundance values
+observed in the control individuals of the training set {[}Figure 5{]}.
+This research provides evidence that it is possible to create a highily
+sensitive model for detection of adenoma or carcinoma with bacterial
+microbiome data. It accomplishes this by using a unique sample set in
+which before and after stool samples are available for assessment. By
+using these types of samples we are able to show that this model is
+reactive. That is to say that after surgery for removal of the adenoma
+or carcinoma it decreases the positive probability to reflect a lower
+likelihood of the individual having an adenoma or carcinoma.
 
 This study builds upon previous work from numerous labs that have looked
 into the bacterial microbiome as a potential screening tool
@@ -445,13 +433,12 @@ adenomatous polyposis. Samples used to build the model used for
 prediction were collected either prior to a colonoscopy or between 1 - 2
 weeks after. The bacterial microbiome has been shown to nomralize within
 this time period (\textbf{insert citation}). Kept apart from this
-training set were a total of \texttt{67} individuals that not only had a
-sample as described previoulsy but also a follow up sample between
-\texttt{188} - \texttt{546} days after surgery and treatment had been
-completed. This study was approved by the University of Michigan
-Institutional Review Board. All study participants provided informed
-consent and the study itself conformed to the guidelines set out by the
-Helsinki Declaration.
+training set were a total of 67 individuals that not only had a sample
+as described previoulsy but also a follow up sample between 188 - 546
+days after surgery and treatment had been completed. This study was
+approved by the University of Michigan Institutional Review Board. All
+study participants provided informed consent and the study itself
+conformed to the guidelines set out by the Helsinki Declaration.
 
 \textbf{\emph{Fecal Immunochemical Test and 16S rRNA Gene Sequencing}}
 FIT was analyzed as previously published using both OC FIT-CHEK and
@@ -474,57 +461,60 @@ database, screening for chimeras, classified with a naive Bayesian
 classifier using the Ribosomal Database Project (RDP), and clustered
 into Operational Taxonomic Units (OTUs) using a 97\% similarity cutoff
 with an average neighbor clustering algorithm. The numer of sequences
-for each sample was rarified to \texttt{10521} in an attempt to minimize
-uneven sampling.
+for each sample was rarified to 10521 in an attempt to minimize uneven
+sampling.
 
 \textbf{\emph{Model Creation}} The Random Forest (\textbf{insert
 citation}) algorithm was used to create the model used for prediction of
-lesion (adenoma or carcinoma) for the \texttt{67} individuals with
-follow up samples. The model included data on FIT, the bacterial
-microbiome, sex, age, Body Mass Index (BMI), whether the indivdiual was
-caucasion or not, history of cancer, and family history of cancer.
-Non-binary data was checked for near zero variance and auto correlation.
-Data columns that had near zero variance were removed. Columns that were
-correlated with each other over a Spearman correlation coefficient of
-0.75 had one of the two columns removed. This pre-processing was
-performed with the R package caret (v\texttt{6.0.73}). The method of
-choosing the best model involved taking the \texttt{490} samples and
-making 100 80/20 (train/test) splits in the data where control and
-lesion were equally represented in the 80 and 20 split, respectively.
-This 80\% portion was then split again into an 80/20 split, and run
-twenty times through 10-fold cross validation to optimzie the model's
-Receiver Operator Characteristic (ROC) and tuneing both mtry and ntree.
-This resulting model was then tested on the 20\% of the data that was
-originally held out from this overall process. This was repeated 100
-times with the best model after all the repeats chosen to be used on the
-\texttt{67} samples with follow up. The default cutoff of a probability
-of 0.5 was used as the threshold to classify individuals as having or
-not having a lesion.
+lesion (adenoma or carcinoma) for the 67 individuals with follow up
+samples. The model included data on FIT, the bacterial microbiome, sex,
+age, Body Mass Index (BMI), whether the indivdiual was caucasion or not,
+history of cancer, and family history of cancer. Non-binary data was
+checked for near zero variance and auto correlation. Data columns that
+had near zero variance were removed. Columns that were correlated with
+each other over a Spearman correlation coefficient of 0.75 had one of
+the two columns removed. This pre-processing was performed with the R
+package caret (v6.0.73). Optimiation of the mtry hyperparameter as well
+as data on the best and worse performance of the model involved taking
+the 490 samples and making 100 80/20 (train/test) splits in the data
+where control and lesion were equally represented in the 80 and 20
+split, respectively. This 80\% portion was then split again into an
+80/20 split, and run twenty times through 10-fold cross validation to
+optimzie the model's Receiver Operator Characteristic (ROC) and tuneing
+both mtry and ntree. This resulting model was then tested on the 20\% of
+the data that was originally held out from this overall process. This
+was repeated 100 times with the best model after all the repeats chosen
+to be used on the 67 samples with follow up. Once the ideal mtry was
+found the entire 490 sample set was used to create the final Random
+Forest model. The default cutoff of a probability of 0.5 was used as the
+threshold to classify individuals as positive or negative of lesion.
 
 \textbf{\emph{Selection of Important OTUs}} In order to assess which
-variables were most central to all the models the number of times a
-variable was present in the top 10\% of mean decrease in accuracy (MDA)
-was recorded and those varialbes that were present more than 50\% of the
-time were considered important.
+variables were most central to all the models we counted the number of
+times a variable was present in the top 10\% of mean decrease in
+accuracy (MDA) for each different 80/20 split model and then filtered
+this list to variables that were only present more than 50\% of the
+time. This final collated list of variables was what was considered the
+most important.
 
 A second model using the same types of conditions was used to identify
-OTUs that could predict initial and follow up samples and specifically
-lesion. This new model OTUs were then compared to the overall lesion
-model and common OTUs were selected to test for changes between initial
-and follow up using a paired wilcoxson rank sum test.
+OTUs that could predict initial and follow up samples. This new model
+OTUs were then compared to the overall lesion model and the resulting
+common OTUs to both models were selected to test for changes between
+initial and follow up using a paired wilcoxson rank sum test.
 
-\textbf{\emph{Statistical Analysis}} The R software package
-(v\texttt{3.3.0}) was used for all statisitical analysis. Comparisons
-between bacterial community structure utilized PERMANOVA (\textbf{insert
-citation}) in the vegan package (v\texttt{2.4.1}) while comparisons
-between ROC curves utilized the method by DeLong et al. (\textbf{insert
-citation}) executed by the pROC (v\texttt{1.8}) package. Comparisons
-between probabilities as well as overall amount of OTU between initial
-and follow up samples utilized a paired wilcoxson ranked sum test. Where
-multiple comparison testing was needed a Benjamini-Hochberg (BH)
-correction was applied (\textbf{insert citation}) and a corrected
-P-value of less than 0.05 was considered significant. Unless otherwise
-stated the P-values reported are those of the BH corrected ones.
+\textbf{\emph{Statistical Analysis}} The R software package (v3.3.0) was
+used for all statisitical analysis. Comparisons between bacterial
+community structure utilized PERMANOVA (\textbf{insert citation}) in the
+vegan package (v2.4.1) while comparisons between ROC curves utilized the
+method by DeLong et al. (\textbf{insert citation}) executed by the pROC
+(v1.8) package. Comparisons between probabilities as well as overall
+amount of OTU between initial and follow up samples utilized a paired
+wilcoxson ranked sum test. Where multiple comparison testing was needed
+a Benjamini-Hochberg (BH) correction was applied (\textbf{insert
+citation}) and a corrected P-value of less than 0.05 was considered
+significant. Unless otherwise stated the P-values reported are those of
+the BH corrected ones.
 
 \textbf{\emph{Reproducible methods.}} A detailed and reproducible
 description of how the data were processed and analyzed can be found at
@@ -545,8 +535,8 @@ Detection Research Network (U01CA86400).
 \textbf{Figure 1: Change in Thetayc and Fit between initial and follow
 up in adenoma or carcinoma group.} A) No significant difference was
 found between the adenoma and carcinoma group for thetayc (P-value =
-\texttt{0.697}). B) A significant difference was found between the
-adenoma and carcinoma group for Fit (P-value = \texttt{2.15e-05}).
+0.697). B) A significant difference was found between the adenoma and
+carcinoma group for Fit (P-value = 2.15e-05).
 
 \textbf{Figure 2: NMDS of the Overall Bacterial Community Changes.} A)
 NMDS of the intial and follow up samples for the Adenoma group. B) NMDS
@@ -554,11 +544,11 @@ of the initial and follow up samples for the Carcinoma group.
 
 \textbf{Figure 3: Graph of the Receiver Operating Characteristic Curve
 on Test Set Performance of the Best, Middle, and Worse Training Models.}
-For each of the 100 training cohort sets used had \texttt{392}
-individuals and the testing cohort sets had \texttt{13} individuals. The
-AUC on the test sets for the best, middle, and worse models from
-training were \texttt{0.682}, \texttt{0.815}, and \texttt{0.931},
-respectively. cvAUC is the 10-fold cross-validated AUC from training.
+For each of the 100 training cohort sets used had 392 individuals and
+the testing cohort sets had 13 individuals. The AUC on the test sets for
+the best, middle, and worse models from training were 0.682, 0.815, and
+0.931, respectively. cvAUC is the 10-fold cross-validated AUC from
+training.
 
 \textbf{Figure 4: Breakdown by Carcinoma and Adenoma of Prediction
 Results for Initial and Follow Up}* A) Positive probability adjustment
@@ -570,9 +560,9 @@ whether a sample was lesion positive or not.
 
 \textbf{Figure 5: Lesion Model OTU with a Significant Decrease in
 Relative Abundance that is also Predictive of Initial and Follow Up.}
-After multiple comparison correction \texttt{1} (\texttt{Blautia}) was
-the only one with a P-value \textless{} 0.05. The dotted line represents
-the average relative abundance in the control training group.
+After multiple comparison correction 1 (Blautia) was the only one with a
+P-value \textless{} 0.05. The dotted line represents the average
+relative abundance in the control training group.
 
 \newpage
 
