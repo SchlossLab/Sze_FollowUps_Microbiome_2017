@@ -208,16 +208,16 @@ The authors thank the Great Lakes-New England Early Detection Research Network f
 \newpage
 
 
-**Figure 1: Change in Thetayc and Fit between initial and follow up in adenoma or carcinoma group.**  A) No significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`).  B) A significant difference was found between the adenoma and carcinoma group for Fit (P-value = `r format(change_summary['fit', 'Pvalue'], scientific = TRUE, digits = 3)`).
+**Figure 1: Change in Thetayc and Fit between initial and follow up in adenoma or carcinoma group.**  A) No significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`).  B) A significant difference was found between the adenoma and carcinoma group for FIT (P-value = `r format(change_summary['fit', 'Pvalue'], scientific = TRUE, digits = 3)`).
 
 
 **Figure 2: NMDS of the Overall Bacterial Community Changes.**  A) NMDS of the intial and follow up samples for the Adenoma group.  B) NMDS of the initial and follow up samples for the Carcinoma group.
 
 
-**Figure 3: Graph of the Receiver Operating Characteristic Curve on Test Set Performance of the Best, Middle, and Worse Training Models.** For each of the 100 training cohort sets used had `r round(length(rownames(metaI))*0.8)` individuals and the testing cohort sets had `r round(length(rownames(good_metaf))*0.2)` individuals.  The AUC on the test sets for the best, middle, and worse models from training were `r format(model_test_AUC_summary["best", "AUC"], digits = 3)`, `r format(model_test_AUC_summary["middle", "AUC"], digits = 3)`, and `r format(model_test_AUC_summary["worse", "AUC"], digits = 3)`, respectively.  cvAUC is the 10-fold cross-validated AUC from training. 
+**Figure 3: Graph of the Receiver Operating Characteristic Curve on Test Set Performance of the Best, Middle, Worse, and Full Training Models.** For each of the 100 training cohort sets used had `r round(length(rownames(metaI))*0.8)` individuals and the testing cohort sets had `r round(length(rownames(good_metaf))*0.2)` individuals.  The AUC on the test sets for the best, middle, and worse models from training were `r format(model_test_AUC_summary["best", "AUC"], digits = 3)`, `r format(model_test_AUC_summary["middle", "AUC"], digits = 3)`, and `r format(model_test_AUC_summary["worse", "AUC"], digits = 3)`, respectively.  cvAUC is the 20 times repeated 10-fold cross-validated AUC from training. 
 
 
-**Figure 4: Breakdown by Carcinoma and Adenoma of Prediction Results for Initial and Follow Up***  A) Positive probability adjustment of those with carcinoma from intial to follow up sample  B) Positive probability adjustment of those with adenoma as well as those with SRN and the probability adjustment from initial to follow up sample.  THe dotted line represents the threshold used to make the decision of whether a sample was lesion positive or not.
+**Figure 4: Breakdown by Carcinoma and Adenoma of Prediction Results for Initial and Follow Up***  A) Positive probability adjustment of those with carcinoma from intial to follow up sample  B) Positive probability adjustment of those with adenoma as well as those with SRN and the probability adjustment from initial to follow up sample.  The dotted line represents the threshold used to make the decision of whether a sample was lesion positive or not.
 
 
 **Figure 5: Lesion Model OTU with a Significant Decrease in Relative Abundance that is also Predictive of Initial and Follow Up.**  After multiple comparison correction `r rownames(filter(pvalue_common_imp_vars, BH_corr < 0.05))` (`r filter(pvalue_common_imp_vars, BH_corr < 0.05)[, "Genus"]`) was the only one with a P-value < 0.05.  The dotted line represents the average relative abundance in the control training group.     
