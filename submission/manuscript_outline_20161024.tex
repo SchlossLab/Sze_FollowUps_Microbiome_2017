@@ -309,6 +309,16 @@ general, Otu000012 (Blautia) was decreased from initial to follow up
 then the mean of the values observed in the control training set
 {[}Figure 5{]}.
 
+\textbf{\emph{Differences in Adenoma and Carcinoma in Previously
+Associated Cancer Bacteria}} First, there was a clear magnitude
+difference in these specific OTUs based on whether they were from
+adenoma or carcinoma individuals {[}Figure 6{]}. The carcinoma samples
+showed a significant difference between initial and follow up samples
+for Peptostreptococcus assacharolytica (P-value = 0.0183) and
+Porphyromonas stomatis (P-value = 0.0154) whereas there were no
+signficant differences in any of these OTUs in the adenoma samples
+{[}Table S5{]}.
+
 \newpage
 
 \subsection{Discussion}\label{discussion}
@@ -349,16 +359,21 @@ lowest taxonomic identification of Otu000012 was to Blautia. Although
 there was a difference in the relative abundance at initial and follow
 up these values were not drastically different from the relative
 abundance values observed in the control individuals of the training set
-{[}Figure 5{]}. This research provides evidence that it is possible to
-use bacterial microbiome data to create a highily sensitive model, that
-is reactive to therapy, for detection of adenoma or carcinoma. It
-accomplishes this by using a unique sample set in which before and after
-surgery stool samples are available for assessment. By using these types
-of samples we are not only able to show sensitivity of lesion prediction
-but also able to show that this model is reactive. That is to say that
-after surgery for removal of the adenoma or carcinoma it decreases the
-positive probability to reflect a lower likelihood of the individual
-having an adenoma or carcinoma.
+{[}Figure 5{]}. Although we were interested in what we could use to
+classify those with either adenoma or carcinoma versus normal. We found
+that the traditional bacteria associated with CRC were higher in
+magnitude in the carcinoma group and there were significant differences
+in some of these OTUs between the initial and follow up samples
+{[}Figure 5 and Tabl S5{]}. This research provides evidence that it is
+possible to use bacterial microbiome data to create a highily sensitive
+model, that is reactive to therapy, for detection of adenoma or
+carcinoma. It accomplishes this by using a unique sample set in which
+before and after surgery stool samples are available for assessment. By
+using these types of samples we are not only able to show sensitivity of
+lesion prediction but also able to show that this model is reactive.
+That is to say that after surgery for removal of the adenoma or
+carcinoma it decreases the positive probability to reflect a lower
+likelihood of the individual having an adenoma or carcinoma.
 
 This study builds upon previous work from numerous labs that have looked
 into the bacterial microbiome as a potential screening tool
@@ -381,8 +396,11 @@ present in the majority of the training models. One potential
 explanation for this is that FIT provides the same information to the
 model as these three organisms and so the model uses FIT preferentially
 over them. This has been suggested to be the case in a previous study
-(\textbf{insert Baxter Study}). Regardless, our study does not argue
-against the importance of these bacterium in CRC initiation or
+(\textbf{insert Baxter Study}). It is also possible that these specific
+bacteria play a major role in the progression to carcinoma but may not
+be as important in the initiation of an adenoma, which would be
+supported by our data {[}Figure 5{]}. Regardless, our study does not
+argue against the importance of these bacterium in CRC initiation or
 pathogenesis but rather that the model does not utilize these specific
 bacteria for prediction purposes. Another potential reason why we did
 not identify the ``usual suspects''" is that these bacteria may not
@@ -515,6 +533,15 @@ lesion model important OTUs and the resulting common OTUs to both models
 were selected to test for changes between initial and follow up using a
 paired wilcoxson rank sum test.
 
+\textbf{\emph{Investigation of Important CRC Bacteria}} In order to
+investigate how specific bacteria that have been previously associated
+with CRC with selected OTUs that taxonomically classified to
+Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus
+Assacharolytica, and Porphyromonas Stomatis. Specifically we wanted to
+observe if there were any differences based on whether the individual
+had an adenoma or carcinoma that may have been missed with our lesion
+versus normal model.
+
 \textbf{\emph{Statistical Analysis}} The R software package (v3.3.0) was
 used for all statisitical analysis. Comparisons between bacterial
 community structure utilized PERMANOVA (\textbf{insert citation}) in the
@@ -575,6 +602,14 @@ Relative Abundance that is also Predictive of Initial and Follow Up.}
 After multiple comparison correction 1 (Blautia) was the only one with a
 P-value \textless{} 0.05. The dotted line represents the average
 relative abundance in the control training group.
+
+\textbf{Figure 6: Previously Associated CRC Bacteria in Initial and
+Follow up Samples.} A) Carcinoma initial and follow up samples. There
+was a significant difference in initial and follow up sample for the
+OTUs classfied as Peptostreptococcus assacharolytica (P-value = 0.0183)
+and Porphyromonas stomatis (P-value = 0.0154). B) Adenoma initial and
+follow up samples. There were no significant differences between initial
+and follow up.
 
 \newpage
 

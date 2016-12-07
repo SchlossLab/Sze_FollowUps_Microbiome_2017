@@ -115,6 +115,34 @@ kable(st4, format = "markdown", align = 'c', padding = 2)
 ```
 
 
+\newpage
+
+
+**Table S5: Summary of P-values for Specific CRC OTUs between Initial and Follow Ups**
+
+```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
+
+pvalue_adn_crc_summary <- read.csv('../results/tables/adn_crc_maybe_pvalue_summary.csv', header = T, row.names = 1)
+
+st5 <- cbind(tax_id = c("Fusobacterium Nucleatum", "Parvimonas Micra", 
+                        "Peptostreptococcus Assacharolytica", "Porphyromonas Stomatis"), 
+             crc_pvalue = format(pvalue_adn_crc_summary$crc_pvalue, digits = 3), 
+             crc_bh = format(pvalue_adn_crc_summary$crc_BH, digits = 3), 
+             adn_pvalue = format(pvalue_adn_crc_summary$adn_pvalue, digits = 3), 
+             adn_bh = format(pvalue_adn_crc_summary$adn_BH, digits = 3))
+
+colnames(st5) <- c("Taxonomic ID", "CRC P-value", "CRC BH Corrected P-value", 
+                   "Adenoma P-value", "Adenoma BH Corrected P-value")
+
+kable(st5, format = "markdown", align = 'c', padding = 2)
+
+```
+
+
+
+
+
+
 ```{r supplemental_figure1, echo=FALSE, message=FALSE, warning=FALSE}
 
 diff_table_time <- read.csv("../results/tables/time_datatable.csv", header = T)

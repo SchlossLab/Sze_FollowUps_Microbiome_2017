@@ -110,8 +110,12 @@ $(FIGS)/Figure5.pdf :
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
 
+$(FIGS)/Figure6.pdf :
+	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
+
 $(TABLES)/time_pvalues.csv : 
 	R -e "source('code/Run_Supplemental_time_table.R')"
+	R -e "source('code/Run_Figure6.R')"
 
 
 ################################################################################
@@ -128,6 +132,7 @@ write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
 		$(TABLES)/alpha_table_summary.csv\
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
 		$(FIGS)/Figure3.pdf $(FIGS)/Figure4.pdf\
-		$(FIGS)/Figure5.pdf $(TABLES)/time_pvalues.csv 
+		$(FIGS)/Figure5.pdf $(FIGS)/Figure6.pdf\
+		$(TABLES)/time_pvalues.csv 
 	R -e "source('code/Run_render_paper.R')"
 
