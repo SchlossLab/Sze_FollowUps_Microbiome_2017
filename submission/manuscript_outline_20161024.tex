@@ -217,40 +217,41 @@ lesion refers to both adenoma and carcinoma.
 \subsection{Results}\label{results}
 
 \textbf{\emph{Bacterial Community and Fit Changes before and after
-Treatment}} Based on thetayc distance metrics comparing the initial to
-the follow up samples there was no difference between the adenoma and
-carcinoma group (P-value = 0.697) {[}Figure 1a{]}. There was a
+Treatment}} Based on thetayc distance metrics, comparing the initial to
+the follow up samples, there was no difference between the adenoma and
+carcinoma groups (P-value = 0.697) {[}Figure 1a{]}. There was a
 difference in FIT between initial and follow up samples with the
 carcinoma group having a significant decrease in FIT versus the adenoma
 group (P-value = 2.15e-05) {[}Figure 1b{]}. Although the thetayc
 distance metric change was similar between adenoma and carcinoma the
 directionality of the change was significant in the cancer group between
 initial and follow up (P-value = 0.002) but not for the adenoma group
-(P-value = 0.997) {[}Figure 2{]}. When all follow up samples were
-compared to each other there was no significant overall difference
-between them (P-value = 0.085). There was no significant difference
-between initial and follow up samples for observed OTUs, Shannon
-diversity, and evenness after correction for multiple comparisons
-{[}Table S1{]}. Time of follow up sample from initial sampling did not
-have an effect on our prediction data set (uncorrected P-value = 0.784).
+(P-value = 0.997). This change can be visualized using an NMDS {[}Figure
+2{]}. When all follow up samples were compared to each other there was
+no significant overall difference between them (P-value = 0.085). There
+was no significant difference between initial and follow up samples for
+observed OTUs, Shannon diversity, or evenness after correction for
+multiple comparisons {[}Table S1{]}. Time of follow up sample from
+initial sampling, did not have a significant difference between adenoma
+and carcinoma (uncorrected P-value = 0.784).
 
 \textbf{\emph{Outcome of Model Training}} The range of the AUC for model
-training ranged from a minimum of 0.795 to a maximum of 0.854. To be
-conservative the model chosen for prediction of disease in the follow up
-samples had an AUC in the middle of all the 100 runs which was 0.819.
-Interestingly, the worst AUC model from training performed the best on
-it's respective 80/20 split test data {[}Figure 3{]}. In fact the 80/20
-test performance showed that the AUC for the middle model chosen was the
-most stable (best training model test set AUC = 0.682, middle training
-model test set AUC = 0.815, worse training model test set AUC = 0.931).
-That is to say it had the smallest change in AUC in comparison to the
-other minimum and maximum AUC trained models. There was no significant
-difference between the AUC of the best and middle training models
-(P-value = 0.419). There was also no difference in the middle model
-versus worse (P-value = 0.178) or full data model (P-value = 1). The two
-comparisons with a significant difference were between the worse
-training model and the best training model (P-value = 7.94e-04) and the
-worse training model and full data model (P-value = 3.52e-03).
+training ranged from a minimum of 0.795 to a maximum of 0.854 with the
+middle of all 100 runs having an AUC of 0.819. Interestingly, the worst
+AUC model from training performed the best on it's respective 80/20
+split test data {[}Figure 3{]}. In fact the 80/20 test performance
+showed that the AUC for the middle model chosen was the most stable
+(best training model test set AUC = 0.682, middle training model test
+set AUC = 0.815, worse training model test set AUC = 0.931). That is to
+say it had the smallest change in AUC in comparison to the minimum and
+maximum AUC trained models. The middle model was close to the full
+training data AUC 0.813. There was no significant difference between the
+AUC of the best and middle training models (P-value = 0.419). There was
+also no difference in the middle model versus worse (P-value = 0.178) or
+full data model (P-value = 1). The two comparisons with a significant
+difference were between the worse training model and the best training
+model (P-value = 7.94e-04) and the worse training model and full
+training model (P-value = 3.52e-03).
 
 \textbf{\emph{Most Important Variables to the Model}} Overall, there
 were a total of 32 variables identified as being present in more than
@@ -262,25 +263,25 @@ of the total 100 different 80/20 runs.
 
 \textbf{\emph{Surgical Removal of an Adenoma or Carcinoma Results in a
 Decrease in Positive Probability Prediction}} A total of 1 sample was
-omitted from the original 67 sample set since it was missing a complete
-set of follow up data. This left a total of 66 samples for test
+omitted from the original 67 test sample set since it was missing a
+complete set of follow up data. This left a total of 66 samples for test
 predictions. After multiple comparison correction there was a
 significant overall decrease in positive probability of a carcinoma and
 adenoma (P-value = 1.14e-11) {[}Figure 4{]}. This decrease was
 significant for both adenoma (P-value = 7.95e-08 {[}Figure 4a{]} and
-carcinoma (P-value = 7.95e-08) {[}Figure 4b{]} alone. This also held
-specifically for those with screen relative neoplasias (SRN) (P-value =
-5.35e-04). A total of 66 or 100\% of all samples were correctly
-predicted to have an adenoma or carcinoma. Although there was a decrease
-in positive probability only 24 of the total 66 individuals were
-classified as adenoma or carcinoma free on follow up (successful
-classification of 37.9\%). There was no significant difference between
-the predictions and actual diagnosis for the initial samples in the
-67-sample cohort test set. However, the predictions were significantly
-discordent with the diagnosis for the follow up samples (P-value =
-4.19e-10). Although there were discordent results the respective
-sensitivity for the initial group was 100\% and for follow up was 100\%,
-respectively.
+carcinoma (P-value = 7.95e-08) {[}Figure 4b{]} alone. This decrease in
+probability of lesion also held specifically for those with screen
+relative neoplasias (SRN) (P-value = 5.35e-04). A total of 66 or 100\%
+of all samples were correctly predicted to have a lesion. Although there
+was a decrease in positive probability only 24 of the total 66
+individuals were classified as adenoma or carcinoma free on follow up
+(successful classification of 37.9\%). There was no significant
+difference between the predictions and actual diagnosis for the initial
+samples in the 67-sample cohort test set. However, the predictions were
+significantly discordent with the diagnosis for the follow up samples
+(P-value = 4.19e-10). Although there were discordent results the
+respective sensitivity for the initial group was 100\% and for follow up
+was 100\%, respectively.
 
 There was 1 individual who still clearly had CRC on follow up as well as
 5 individuals whose status on follow up was unknown. Although the 1
