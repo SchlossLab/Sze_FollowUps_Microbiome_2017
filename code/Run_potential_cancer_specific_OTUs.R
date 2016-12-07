@@ -116,7 +116,7 @@ for(i in 1:length(good_counts_init)){
 
 # Write out the pvalue table for future use
 
-write.csv(pvalue_summary, "results/tables/adn_crc_maybe_pvalue_summary.csv", row.names = F)
+write.csv(pvalue_summary, "results/tables/adn_crc_maybe_pvalue_summary.csv")
 
 
 
