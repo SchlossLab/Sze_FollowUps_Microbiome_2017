@@ -439,7 +439,7 @@ design of the study was similar to that reported in Baxter, et al
 (\textbf{insert citation}). In brief, study exclusion involved those who
 had already undergone surgery, radiation, or chemotherapy, had
 colorectal cancer before a baseline stool sample could be obtained, had
-IBD, a known hereditary non-polyposis colorectal cacner, or Familial
+IBD, a known hereditary non-polyposis colorectal cancer, or Familial
 adenomatous polyposis. Samples used to build the model used for
 prediction were collected either prior to a colonoscopy or between 1 - 2
 weeks after. The bacterial microbiome has been shown to nomralize within
@@ -460,8 +460,8 @@ extraction used the 96 well Soil DNA isolation kit (MO BIO Laboratories)
 and an epMotion 5075 automated pipetting system (Eppendorf). The V4
 variable region was amplified and the resulting product was split
 between three sequencing runs with control, adenoma, and carcinoma
-evenly represented on each run. Which of each group was randomly
-assigned to avoid biases based on sample collection location.
+evenly represented on each run. Each group was randomly assigned to
+avoid biases based on sample collection location.
 
 \textbf{\emph{Sequence Processing}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences. This process
@@ -486,19 +486,18 @@ had near zero variance were removed. Columns that were correlated with
 each other over a Spearman correlation coefficient of 0.75 had one of
 the two columns removed. This pre-processing was performed with the R
 package caret (v6.0.73). Optimiation of the mtry hyperparameter as well
-as data on the best and worse performance of the model involved taking
-the 490 samples and making 100 80/20 (train/test) splits in the data
-where control and lesion were equally represented in the 80 and 20
+as data on the best, middle, and worse performance of the model involved
+taking the 490 samples and making 100 80/20 (train/test) splits in the
+data where control and lesion were equally represented in the 80 and 20
 split, respectively. This 80\% portion was then split again into an
-80/20 split, and run twenty times through 10-fold cross validation to
-optimzie the model's Receiver Operator Characteristic (ROC) and tuneing
-both mtry and ntree. This resulting model was then tested on the 20\% of
-the data that was originally held out from this overall process. This
-was repeated 100 times with the best model after all the repeats chosen
-to be used on the 67 samples with follow up. Once the ideal mtry was
-found the entire 490 sample set was used to create the final Random
-Forest model. The default cutoff of a probability of 0.5 was used as the
-threshold to classify individuals as positive or negative of lesion.
+80/20 split, and run through 20 repeated 10-fold cross validations to
+optimzie the model's AUC (Area Under the Curve of the Receiver Operator
+Characteristic). This resulting model was then tested on the 20\% of the
+data that was originally held out from this overall process. Once the
+ideal mtry was found the entire 490 sample set was used to create the
+final Random Forest model on which testing on the 67-person cohort was
+completed. The default cutoff of 0.5 was used as the threshold to
+classify individuals as positive or negative for lesion.
 
 \textbf{\emph{Selection of Important OTUs}} In order to assess which
 variables were most central to all the models we counted the number of
@@ -506,13 +505,15 @@ times a variable was present in the top 10\% of mean decrease in
 accuracy (MDA) for each different 80/20 split model and then filtered
 this list to variables that were only present more than 50\% of the
 time. This final collated list of variables was what was considered the
-most important.
+most important for the lesion prediction model.
 
 A second model using the same types of conditions was used to identify
-OTUs that could predict initial and follow up samples. This new model
-OTUs were then compared to the overall lesion model and the resulting
-common OTUs to both models were selected to test for changes between
-initial and follow up using a paired wilcoxson rank sum test.
+OTUs that could predict initial and follow up samples. These OTUs were
+considered the most important for predicting initial and follow up
+samples. This new model important OTUs were then compared to the overall
+lesion model important OTUs and the resulting common OTUs to both models
+were selected to test for changes between initial and follow up using a
+paired wilcoxson rank sum test.
 
 \textbf{\emph{Statistical Analysis}} The R software package (v3.3.0) was
 used for all statisitical analysis. Comparisons between bacterial
