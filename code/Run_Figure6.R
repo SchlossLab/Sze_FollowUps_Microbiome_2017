@@ -15,10 +15,10 @@ graph_data <- read.csv("results/tables/adn_crc_maybe_diff.csv", header = T, stri
 graph_data <- mutate(graph_data, j_values = jitter(value, 3))
 
 labs <- c(
-  paste("Fusobacterium Nucleatum ", "(", unique(graph_data$otu)[1], ")", sep = ""), 
-  paste("Parvimonas Micra ", "(", unique(graph_data$otu)[2], ")", sep = ""), 
-  paste("Peptostreptococcus Assacharolytica ", "(", unique(graph_data$otu)[3], ")", sep = ""), 
-  paste("Porphyromonas Stomatis ", "(", unique(graph_data$otu)[4], ")", sep = ""))
+  paste("Fusobacterium nucleatum ", "(", unique(graph_data$otu)[1], ")", sep = ""), 
+  paste("Parvimonas micra ", "(", unique(graph_data$otu)[2], ")", sep = ""), 
+  paste("Peptostreptococcus stomatis ", "(", unique(graph_data$otu)[3], ")", sep = ""), 
+  paste("Porphyromonas asaccharolytica ", "(", unique(graph_data$otu)[4], ")", sep = ""))
 
 names(labs) <- unique(graph_data$otu)
 
