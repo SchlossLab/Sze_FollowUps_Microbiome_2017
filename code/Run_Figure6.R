@@ -12,13 +12,13 @@ loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson",
 # Load needed data
 graph_data <- read.csv("results/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
 
-graph_data <- mutate(graph_data, j_values = jitter(value))
+graph_data <- mutate(graph_data, j_values = jitter(value, 3))
 
 labs <- c(
-  paste("Fusobacterium Nucleatum ", "(", unique(graph_data$otu)[1], ")", sep = ""), 
-  paste("Parvimonas Micra ", "(", unique(graph_data$otu)[2], ")", sep = ""), 
-  paste("Peptostreptococcus Assacharolytica ", "(", unique(graph_data$otu)[3], ")", sep = ""), 
-  paste("Porphyromonas Stomatis ", "(", unique(graph_data$otu)[4], ")", sep = ""))
+  paste("Fusobacterium nucleatum ", "(", unique(graph_data$otu)[1], ")", sep = ""), 
+  paste("Parvimonas micra ", "(", unique(graph_data$otu)[2], ")", sep = ""), 
+  paste("Peptostreptococcus stomatis ", "(", unique(graph_data$otu)[3], ")", sep = ""), 
+  paste("Porphyromonas asaccharolytica ", "(", unique(graph_data$otu)[4], ")", sep = ""))
 
 names(labs) <- unique(graph_data$otu)
 
@@ -31,7 +31,7 @@ crc_specific <- grid.arrange(
                j_values, group = factor(EDRN))) + 
     geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
     geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-    facet_wrap(~otu, labeller = as_labeller(labs)) + coord_cartesian(ylim = c(0, 0.105)) + 
+    facet_wrap(~otu, labeller = as_labeller(labs)) + coord_cartesian(ylim = c(0, 0.1)) + 
     theme_bw() + ylab("Relative Abundance") + xlab("") + ggtitle("A") + 
     scale_colour_manual(name = "Cancer Free", 
                         label = c("No", "Yes", "Unknown"),  
@@ -40,7 +40,7 @@ crc_specific <- grid.arrange(
       breaks = c("initial", "followup"), 
       labels = c("Initial", "Follow Up")) + 
     theme(legend.title = element_text(face="bold"), 
-          legend.position = c(0.40, 0.30), 
+          legend.position = c(0.35, 0.25), 
           plot.margin = unit(c(1, 1, 1, 1), "lines"), 
           plot.title = element_text(size=20, face="bold")), 
   

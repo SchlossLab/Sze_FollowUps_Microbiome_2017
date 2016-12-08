@@ -146,7 +146,7 @@ Overall, there were a total of `r length(rownames(pvalue_common_imp_vars))` OTUs
 
 
 ***Differences in Adenoma and Carcinoma in Previously Associated Cancer Bacteria***
-First, there was a clear magnitude difference in these specific OTUs based on whether they were from adenoma or carcinoma individuals [Figure 6].  The carcinoma samples showed a significant difference between initial and follow up samples for Peptostreptococcus assacharolytica (P-value = `r format(pvalue_adn_crc_summary["pept", "crc_BH"], digits = 3)`) and Porphyromonas stomatis (P-value = `r format(pvalue_adn_crc_summary["porp", "crc_BH"], digits = 3)`) whereas there were no signficant differences in any of these OTUs in the adenoma samples [Table S5].
+First, there was a clear magnitude difference in these specific OTUs based on whether they were from adenoma or carcinoma individuals [Figure 6].  The carcinoma samples showed a significant difference between initial and follow up samples for Peptostreptococcus stomatis (P-value = `r format(pvalue_adn_crc_summary["pept", "crc_BH"], digits = 3)`) and Porphyromonas asaccharolytica (P-value = `r format(pvalue_adn_crc_summary["porp", "crc_BH"], digits = 3)`) whereas there were no signficant differences in any of these OTUs in the adenoma samples [Table S5].
 
 
 
@@ -234,7 +234,7 @@ The authors thank the Great Lakes-New England Early Detection Research Network f
 **Figure 5: Lesion Model OTU with a Significant Decrease in Relative Abundance that is also Predictive of Initial and Follow Up.**  After multiple comparison correction `r rownames(filter(pvalue_common_imp_vars, BH_corr < 0.05))` (`r filter(pvalue_common_imp_vars, BH_corr < 0.05)[, "Genus"]`) was the only one with a P-value < 0.05.  The dotted line represents the average relative abundance in the control training group.     
 
 
-**Figure 6: Previously Associated CRC Bacteria in Initial and Follow up Samples.**  A) Carcinoma initial and follow up samples. There was a significant difference in initial and follow up sample for the OTUs classfied as Peptostreptococcus assacharolytica (P-value = `r format(pvalue_adn_crc_summary["pept", "crc_BH"], digits = 3)`) and Porphyromonas stomatis (P-value = `r format(pvalue_adn_crc_summary["porp", "crc_BH"], digits = 3)`).  B) Adenoma initial and follow up samples.  There were no significant differences between initial and follow up.
+**Figure 6: Previously Associated CRC Bacteria in Initial and Follow up Samples.**  A) Carcinoma initial and follow up samples. There was a significant difference in initial and follow up sample for the OTUs classfied as Peptostreptococcus stomatis (P-value = `r format(pvalue_adn_crc_summary["pept", "crc_BH"], digits = 3)`) and Porphyromonas asaccharolytica (P-value = `r format(pvalue_adn_crc_summary["porp", "crc_BH"], digits = 3)`).  B) Adenoma initial and follow up samples.  There were no significant differences between initial and follow up.
 
 
 \newpage
