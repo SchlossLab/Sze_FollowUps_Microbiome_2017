@@ -31,11 +31,7 @@ rm(shared)
 # Filter and use only specific data
 
 test_data <- test_data %>% 
-  select(sample, fit_result, Hx_Prev, Hx_Fam_CRC, White, 
-    BMI, Age, Gender, contains("Otu0")) %>% 
-  mutate(Gender = factor(Gender)) %>% 
-  mutate(Hx_Prev = factor(Hx_Prev), 
-    Hx_Fam_CRC = factor(Hx_Fam_CRC), White = factor(White))
+  select(sample, fit_result, contains("Otu0"))
 
 #Filter out rows that are not all complete
 
@@ -45,17 +41,19 @@ test_data <- test_data[complete.cases(test_data), ]
 metaI <- filter(
   metaI, as.character(sample) %in% as.character(test_data$sample))
 
+#### Don't need these anymore because am using only FIT and microbiome
+
 # Need to create dummy variables for those that are factor classes
-temp_dummy <- dummyVars(~Gender + Hx_Prev + Hx_Fam_CRC + White, 
-  data = test_data)
-useable_dummy_vars <- as.data.frame(predict(temp_dummy, 
-  newdata = test_data))
+#temp_dummy <- dummyVars(~Gender + Hx_Prev + Hx_Fam_CRC + White, 
+#  data = test_data)
+#useable_dummy_vars <- as.data.frame(predict(temp_dummy, 
+#  newdata = test_data))
 
 # Combine data frame back together and covert samples to rownames
-test_data <- useable_dummy_vars %>% 
-mutate(sample = (test_data$sample)) %>% 
-  inner_join(test_data, by = "sample") %>% 
-  select(-Gender, -Hx_Prev, -Hx_Fam_CRC, -White)
+#test_data <- useable_dummy_vars %>% 
+#mutate(sample = (test_data$sample)) %>% 
+#  inner_join(test_data, by = "sample") %>% 
+#  select(-Gender, -Hx_Prev, -Hx_Fam_CRC, -White)
 
 rownames(test_data) <- test_data$sample
 test_data <- select(test_data, -sample)
@@ -81,34 +79,34 @@ test_data <- test_data[, -nzv]
     # Have some perfectly negatively correlated so will have to remove those
     # similar to nzv provides vector of columns that need to be removed
 
-test_matrix <- cor(test_data, method = "spearman")
+#test_matrix <- cor(test_data, method = "spearman")
 
-summary(test_matrix[upper.tri(test_matrix)])
+#summary(test_matrix[upper.tri(test_matrix)])
 
-highly_correlated <- findCorrelation(test_matrix, cutoff = 0.75)
+#highly_correlated <- findCorrelation(test_matrix, cutoff = 0.75)
 
-test_data <- test_data[, -highly_correlated]
+#test_data <- test_data[, -highly_correlated]
 
-rm(test_matrix, temp_dummy, nzv, highly_correlated)
+#rm(test_matrix, temp_dummy, nzv, highly_correlated)
 
 # Look for linear dependencies
     # Looks for sets of linear combinations and removes columns
     # based on whether or not the linear combination still exits 
     # with or without the variable present
 
-test_for_combos <- findLinearCombos(test_data) # Found none so don't need to worry about this
+#test_for_combos <- findLinearCombos(test_data) # Found none so don't need to worry about this
 
 # Creates factor variables
-test_data <- test_data %>% 
-  mutate(
-    Gender.m = factor(Gender.m, 
-      levels = c(0, 1), labels = c("No", "Yes")), 
-    Hx_Prev.1 = factor(Hx_Prev.1, 
-      levels = c(0, 1), labels = c("No", "Yes")), 
-    Hx_Fam_CRC.1 = factor(Hx_Fam_CRC.1, 
-      levels = c(0, 1), labels = c("No", "Yes")), 
-    White.1 = factor(White.1, 
-      levels = c(0, 1), labels = c("No", "Yes"))) 
+#test_data <- test_data %>% 
+#  mutate(
+#    Gender.m = factor(Gender.m, 
+#      levels = c(0, 1), labels = c("No", "Yes")), 
+#    Hx_Prev.1 = factor(Hx_Prev.1, 
+#      levels = c(0, 1), labels = c("No", "Yes")), 
+#    Hx_Fam_CRC.1 = factor(Hx_Fam_CRC.1, 
+#      levels = c(0, 1), labels = c("No", "Yes")), 
+#    White.1 = factor(White.1, 
+#      levels = c(0, 1), labels = c("No", "Yes"))) 
 
 # Add the lesion variable to the test_data
 test_data <- cbind(lesion = factor(metaI$lesion, 
