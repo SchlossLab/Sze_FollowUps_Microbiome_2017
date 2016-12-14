@@ -91,12 +91,14 @@ $(FIGS)/Figure1.pdf :
 $(FIGS)/Figure2.pdf :
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
-$(FIGS)/Figure3.pdf : 
+$exploratory/RF_model_100.RData : 
 	mkdir $(CODE)/wfit
 	R -e "source('code/setup_RF_test.R')"
 	bash $(CODE)/createDuplicates.sh
 	bash $(CODE)/create_pbs.sh
 	bash $(CODE)/qsubmission.sh
+
+$(FIGS)/Figure3.pdf : 
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
 	R -e "source('code/Run_Create_Use_Best_Model.R')"
