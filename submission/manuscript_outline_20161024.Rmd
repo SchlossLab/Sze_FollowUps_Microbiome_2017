@@ -9,7 +9,7 @@ output:
     keep_tex: yes
   html_document: default
 geometry: margin=1.0in
-bibliography: null
+bibliography: reference.bib
 ---
 
 # Differences in the Stool Microbiome Before and After Colorectal Cancer Treatment
