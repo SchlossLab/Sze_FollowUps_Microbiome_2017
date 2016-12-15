@@ -138,10 +138,10 @@ after surgery. The overall objective was to investigate the changes in
 the microbiome after surgery in patients with adenomas or carcinomas.
 This model was tested on a 66 person group that included samples before
 and after treatment to allow for the assessment of how the model adjusts
-risk after treatment. The model used for prediction had an AUC of 0.813.
+risk after treatment. The model used for prediction had an AUC of 0.763.
 For the follow up samples our Random Forest model significantly
 decreased the positive probability of lesion compared to the initial
-samples for both adenoma (P-value = 7.95e-08) and carcinoma (P-value =
+samples for both adenoma (P-value = 3.64e-11) and carcinoma (P-value =
 7.95e-08). Our model predicted that 36.4\% of the 67-person cohort had
 normal colons and 63.6\% had a lesion. Some OTUs that changed the most
 before and after treatment included OTUs that were affiliated with
@@ -236,29 +236,29 @@ initial sampling, did not have a significant difference between adenoma
 and carcinoma (uncorrected P-value = 0.784).
 
 \textbf{\emph{Outcome of Model Training}} The range of the AUC for model
-training ranged from a minimum of 0.795 to a maximum of 0.854 with the
-middle of all 100 runs having an AUC of 0.819. Interestingly, the worst
+training ranged from a minimum of 0.723 to a maximum of 0.795 with the
+middle of all 100 runs having an AUC of 0.761. Interestingly, the worst
 AUC model from training performed the best on it's respective 80/20
 split test data {[}Figure 3{]}. In fact the 80/20 test performance
 showed that the AUC for the middle model chosen was the most stable
-(best training model test set AUC = 0.682, middle training model test
-set AUC = 0.815, worse training model test set AUC = 0.931). That is to
+(best training model test set AUC = 0.646, middle training model test
+set AUC = 0.744, worse training model test set AUC = 0.904). That is to
 say it had the smallest change in AUC in comparison to the minimum and
 maximum AUC trained models. The middle model was close to the full
-training data AUC 0.813. There was no significant difference between the
-AUC of the best and middle training models (P-value = 0.419). There was
-also no difference in the middle model versus worse (P-value = 0.178) or
+training data AUC 0.763. There was no significant difference between the
+AUC of the best and middle training models (P-value = 1). There was also
+no difference in the middle model versus worse (P-value = 0.0431) or
 full data model (P-value = 1). The two comparisons with a significant
 difference were between the worse training model and the best training
-model (P-value = 7.94e-04) and the worse training model and full
-training model (P-value = 3.52e-03).
+model (P-value = 6.83e-04) and the worse training model and full
+training model (P-value = 1.2e-03).
 
 \textbf{\emph{Most Important Variables to the Model}} Overall, there
-were a total of 32 variables identified as being present in more than
+were a total of 37 variables identified as being present in more than
 50\% of the training models {[}Table S2{]}. The top 5 most important
 bacterial OTUs were Bacteria (Otu000013), Escherichia/Shigella
 (Otu000018), Bacteria (Otu000020), Ruminococcus (Otu000017), and
-Porphyromonas (Otu000153). These 5 OTUs were present in at least 99 out
+Porphyromonas (Otu000153). These 5 OTUs were present in at least 90 out
 of the total 100 different 80/20 runs.
 
 \textbf{\emph{Surgical Removal of an Adenoma or Carcinoma Results in a
@@ -267,11 +267,11 @@ omitted from the original 67 test sample set since it was missing a
 complete set of follow up data. This left a total of 66 samples for test
 predictions. After multiple comparison correction there was a
 significant overall decrease in positive probability of a carcinoma and
-adenoma (P-value = 1.14e-11) {[}Figure 4{]}. This decrease was
-significant for both adenoma (P-value = 7.95e-08 {[}Figure 4a{]} and
+adenoma (P-value = 1.11e-11) {[}Figure 4{]}. This decrease was
+significant for both adenoma (P-value = 3.64e-11 {[}Figure 4a{]} and
 carcinoma (P-value = 7.95e-08) {[}Figure 4b{]} alone. This decrease in
 probability of lesion also held specifically for those with screen
-relative neoplasias (SRN) (P-value = 5.35e-04). A total of 66 or 100\%
+relative neoplasias (SRN) (P-value = 7.63e-06). A total of 66 or 100\%
 of all samples were correctly predicted to have a lesion. Although there
 was a decrease in positive probability only 24 of the total 66
 individuals were classified as adenoma or carcinoma free on follow up
@@ -287,17 +287,17 @@ There was 1 individual who still clearly had CRC on follow up as well as
 5 individuals whose status on follow up was unknown. Although the 1
 individual had a decrease in positive probability their follow up sample
 was still higher than the cutoff threshold of 0.5 (positive probability
-= 0.927). Interestingly, 2 individuals who were unknown on follow up
+= 0.903). Interestingly, 1 individuals who were unknown on follow up
 still were over the threshold cutoff of 0.5 even though, like the 1
 individual with clear CRC on follow up, the probability of an adenoma or
 carcinoma decreased {[}Table S3{]}.
 
 The follow up positive probabilities were not affected by either
-chemotherapy treatment (uncorrected P-value = 0.919) or radiation
-therapy (uncorrected P-value = 1). There was also no difference in the
-amount of change in the positive probability based on whether
-individuals received chemotherapy (unccorected P-value = 0.578) or
-radiation therapy (uncorrected P-value = 0.904).
+chemotherapy treatment (uncorrected P-value = 0.621) or radiation
+therapy (uncorrected P-value = 0.255). There was also no difference in
+the amount of change in the positive probability based on whether
+individuals received chemotherapy (unccorected P-value = 0.718) or
+radiation therapy (uncorrected P-value = 0.431).
 
 \textbf{\emph{Specific OTUs in the Lesion Model are not Detected in
 Follow Up Versus Initial Samples}} Overall, there were a total of 8 OTUs
@@ -586,7 +586,7 @@ on Test Set Performance of the Best, Middle, Worse, and Full Training
 Models.} For each of the 100 training cohort sets used had 392
 individuals and the testing cohort sets had 13 individuals. The AUC on
 the test sets for the best, middle, and worse models from training were
-0.682, 0.815, and 0.931, respectively. cvAUC is the 20 times repeated
+0.646, 0.744, and 0.904, respectively. cvAUC is the 20 times repeated
 10-fold cross-validated AUC from training.
 
 \textbf{Figure 4: Breakdown by Carcinoma and Adenoma of Prediction

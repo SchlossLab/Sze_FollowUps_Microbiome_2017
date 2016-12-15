@@ -15,4 +15,4 @@ exploratory/wofit/
 code/wfit/
 exploratory/*.RData
 *.Rproj
-*.tex
+submission/*.tex
