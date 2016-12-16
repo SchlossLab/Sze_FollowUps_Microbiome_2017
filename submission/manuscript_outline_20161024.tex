@@ -168,49 +168,52 @@ or carcinoma due to surgical removal of the lesion.
 
 Colorectal cancer (CRC) continues to be a leading cause of cancer
 related deaths and is the second most common cancer death among men aged
-40-79 years of age (\textbf{insert citation}). Over the last few years
-death due to the disease has seen a significant decrease thanks mainly
-to improvements in screening (\textbf{insert citation}). However,
-despite this giant improvement there are still approximately 50,000
-deaths from the disease a year (\textbf{insert citation}). It is
-estimated that around 5-10\% of all CRCs can be explained by autosomal
-dominant inheritance (\textbf{insert citation}). The vast majority of
-CRCs are not inherited and the exact etiology to disease has not been
-well worked out (\textbf{insert citation}).
+40-79 years of age (1, 2). Over the last few years death due to the
+disease has seen a significant decrease thanks mainly to improvements in
+screening (1). However, despite this giant improvement there are still
+approximately 50,000 deaths from the disease a year (2). It is estimated
+that around 5-10\% of all CRCs can be explained by autosomal dominant
+inheritance (3). The vast majority of CRCs are not inherited and the
+exact etiology to disease has not been well worked out (2). Although
+many risk factors have been identified ({\textbf{???}}) and non-invasive
+screening techniques have started to be put into consistent use (4, 5)
+there has been a consistent increase in the incidence of CRC in the
+younger population.
 
-Recent reports have found that the microbiome between those with and
-without CRC are different and that bacteia associated with CRC tissue is
-different than that found on the normal mucosa (\textbf{Insert
-citations}). Further, there is evidence to suggest that more
-inflammatory mouth-associated bacteria are more prevalent in the guts of
-those with CRC (\textbf{insert citation}). This has led to the
-hypothesis that these bacteria replace traditional residents that
-produce metabolites such as butyrate (\textbf{insert citation}) and lead
-to a more inflammatory state (\textbf{insert citation}). This
-inflammatory state allows for more of these types of bacteria to
-populate the gut and leads to neoplasia and eventually CRC
-(\textbf{insert citation}).
+This increased incidence of CRC in the younger population is concerncing
+since having either an adenoma or carcinoma increases ones risk for
+future adenomas or carcinomas (6--8). This increased risk can also carry
+with it an increased risk of mortality due to this recurrence (9, 10).
+Therefore there has been a great amount of interest in early risk
+stratification tools (11, 12) that can help identify those they may be
+at risk of reccurence. Concurrently with this there has been a lot of
+interest in new areas such as the gut bacterial microbiome for insight
+into potential disease pathology.
 
-Building upon these findings a number of groups, including our own, have
-investigated using the bacterial microbiome as a potential biomarker for
-adenoma and CRC detection (\textbf{insert citations}). These
-collectively show that a reasonable area under the curve (AUC) can be
-obtained when using the stool bacterial microbiome to classify disease
-state (\textbf{insert citation}). Further, a number of groups have
-extended this observation to show that using either specific bacterial
-species or the bacterial microbiome as a whole paired with the Fecal
-Immunochemical Test (FIT) can increase the AUC of the model
-(\textbf{insert citations}).
+There has been promising work on the bacterial microbiome and it's
+ability to be able to complement existing screening methods such as
+Fecal Immunoglobulin Test (FIT) or act alone as a screening tool (13,
+14). There has also been research into how this microbiome could be
+altered directly on tumor tissue itself (15). There have also been a few
+studies that have shown how this microbiome (16) or specific members
+within it (17) could be directly involved ith the pathogenesis of CRC.
+These studies have helped to provide a tantilzing link between the
+bacterial microbiome and CRC. However, at this present time there
+remains limited information on the bacterial microbiome before and after
+successful surgery for removal of the adenoma or carcinoma.
 
-In this study we further refine the random forest model by including
-more background information on the individuals within it. We used a
-rigourous and accepted approach for machine learning training and
-testing to validate this model (\textbf{insert citation}). We then
-applied it to individuals in which we have samples before and after
-treatment to assess how well the model adjusts their probability of
-having an adenoma or carcinoma. Finally, we investigated which specific
-Operational Taxonomic Units (OTUs) are most affected by treatment.
-Within this study lesion refers to both adenoma and carcinoma.
+In this study we investigated what happened to the bacterial microbiome
+before and after surgery for both adenoma and carcinoma individuals. Our
+anlaysis includes both alpha and beta diversity analysis along with
+investigating indvidual operational taxonomic units (OTUs). We next
+utilized a Random Forest model that was trained on a completely separate
+data set and observed how this model as well as specific OTUs within
+this model performed on the initial and follow up samples. We then
+created a new model to classify intial and follow up samples and
+investigated how the model performs and what specific OUTs within the
+model change. Finally, we observed how specific bacteria that have been
+previously implicated in CRC changed before and after treatment in both
+the adenoma and carcinoma individuals.
 
 \newpage
 
@@ -618,7 +621,154 @@ Initial}
 
 \newpage
 
-\subsection{References}\label{references}
+\subsection*{References}\label{references}
+\addcontentsline{toc}{subsection}{References}
+
+\hypertarget{refs}{}
+\hypertarget{ref-jemal_cancer_2010}{}
+1. \textbf{Jemal A}, \textbf{Siegel R}, \textbf{Xu J}, \textbf{Ward E}.
+2010. Cancer statistics, 2010. CA: a cancer journal for clinicians
+\textbf{60}:277--300.
+doi:\href{https://doi.org/10.3322/caac.20073}{10.3322/caac.20073}.
+
+\hypertarget{ref-haggar_colorectal_2009}{}
+2. \textbf{Haggar FA}, \textbf{Boushey RP}. 2009. Colorectal cancer
+epidemiology: Incidence, mortality, survival, and risk factors. Clinics
+in Colon and Rectal Surgery \textbf{22}:191--197.
+doi:\href{https://doi.org/10.1055/s-0029-1242458}{10.1055/s-0029-1242458}.
+
+\hypertarget{ref-green_very_2007}{}
+3. \textbf{Green RC}, \textbf{Green JS}, \textbf{Buehler SK},
+\textbf{Robb JD}, \textbf{Daftary D}, \textbf{Gallinger S},
+\textbf{McLaughlin JR}, \textbf{Parfrey PS}, \textbf{Younghusband HB}.
+2007. Very high incidence of familial colorectal cancer in Newfoundland:
+A comparison with Ontario and 13 other population-based studies.
+Familial Cancer \textbf{6}:53--62.
+doi:\href{https://doi.org/10.1007/s10689-006-9104-x}{10.1007/s10689-006-9104-x}.
+
+\hypertarget{ref-liao_application_2013}{}
+4. \textbf{Liao C-S}, \textbf{Lin Y-M}, \textbf{Chang H-C}, \textbf{Chen
+Y-H}, \textbf{Chong L-W}, \textbf{Chen C-H}, \textbf{Lin Y-S},
+\textbf{Yang K-C}, \textbf{Shih C-H}. 2013. Application of quantitative
+estimates of fecal hemoglobin concentration for risk prediction of
+colorectal neoplasia. World Journal of Gastroenterology
+\textbf{19}:8366--8372.
+doi:\href{https://doi.org/10.3748/wjg.v19.i45.8366}{10.3748/wjg.v19.i45.8366}.
+
+\hypertarget{ref-johnson_multi-target_2016}{}
+5. \textbf{Johnson DH}, \textbf{Kisiel JB}, \textbf{Burger KN},
+\textbf{Mahoney DW}, \textbf{Devens ME}, \textbf{Ahlquist DA},
+\textbf{Sweetser S}. 2016. Multi-target stool DNA test: Clinical
+performance and impact on yield and quality of colonoscopy for
+colorectal cancer screening. Gastrointestinal Endoscopy.
+doi:\href{https://doi.org/10.1016/j.gie.2016.11.012}{10.1016/j.gie.2016.11.012}.
+
+\hypertarget{ref-laiyemo_short-_2013}{}
+6. \textbf{Laiyemo AO}, \textbf{Doubeni C}, \textbf{Brim H},
+\textbf{Ashktorab H}, \textbf{Schoen RE}, \textbf{Gupta S},
+\textbf{Charabaty A}, \textbf{Lanza E}, \textbf{Smoot DT}, \textbf{Platz
+E}, \textbf{Cross AJ}. 2013. Short- and long-term risk of colorectal
+adenoma recurrence among whites and blacks. Gastrointestinal Endoscopy
+\textbf{77}:447--454.
+doi:\href{https://doi.org/10.1016/j.gie.2012.11.027}{10.1016/j.gie.2012.11.027}.
+
+\hypertarget{ref-matsuda_five-year_2009}{}
+7. \textbf{Matsuda T}, \textbf{Fujii T}, \textbf{Sano Y}, \textbf{Kudo
+S-e}, \textbf{Oda Y}, \textbf{Igarashi M}, \textbf{Iishi H},
+\textbf{Murakami Y}, \textbf{Ishikawa H}, \textbf{Shimoda T},
+\textbf{Kaneko K}, \textbf{Yoshida S}. 2009. Five-year incidence of
+advanced neoplasia after initial colonoscopy in Japan: A multicenter
+retrospective cohort study. Japanese Journal of Clinical Oncology
+\textbf{39}:435--442.
+doi:\href{https://doi.org/10.1093/jjco/hyp047}{10.1093/jjco/hyp047}.
+
+\hypertarget{ref-ren_long-term_2016}{}
+8. \textbf{Ren J}, \textbf{Kirkness CS}, \textbf{Kim M}, \textbf{Asche
+CV}, \textbf{Puli S}. 2016. Long-term risk of colorectal cancer by
+gender after positive colonoscopy: Population-based cohort study.
+Current Medical Research and Opinion \textbf{32}:1367--1374.
+doi:\href{https://doi.org/10.1080/03007995.2016.1174840}{10.1080/03007995.2016.1174840}.
+
+\hypertarget{ref-loberg_long-term_2014}{}
+9. \textbf{Løberg M}, \textbf{Kalager M}, \textbf{Holme Ø}, \textbf{Hoff
+G}, \textbf{Adami H-O}, \textbf{Bretthauer M}. 2014. Long-term
+colorectal-cancer mortality after adenoma removal. The New England
+Journal of Medicine \textbf{371}:799--807.
+doi:\href{https://doi.org/10.1056/NEJMoa1315870}{10.1056/NEJMoa1315870}.
+
+\hypertarget{ref-freeman_natural_2013}{}
+10. \textbf{Freeman HJ}. 2013. Natural history and long-term outcomes of
+patients treated for early stage colorectal cancer. Canadian Journal of
+Gastroenterology = Journal Canadien De Gastroenterologie
+\textbf{27}:409--413.
+
+\hypertarget{ref-lee_identification_2016}{}
+11. \textbf{Lee JH}, \textbf{Lee JL}, \textbf{Park IJ}, \textbf{Lim
+S-B}, \textbf{Yu CS}, \textbf{Kim JC}. 2016. Identification of
+Recurrence-Predictive Indicators in Stage I Colorectal Cancer. World
+Journal of Surgery.
+doi:\href{https://doi.org/10.1007/s00268-016-3833-2}{10.1007/s00268-016-3833-2}.
+
+\hypertarget{ref-richards_evidence-based_2016}{}
+12. \textbf{Richards CH}, \textbf{Ventham NT}, \textbf{Mansouri D},
+\textbf{Wilson M}, \textbf{Ramsay G}, \textbf{Mackay CD},
+\textbf{Parnaby CN}, \textbf{Smith D}, \textbf{On J}, \textbf{Speake D},
+\textbf{McFarlane G}, \textbf{Neo YN}, \textbf{Aitken E},
+\textbf{Forrest C}, \textbf{Knight K}, \textbf{McKay A}, \textbf{Nair
+H}, \textbf{Mulholland C}, \textbf{Robertson JH}, \textbf{Carey FA},
+\textbf{Steele R}, \textbf{Scottish Surgical Research Group}. 2016. An
+evidence-based treatment algorithm for colorectal polyp cancers: Results
+from the Scottish Screen-detected Polyp Cancer Study (SSPoCS). Gut.
+doi:\href{https://doi.org/10.1136/gutjnl-2016-312201}{10.1136/gutjnl-2016-312201}.
+
+\hypertarget{ref-baxter_microbiota-based_2016}{}
+13. \textbf{Baxter NT}, \textbf{Ruffin MT}, \textbf{Rogers MAM},
+\textbf{Schloss PD}. 2016. Microbiota-based model improves the
+sensitivity of fecal immunochemical test for detecting colonic lesions.
+Genome Medicine \textbf{8}:37.
+doi:\href{https://doi.org/10.1186/s13073-016-0290-3}{10.1186/s13073-016-0290-3}.
+
+\hypertarget{ref-zeller_potential_2014}{}
+14. \textbf{Zeller G}, \textbf{Tap J}, \textbf{Voigt AY},
+\textbf{Sunagawa S}, \textbf{Kultima JR}, \textbf{Costea PI},
+\textbf{Amiot A}, \textbf{Böhm J}, \textbf{Brunetti F},
+\textbf{Habermann N}, \textbf{Hercog R}, \textbf{Koch M},
+\textbf{Luciani A}, \textbf{Mende DR}, \textbf{Schneider MA},
+\textbf{Schrotz-King P}, \textbf{Tournigand C}, \textbf{Tran Van Nhieu
+J}, \textbf{Yamada T}, \textbf{Zimmermann J}, \textbf{Benes V},
+\textbf{Kloor M}, \textbf{Ulrich CM}, \textbf{Knebel Doeberitz M von},
+\textbf{Sobhani I}, \textbf{Bork P}. 2014. Potential of fecal microbiota
+for early-stage detection of colorectal cancer. Molecular Systems
+Biology \textbf{10}:766.
+
+\hypertarget{ref-dejea_microbiota_2014}{}
+15. \textbf{Dejea CM}, \textbf{Wick EC}, \textbf{Hechenbleikner EM},
+\textbf{White JR}, \textbf{Mark Welch JL}, \textbf{Rossetti BJ},
+\textbf{Peterson SN}, \textbf{Snesrud EC}, \textbf{Borisy GG},
+\textbf{Lazarev M}, \textbf{Stein E}, \textbf{Vadivelu J},
+\textbf{Roslani AC}, \textbf{Malik AA}, \textbf{Wanyiri JW}, \textbf{Goh
+KL}, \textbf{Thevambiga I}, \textbf{Fu K}, \textbf{Wan F}, \textbf{Llosa
+N}, \textbf{Housseau F}, \textbf{Romans K}, \textbf{Wu X},
+\textbf{McAllister FM}, \textbf{Wu S}, \textbf{Vogelstein B},
+\textbf{Kinzler KW}, \textbf{Pardoll DM}, \textbf{Sears CL}. 2014.
+Microbiota organization is a distinct feature of proximal colorectal
+cancers. Proceedings of the National Academy of Sciences of the United
+States of America \textbf{111}:18321--18326.
+doi:\href{https://doi.org/10.1073/pnas.1406199111}{10.1073/pnas.1406199111}.
+
+\hypertarget{ref-zackular_manipulation_2016}{}
+16. \textbf{Zackular JP}, \textbf{Baxter NT}, \textbf{Chen GY},
+\textbf{Schloss PD}. 2016. Manipulation of the Gut Microbiota Reveals
+Role in Colon Tumorigenesis. mSphere \textbf{1}.
+doi:\href{https://doi.org/10.1128/mSphere.00001-15}{10.1128/mSphere.00001-15}.
+
+\hypertarget{ref-arthur_microbial_2014}{}
+17. \textbf{Arthur JC}, \textbf{Gharaibeh RZ}, \textbf{Mühlbauer M},
+\textbf{Perez-Chanona E}, \textbf{Uronis JM}, \textbf{McCafferty J},
+\textbf{Fodor AA}, \textbf{Jobin C}. 2014. Microbial genomic analysis
+reveals the essential role of inflammation in bacteria-induced
+colorectal cancer. Nature Communications \textbf{5}:4724.
+doi:\href{https://doi.org/10.1038/ncomms5724}{10.1038/ncomms5724}.
 
 
 \end{document}
