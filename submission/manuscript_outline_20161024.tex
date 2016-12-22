@@ -456,33 +456,33 @@ high level of accuracy.
 \subsection{Methods}\label{methods}
 
 \textbf{\emph{Study Design and Patient Sampling}} The sampling and
-design of the study was similar to that reported in Baxter, et al
-(\textbf{insert citation}). In brief, study exclusion involved those who
-had already undergone surgery, radiation, or chemotherapy, had
-colorectal cancer before a baseline stool sample could be obtained, had
-IBD, a known hereditary non-polyposis colorectal cancer, or Familial
-adenomatous polyposis. Samples used to build the model used for
-prediction were collected either prior to a colonoscopy or between 1 - 2
-weeks after. The bacterial microbiome has been shown to nomralize within
-this time period (\textbf{insert citation}). Kept apart from this
-training set were a total of 67 individuals that not only had a sample
-as described previoulsy but also a follow up sample between 188 - 546
-days after surgery and treatment had been completed. This study was
-approved by the University of Michigan Institutional Review Board. All
-study participants provided informed consent and the study itself
-conformed to the guidelines set out by the Helsinki Declaration.
+design of the study was similar to that reported in Baxter, et al (13).
+In brief, study exclusion involved those who had already undergone
+surgery, radiation, or chemotherapy, had colorectal cancer before a
+baseline stool sample could be obtained, had IBD, a known hereditary
+non-polyposis colorectal cancer, or Familial adenomatous polyposis.
+Samples used to build the model used for prediction were collected
+either prior to a colonoscopy or between 1 - 2 weeks after. The
+bacterial microbiome has been shown to nomralize within this time period
+(\textbf{insert citation}). Kept apart from this training set were a
+total of 67 individuals that not only had a sample as described
+previoulsy but also a follow up sample between 188 - 546 days after
+surgery and treatment had been completed. This study was approved by the
+University of Michigan Institutional Review Board. All study
+participants provided informed consent and the study itself conformed to
+the guidelines set out by the Helsinki Declaration.
 
 \textbf{\emph{Fecal Immunochemical Test and 16S rRNA Gene Sequencing}}
 FIT was analyzed as previously published using both OC FIT-CHEK and
 OC-Auto Micro 80 automated system (Polymedco Inc.) (\textbf{insert
 citation}). 16S rRNA gene sequencing was completed as previously
-described by Kozich, et al. (\textbf{insert citation}). In brief, DNA
-extraction used the 96 well Soil DNA isolation kit (MO BIO Laboratories)
-and an epMotion 5075 automated pipetting system (Eppendorf). The V4
-variable region was amplified and the resulting product was split
-between three sequencing runs with control, adenoma, and carcinoma
-evenly represented on each run. Each group was randomly assigned to
-avoid biases based on sample collection location.
+described by Kozich, et al. (18). In brief, DNA extraction used the 96
+well Soil DNA isolation kit (MO BIO Laboratories) and an epMotion 5075
+automated pipetting system (Eppendorf). The V4 variable region was
+amplified and the resulting product was split between three sequencing
+runs with control, adenoma, and carcinoma evenly represented on each
+run. Each group was randomly assigned to avoid biases based on sample
+collection location.
 
 \textbf{\emph{Sequence Processing}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences. This process
@@ -496,21 +496,18 @@ with an average neighbor clustering algorithm. The numer of sequences
 for each sample was rarified to 10521 in an attempt to minimize uneven
 sampling.
 
-\textbf{\emph{Model Creation}} The Random Forest (\textbf{insert
-citation}) algorithm was used to create the model used for prediction of
-lesion (adenoma or carcinoma) for the 67 individuals with follow up
-samples. The model included data on FIT, the bacterial microbiome, sex,
-age, Body Mass Index (BMI), whether the indivdiual was caucasion or not,
-history of cancer, and family history of cancer. Non-binary data was
+\textbf{\emph{Lesion Model Creation}} The Random Forest (19) algorithm
+was used to create the model used for prediction of lesion (adenoma or
+carcinoma) for the 67 individuals with follow up samples. The model
+included data on FIT and the bacterial microbiome. Non-binary data was
 checked for near zero variance and auto correlation. Data columns that
 had near zero variance were removed. Columns that were correlated with
 each other over a Spearman correlation coefficient of 0.75 had one of
 the two columns removed. This pre-processing was performed with the R
-package caret (v6.0.73). Optimiation of the mtry hyperparameter as well
-as data on the best, middle, and worse performance of the model involved
-taking the 490 samples and making 100 80/20 (train/test) splits in the
-data where control and lesion were equally represented in the 80 and 20
-split, respectively. This 80\% portion was then split again into an
+package caret (v6.0.73). Optimization of the mtry hyperparameter
+involved taking the samples and making 100 80/20 (train/test) splits in
+the data where control and lesion were equally represented in the 80 and
+20 split, respectively. This 80\% portion was then split again into an
 80/20 split, and run through 20 repeated 10-fold cross validations to
 optimzie the model's AUC (Area Under the Curve of the Receiver Operator
 Characteristic). This resulting model was then tested on the 20\% of the
@@ -518,7 +515,16 @@ data that was originally held out from this overall process. Once the
 ideal mtry was found the entire 490 sample set was used to create the
 final Random Forest model on which testing on the 67-person cohort was
 completed. The default cutoff of 0.5 was used as the threshold to
-classify individuals as positive or negative for lesion.
+classify individuals as positive or negative for lesion. The
+hyperparameter, mtry, defines the number of variables to investigate at
+each split before a new division of the data is created.
+
+\textbf{\emph{Initial Follow Up Model Creation}} We also investigated
+whether a model could be created that could identify before and after
+surgery samples. The training set utilized the 67-person cohort that was
+previously used for testing of the lesion modeld. The creation of this
+model and optimization of the mtry hyperparameter was completed using
+the same procedure that was used to create the lesion model.
 
 \textbf{\emph{Selection of Important OTUs}} In order to assess which
 variables were most central to all the models we counted the number of
@@ -526,24 +532,7 @@ times a variable was present in the top 10\% of mean decrease in
 accuracy (MDA) for each different 80/20 split model and then filtered
 this list to variables that were only present more than 50\% of the
 time. This final collated list of variables was what was considered the
-most important for the lesion prediction model.
-
-A second model using the same types of conditions was used to identify
-OTUs that could predict initial and follow up samples. These OTUs were
-considered the most important for predicting initial and follow up
-samples. This new model important OTUs were then compared to the overall
-lesion model important OTUs and the resulting common OTUs to both models
-were selected to test for changes between initial and follow up using a
-paired wilcoxson rank sum test.
-
-\textbf{\emph{Investigation of Important CRC Bacteria}} In order to
-investigate how specific bacteria that have been previously associated
-with CRC with selected OTUs that taxonomically classified to
-Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus
-Assacharolytica, and Porphyromonas Stomatis. Specifically we wanted to
-observe if there were any differences based on whether the individual
-had an adenoma or carcinoma that may have been missed with our lesion
-versus normal model.
+most important for the lesion or initial follow up models.
 
 \textbf{\emph{Statistical Analysis}} The R software package (v3.3.0) was
 used for all statisitical analysis. Comparisons between bacterial
@@ -558,9 +547,30 @@ citation}) and a corrected P-value of less than 0.05 was considered
 significant. Unless otherwise stated the P-values reported are those of
 the BH corrected ones.
 
+\textbf{\emph{Analysis Overview}} Differences in FIT between initial and
+follow ups for either adenoma or carcinoma were investigate. Next,
+initial and follow up samples were analyzed for differences in alpha and
+beta diversity. All OTUs used in the lesion model were also analyzed
+using a paired wilcoxson test. The lesion model was then tested for
+accuracy in prediction and whether it reduced the positive probability
+of lesion after surgery. The most important OTUs for this were used to
+build an updated model and this reduced feature model was assessed for
+it's similarity to the original model. We then used the initial follow
+up model to assess whether this model could classify samples better then
+the lesion model. The most important OTUs were then identified from this
+model and used to create a reduced feature initial follow up model. This
+reduced feature model, as was done with the lesion model, was compared
+to the full model for loss of accuracy. Finally, in order to investigate
+the relative abundance of specific bacteria, that have been previously
+associated with CRC, we selected OTUs that taxonomically classified to
+Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus
+Assacharolytica, and Porphyromonas Stomatis. Specifically, we wanted to
+test if there were any differences based on whether the individual had
+an adenoma or carcinoma.
+
 \textbf{\emph{Reproducible methods.}} A detailed and reproducible
 description of how the data were processed and analyzed can be found at
-\url{https://github.com/SchlossLab/Baxter_followUps_2016}.
+\url{https://github.com/SchlossLab/Sze_followUps_2017}.
 
 \newpage
 
@@ -769,6 +779,19 @@ doi:\href{https://doi.org/10.1128/mSphere.00001-15}{10.1128/mSphere.00001-15}.
 reveals the essential role of inflammation in bacteria-induced
 colorectal cancer. Nature Communications \textbf{5}:4724.
 doi:\href{https://doi.org/10.1038/ncomms5724}{10.1038/ncomms5724}.
+
+\hypertarget{ref-kozich_development_2013}{}
+18. \textbf{Kozich JJ}, \textbf{Westcott SL}, \textbf{Baxter NT},
+\textbf{Highlander SK}, \textbf{Schloss PD}. 2013. Development of a
+dual-index sequencing strategy and curation pipeline for analyzing
+amplicon sequence data on the MiSeq Illumina sequencing platform.
+Applied and Environmental Microbiology \textbf{79}:5112--5120.
+doi:\href{https://doi.org/10.1128/AEM.01043-13}{10.1128/AEM.01043-13}.
+
+\hypertarget{ref-breiman_random_2001}{}
+19. \textbf{Breiman L}. 2001. Random Forests. Machine Learning
+\textbf{45}:5--32.
+doi:\href{https://doi.org/10.1023/a:1010933404324}{10.1023/a:1010933404324}.
 
 
 \end{document}

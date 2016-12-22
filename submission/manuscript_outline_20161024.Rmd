@@ -197,32 +197,20 @@ The Random Forest [@breiman_random_2001] algorithm was used to create the model 
 We also investigated whether a model could be created that could identify before and after surgery samples.  The training set utilized the `r length(rownames(good_metaf))`-person cohort that was previously used for testing of the lesion modeld.  The creation of this model and optimization of the mtry hyperparameter was completed using the same procedure that was used to create the lesion model. 
 
 
-***Analysis Overview***
-This 
-
-
-
-
-
-
-
-
 ***Selection of Important OTUs***
-In order to assess which variables were most central to all the models we counted the number of times a variable was present in the top 10% of mean decrease in accuracy (MDA) for each different 80/20 split model and then filtered this list to variables that were only present more than 50% of the time.  This final collated list of variables was what was considered the most important for the lesion prediction model.
-
-A second model using the same types of conditions was used to identify OTUs that could predict initial and follow up samples.  These OTUs were considered the most important for predicting initial and follow up samples.  This new model important OTUs were then compared to the overall lesion model important OTUs and the resulting common OTUs to both models were selected to test for changes between initial and follow up using a paired wilcoxson rank sum test.   
-
-
-***Investigation of Important CRC Bacteria***
-In order to investigate how specific bacteria that have been previously associated with CRC with selected OTUs that taxonomically classified to Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus Assacharolytica, and Porphyromonas Stomatis.  Specifically we wanted to observe if there were any differences based on whether the individual had an adenoma or carcinoma that may have been missed with our lesion versus normal model.  
+In order to assess which variables were most central to all the models we counted the number of times a variable was present in the top 10% of mean decrease in accuracy (MDA) for each different 80/20 split model and then filtered this list to variables that were only present more than 50% of the time.  This final collated list of variables was what was considered the most important for the lesion or initial follow up models.
 
 
 ***Statistical Analysis***
-The R software package (v`r paste(version$major, ".", version$minor, sep = "")`) was used for all statisitical analysis.  Comparisons between bacterial community structure utilized PERMANOVA (**insert citation**) in the vegan package (v`r paste(packageVersion("vegan"))`) while comparisons between ROC curves utilized the method by DeLong et al. (**insert citation**) executed by the pROC (v`r paste(packageVersion("pROC"))`) package.  Comparisons between probabilities as well as overall amount of OTU between initial and follow up samples utilized a paired wilcoxson ranked sum test.  Where multiple comparison testing was needed a Benjamini-Hochberg (BH) correction was applied (**insert citation**) and a corrected P-value of less than 0.05 was considered significant.  Unless otherwise stated the P-values reported are those of the BH corrected ones.      
+The R software package (v`r paste(version$major, ".", version$minor, sep = "")`) was used for all statisitical analysis.  Comparisons between bacterial community structure utilized PERMANOVA (**insert citation**) in the vegan package (v`r paste(packageVersion("vegan"))`) while comparisons between ROC curves utilized the method by DeLong et al. (**insert citation**) executed by the pROC (v`r paste(packageVersion("pROC"))`) package.  Comparisons between probabilities as well as overall amount of OTU between initial and follow up samples utilized a paired wilcoxson ranked sum test.  Where multiple comparison testing was needed a Benjamini-Hochberg (BH) correction was applied (**insert citation**) and a corrected P-value of less than 0.05 was considered significant.  Unless otherwise stated the P-values reported are those of the BH corrected ones.  
+
+
+***Analysis Overview***
+Differences in FIT between initial and follow ups for either adenoma or carcinoma were investigate.  Next, initial and follow up samples were analyzed for differences in alpha and beta diversity.  All OTUs used in the lesion model were also analyzed using a paired wilcoxson test.  The lesion model was then tested for accuracy in prediction and whether it reduced the positive probability of lesion after surgery.  The most important OTUs for this were used to build an updated model and this reduced feature model was assessed for it's similarity to the original model.  We then used the initial follow up model to assess whether this model could classify samples better then the lesion model.  The most important OTUs were then identified from this model and used to create a reduced feature initial follow up model.  This reduced feature model, as was done with the lesion model, was compared to the full model for loss of accuracy.  Finally, in order to investigate the relative abundance of specific bacteria, that have been previously associated with CRC, we selected OTUs that taxonomically classified to Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus Assacharolytica, and Porphyromonas Stomatis.  Specifically, we wanted to test if there were any differences based on whether the individual had an adenoma or carcinoma.  
 
 
 ***Reproducible methods.***
-A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Baxter_followUps_2016.
+A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017.
 
 \newpage
 
