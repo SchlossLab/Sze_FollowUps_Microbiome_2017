@@ -108,8 +108,9 @@ $(FIGS)/Figure4.pdf :
 	R -e "source('code/Run_Figure4.R')"
 	rm Rplots.pdf
 
-$(TABLES)/OTU_paired_wilcoxson_test.csv :
+$(FIGS)/FigureS1.pdf :
 	R -e "source('code/Run_wilcoxson_all.R')"
+	R -e "source('code/Run_FigureS1.R')"
 
 $(FIGS)/Figure5.pdf : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
@@ -121,6 +122,9 @@ $(FIGS)/Figure6.pdf :
 $(TABLES)/time_pvalues.csv : 
 	R -e "source('code/Run_Supplemental_time_table.R')"
 	R -e "source('code/Run_Figure6.R')"
+
+$(FIGS)/FigureS2.pdf : 
+	R -e "source('code/Run_FigureS2.R')"
 
 
 ################################################################################
@@ -138,6 +142,7 @@ write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
 		$(FIGS)/Figure3.pdf $(FIGS)/Figure4.pdf\
 		$(FIGS)/Figure5.pdf $(FIGS)/Figure6.pdf\
+		$(FIGS)/FigureS1.pdf $(FIGS)/FigureS2.pdf\
 		$(TABLES)/time_pvalues.csv 
 	R -e "source('code/Run_render_paper.R')"
 
