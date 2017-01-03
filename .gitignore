@@ -8,6 +8,7 @@ sample_refs/
 data/raw/
 data/references/
 *.pbs
+!code/*.pbs
 wfit/
 exploratory/wfit/
 nofit/
