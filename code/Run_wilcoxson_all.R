@@ -64,7 +64,10 @@ final_data <- rbind(
         bh_corrected[["crc"]], 
         analysis = rep("crc", length(pvalue_results[["crc"]]))))
 
+colnames(final_data) <- c("p_value", "BH_corrected", "analysis")
 
+#Write out data table for future use
+write.csv(final_data, "results/tables/OTU_paired_wilcoxson_test.csv", row.names = F)
 
 
 
