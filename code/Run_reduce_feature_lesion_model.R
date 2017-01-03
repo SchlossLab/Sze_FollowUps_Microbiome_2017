@@ -10,21 +10,13 @@ source('code/graphFunctions.R')
 loadLibs(c("dplyr", "scales", "wesanderson", "ggplot2", "caret"))
 
 #Load needed data
-
 test_data <- read.csv("results/tables/full_test_data.csv", header = TRUE, row.names = 1)
 lesion_imp_vars <- read.csv("results/tables/rf_wCV_imp_vars_summary.csv", header = T, stringsAsFactors = F)
-split_data_results <- read.csv("results/tables/ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
-test_data_roc <- read.csv("results/tables/test_data_roc.csv", header = TRUE, stringsAsFactors = F)
-auc_data_table <- read.csv("results/tables/auc_summary.csv", header = TRUE, row.names = 1)
 
 
 #Create data table with only reduced features (impvars only)
 vars_to_keep <- lesion_imp_vars$Variable
 test_data_imps <- select(test_data, lesion, one_of(vars_to_keep))
-
-# Get best mtry to use
-mtry_table <- table(split_data_results$best_mtry)
-maximized_mtry <- as.numeric(names(mtry_table[mtry_table == max(mtry_table)]))
 
 
 #################################################################################

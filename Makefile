@@ -91,14 +91,14 @@ $(FIGS)/Figure1.pdf :
 $(FIGS)/Figure2.pdf :
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
-$exploratory/RF_model_100.RData : 
+exploratory/RF_model_100.RData : 
 	mkdir $(CODE)/wfit
 	R -e "source('code/setup_RF_test.R')"
 	bash $(CODE)/createDuplicates.sh
 	bash $(CODE)/create_pbs.sh
 	bash $(CODE)/qsubmission.sh
 
-$exploratory/Reducedfeatures_RF_model_100.RData : 
+exploratory/Reducedfeatures_RF_model_100.RData : 
 	R -e "source('code/Run_reduce_feature_lesion_model.R')"
 	bash $(CODE)/createDuplicates_reducedVars.sh
 	bash $(CODE)/create_reducedVars_pbs.sh
