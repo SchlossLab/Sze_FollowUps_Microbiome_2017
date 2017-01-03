@@ -108,6 +108,9 @@ $(FIGS)/Figure4.pdf :
 	R -e "source('code/Run_Figure4.R')"
 	rm Rplots.pdf
 
+$(TABLES)/OTU_paired_wilcoxson_test.csv :
+	R -e "source('code/Run_wilcoxson_all.R')"
+
 $(FIGS)/Figure5.pdf : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
