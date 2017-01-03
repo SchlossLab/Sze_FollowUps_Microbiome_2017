@@ -53,6 +53,16 @@ for(i in 1:length(pvalue_results)){
 
 
 #Create data table with pvalue results
+final_data <- rbind(
+  cbind(pvalue_results[["ALL"]], 
+        bh_corrected[["ALL"]], 
+        analysis = rep("ALL", length(pvalue_results[["ALL"]]))), 
+  cbind(pvalue_results[["adn"]], 
+        bh_corrected[["adn"]], 
+        analysis = rep("adn", length(pvalue_results[["adn"]]))), 
+  cbind(pvalue_results[["crc"]], 
+        bh_corrected[["crc"]], 
+        analysis = rep("crc", length(pvalue_results[["crc"]]))))
 
 
 
