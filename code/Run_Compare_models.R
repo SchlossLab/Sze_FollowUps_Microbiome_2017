@@ -149,7 +149,7 @@ shared <- select(shared, contains(rownames(
   pvalue_table[pvalue_table$BH_corr < 0.05, ])), Dx_Bin, sampleType, EDRN)
 
 init_follow_change <- ggplot(shared, aes(factor(sampleType, 
-  levels = c("initial", "followup")), Otu000012, 
+  levels = c("initial", "followup")), Otu000012*100, 
 group = factor(EDRN))) + 
   geom_line(aes(
     color = factor(Dx_Bin, 
@@ -157,7 +157,7 @@ group = factor(EDRN))) +
   geom_point(aes(
     color = factor(Dx_Bin, 
       levels = c("adenoma", "adv_adenoma", "cancer")))) + 
-  theme_bw() + ylab("Relative Abundance") + xlab("") + 
+  theme_bw() + ylab("% Relative Abundance") + xlab("") + 
   ggtitle(paste(
     rownames(pvalue_table[pvalue_table$BH_corr < 0.05, ]), " (", 
     tax_df[rownames(pvalue_table[pvalue_table$BH_corr < 0.05, ]), 
@@ -172,7 +172,7 @@ group = factor(EDRN))) +
   geom_hline(
     data = train_test_shared, aes(
       yintercept = mean(train_test_shared[, 
-        rownames(pvalue_table[pvalue_table$BH_corr < 0.05, ])])), 
+        rownames(pvalue_table[pvalue_table$BH_corr < 0.05, ])])*100), 
     linetype = 2) + 
   theme(
     legend.position=c(0.85,0.85), 

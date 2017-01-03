@@ -169,7 +169,7 @@ createTaxaLabeller <- function(taxaTable){
     
   } else{
     
-    tempCall <- apply(dataList, 2, function(x) x[length(x[x != "unclassified"])])
+    tempCall <- apply(dataList, 2, function(x) x[length(x[x != "Bacteria"])+1])
   }
   
   # assigns names to the vector that are the OTU labels

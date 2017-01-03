@@ -91,12 +91,18 @@ $(FIGS)/Figure1.pdf :
 $(FIGS)/Figure2.pdf :
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
-$exploratory/RF_model_100.RData : 
+exploratory/RF_model_100.RData : 
 	mkdir $(CODE)/wfit
 	R -e "source('code/setup_RF_test.R')"
 	bash $(CODE)/createDuplicates.sh
 	bash $(CODE)/create_pbs.sh
 	bash $(CODE)/qsubmission.sh
+
+exploratory/Reducedfeatures_RF_model_100.RData : 
+	R -e "source('code/Run_reduce_feature_lesion_model.R')"
+	bash $(CODE)/createDuplicates_reducedVars.sh
+	bash $(CODE)/create_reducedVars_pbs.sh
+	bash $(CODE)/qsubmission_reducedVars.sh
 
 $(FIGS)/Figure3.pdf : 
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
@@ -108,6 +114,10 @@ $(FIGS)/Figure4.pdf :
 	R -e "source('code/Run_Figure4.R')"
 	rm Rplots.pdf
 
+$(FIGS)/FigureS1.pdf :
+	R -e "source('code/Run_wilcoxson_all.R')"
+	R -e "source('code/Run_FigureS1.R')"
+
 $(FIGS)/Figure5.pdf : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
@@ -118,6 +128,9 @@ $(FIGS)/Figure6.pdf :
 $(TABLES)/time_pvalues.csv : 
 	R -e "source('code/Run_Supplemental_time_table.R')"
 	R -e "source('code/Run_Figure6.R')"
+
+$(FIGS)/FigureS2.pdf : 
+	R -e "source('code/Run_FigureS2.R')"
 
 
 ################################################################################
@@ -135,6 +148,7 @@ write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
 		$(FIGS)/Figure3.pdf $(FIGS)/Figure4.pdf\
 		$(FIGS)/Figure5.pdf $(FIGS)/Figure6.pdf\
+		$(FIGS)/FigureS1.pdf $(FIGS)/FigureS2.pdf\
 		$(TABLES)/time_pvalues.csv 
 	R -e "source('code/Run_render_paper.R')"
 
