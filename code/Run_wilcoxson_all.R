@@ -31,8 +31,21 @@ adn_ids_to_get <- c(filter(metaf, Diagnosis == "adenoma")[, "initial"],
 crc_ids_to_get <- c(filter(metaf, Diagnosis != "adenoma")[, "initial"], 
                     filter(metaf, Diagnosis != "adenoma")[, "followUp"])
 
+
 #subset the original shared file into an amenable testing formats
-shared_to_test_ALL <- shared[as.character(ALL_ids_to_get), OTUs_to_keep]
+shared_to_test <- list(ALL = shared[as.character(ALL_ids_to_get), OTUs_to_keep], 
+                       adn = shared[as.character(adn_ids_to_get), OTUs_to_keep], 
+                       crc = shared[as.character(crc_ids_to_get), OTUs_to_keep])
+
+#Run and get pvalues for each of the data sets and multiple comparison correct
+pvalue_results <- list(ALL = NA, adn = NA, crc = NA)
+
+for(i in 1:length(pvalue_results)){
+  
+  pvalue_results[[i]] <- apply(shared_to_test[[i]], 2, function(x) 
+    wilcox.test(x[1:(length(x)/2)], x[(length(x)/2+1):length(x)], paired = TRUE)$p.value)
+}
+
 
 
 
