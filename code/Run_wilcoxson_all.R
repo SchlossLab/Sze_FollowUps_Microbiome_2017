@@ -39,13 +39,20 @@ shared_to_test <- list(ALL = shared[as.character(ALL_ids_to_get), OTUs_to_keep],
 
 #Run and get pvalues for each of the data sets and multiple comparison correct
 pvalue_results <- list(ALL = NA, adn = NA, crc = NA)
+bh_corrected <- list(ALL = NA, adn = NA, crc = NA)
 
 for(i in 1:length(pvalue_results)){
   
   pvalue_results[[i]] <- apply(shared_to_test[[i]], 2, function(x) 
     wilcox.test(x[1:(length(x)/2)], x[(length(x)/2+1):length(x)], paired = TRUE)$p.value)
+  
+  pvalue_results[[i]] <- pvalue_results[[i]][order(pvalue_results[[i]])]
+  
+  bh_corrected[[i]] <- p.adjust(pvalue_results[[i]], method = "BH")
 }
 
+
+#Create data table with pvalue results
 
 
 
