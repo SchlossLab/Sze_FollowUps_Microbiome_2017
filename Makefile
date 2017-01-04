@@ -104,11 +104,17 @@ exploratory/Reducedfeatures_RF_model_100.RData :
 	bash $(CODE)/create_reducedVars_pbs.sh
 	bash $(CODE)/qsubmission_reducedVars.sh
 
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv : 
+	R -e "source('code/Run_Get_Imp_OTUs.R')"
+	R -e "source('code/Run_combine_IF_aggregate_model.R')"
+	R -e "source('code/Run_reduce_feature_IF_model.R')"
+	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R)"
+	R -e "source('code/Run_IF_reduced_best_model.R')"
+
 $(FIGS)/Figure3.pdf : 
 	#Collects the needed data to generate figure 3
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
 	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
-	R -e "source('code/Run_Get_Imp_OTUs.R')"
 	#Generates complete model built on all data and updates tables
 	R -e "source('code/Run_Create_Use_Best_Model.R')"
 	R -e "source('code/Run_reduced_best_model.R')"
