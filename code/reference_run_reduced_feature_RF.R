@@ -34,7 +34,7 @@ test_tune_list <- list()
 test_predictions <- list()
 
 #Get test data
-train_test_data <- test_data[eighty_twenty_splits[, i], ]
+train_test_data <- test_data_imps[eighty_twenty_splits[, i], ]
   
 #Train the model
 train_name <- paste("data_split", i, sep = "")

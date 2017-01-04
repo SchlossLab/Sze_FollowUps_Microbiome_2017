@@ -28,7 +28,7 @@ test_data_imps <- select(test_data, lesion, one_of(vars_to_keep))
 
 # Split data evenly 
 set.seed(3457)
-eighty_twenty_splits <- createDataPartition(test_data$lesion, 
+eighty_twenty_splits <- createDataPartition(test_data_imps$lesion, 
                                             p = 0.8, list = FALSE, times = 100)
 
 #Create Overall specifications for model tuning
