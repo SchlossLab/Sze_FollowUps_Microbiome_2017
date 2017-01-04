@@ -27,7 +27,7 @@ for(i in 1:n){
   if(i == 1){
     write.csv(eighty_twenty_splits, "results/tables/reduced_test_data_splits.csv", 
               row.names = F)
-    write.csv(test_data, "results/tables/reduced_test_tune_data.csv", 
+    write.csv(test_data_imps, "results/tables/reduced_test_tune_data.csv", 
               row.names = F)
   }
   
