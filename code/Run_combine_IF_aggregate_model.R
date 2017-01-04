@@ -1,4 +1,4 @@
-###Aggregate all the data from this model
+###Aggregate all the data from this IF model
 ### Get the best and worst models and correct mtry for new model
 ## Marc Sze
 
