@@ -105,9 +105,14 @@ exploratory/Reducedfeatures_RF_model_100.RData :
 	bash $(CODE)/qsubmission_reducedVars.sh
 
 $(FIGS)/Figure3.pdf : 
+	#Collects the needed data to generate figure 3
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
+	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
+	#Generates complete model built on all data and updates tables
 	R -e "source('code/Run_Create_Use_Best_Model.R')"
+	R -e "source('code/Run_reduced_best_model.R')"
+	#Creates the actual Figure 3
 	R -e "source('code/Run_Figure3.R')"
 
 $(FIGS)/Figure4.pdf : 
