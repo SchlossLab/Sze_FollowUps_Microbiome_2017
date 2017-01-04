@@ -72,8 +72,70 @@ write.csv(
   "results/tables/Reduced_ROC_model_summary.csv", row.names = F)
 
 
+# Get Ranges of 100 10-fold 20 times CV data (worse, best)
+actual_data <- read.csv("results/tables/reduced_test_tune_data.csv", header = T)
+
+data_splits <- read.csv("results/tables/reduced_test_data_splits.csv", 
+                        header = T, stringsAsFactors = F)
+
+best_run <- as.numeric(strsplit((
+  mutate(best_model_data, run = rownames(best_model_data)) %>% 
+    filter(ROC == max(best_model_data$ROC)) %>% 
+    select(run))[1,], "_")[[1]][2])
+
+worse_run <- as.numeric(strsplit((mutate(best_model_data, 
+                                         run = rownames(best_model_data)) %>% 
+                                    filter(ROC == min(best_model_data$ROC)) %>% 
+                                    select(run))[1,], "_")[[1]][2])
+
+best_split <- data_splits[, best_run]
+worse_split <- data_splits[, worse_run]
+
+roc_data_list <- list(
+  best_roc = roc(
+    actual_data[-best_split, ]$lesion ~ 
+      probs_predictions[[best_run]][, "Yes"]), 
+  worse_roc = roc(actual_data[-worse_split, ]$lesion ~ 
+                    probs_predictions[[worse_run]][, "Yes"]))
 
 
+# Get sensitivity and specificity for test data (best and worse)
+test_roc_data <- cbind(
+  sensitivities = c(roc_data_list[["best_roc"]]$sensitivities, 
+                    roc_data_list[["worse_roc"]]$sensitivities), 
+  specificities = c(roc_data_list[["best_roc"]]$specificities, 
+                    roc_data_list[["worse_roc"]]$specificities), 
+  run = c(
+    rep("best_roc", length(roc_data_list[["best_roc"]]$sensitivities)), 
+    rep("worse_roc", length(roc_data_list[["worse_roc"]]$sensitivities))))
 
+write.csv(test_roc_data, 
+          "results/tables/reduced_test_data_roc.csv", row.names = F)
+
+
+# Create AUC data table for figure 3
+
+auc_data_table <- as.data.frame(matrix(
+  nrow = 2, ncol = 4, dimnames = list(
+    nrows = c("best", "worse"), ncols = c("AUC", "ROC_cv", "Sens_cv", "Spec_cv"))))
+
+auc_data_table[, "AUC"] <- c( 
+  roc_data_list[["best_roc"]]$auc, 
+  roc_data_list[["worse_roc"]]$auc)
+
+auc_data_table[, "ROC_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "ROC"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "ROC"])
+
+auc_data_table[, "Sens_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "Sens"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "Sens"])
+
+auc_data_table[, "Spec_cv"] <- c( 
+  best_model_data[paste("run_", best_run, sep = ""), "Spec"], 
+  best_model_data[paste("run_", worse_run, sep = ""), "Spec"])
+
+
+write.csv(auc_data_table, "results/tables/reduced_auc_summary.csv")
 
 
