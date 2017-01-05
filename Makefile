@@ -129,6 +129,9 @@ $(FIGS)/FigureS1.pdf :
 	R -e "source('code/Run_wilcoxson_all.R')"
 	R -e "source('code/Run_FigureS1.R')"
 
+$(FIGS)/FigureS2.pdf : 
+	R -e "source('code/Run_FigureS2.R')"
+
 $(FIGS)/Figure5.pdf : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
