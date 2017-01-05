@@ -56,16 +56,22 @@ lesionA <- ggplot(lesion_MDA_full, aes(factor(variables,
 lesionB <- ggplot(occurance_data, aes(factor(Variable, 
                                   levels = rev(unique(lesion_MDA_full$variables)), 
                                   labels = rev(graph_labels)), total_appearance)) + 
-  geom_bar(stat = "identity") + geom_hline(aes(yintercept = 50, color = "red"), linetype = 2, size = 1) +  
+  geom_bar(stat = "identity", fill = "white", color = "black", width = 0.75) + 
+  geom_hline(aes(yintercept = 50, color = "red"), linetype = 2, size = 1) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 110)) + 
   coord_flip() + theme_bw() + 
-  ylab("Total Model Appearance Percentage") + xlab("") + ggtitle("B") + 
+  ylab("Total Model Appearance Percentage") + xlab("Variable") + ggtitle("B") + 
   theme(plot.title = element_text(face = "bold", size = 32, hjust = 0), 
         axis.title = element_text(face = "bold"), 
         legend.position = "none", 
-        axis.text.y = element_text(size = 8))
+        axis.text.y = element_text(size = 8), 
+        panel.grid = element_blank())
 
 
-grid.arrange(lesionA, lesionB, nrow = 2, ncol = 1)
+test <- grid.arrange(lesionA, lesionB, nrow = 2, ncol = 1)
+
+ggsave(file = "results/figures/FigureS2.pdf", test, 
+       width=8, height = 10, dpi = 300)
 
 # If wanting to add a table and figure together
 #grid.arrange(test1, test2, nrow = 1, ncol = 2)
