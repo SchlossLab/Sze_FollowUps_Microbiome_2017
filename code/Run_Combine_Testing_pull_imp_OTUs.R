@@ -128,8 +128,14 @@ for(i in 1:length(test)){
   test2[, i] <- test[[i]]$Overall
 }
 
+# "1" pulls the value of mean or sd from the data frame
+test3 <- cbind(mean_MDA = t(summarise_each(as.data.frame(t(test2)), funs(mean)))[, 1], 
+               sd_MDA = t(summarise_each(as.data.frame(t(test2)), funs(sd)))[, 1], 
+               variable = rownames(test2))
 
-
+write.csv(test3[order(test3[, "mean_MDA"], decreasing = TRUE), ], 
+          "results/tables/lesion_model_top_vars_MDA_Summary.csv", row.names = F)
+  
 # Pull out middle(ish) model from runs and use that in the prediction of lesion in 
 
 middle_run <- as.numeric(
