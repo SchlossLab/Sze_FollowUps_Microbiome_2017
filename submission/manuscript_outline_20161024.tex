@@ -138,7 +138,7 @@ after surgery. The overall objective was to investigate the changes in
 the microbiome after surgery in patients with adenomas or carcinomas.
 This model was tested on a 66 person group that included samples before
 and after treatment to allow for the assessment of how the model adjusts
-risk after treatment. The model used for prediction had an AUC of 0.763.
+risk after treatment. The model used for prediction had an AUC of NA.
 For the follow up samples our Random Forest model significantly
 decreased the positive probability of lesion compared to the initial
 samples for both adenoma (P-value = 3.64e-11) and carcinoma (P-value =
@@ -175,10 +175,10 @@ approximately 50,000 deaths from the disease a year (2). It is estimated
 that around 5-10\% of all CRCs can be explained by autosomal dominant
 inheritance (3). The vast majority of CRCs are not inherited and the
 exact etiology to disease has not been well worked out (2). Although
-many risk factors have been identified ({\textbf{???}}) and non-invasive
-screening techniques have started to be put into consistent use (4, 5)
-there has been a consistent increase in the incidence of CRC in the
-younger population.
+many risk factors have been identified (2) and non-invasive screening
+techniques have started to be put into consistent use (4, 5) there has
+been a consistent increase in the incidence of CRC in the younger
+population.
 
 This increased incidence of CRC in the younger population is concerncing
 since having either an adenoma or carcinoma increases ones risk for
@@ -248,7 +248,7 @@ showed that the AUC for the middle model chosen was the most stable
 set AUC = 0.744, worse training model test set AUC = 0.904). That is to
 say it had the smallest change in AUC in comparison to the minimum and
 maximum AUC trained models. The middle model was close to the full
-training data AUC 0.763. There was no significant difference between the
+training data AUC NA. There was no significant difference between the
 AUC of the best and middle training models (P-value = 1). There was also
 no difference in the middle model versus worse (P-value = 0.0431) or
 full data model (P-value = 1). The two comparisons with a significant
@@ -258,7 +258,7 @@ training model (P-value = 1.2e-03).
 
 \textbf{\emph{Most Important Variables to the Model}} Overall, there
 were a total of 37 variables identified as being present in more than
-50\% of the training models {[}Table S2{]}. The top 5 most important
+50\% of the training models {[}Figure S2{]}. The top 5 most important
 bacterial OTUs were Lachnospiraceae (Otu000013), Escherichia/Shigella
 (Otu000018), Ruminococcaceae (Otu000020), Ruminococcus (Otu000017), and
 Porphyromonas (Otu000153). These 5 OTUs were present in at least 90 out
@@ -293,7 +293,7 @@ was still higher than the cutoff threshold of 0.5 (positive probability
 = 0.903). Interestingly, 1 individuals who were unknown on follow up
 still were over the threshold cutoff of 0.5 even though, like the 1
 individual with clear CRC on follow up, the probability of an adenoma or
-carcinoma decreased {[}Table S3{]}.
+carcinoma decreased {[}Table S2{]}.
 
 The follow up positive probabilities were not affected by either
 chemotherapy treatment (uncorrected P-value = 0.621) or radiation
@@ -305,7 +305,7 @@ radiation therapy (uncorrected P-value = 0.431).
 \textbf{\emph{Specific OTUs in the Lesion Model are not Detected in
 Follow Up Versus Initial Samples}} Overall, there were a total of 11
 OTUs that were common between the main lesion model and the model for
-classifying initial and follow up samples specifically {[}Table S4{]}. A
+classifying initial and follow up samples specifically {[}Table S3{]}. A
 total of 1 OTU was still significant after multiple comparison
 correction and it's lowest taxonomic identification was to Blautia. In
 general, Otu000012 (Blautia) was decreased from initial to follow up
@@ -320,7 +320,7 @@ adenoma or carcinoma individuals {[}Figure 6{]}. The carcinoma samples
 showed a significant difference between initial and follow up samples
 for Peptostreptococcus stomatis (P-value = 0.0183) and Porphyromonas
 asaccharolytica (P-value = 0.0154) whereas there were no signficant
-differences in any of these OTUs in the adenoma samples {[}Table S5{]}.
+differences in any of these OTUs in the adenoma samples {[}Table S4{]}.
 
 \newpage
 
@@ -355,8 +355,8 @@ carcinoma only 24 were below the 0.5 threshold out of the total 65
 individuals who were diagnosed as not having a carcinoma on follow up.
 
 We then investigated which OTUs could potentially be more important in
-our model {[}Figure 5 \& Table S4{]}. Many of the OTUs identified
-classified to normal flora bacterium {[}Table S4{]}. Only a single OTU
+our model {[}Figure 5 \& Table S3{]}. Many of the OTUs identified
+classified to normal flora bacterium {[}Table S3{]}. Only a single OTU
 though was significant after multiple comparison correction and the
 lowest taxonomic identification of Otu000012 was to Blautia. Although
 there was a difference in the relative abundance at initial and follow
@@ -464,39 +464,37 @@ non-polyposis colorectal cancer, or Familial adenomatous polyposis.
 Samples used to build the model used for prediction were collected
 either prior to a colonoscopy or between 1 - 2 weeks after. The
 bacterial microbiome has been shown to nomralize within this time period
-(\textbf{insert citation}). Kept apart from this training set were a
-total of 67 individuals that not only had a sample as described
-previoulsy but also a follow up sample between 188 - 546 days after
-surgery and treatment had been completed. This study was approved by the
-University of Michigan Institutional Review Board. All study
-participants provided informed consent and the study itself conformed to
-the guidelines set out by the Helsinki Declaration.
+(18). Kept apart from this training set were a total of 67 individuals
+that not only had a sample as described previoulsy but also a follow up
+sample between 188 - 546 days after surgery and treatment had been
+completed. This study was approved by the University of Michigan
+Institutional Review Board. All study participants provided informed
+consent and the study itself conformed to the guidelines set out by the
+Helsinki Declaration.
 
 \textbf{\emph{Fecal Immunochemical Test and 16S rRNA Gene Sequencing}}
 FIT was analyzed as previously published using both OC FIT-CHEK and
-OC-Auto Micro 80 automated system (Polymedco Inc.) (\textbf{insert
-citation}). 16S rRNA gene sequencing was completed as previously
-described by Kozich, et al. (18). In brief, DNA extraction used the 96
-well Soil DNA isolation kit (MO BIO Laboratories) and an epMotion 5075
-automated pipetting system (Eppendorf). The V4 variable region was
-amplified and the resulting product was split between three sequencing
-runs with control, adenoma, and carcinoma evenly represented on each
-run. Each group was randomly assigned to avoid biases based on sample
-collection location.
+OC-Auto Micro 80 automated system (Polymedco Inc.) (19). 16S rRNA gene
+sequencing was completed as previously described by Kozich, et al. (20).
+In brief, DNA extraction used the 96 well Soil DNA isolation kit (MO BIO
+Laboratories) and an epMotion 5075 automated pipetting system
+(Eppendorf). The V4 variable region was amplified and the resulting
+product was split between three sequencing runs with control, adenoma,
+and carcinoma evenly represented on each run. Each group was randomly
+assigned to avoid biases based on sample collection location.
 
 \textbf{\emph{Sequence Processing}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences. This process
-has been previously described (\textbf{insert citations}). The general
-processing workflow using mothur is as follows: Paired-end reads were
-first merged into contigs, quality filtered, aligned to the SILVA
-database, screening for chimeras, classified with a naive Bayesian
-classifier using the Ribosomal Database Project (RDP), and clustered
-into Operational Taxonomic Units (OTUs) using a 97\% similarity cutoff
-with an average neighbor clustering algorithm. The numer of sequences
-for each sample was rarified to 10521 in an attempt to minimize uneven
-sampling.
+has been previously described (20). The general processing workflow
+using mothur is as follows: Paired-end reads were first merged into
+contigs, quality filtered, aligned to the SILVA database, screening for
+chimeras, classified with a naive Bayesian classifier using the
+Ribosomal Database Project (RDP), and clustered into Operational
+Taxonomic Units (OTUs) using a 97\% similarity cutoff with an average
+neighbor clustering algorithm. The numer of sequences for each sample
+was rarified to 10521 in an attempt to minimize uneven sampling.
 
-\textbf{\emph{Lesion Model Creation}} The Random Forest (19) algorithm
+\textbf{\emph{Lesion Model Creation}} The Random Forest (21) algorithm
 was used to create the model used for prediction of lesion (adenoma or
 carcinoma) for the 67 individuals with follow up samples. The model
 included data on FIT and the bacterial microbiome. Non-binary data was
@@ -536,16 +534,15 @@ most important for the lesion or initial follow up models.
 
 \textbf{\emph{Statistical Analysis}} The R software package (v3.3.0) was
 used for all statisitical analysis. Comparisons between bacterial
-community structure utilized PERMANOVA (\textbf{insert citation}) in the
-vegan package (v2.4.1) while comparisons between ROC curves utilized the
-method by DeLong et al. (\textbf{insert citation}) executed by the pROC
-(v1.8) package. Comparisons between probabilities as well as overall
-amount of OTU between initial and follow up samples utilized a paired
-wilcoxson ranked sum test. Where multiple comparison testing was needed
-a Benjamini-Hochberg (BH) correction was applied (\textbf{insert
-citation}) and a corrected P-value of less than 0.05 was considered
-significant. Unless otherwise stated the P-values reported are those of
-the BH corrected ones.
+community structure utilized PERMANOVA (22) in the vegan package
+(v2.4.1) while comparisons between ROC curves utilized the method by
+DeLong et al. (23) executed by the pROC (v1.8) package. Comparisons
+between probabilities as well as overall amount of OTU between initial
+and follow up samples utilized a paired wilcoxson ranked sum test. Where
+multiple comparison testing was needed a Benjamini-Hochberg (BH)
+correction was applied (24) and a corrected P-value of less than 0.05
+was considered significant. Unless otherwise stated the P-values
+reported are those of the BH corrected ones.
 
 \textbf{\emph{Analysis Overview}} Differences in FIT between initial and
 follow ups for either adenoma or carcinoma were investigated. Next,
@@ -626,7 +623,17 @@ and follow up.
 
 \newpage
 
-\textbf{Figure S1: Thetayc Graphed Against Time of Follow up Sample from
+\textbf{Figure S1: Distribution of P-values from Paired Wilcoxson
+Analysis of OTUs in Initial versus Follow Up}
+
+\textbf{Figure S2: Summary of Important Variables in both Lesion and
+Initial/Follow Up models} A) MDA of the most important variables in the
+lesion model. The black point represents the median and the different
+colors are the different runs up to 100. B) The total number of
+appearances of each variable in the 100 different lesion models. The
+cutoff of 50\% was used to assess importance.
+
+\textbf{Figure S3: Thetayc Graphed Against Time of Follow up Sample from
 Initial}
 
 \newpage
@@ -780,8 +787,21 @@ reveals the essential role of inflammation in bacteria-induced
 colorectal cancer. Nature Communications \textbf{5}:4724.
 doi:\href{https://doi.org/10.1038/ncomms5724}{10.1038/ncomms5724}.
 
+\hypertarget{ref-obrien_impact_2013}{}
+18. \textbf{O'Brien CL}, \textbf{Allison GE}, \textbf{Grimpen F},
+\textbf{Pavli P}. 2013. Impact of colonoscopy bowel preparation on
+intestinal microbiota. PloS One \textbf{8}:e62815.
+doi:\href{https://doi.org/10.1371/journal.pone.0062815}{10.1371/journal.pone.0062815}.
+
+\hypertarget{ref-daly_evaluation_2013}{}
+19. \textbf{Daly JM}, \textbf{Bay CP}, \textbf{Levy BT}. 2013.
+Evaluation of fecal immunochemical tests for colorectal cancer
+screening. Journal of Primary Care \& Community Health
+\textbf{4}:245--250.
+doi:\href{https://doi.org/10.1177/2150131913487561}{10.1177/2150131913487561}.
+
 \hypertarget{ref-kozich_development_2013}{}
-18. \textbf{Kozich JJ}, \textbf{Westcott SL}, \textbf{Baxter NT},
+20. \textbf{Kozich JJ}, \textbf{Westcott SL}, \textbf{Baxter NT},
 \textbf{Highlander SK}, \textbf{Schloss PD}. 2013. Development of a
 dual-index sequencing strategy and curation pipeline for analyzing
 amplicon sequence data on the MiSeq Illumina sequencing platform.
@@ -789,9 +809,27 @@ Applied and Environmental Microbiology \textbf{79}:5112--5120.
 doi:\href{https://doi.org/10.1128/AEM.01043-13}{10.1128/AEM.01043-13}.
 
 \hypertarget{ref-breiman_random_2001}{}
-19. \textbf{Breiman L}. 2001. Random Forests. Machine Learning
+21. \textbf{Breiman L}. 2001. Random Forests. Machine Learning
 \textbf{45}:5--32.
 doi:\href{https://doi.org/10.1023/a:1010933404324}{10.1023/a:1010933404324}.
+
+\hypertarget{ref-anderson_permanova_2013}{}
+22. \textbf{Anderson MJ}, \textbf{Walsh DCI}. 2013. PERMANOVA, ANOSIM,
+and the Mantel test in the face of heterogeneous dispersions: What null
+hypothesis are you testing? Ecological Monographs \textbf{83}:557--574.
+doi:\href{https://doi.org/10.1890/12-2010.1}{10.1890/12-2010.1}.
+
+\hypertarget{ref-delong_comparing_1988}{}
+23. \textbf{DeLong ER}, \textbf{DeLong DM}, \textbf{Clarke-Pearson DL}.
+1988. Comparing the areas under two or more correlated receiver
+operating characteristic curves: A nonparametric approach. Biometrics
+\textbf{44}:837--845.
+
+\hypertarget{ref-benjamini_controlling_1995}{}
+24. \textbf{Benjamini Y}, \textbf{Hochberg Y}. 1995. Controlling the
+false discovery rate: A practical and powerful approach to multiple
+testing. Journal of the Royal Statistical Society Series B
+(Methodological) \textbf{57}:289--300.
 
 
 \end{document}
