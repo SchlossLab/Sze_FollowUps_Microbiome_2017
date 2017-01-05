@@ -114,6 +114,22 @@ OTU_appearance_table <- filter(OTU_appearance_table, total_appearance > 50)
 write.csv(OTU_appearance_table, 
   "results/tables/rf_wCV_imp_vars_summary.csv", row.names = F)
 
+# Collect the mean and SD for the MDA of the most important variables
+
+test <- lapply(imp_vars_list, function(x) 
+  x[order(x[, "Variable"]), ] %>% filter(Variable %in% OTU_appearance_table$Variable))
+
+test2 <- as.data.frame(matrix(nrow = length(OTU_appearance_table$Variable), ncol = length(imp_vars_list), 
+                              dimnames = list(nrow = test[["run_1"]]$Variable, 
+                                              ncol = paste("run_", seq(1:100), sep = ""))))
+
+for(i in 1:length(test)){
+  
+  test2[, i] <- test[[i]]$Overall
+}
+
+
+
 # Pull out middle(ish) model from runs and use that in the prediction of lesion in 
 
 middle_run <- as.numeric(
