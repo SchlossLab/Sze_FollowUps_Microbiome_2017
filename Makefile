@@ -140,8 +140,8 @@ $(TABLES)/time_pvalues.csv :
 	R -e "source('code/Run_Supplemental_time_table.R')"
 	R -e "source('code/Run_Figure6.R')"
 
-$(FIGS)/FigureS2.pdf : 
-	R -e "source('code/Run_FigureS2.R')"
+$(FIGS)/FigureS3.pdf : 
+	R -e "source('code/Run_FigureS3.R')"
 
 
 ################################################################################
