@@ -56,10 +56,12 @@ lesionA <- ggplot(lesion_MDA_full, aes(factor(variables,
 lesionB <- ggplot(occurance_data, aes(factor(Variable, 
                                   levels = rev(unique(lesion_MDA_full$variables)), 
                                   labels = rev(graph_labels)), total_appearance)) + 
-  geom_bar(stat = "identity") + coord_flip() + theme_bw() + 
+  geom_bar(stat = "identity") + geom_hline(aes(yintercept = 50, color = "red"), linetype = 2, size = 1) +  
+  coord_flip() + theme_bw() + 
   ylab("Total Model Appearance Percentage") + xlab("") + ggtitle("B") + 
   theme(plot.title = element_text(face = "bold", size = 32, hjust = 0), 
         axis.title = element_text(face = "bold"), 
+        legend.position = "none", 
         axis.text.y = element_text(size = 8))
 
 
