@@ -108,7 +108,7 @@ $(TABLES)/reduced_IF_follow_up_probability_summary.csv :
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
 	R -e "source('code/Run_combine_IF_aggregate_model.R')"
 	R -e "source('code/Run_reduce_feature_IF_model.R')"
-	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R)"
+	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
 	R -e "source('code/Run_IF_reduced_best_model.R')"
 
 $(FIGS)/Figure3.pdf : 
@@ -129,6 +129,9 @@ $(FIGS)/FigureS1.pdf :
 	R -e "source('code/Run_wilcoxson_all.R')"
 	R -e "source('code/Run_FigureS1.R')"
 
+$(FIGS)/FigureS2.pdf : 
+	R -e "source('code/Run_FigureS2.R')"
+
 $(FIGS)/Figure5.pdf : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
@@ -140,8 +143,8 @@ $(TABLES)/time_pvalues.csv :
 	R -e "source('code/Run_Supplemental_time_table.R')"
 	R -e "source('code/Run_Figure6.R')"
 
-$(FIGS)/FigureS2.pdf : 
-	R -e "source('code/Run_FigureS2.R')"
+$(FIGS)/FigureS3.pdf : 
+	R -e "source('code/Run_FigureS3.R')"
 
 
 ################################################################################
