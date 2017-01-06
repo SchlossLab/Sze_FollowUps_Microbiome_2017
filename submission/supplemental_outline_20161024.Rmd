@@ -51,29 +51,7 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S2: Summary of Most Important Variables For the Model**
-
-```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
-
-imp_model_vars <- read.csv('../results/tables/rf_wCV_imp_vars_summary.csv', stringsAsFactors = F, header = T)
-rf_otu_tax <- read.csv('../results/tables/rf_otu_tax.csv', stringsAsFactors = F, header = T, row.names = 1)
-rf_otu_tax <- cbind(otu = rownames(rf_otu_tax), rf_otu_tax)
-
-all_data <- full_join(imp_model_vars, rf_otu_tax, by = c("Variable" = "otu"))
-
-imp_model_vars <- cbind(Variable = imp_model_vars$Variable, Tax = createTaxaLabeller(all_data), 
-                        total_appearance = imp_model_vars$total_appearance)
-
-colnames(imp_model_vars) <- c("Variable", "Lowest Taxonomic ID", "Total Model Appearances")
-
-kable(imp_model_vars, format = "markdown", align = 'c', padding = 2)
-
-```
-
-\newpage
-
-
-**Table S3: Summary of Probability Assignment of Follow Up Individuals**
+**Table S2: Summary of Probability Assignment of Follow Up Individuals**
 
 ```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -97,7 +75,7 @@ kable(st3, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S4: Summary of OTUs in both Lesion and Initial/Follow Up Models**
+**Table S3: Summary of OTUs in both Lesion and Initial/Follow Up Models**
 
 ```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -118,7 +96,7 @@ kable(st4, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S5: Summary of P-values for Specific CRC OTUs between Initial and Follow Ups**
+**Table S4: Summary of P-values for Specific CRC OTUs between Initial and Follow Ups**
 
 ```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
 

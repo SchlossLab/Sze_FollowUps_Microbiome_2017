@@ -96,3 +96,37 @@ OTU_appearance_table <- filter(OTU_appearance_table, total_appearance > 50)
 write.csv(OTU_appearance_table, 
           "results/tables/IF_rf_wCV_imp_vars_summary.csv", row.names = F)
 
+# Collect the mean and SD for the MDA of the most important variables
+
+top_vars_MDA <- lapply(imp_vars_list, function(x) 
+  x[order(x[, "Variable"]), ] %>% filter(Variable %in% OTU_appearance_table$Variable))
+
+top_vars_MDA_by_run <- as.data.frame(matrix(nrow = length(OTU_appearance_table$Variable), 
+                                            ncol = length(imp_vars_list), 
+                                            dimnames = list(
+                                              nrow = test[["run_1"]]$Variable, 
+                                              ncol = paste("run_", seq(1:100), sep = ""))))
+
+for(i in 1:length(test)){
+  
+  top_vars_MDA_by_run[, i] <- top_vars_MDA[[i]]$Overall
+}
+
+# "1" pulls the value of mean or sd from the data frame
+MDA_vars_summary <- cbind(
+  mean_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
+  sd_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
+  variable = rownames(top_vars_MDA_by_run))
+
+write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
+          "results/tables/IF_model_top_vars_MDA_Summary.csv", row.names = F)
+
+
+
+
+
+
+
+
+
+
