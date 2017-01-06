@@ -13,6 +13,10 @@ test_data <- read.csv("results/tables/reduced_IF_test_tune_data.csv", header = T
 split_data_results <- read.csv("results/tables/reduced_IF_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
 
 
+# Get best mtry to use
+mtry_table <- table(split_data_results$best_mtry)
+maximized_mtry <- as.numeric(names(mtry_table[mtry_table == max(mtry_table)]))
+
 # Create Random Forest model
 
 set.seed(3457)
