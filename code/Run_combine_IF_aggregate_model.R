@@ -104,12 +104,15 @@ top_vars_MDA <- lapply(imp_vars_list, function(x)
 top_vars_MDA_by_run <- as.data.frame(matrix(nrow = length(OTU_appearance_table$Variable), 
                                             ncol = length(imp_vars_list), 
                                             dimnames = list(
-                                              nrow = test[["run_1"]]$Variable, 
+                                              nrow = top_vars_MDA[["run_1"]]$Variable, 
                                               ncol = paste("run_", seq(1:100), sep = ""))))
 
-for(i in 1:length(test)){
+for(i in 1:length(top_vars_MDA_by_run)){
   
-  top_vars_MDA_by_run[, i] <- top_vars_MDA[[i]]$Overall
+  tempData <- top_vars_MDA[[i]]
+  rownames(tempData) <- tempData$Variable
+  top_vars_MDA_by_run[, i] <- tempData[rownames(top_vars_MDA_by_run), "Overall"]
+  rm(tempData)
 }
 
 # "1" pulls the value of mean or sd from the data frame
@@ -122,7 +125,12 @@ write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TR
           "results/tables/IF_model_top_vars_MDA_Summary.csv", row.names = F)
 
 
+IF_model_top_vars_MDA_full_data <- 
+  mutate(top_vars_MDA_by_run, variables = rownames(top_vars_MDA_by_run)) %>% 
+  melt(id = c("variables"))
 
+write.csv(IF_model_top_vars_MDA_full_data, 
+          "results/tables/IF_model_top_vars_MDA_full_data.csv", row.names = F)
 
 
 
