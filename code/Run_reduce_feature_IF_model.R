@@ -31,9 +31,8 @@ eighty_twenty_splits <- as.data.frame(matrix(nrow=104, ncol = 100))
 # Make sure that the same individual is only in the train or test respectively
 for(i in 1:length(colnames(eighty_twenty_splits))){
   
-  test <- sample_n(test_data_imps[1:66, ], size = 52)
-  eighty_twenty_splits[i] <- c(as.numeric(rownames(test)), 
-                               as.numeric(rownames(test))+67)
+  test <- sample(1:66, size = 52)
+  eighty_twenty_splits[i] <- c(test, test+66)
   colnames(eighty_twenty_splits)[i] <- paste("split_", i, sep="")
 }
 
