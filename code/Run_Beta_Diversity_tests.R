@@ -118,8 +118,10 @@ thetayc.mds.List[["bdiver_Test_crc_IF"]] <- metaMDS(
   scores() %>% as.data.frame() %>% 
   mutate(samples = factor(breakDown_samples))
 
-# Save table for later use
+# Save tables for later use
 write.csv(beta_diver_summary, "results/tables/beta_diver_summary.csv")
+write.csv(thetayc.mds.List[["bdiver_Test_adn_IF"]], "results/tables/thetayc_adn_IF.csv", row.names = F)
+write.csv(thetayc.mds.List[["bdiver_Test_crc_IF"]], "results/tables/thetayc_crc_IF.csv", row.names = F)
 
 
 # Plot the NMDS for Adenoma Only and Carcinoma Only
