@@ -126,6 +126,8 @@ $(FIGS)/Figure3.pdf :
 	R -e "source('code/Run_reduced_best_model.R')"
 	#Creates the actual Figure 3
 	R -e "source('code/Run_Figure3.R')"
+	tiff2pdf -o results/figures/Figure3.pdf results/figures/Figure3.tiff
+	rm results/figures/Figure3.tiff
 
 $(FIGS)/Figure4.pdf : 
 	R -e "source('code/Run_Figure4.R')"
