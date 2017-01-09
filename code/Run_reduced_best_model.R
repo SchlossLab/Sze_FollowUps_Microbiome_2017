@@ -70,7 +70,8 @@ shared <- filter(
   Group != samplesToRemove[, "followUp"])
 
 # Keep only OTUs in test data
-shared <- select(shared, Group, one_of(colnames(test_data)))
+OTUs_to_keep <- colnames(select(test_data, -lesion, -fit_result))
+shared <- select(shared, Group, one_of(OTUs_to_keep))
 
 # Create test data set for follow up samples
 updated_metaf$followup_call[updated_metaf$Disease_Free == "n"] <- "Yes"
