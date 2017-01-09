@@ -11,7 +11,7 @@ loadLibs(c("dplyr", "caret","scales", "wesanderson", "randomForest", "pROC"))
 # Read in necessary data frames
 test_data <- read.csv("results/tables/reduced_IF_test_tune_data.csv", header = TRUE)
 split_data_results <- read.csv("results/tables/reduced_IF_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
-
+test_data_roc <- read.csv("results/tables/reduced_IF_test_data_roc.csv", header = TRUE, stringsAsFactors = F)
 
 # Get best mtry to use
 mtry_table <- table(split_data_results$best_mtry)
@@ -27,9 +27,9 @@ full_model_probs_predictions <- full_model$votes
 full_model_roc <- roc(test_data$lesion ~ full_model_probs_predictions[, "Yes"])
 
 # Write out needed data
-test_data_roc <- cbind(sensitivities = full_model_roc$sensitivities, 
+test_data_roc <- rbind(test_data_roc, cbind(sensitivities = full_model_roc$sensitivities, 
                        specificities = full_model_roc$specificities, 
-                       run = rep("full_roc", length(full_model_roc$sensitivities)))
+                       run = rep("full_roc", length(full_model_roc$sensitivities))))
 
 write.csv(test_data_roc, 
           "results/tables/reduced_IF_test_data_roc.csv", row.names = F)

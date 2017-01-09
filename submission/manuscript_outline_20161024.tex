@@ -222,7 +222,7 @@ the adenoma and carcinoma individuals.
 \textbf{\emph{Bacterial Community and Fit Changes before and after
 Treatment}} Based on thetayc distance metrics, comparing the initial to
 the follow up samples, there was no difference between the adenoma and
-carcinoma groups (P-value = 0.697) {[}Figure 1a{]}. There was a
+carcinoma groups (P-value = 0.00198) {[}Figure 1a{]}. There was a
 difference in FIT between initial and follow up samples with the
 carcinoma group having a significant decrease in FIT versus the adenoma
 group (P-value = 2.15e-05) {[}Figure 1b{]}. Although the thetayc
@@ -230,13 +230,13 @@ distance metric change was similar between adenoma and carcinoma the
 directionality of the change was significant in the cancer group between
 initial and follow up (P-value = 0.002) but not for the adenoma group
 (P-value = 0.997). This change can be visualized using an NMDS {[}Figure
-2{]}. When all follow up samples were compared to each other there was
-no significant overall difference between them (P-value = 0.085). There
-was no significant difference between initial and follow up samples for
-observed OTUs, Shannon diversity, or evenness after correction for
-multiple comparisons {[}Table S1{]}. Time of follow up sample from
-initial sampling, did not have a significant difference between adenoma
-and carcinoma (uncorrected P-value = 0.784).
+1c \& 1d{]}. When all follow up samples were compared to each other
+there was no significant overall difference between them (P-value =
+0.085). There was no significant difference between initial and follow
+up samples for observed OTUs, Shannon diversity, or evenness after
+correction for multiple comparisons {[}Table S1{]}. Time of follow up
+sample from initial sampling, did not have a significant difference
+between adenoma and carcinoma (uncorrected P-value = 0.784).
 
 \textbf{\emph{Outcome of Model Training}} The range of the AUC for model
 training ranged from a minimum of 0.723 to a maximum of 0.795 with the
@@ -335,9 +335,9 @@ adenoma or carcinoma {[}Figure 1a{]}. In contrast, FIT had a large
 change in the initial and follow up samples in the carcinoma group
 versus the adenoma {[}Figure 1b{]}. An NMDS showed that there was very
 little observable change between initial and follow up for the adenoma
-group but there was one for the carcinoma group {[}Figure 2{]}. This
-cursory information is suggestive that treatment of carcinoma, had the
-largest response.
+group but there was one for the carcinoma group {[}Figure 1c \& 1d{]}.
+This cursory information is suggestive that treatment of carcinoma, had
+the largest response.
 
 We next created a model that incorporated both patient metadata, FIT,
 and the bacterial microbiome to be able to predict lesions (adenoma or
@@ -532,7 +532,7 @@ this list to variables that were only present more than 50\% of the
 time. This final collated list of variables was what was considered the
 most important for the lesion or initial follow up models.
 
-\textbf{\emph{Statistical Analysis}} The R software package (v3.3.0) was
+\textbf{\emph{Statistical Analysis}} The R software package (v3.3.2) was
 used for all statisitical analysis. Comparisons between bacterial
 community structure utilized PERMANOVA (22) in the vegan package
 (v2.4.1) while comparisons between ROC curves utilized the method by
@@ -581,23 +581,29 @@ Detection Research Network (U01CA86400).
 
 \newpage
 
-\textbf{Figure 1: Change in Thetayc and Fit between initial and follow
-up in adenoma or carcinoma group.} A) No significant difference was
-found between the adenoma and carcinoma group for thetayc (P-value =
-0.697). B) A significant difference was found between the adenoma and
-carcinoma group for FIT (P-value = 2.15e-05).
+\textbf{Figure 1: Changes and differences between the adenoma or
+carcinoma group.} A) No significant difference was found between the
+adenoma and carcinoma group for thetayc (P-value = 0.00198). B) A
+significant difference was found between the adenoma and carcinoma group
+for FIT (P-value = 2.15e-05). C) NMDS of the intial and follow up
+samples for the Adenoma group. D) NMDS of the initial and follow up
+samples for the Carcinoma group. For C) and D) the teal represents
+initial samples and the pink represents follow up samples.
 
-\textbf{Figure 2: NMDS of the Overall Bacterial Community Changes.} A)
-NMDS of the intial and follow up samples for the Adenoma group. B) NMDS
-of the initial and follow up samples for the Carcinoma group.
+\textbf{Figure 2: Previously Associated CRC Bacteria in Initial and
+Follow up Samples.} A) Carcinoma initial and follow up samples. There
+was a significant difference in initial and follow up sample for the
+OTUs classfied as Peptostreptococcus stomatis (P-value = 0.0183) and
+Porphyromonas asaccharolytica (P-value = 0.0154). B) Adenoma initial and
+follow up samples. There were no significant differences between initial
+and follow up.
 
 \textbf{Figure 3: Graph of the Receiver Operating Characteristic Curve
-on Test Set Performance of the Best, Middle, Worse, and Full Training
-Models.} For each of the 100 training cohort sets used had 392
-individuals and the testing cohort sets had 13 individuals. The AUC on
-the test sets for the best, middle, and worse models from training were
-0.646, 0.744, and 0.904, respectively. cvAUC is the 20 times repeated
-10-fold cross-validated AUC from training.
+for lesion and Initial/Follow up models.} The shaded areas represents
+the range of values of a 100 different 80/20 splits of the test set data
+using either all variables (grey) or reduced variable (red) models. The
+blue line represents the reduced variable model using 100\% of the data
+set. A) Lesion model. B) Initial/Follow up model
 
 \textbf{Figure 4: Breakdown by Carcinoma and Adenoma of Prediction
 Results for Initial and Follow Up}* A) Positive probability adjustment
@@ -612,14 +618,6 @@ Relative Abundance that is also Predictive of Initial and Follow Up.}
 After multiple comparison correction 1 (Blautia) was the only one with a
 P-value \textless{} 0.05. The dotted line represents the average
 relative abundance in the control training group.
-
-\textbf{Figure 6: Previously Associated CRC Bacteria in Initial and
-Follow up Samples.} A) Carcinoma initial and follow up samples. There
-was a significant difference in initial and follow up sample for the
-OTUs classfied as Peptostreptococcus stomatis (P-value = 0.0183) and
-Porphyromonas asaccharolytica (P-value = 0.0154). B) Adenoma initial and
-follow up samples. There were no significant differences between initial
-and follow up.
 
 \newpage
 

@@ -87,10 +87,16 @@ $(TABLES)/alpha_table_summary.csv :
 
 $(FIGS)/Figure1.pdf : 
 	R -e "source('code/Run_change_theta_Fit.R')"
+	R -e "source('code/Run_Beta_Diversity_tests.R')"
+	R -e "source('code/Run_Figure1.R')"
 
 $(FIGS)/Figure2.pdf :
-	R -e "source('code/Run_Beta_Diversity_tests.R')"
+	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
+	R -e "source('code/Run_Figure2.R')"
 
+$(TABLES)/time_pvalues.csv : 
+	R -e "source('code/Run_Supplemental_time_table.R')"
+	
 exploratory/RF_model_100.RData : 
 	mkdir $(CODE)/wfit
 	R -e "source('code/setup_RF_test.R')"
@@ -135,13 +141,6 @@ $(FIGS)/FigureS2.pdf :
 $(FIGS)/Figure5.pdf : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
-
-$(FIGS)/Figure6.pdf :
-	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
-
-$(TABLES)/time_pvalues.csv : 
-	R -e "source('code/Run_Supplemental_time_table.R')"
-	R -e "source('code/Run_Figure6.R')"
 
 $(FIGS)/FigureS3.pdf : 
 	R -e "source('code/Run_FigureS3.R')"

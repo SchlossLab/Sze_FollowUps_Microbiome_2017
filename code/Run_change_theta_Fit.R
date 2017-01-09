@@ -62,6 +62,8 @@ change_theta_fit_summary['fit', ] <- c(
 write.csv(change_theta_fit_summary, 
   "results/tables/change_theta_fit_summary.csv")
 
+#Write out difference table
+write.csv(difference_table_treatment, "results/tables/difference_table.csv", row.names = F)
 
 #Difference between initial and follow up for thetayc and fit broken down by adenoma and cancer
 diff_adn_v_crc <- grid.arrange(

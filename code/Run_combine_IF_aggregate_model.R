@@ -66,6 +66,40 @@ write.csv(
          best_mtry = t(as.data.frame.list(best_tune))), 
   "results/tables/IF_ROC_model_summary.csv", row.names = F)
 
+# Get Ranges of 100 10-fold 20 times CV data (worse, best)
+best_run <- as.numeric(strsplit((
+  mutate(best_model_data, run = rownames(best_model_data)) %>% 
+    filter(ROC == max(best_model_data$ROC)) %>% 
+    select(run))[1,], "_")[[1]][2])
+
+worse_run <- as.numeric(strsplit((mutate(best_model_data, 
+                                         run = rownames(best_model_data)) %>% 
+                                    filter(ROC == min(best_model_data$ROC)) %>% 
+                                    select(run))[1,], "_")[[1]][2])
+
+best_split <- eighty_twenty_splits[, best_run]
+worse_split <- eighty_twenty_splits[, worse_run]
+
+roc_data_list <- list(
+  best_roc = roc(
+    test_data[-best_split, ]$lesion ~ 
+      probs_predictions[[best_run]][, "Yes"]), 
+  worse_roc = roc(test_data[-worse_split, ]$lesion ~ 
+                    probs_predictions[[worse_run]][, "Yes"]))
+
+# Get sensitivity and specificity for test data (best and worse)
+test_roc_data <- cbind(
+  sensitivities = c(roc_data_list[["best_roc"]]$sensitivities, 
+                    roc_data_list[["worse_roc"]]$sensitivities), 
+  specificities = c(roc_data_list[["best_roc"]]$specificities, 
+                    roc_data_list[["worse_roc"]]$specificities), 
+  run = c(
+    rep("best_roc", length(roc_data_list[["best_roc"]]$sensitivities)), 
+    rep("worse_roc", length(roc_data_list[["worse_roc"]]$sensitivities))))
+
+write.csv(test_roc_data, 
+          "results/tables/IF_test_data_roc.csv", row.names = F)
+
 # Calculate number of times an OTU is in the top 10% of overall importance
 
 OTU_appearance_table <- as.data.frame(data_frame(
