@@ -45,7 +45,7 @@ IFA <- ggplot(IF_MDA_full, aes(factor(variables,
                                               levels = rev(unique(IF_MDA_full$variables)), 
                                               labels = rev(graph_labels)), 
                                        log10(value))) + 
-  geom_jitter(aes(color = variable)) + 
+  geom_point(aes(color = variable)) + stat_summary(fun.y = "median", colour = "black", geom = "point", size = 3) + 
   coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("Variable") +  ggtitle("A") + 
   theme(plot.title = element_text(face = "bold", size = 32, hjust = 0), 
         legend.position = "none", 
