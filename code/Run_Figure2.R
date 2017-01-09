@@ -42,7 +42,6 @@ crc_specific <- grid.arrange(
     theme(legend.title = element_text(face="bold", size = 8), 
           legend.text = element_text(size = 6), 
           legend.position = c(0.38, 0.82), 
-          legend.margin = margin(0, 0, 0, 0), 
           plot.margin = unit(c(1, 1, 1, 1), "lines"), 
           plot.title = element_text(size=20, face="bold"), 
           strip.text.x = element_text(size = 8)), 
@@ -63,7 +62,6 @@ crc_specific <- grid.arrange(
     theme(legend.title = element_text(face="bold", size = 8), 
           legend.text = element_text(size = 6), 
           legend.position = c(0.35, 0.85), 
-          legend.margin = margin(0, 0, 0, 0), 
           plot.margin = unit(c(1, 1, 1, 1), "lines"), 
           plot.title = element_text(size=20, face="bold"), 
           strip.text.x = element_text(size = 8))
@@ -71,7 +69,7 @@ crc_specific <- grid.arrange(
   )
 
 
-ggsave(file = "results/figures/Figure6.pdf", crc_specific, 
+ggsave(file = "results/figures/Figure2.pdf", crc_specific, 
        width=8.5, height = 11, dpi = 300)
 
 
