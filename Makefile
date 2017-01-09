@@ -87,9 +87,8 @@ $(TABLES)/alpha_table_summary.csv :
 
 $(FIGS)/Figure1.pdf : 
 	R -e "source('code/Run_change_theta_Fit.R')"
-
-$(FIGS)/Figure2.pdf :
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
+	R -e "source('code/Run_Figure1.R')"
 
 exploratory/RF_model_100.RData : 
 	mkdir $(CODE)/wfit
