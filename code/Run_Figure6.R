@@ -28,39 +28,45 @@ crc_specific <- grid.arrange(
   # Cancer OTUs graph
   filter(graph_data, Dx_Bin == "cancer") %>% 
     ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
-               j_values, group = factor(EDRN))) + 
+               j_values*100, group = factor(EDRN))) + 
     geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
     geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-    facet_wrap(~otu, labeller = as_labeller(labs)) + coord_cartesian(ylim = c(0, 0.1)) + 
-    theme_bw() + ylab("Relative Abundance") + xlab("") + ggtitle("A") + 
+    facet_wrap(~otu, labeller = as_labeller(labs), scales = "free_y") + 
+    theme_bw() + ylab("% Relative Abundance") + xlab("") + ggtitle("A") + 
     scale_colour_manual(name = "Cancer Free", 
                         label = c("No", "Yes", "Unknown"),  
                         values = wes_palette("GrandBudapest")) + 
     scale_x_discrete(
       breaks = c("initial", "followup"), 
       labels = c("Initial", "Follow Up")) + 
-    theme(legend.title = element_text(face="bold"), 
-          legend.position = c(0.35, 0.25), 
+    theme(legend.title = element_text(face="bold", size = 8), 
+          legend.text = element_text(size = 6), 
+          legend.position = c(0.38, 0.82), 
+          legend.margin = margin(0, 0, 0, 0), 
           plot.margin = unit(c(1, 1, 1, 1), "lines"), 
-          plot.title = element_text(size=20, face="bold")), 
+          plot.title = element_text(size=20, face="bold"), 
+          strip.text.x = element_text(size = 8)), 
   
   # Adenoma OTUs graph
   filter(graph_data, Dx_Bin != "cancer") %>% 
     ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
-               j_values, group = factor(EDRN))) + 
+               j_values*100, group = factor(EDRN))) + 
     geom_line(aes(color = factor(Dx_Bin))) + geom_point(aes(color = factor(Dx_Bin))) +  
-    facet_wrap(~otu, labeller = as_labeller(labs)) + coord_cartesian(ylim = c(0, 0.002)) + 
-    theme_bw() + ylab("Relative Abundance") + xlab("") + ggtitle("B") + 
+    facet_wrap(~otu, labeller = as_labeller(labs), scales = "free_y") + 
+    theme_bw() + ylab("% Relative Abundance") + xlab("") + ggtitle("B") + 
     scale_colour_manual(name = "Polyp Type", values = c("cyan", "blue"), 
                         breaks = c("adenoma", "adv_adenoma"), 
                         labels = c("Adenoma", "SRN")) +  
     scale_x_discrete(
       breaks = c("initial", "followup"), 
       labels = c("Initial", "Follow Up")) + 
-    theme(legend.title = element_text(face="bold"), 
-          legend.position = c(0.4, 0.30), 
+    theme(legend.title = element_text(face="bold", size = 8), 
+          legend.text = element_text(size = 6), 
+          legend.position = c(0.35, 0.85), 
+          legend.margin = margin(0, 0, 0, 0), 
           plot.margin = unit(c(1, 1, 1, 1), "lines"), 
-          plot.title = element_text(size=20, face="bold"))
+          plot.title = element_text(size=20, face="bold"), 
+          strip.text.x = element_text(size = 8))
 
   )
 
