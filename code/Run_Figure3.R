@@ -23,7 +23,7 @@ reduced_IF_model_roc <- read.csv("results/tables/reduced_IF_test_data_roc.csv", 
 
 roc_curve_graph <- grid.arrange(
   # Graph showing all variable and reduced variable lesion model
-  filter(lesion_model_roc, run != "middle_roc") %>% 
+  test <- filter(lesion_model_roc, run != "middle_roc") %>% 
     ggplot(aes(x = sensitivities, y = specificities)) + 
     geom_polygon(alpha = 0.25) + 
     geom_line(aes(group = run), size = 1.25, color = "black", alpha = 0.5) + 
@@ -50,7 +50,7 @@ roc_curve_graph <- grid.arrange(
  
 
 # Save graph image as a pdf
-ggsave(file = "results/figures/Figure3.pdf", roc_curve_graph, device = "pdf", 
+ggsave(file = "results/figures/Figure3.tiff", roc_curve_graph, device = "tiff", 
        width=8, height = 8, dpi = 300)
 
 
