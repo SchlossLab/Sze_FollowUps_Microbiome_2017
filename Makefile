@@ -113,6 +113,7 @@ exploratory/Reducedfeatures_RF_model_100.RData :
 $(TABLES)/reduced_IF_follow_up_probability_summary.csv : 
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
 	R -e "source('code/Run_combine_IF_aggregate_model.R')"
+	R -e "source('code/Run_IF_best_model.R')"
 	R -e "source('code/Run_reduce_feature_IF_model.R')"
 	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
 	R -e "source('code/Run_IF_reduced_best_model.R')"
