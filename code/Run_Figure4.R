@@ -50,15 +50,6 @@ all_wilcox_summary <- as.data.frame(all_wilcox_summary) %>%
   mutate(comparison = rep(c("lesion", "all_adenoma", "carcinoma_only", "SRN_only"), 4))
 
 
-# Create a confusion matrix
-general_summary <- get_confusion_data(follow_up_probability, good_metaf)
-
-adenoma_summary <- get_confusion_data(filter(follow_up_probability, Dx_Bin != "cancer"), 
-                                      filter(good_metaf, Dx_Bin != "cancer"))
-
-crc_summary <- get_confusion_data(filter(follow_up_probability, Dx_Bin == "cancer"), 
-                                      filter(good_metaf, Dx_Bin == "cancer"))
-
 # Create temporary list to store used data
 tempList <- list(
   lesion = follow_up_probability, 
@@ -66,6 +57,28 @@ tempList <- list(
   IF = IF_follow_up_probability, 
   red_IF = IF_red_follow_up_probability
 )
+
+# Get model summary information
+
+model_summary_info <- as.data.frame(c())
+models <- c("lesion", "red_lesion", "IF", "red_IF")
+
+for(i in 1:length(tempList)){
+  
+  model_summary_info <- 
+    rbind(model_summary_info, 
+          cbind(info = rownames(get_confusion_data(tempList[[i]], good_metaf)), 
+                rbind(
+                  get_confusion_data(tempList[[i]], good_metaf), 
+                  get_confusion_data(filter(tempList[[i]], Dx_Bin != "cancer"), 
+                                     filter(good_metaf, Dx_Bin != "cancer")), 
+                  get_confusion_data(filter(tempList[[i]], Dx_Bin == "cancer"), 
+                                     filter(good_metaf, Dx_Bin == "cancer"))), 
+                samples_tested = c(rep("all", 18), rep("adn", 18), rep("crc", 18)), 
+                model_type = rep(models[i], 54)
+  ))
+}
+
 
 # create a new matrix to store the data
 confusion_counts_summary <- c()
@@ -181,6 +194,9 @@ ggsave(file = "results/figures/Figure4.pdf", accuracy_plot,
 #Write out data tables for other use
 write.csv(all_wilcox_summary, 
           "results/tables/all_models_wilcox_paired_pvalue_summary.csv", row.names = F)
+
+write.csv(model_summary_info, 
+          "results/tables/all_models_summary_info.csv", row.names = F)
 
 write.csv(confusion_counts_summary, "results/tables/all_models_confusion_summary.csv", row.names = F)
 
