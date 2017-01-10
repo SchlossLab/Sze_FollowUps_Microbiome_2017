@@ -24,7 +24,7 @@ if_model_imp_vars <- read.csv("results/tables/if_rf_wCV_imp_vars_summary.csv",
 
 model_imp_vars <- read.csv("results/tables/rf_wCV_imp_vars_summary.csv", 
                               header = T, stringsAsFactors = F) %>% 
-  filter(Variable != "FIT", Variable != "Age", Variable != "BMI", Variable != "Gender")
+  filter(Variable != "fit_result")
 
 # Create taxonomy tables based on OTUs ID'd as important
 
