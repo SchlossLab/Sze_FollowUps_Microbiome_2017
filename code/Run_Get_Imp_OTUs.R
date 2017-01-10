@@ -43,7 +43,7 @@ rm(shared)
 
 test_data <- test_data %>% 
   select(sample, lesion, fit_result, contains("Otu0")) %>% 
-  mutate(lesion = factor(lesion))
+  mutate(lesion = c(rep(1, 67), rep(0, 67)))
 
 #Filter out rows that are not all complete
 
