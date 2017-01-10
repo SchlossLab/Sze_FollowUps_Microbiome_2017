@@ -33,10 +33,10 @@ roc_curve_graph <- grid.arrange(
     geom_line(data = filter(reduced_lesion_model_roc, run == "full_roc"), 
               size = 1.5, color = "cornflowerblue") + 
     scale_x_continuous(trans = "reverse") + theme_bw() + geom_abline(intercept = 1, linetype = 2, size = 1) + 
-    ggtitle("A") + theme(plot.title = element_text(face= "bold")), 
+    ggtitle("A") + xlab("Sensitivity") + ylab("Specificity") + theme(plot.title = element_text(face= "bold")), 
   
   # Graph showing all variable and reduced variable IF model
-  ggplot(IF_model_roc, aes(x = sensitivities, y = specificities)) + 
+  filter(IF_model_roc, run != "full_roc") %>% ggplot(aes(x = sensitivities, y = specificities)) + 
     geom_polygon(alpha = 0.25) + 
     geom_line(aes(group = run), size = 1.25, color = "black", alpha = 0.5) + 
     geom_polygon(data = filter(reduced_IF_model_roc, run != "full_roc"), alpha = 0.25, fill = "red") + 
@@ -45,7 +45,7 @@ roc_curve_graph <- grid.arrange(
     geom_line(data = filter(reduced_IF_model_roc, run == "full_roc"), 
               size = 1.5, color = "cornflowerblue") + 
     scale_x_continuous(trans = "reverse") + theme_bw() + geom_abline(intercept = 1, linetype = 2, size = 1) + 
-    ggtitle("B") + theme(plot.title = element_text(face = "bold")), 
+    ggtitle("B") + xlab("Sensitivity") + ylab("Specificity") + theme(plot.title = element_text(face = "bold")), 
   nrow = 1, ncol = 2)
  
 
