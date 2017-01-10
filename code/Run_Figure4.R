@@ -11,90 +11,97 @@ source('code/graphFunctions.R')
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", 
            "gridExtra", "scales", "wesanderson", "caret"))
 
-
+# Load lesion model data
 follow_up_probability <- read.csv(
   "results/tables/follow_up_probability_summary.csv", 
   header = T, stringsAsFactors = F)
 
-# Read in data tables
+red_follow_up_probability <- read.csv("results/tables/reduced_follow_up_probability_summary.csv", 
+                                      stringsAsFactors = F, header = T)
+
+# Load IF model data
+IF_follow_up_probability <- read.csv(
+  "results/tables/IF_follow_up_probability_summary.csv", 
+  header = T, stringsAsFactors = F)
+
+IF_red_follow_up_probability <- read.csv("results/tables/reduced_IF_follow_up_probability_summary.csv", 
+                                      stringsAsFactors = F, header = T)
+
+
+# Read in meta data tables
 good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
                        stringsAsFactors = F, header = T) %>% 
 filter(!is.na(fit_followUp))
 
 
-# create table to hold wilcoxson paired tests pvalues
+# create tables to hold wilcoxson paired tests pvalues with BH correction
+lesion_wilcox_pvalue_summary <- getProb_PairedWilcox(follow_up_probability)
+lesion_red_wilcox_pvalue_summary <- getProb_PairedWilcox(red_follow_up_probability)
+IF_wilcox_pvalue_summary <- getProb_PairedWilcox(IF_follow_up_probability)
+IF_red_wilcox_pvalue_summary <- getProb_PairedWilcox(IF_red_follow_up_probability)
 
-wilcox_pvalue_summary <- as.data.frame(matrix(
-  nrow = 4, ncol = 1, dimnames = list(
-    rows = c("lesion", "all_adenoma", "carcinoma_only", "SRN_only"), 
-    cols = "Pvalue")))
+all_wilcox_summary <- rbind(lesion_wilcox_pvalue_summary, 
+                    lesion_red_wilcox_pvalue_summary, 
+                    IF_wilcox_pvalue_summary, 
+                    IF_red_wilcox_pvalue_summary)
 
-# Set up variable vector
-lesion_type <- c("all", "cancer", "adenoma", "cancer")
-filter_diagnosis <- c("none", "none", "adv_adenoma", "adenoma")
+all_wilcox_summary <- as.data.frame(all_wilcox_summary) %>% 
+  mutate(model_type = c(rep("lesion", 4), rep("red_lesion", 4), rep("IF", 4), rep("red_IF", 4))) %>% 
+  mutate(comparison = rep(c("lesion", "all_adenoma", "carcinoma_only", "SRN_only"), 4))
 
-for(i in 1:length(lesion_type)){
+
+# Create temporary list to store used data
+tempList <- list(
+  lesion = follow_up_probability, 
+  red_lesion = red_follow_up_probability, 
+  IF = IF_follow_up_probability, 
+  red_IF = IF_red_follow_up_probability
+)
+
+# Get model summary information
+
+model_summary_info <- as.data.frame(c())
+models <- c("lesion", "red_lesion", "IF", "red_IF")
+
+for(i in 1:length(tempList)){
   
-  wilcox_pvalue_summary[i, "Pvalue"] <- wilcox.test(
-    filter(follow_up_probability, sampleType == "initial" & 
-             Dx_Bin != paste(lesion_type[i]) & 
-             Dx_Bin != paste(filter_diagnosis[i]))[, "Yes"], 
-    filter(follow_up_probability, sampleType == "followup" & 
-             Dx_Bin != paste(lesion_type[i]) & 
-             Dx_Bin != paste(filter_diagnosis[i]))[, "Yes"], 
-    paired = TRUE)$p.value
-  
+  model_summary_info <- 
+    rbind(model_summary_info, 
+          cbind(info = rownames(get_confusion_data(tempList[[i]], good_metaf)), 
+                rbind(
+                  get_confusion_data(tempList[[i]], good_metaf), 
+                  get_confusion_data(filter(tempList[[i]], Dx_Bin != "cancer"), 
+                                     filter(good_metaf, Dx_Bin != "cancer")), 
+                  get_confusion_data(filter(tempList[[i]], Dx_Bin == "cancer"), 
+                                     filter(good_metaf, Dx_Bin == "cancer"))), 
+                samples_tested = c(rep("all", 18), rep("adn", 18), rep("crc", 18)), 
+                model_type = rep(models[i], 54)
+  ))
 }
 
 
-# Add Benjamini-Hochberg correction
-wilcox_pvalue_summary <- cbind(
-  wilcox_pvalue_summary, 
-  BH_correction = p.adjust(wilcox_pvalue_summary$Pvalue, 
-    method = "BH")) 
+# create a new matrix to store the data
+confusion_counts_summary <- c()
 
-# Create a confusion matrix
-follow_up_probability <- mutate(
-  follow_up_probability, 
-  predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
-  mutate(
-    initial_call = factor(c(rep("Yes", length(rownames(good_metaf))), 
-      ifelse(good_metaf$Disease_Free == "n", "Yes", "No"))))
+for(i in 1:length(tempList)){
+  
+  confusion_counts_summary <- rbind(
+    confusion_counts_summary, 
+    make_confusionTable(tempList[[i]], good_metaf), 
+    make_confusionTable(tempList[[i]], good_metaf, n = 67, m = 132))
 
-confusion_initial <- confusionMatrix(
-  follow_up_probability$predict_call[1:length(rownames(good_metaf))], 
-  follow_up_probability$initial_call[1:length(rownames(good_metaf))], 
-  positive = "Yes")
+}
 
-confusion_follow <- confusionMatrix(
-  follow_up_probability$predict_call[(length(rownames(good_metaf))+1):
-  length(rownames(follow_up_probability))], 
-  follow_up_probability$initial_call[(length(rownames(good_metaf))+1):
-  length(rownames(follow_up_probability))], positive = "Yes")
-
-confusion_summary <- cbind(
-  initial = c(confusion_initial$overall, confusion_initial$byClass), 
-  followup = c(confusion_follow$overall, confusion_follow$byClass))
-    #McNemar's P-value gives information on whether the 
-    #prediction is significantly different than the actual
-
-
-
-c_initial_table <- matrix(confusion_initial$table, nrow = 2, ncol = 2, 
-               dimnames = list(nrow = c("pred_no", "pred_yes"), 
-                ncol = c("ref_no", "ref_yes")))
-
-c_follow_table <- matrix(confusion_follow$table, nrow = 2, ncol = 2, 
-                          dimnames = list(nrow = c("pred_no", "pred_yes"), 
-                            ncol = c("ref_no", "ref_yes")))
-
+# Add final column to confusion counts table on model type
+confusion_counts_summary <- as.data.frame(confusion_counts_summary) %>% 
+  mutate(model_type = c(rep("lesion", 4), rep("red_lesion", 4), rep("IF", 4), rep("red_IF", 4)))
 
 # Create Figure 4 
 # Visual summery of the pvalues obtained
 
 accuracy_plot <- grid.arrange(
-  # Graph the carcinoma wFIT data only
-  filter(follow_up_probability, diagnosis != "adenoma") %>% 
+  # Graph the lesion carcinoma data only
+  filter(red_follow_up_probability, diagnosis != "adenoma") %>% 
     ggplot(aes(factor(sampleType, 
       levels = c("initial", "followup")), Yes, group = factor(EDRN))) + 
     geom_point(aes(color=factor(disease_free, 
@@ -111,11 +118,11 @@ accuracy_plot <- grid.arrange(
     xlab("") + theme_bw() + theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-      legend.position = c(0.20, 0.15), 
+      legend.position = c(0.25, 0.15), 
       plot.title = element_text(face="bold", hjust = 0)), 
   
-  # Graph the adenoma wFIT data only
-  filter(follow_up_probability, diagnosis == "adenoma") %>%
+  # Graph the lesion adenoma data only
+  filter(red_follow_up_probability, diagnosis == "adenoma") %>%
     ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
                Yes, group = factor(EDRN))) + 
     geom_point(aes(color=factor(Dx_Bin))) + 
@@ -128,7 +135,49 @@ accuracy_plot <- grid.arrange(
       labels = c("Initial", "Follow Up")) + 
     coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ylab("Postive Probability") + xlab("") + theme_bw() + 
+    ggtitle("C") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    theme(
+      axis.title = element_text(face="bold"), 
+      legend.title = element_text(face="bold"), 
+      legend.position = c(0.20, 0.15), 
+      plot.title = element_text(face="bold", hjust = 0)), 
+  
+  # Graph the IF model CRC data only
+  filter(IF_red_follow_up_probability, diagnosis != "adenoma") %>% 
+    ggplot(aes(factor(sampleType, 
+                      levels = c("initial", "followup")), Yes, group = factor(EDRN))) + 
+    geom_point(aes(color=factor(disease_free, 
+                                levels = c("n", "y", "unknown"))), size = 2) + 
+    geom_line(linetype = 2, alpha = 0.3) + 
+    scale_color_manual(name = "Cancer Free", 
+                       label = c("No", "Yes", "Unknown"),  
+                       values = wes_palette("GrandBudapest")) + 
+    scale_x_discrete(breaks = c("initial", "followup"), 
+                     labels = c("Initial", "Follow Up")) + 
+    coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
+    ggtitle("B") + ylab("Postive Probability") + 
+    xlab("") + theme_bw() + theme(
+      axis.title = element_text(face="bold"), 
+      legend.title = element_text(face="bold"), 
+      legend.position = c(0.25, 0.15), 
+      plot.title = element_text(face="bold", hjust = 0)), 
+  
+  # Graph the IF model adenoma data only
+  filter(IF_red_follow_up_probability, diagnosis == "adenoma") %>%
+    ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
+               Yes, group = factor(EDRN))) + 
+    geom_point(aes(color=factor(Dx_Bin))) + 
+    geom_line(aes(color = factor(Dx_Bin))) + 
+    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
+                       breaks = c("adenoma", "adv_adenoma"), 
+                       labels = c("Adenoma", "SRN")) + 
+    scale_x_discrete(
+      breaks = c("initial", "followup"), 
+      labels = c("Initial", "Follow Up")) + 
+    coord_cartesian(ylim = c(0, 1)) + 
+    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
+    ggtitle("D") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
@@ -139,16 +188,17 @@ accuracy_plot <- grid.arrange(
 
 
 # Save figures and write necessary tables
-
 ggsave(file = "results/figures/Figure4.pdf", accuracy_plot, 
        width=8.5, height = 11, dpi = 300)
 
-write.csv(wilcox_pvalue_summary, 
-          "results/tables/IF_model_wicox_paired_pvalue_summary.csv")
+#Write out data tables for other use
+write.csv(all_wilcox_summary, 
+          "results/tables/all_models_wilcox_paired_pvalue_summary.csv", row.names = F)
 
-write.csv(confusion_summary, "results/tables/confusion_summary.csv")
+write.csv(model_summary_info, 
+          "results/tables/all_models_summary_info.csv", row.names = F)
 
-write.csv(c_initial_table, "results/tables/initial_confusion_matrix.csv")
-write.csv(c_follow_table, "results/tables/followup_confusion_matrix.csv")
+write.csv(confusion_counts_summary, "results/tables/all_models_confusion_summary.csv", row.names = F)
+
 
 

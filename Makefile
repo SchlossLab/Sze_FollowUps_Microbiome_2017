@@ -113,6 +113,7 @@ exploratory/Reducedfeatures_RF_model_100.RData :
 $(TABLES)/reduced_IF_follow_up_probability_summary.csv : 
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
 	R -e "source('code/Run_combine_IF_aggregate_model.R')"
+	R -e "source('code/Run_IF_best_model.R')"
 	R -e "source('code/Run_reduce_feature_IF_model.R')"
 	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
 	R -e "source('code/Run_IF_reduced_best_model.R')"
@@ -126,7 +127,7 @@ $(FIGS)/Figure3.pdf :
 	R -e "source('code/Run_reduced_best_model.R')"
 	#Creates the actual Figure 3
 	R -e "source('code/Run_Figure3.R')"
-	tiff2pdf -o results/figures/Figure3.pdf results/figures/Figure3.tiff
+	tiff2pdf -z -o results/figures/Figure3.pdf results/figures/Figure3.tiff
 	rm results/figures/Figure3.tiff
 
 $(FIGS)/Figure4.pdf : 
@@ -140,12 +141,18 @@ $(FIGS)/FigureS1.pdf :
 $(FIGS)/FigureS2.pdf : 
 	R -e "source('code/Run_FigureS2.R')"
 
-$(FIGS)/Figure5.pdf : 
+$(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
 
 $(FIGS)/FigureS3.pdf : 
 	R -e "source('code/Run_FigureS3.R')"
+
+$(FIGS)/FigureS4.pdf : 
+	R -e "source('code/Run_FigureS4.R')"
+
+$(FIGS)/FigureS5.pdf : 
+	R -e "source('code/Run_FigureS5.R')"
 
 
 ################################################################################
@@ -160,10 +167,12 @@ $(FIGS)/FigureS3.pdf :
 write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
 		$(TABLES)/mod_metadata/good_metaf_final.csv\
 		$(TABLES)/alpha_table_summary.csv\
+		$(TABLES)/time_pvalues.csv\ 
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
 		$(FIGS)/Figure3.pdf $(FIGS)/Figure4.pdf\
 		$(FIGS)/Figure5.pdf $(FIGS)/Figure6.pdf\
 		$(FIGS)/FigureS1.pdf $(FIGS)/FigureS2.pdf\
-		$(TABLES)/time_pvalues.csv 
+		$(FIGS)/FigureS3.pdf $(FIGS)/FigureS4.pdf\
+		$(FIGS)/FigureS5.pdf
 	R -e "source('code/Run_render_paper.R')"
 

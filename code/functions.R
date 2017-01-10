@@ -414,66 +414,6 @@ createCountTable <- function(data, cutoff, L1_analysis, time_point_analyzed, dia
 }
 
 
-# Made to take input created from function createCountTable and run fisher exact test for proportions
-# side controls the alternative argument in function fisher.test
-# for this want to test one sided only (if initial is greater than followup)
-runFisherTest <- function(data, Group_inv, side){
-  
-  temptable <- filter(data, DiseaseGroup == paste(Group_inv))
-  
-  testmatrix <- matrix(nrow = 2, ncol = 2, dimnames = list(c("initial", "followup"), c("Yes", "No")))
-  
-  time_vector <- rownames(testmatrix)
-  
-  for(i in 1:length(time_vector)){
-    
-    testmatrix[time_vector[i], "Yes"] <- filter(temptable, timePoint == paste(time_vector[i]))[['Predicted']]
-    testmatrix[time_vector[i], "No"] <- 
-      filter(temptable, timePoint == paste(time_vector[i]))[['GroupTotal']] - testmatrix[time_vector[i], "Yes"]
-  }
-  
-  return(fisher.test(testmatrix, alternative = paste(side)))
-}
-
-
-# create a 2 by 2 matrix to be used for a Fisher exact test
-# Need to make sure ahead of time that data1 and data2 are ordered correctly
-# function assumes that col 1, row 1 for data1 is the same persons as col1 row 1 in data2
-create_two_by_two <- function(data1, data2, OTU){
-  
-  finalTable <- as.data.frame(matrix(nrow = 2, ncol = 2))
-  colnames(finalTable) <- c("Yes", "No")
-  rownames(finalTable) <- c("initial", "follow")
-  
-  # populate matrix with values
-  finalTable["initial", "Yes"] <- length(rownames(data1[data1[, OTU] > 0, ]))
-  finalTable["follow", "Yes"] <- length(rownames(data2[data2[, OTU] > 0, ]))
-  finalTable["initial", "No"] <- length(rownames(data1[data1[, OTU] == 0, ]))
-  finalTable["follow", "No"] <- length(rownames(data2[data2[, OTU] == 0, ]))
-  
-  
-  return(finalTable)
-}
-
-
-# create a 2 by 2 matrix to be used for a Fisher exact test
-# Need to make sure ahead of time that data1 and data2 are ordered correctly
-# function assumes that col 1, row 1 for data1 is the same persons as col1 row 1 in data2
-advanced_two_by_two <- function(data1, data2, OTU, Treatment){
-  
-  finalTable <- as.data.frame(matrix(nrow = 2, ncol = 2))
-  colnames(finalTable) <- c("Yes", "No")
-  rownames(finalTable) <- c("Yes", "No")
-  
-  # populate matrix with values
-  finalTable["Yes", "Yes"] <- length(rownames(data1[data1[, OTU] > 0 & data1[, Treatment] == 'yes', ]))
-  finalTable["No", "Yes"] <- length(rownames(data1[data1[, OTU] > 0 & data1[, Treatment] == 'no', ]))
-  finalTable["Yes", "No"] <- length(rownames(data1[data1[, OTU] == 0 & data1[, Treatment] == 'yes', ]))
-  finalTable["No", "No"] <- length(rownames(data1[data1[, OTU] == 0 & data1[, Treatment] == 'no', ]))
-  
-  
-  return(finalTable)
-}
 
 
 # obtain wilcoxson p-values from initial and follow up data tables and correct for multiple comparisons
@@ -533,69 +473,112 @@ get_alpha_pvalues <- function(data_table, numComp = 3, rows_names = c("sobs", "s
 }
 
 
-
-# Create a 2 by 2 table and analyze by fisher exact test 
-# Returns a two-sided P-value of the measurement
-
-makeANDfish_2by2 <- function(data_table, rows_2by2, cols_2by2, 
-                             cutoff_table, model = TRUE, model_sample_type = NULL, 
-                             model_type = NULL, remove_sample = "adenoma"){
+# Function to obtain paired wilcoxson tests on probabilities at initial and follow up
+# from a given model
+# dataTable must have columns named as Dx_Bin and sampleType for it to work
+# probability table should have a "No" and "Yes" column for the probability call of the model
+getProb_PairedWilcox <- function(dataTable, 
+                                 rown = c("lesion", "all_adenoma", "carcinoma_only", "SRN_only"), 
+                                 # next two variables are used to set up filtering criteria
+                                 lesion_group = c("all", "cancer", "adenoma", "cancer"), 
+                                 extra_specifics = c("none", "none", "adv_adenoma", "adenoma")){
   
-  data_2by2 <- as.data.frame(matrix(nrow = 2, ncol = 2, dimnames = list(
-    rows = rows_2by2, cols = cols_2by2)))
+  # create table to hold wilcoxson paired tests pvalues
   
-  if (model == TRUE & is.null(model_sample_type) == FALSE){
+  wilcox_pvalue_summary <- as.data.frame(matrix(
+    nrow = 4, ncol = 1, dimnames = list(
+      rows = rown, 
+      cols = "Pvalue")))
+  
+  # Set up variable vector
+  lesion_type <- lesion_group
+  filter_diagnosis <- extra_specifics
+  
+  for(i in 1:length(lesion_type)){
     
-    for(i in 1:length(cols_2by2)){
-      
-      for(j in 1:length(rows_2by2)){
-        
-        data_2by2[j, i] <- 
-          length(rownames(filter(data_table, model == paste(rows_2by2[j]) & 
-                                   sample_type == paste(model_sample_type) & 
-                                   diagnosis != paste(remove_sample) & 
-                                   postive_probability > cutoff_table[, rows_2by2[j]])))
-        
-        if(i == 2){
-          
-          data_2by2[j, i] <- 
-            length(rownames(filter(data_table, model == paste(rows_2by2[j]) & 
-                                     sample_type == paste(model_sample_type) & 
-                                     diagnosis != paste(remove_sample) & 
-                                     postive_probability < cutoff_table[, rows_2by2[j]])))
-        }
-        
-      }
-      
-
-    }
-  } else if(model == FALSE & is.null(model_type) == FALSE){
+    wilcox_pvalue_summary[i, "Pvalue"] <- wilcox.test(
+      filter(dataTable, sampleType == "initial" & 
+               Dx_Bin != paste(lesion_type[i]) & 
+               Dx_Bin != paste(filter_diagnosis[i]))[, "Yes"], 
+      filter(dataTable, sampleType == "followup" & 
+               Dx_Bin != paste(lesion_type[i]) & 
+               Dx_Bin != paste(filter_diagnosis[i]))[, "Yes"], 
+      paired = TRUE)$p.value
     
-    for(i in 1:length(cols_2by2)){
-    
-      for(j in 1:length(rows_2by2)){
-        
-        data_2by2[j, i] <- 
-          length(rownames(filter(data_table, model == paste(model_type) & 
-                                   sample_type == paste(rows_2by2[j]) & diagnosis != paste(remove_sample) & 
-                                   postive_probability > cutoff_table[, model_type])))
-        
-        if(i == 2){
-          
-          data_2by2[j, i] <- 
-            length(rownames(filter(data_table, model == paste(model_type) & 
-                                     sample_type == paste(rows_2by2[j]) & diagnosis != paste(remove_sample) & 
-                                     postive_probability < cutoff_table[, model_type])))
-        }
-        
-      }
-    }
   }
   
- return(fisher.test(data_2by2)$p.value)
+  # Add Benjamini-Hochberg correction
+  wilcox_pvalue_summary <- cbind(
+    wilcox_pvalue_summary, 
+    BH_correction = p.adjust(wilcox_pvalue_summary$Pvalue, 
+                             method = "BH")) 
   
+  return(wilcox_pvalue_summary)
 }
 
+
+# Create function to obtain confusion summary data
+# Of importance is the Mcnemar P-value for comparison of actual versus predicted similarity
+# needs caret to work properly and needs a meta data table with a column called Disease_Free
+# Disease_Free needs to be in a "y"/"n" format
+get_confusion_data <- function(dataTable, metaData){
+  
+  loadLibs(c("caret", "dplyr"))
+  #add needed columns for the testing
+  dataTable <- mutate(
+    dataTable, 
+    predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
+    mutate(
+      initial_call = factor(c(rep("Yes", length(rownames(metaData))), 
+                              ifelse(metaData$Disease_Free == "n", "Yes", "No"))))
+  
+  #run testing on all the data
+  confusion_all <- confusionMatrix(dataTable$predict_call, dataTable$initial_call, 
+                                   positive = "Yes")
+  
+  #run testing based on initial only
+  confusion_initial <- confusionMatrix(
+    dataTable$predict_call[1:length(rownames(metaData))], 
+    dataTable$initial_call[1:length(rownames(metaData))], 
+    positive = "Yes")
+  
+  #run testing based on follow up only
+  confusion_follow <- confusionMatrix(
+    dataTable$predict_call[(length(rownames(metaData))+1):
+                                         length(rownames(dataTable))], 
+    dataTable$initial_call[(length(rownames(metaData))+1):
+                                         length(rownames(dataTable))], positive = "Yes")
+  
+  #aggregate all the tests together into a single summary file to be read out
+  confusion_summary <- cbind(
+    all = c(confusion_all$overall, confusion_all$byClass), 
+    initial = c(confusion_initial$overall, confusion_initial$byClass), 
+    followup = c(confusion_follow$overall, confusion_follow$byClass))
+}
+
+
+# This function creates a confusion table
+# Needs to have a metadata data with the column "Disease_Free"
+# This column needs to be in the format of "n"/"y"
+make_confusionTable <- function(dataTable, metaData, n = 1, m = 66){
+  
+  #add needed columns for the testing
+  dataTable <- mutate(
+    dataTable, 
+    predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
+    mutate(
+      initial_call = factor(c(rep("Yes", length(rownames(good_metaf))), 
+                              ifelse(metaData$Disease_Free == "n", "Yes", "No"))))
+  
+  temp_list <- confusionMatrix(
+    dataTable$predict_call[n:m], 
+    dataTable$initial_call[n:m], 
+    positive = "Yes")
+  
+  c_table <- matrix(temp_list$table, nrow = 2, ncol = 2, 
+                            dimnames = list(nrow = c("pred_no", "pred_yes"), 
+                                            ncol = c("ref_no", "ref_yes")))
+}
 
 
 
