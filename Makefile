@@ -141,7 +141,7 @@ $(FIGS)/FigureS1.pdf :
 $(FIGS)/FigureS2.pdf : 
 	R -e "source('code/Run_FigureS2.R')"
 
-$(FIGS)/Figure5.pdf : 
+$(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : 
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
 
