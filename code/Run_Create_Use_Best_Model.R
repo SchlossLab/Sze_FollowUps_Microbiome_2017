@@ -72,7 +72,7 @@ shared <- filter(
   Group != samplesToRemove[, "followUp"])
 
 # Keep only OTUs in test data
-OTUs_to_keep <- colnames(select(test_data, -fit_result))
+OTUs_to_keep <- colnames(select(test_data, -lesion, -fit_result))
 shared <- select(shared, Group, one_of(OTUs_to_keep))
 
 
