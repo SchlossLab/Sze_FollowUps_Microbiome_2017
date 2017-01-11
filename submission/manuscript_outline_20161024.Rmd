@@ -44,27 +44,33 @@ change_summary <- read.csv('../results/tables/change_theta_fit_summary.csv', hea
 alpha_summary <- read.csv('../results/tables/alpha_table_summary.csv', header = T, row.names = 1)
 beta_summary <- read.csv('../results/tables/beta_diver_summary.csv', header = T, row.names = 1)
 time_pvalues <- read.csv("../results/tables/time_pvalues.csv", header = T, row.names = 1)
+all_OTU_pair_wilcox <- read.csv("../results/tables/OTU_paired_wilcoxson_test.csv", header = T)
 
-# training of model data
-model_train_summary <- read.csv('../results/tables/ROC_model_summary.csv', header = T)
-model_test_AUC_summary <- read.csv('../results/tables/auc_summary.csv', header = T, row.names = 1)
-imp_model_vars <- read.csv('../results/tables/rf_wCV_imp_vars_summary.csv', stringsAsFactors = F, header = T)
-rf_otu_tax <- read.csv('../results/tables/rf_otu_tax.csv', stringsAsFactors = F, header = T, row.names = 1)
-rf_lowest_ID <- createTaxaLabeller(rf_otu_tax)
+# Lesion Model (Full)
+lesion_top10_varsMDA <- read.csv('../results/tables/lesion_model_top_vars_MDA_Summary.csv', header = T)
+lesion_imp_vars <- read.csv('../results/tables/rf_otu_tax.csv', header = T, row.names = 1)
+lesion_AUC_run_summary <- read.csv('../results/tables/ROC_model_summary.csv', header = T)
 
-# model prediction and adjustment performance
-IF_model_wilcox_paired_summary <- read.csv('../results/tables/all_models_wilcox_paired_pvalue_summary.csv', header = T)
-confusion_summary <- read.csv('../results/tables/confusion_summary.csv', header = T, row.names = 1)
-follow_up_prob_summary <- read.csv('../results/tables/follow_up_probability_summary.csv', header = T)
-followup_cm <- read.csv('../results/tables/followup_confusion_matrix.csv', header = T, row.names = 1)
-initial_cm <- read.csv('../results/tables/initial_confusion_matrix.csv', header = T, row.names = 1)
-roc_pvalues <- read.csv('../results/tables/roc_pvalue_summary.csv', header = T, row.names = 1)
+# Lesion Model (Reduced)
+reduced_lesion_AUC_run_summary <- read.csv('../results/tables/reduced_IF_ROC_model_summary.csv', header = T)
 
-# Predictive of both initial and follow up and in lesion model
-pvalue_common_imp_vars <- read.csv('../results/tables/pvalue_common_imp_vars.csv', header = T, row.names = 1)
+# IF Model (Full)
+IF_top10_varsMDA <- read.csv('../results/tables/IF_model_top_vars_MDA_Summary.csv', header = T)
+IF_imp_vars <- read.csv('../results/tables/if_rf_otu_tax.csv', header = T, row.names = 1)
+IF_AUC_run_summary <- read.csv('../results/tables/IF_ROC_model_summary.csv', header = T)
 
-# Results of CRC Bacteria
-pvalue_adn_crc_summary <- read.csv('../results/tables/adn_crc_maybe_pvalue_summary.csv', header = T, row.names = 1)
+# IF Model (Reduced)
+reduced_IF_AUC_run_summary <- read.csv('../results/tables/reduced_IF_ROC_model_summary.csv', header = T)
+
+
+# All model information
+all_probs_paired_wilcox <- read.csv('../results/tables/all_models_wilcox_paired_pvalue_summary.csv', header = T, stringsAsFactors = F)
+all_pred_stat_summary <- read.csv('../results/tables/all_models_summary_info.csv', header = T, stringsAsFactors = F)
+all_confu_matrix <- read.csv('../results/tables/all_models_confusion_summary.csv', header = T, stringsAsFactors = F)
+
+# Common Variable Info
+common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1)
+
 
 ```
 
@@ -99,7 +105,7 @@ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 
 ### Keywords
 
-bacterial microbiome; colorectal cancer; polyps      
+bacterial microbiome; colorectal cancer; polyps; FIT; detection; risk factors      
 
 \newpage
 
