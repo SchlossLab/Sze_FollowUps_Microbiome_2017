@@ -1,4 +1,4 @@
-### Figure S4
+### Figure S5
 ### Distribution of P-values from Paired Wilcoxson Analysis
 ## Marc Sze
 
