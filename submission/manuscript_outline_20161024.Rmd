@@ -82,13 +82,16 @@ Running Title: Human Microbiome and Colorectal Cancer
 
 \vspace{10mm}
 
-Marc A Sze, Nielson T Baxter, Mack T Ruffin IV, Mary AM Rogers, and Patrick D Schloss${^\dagger}$
+Marc A Sze^1^, Nielson T Baxter^2^, Mack T Ruffin IV^3^, Mary AM Rogers^4^, and Patrick D Schloss^1^${^\dagger}$
 
 \vspace{20mm}
 
 $\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
 
-Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
+^1^Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
+^2^Department of Internal Medicine, Division of Infectious Disease, University of Michigan, Ann Arbor, MI
+^3^Department of Family Medicine and Community Medicine, Penn State Hershey Medical Center, Hershey, PA
+^4^Department of Internal Medicine, University of Michigan, Ann Arbor, MI
 \end{center}
 
 
