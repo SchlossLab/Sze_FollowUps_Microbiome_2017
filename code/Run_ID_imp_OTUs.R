@@ -18,7 +18,7 @@ colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
 tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
 rm(tax)
 
-if_model_imp_vars <- read.csv("results/tables/if_rf_wCV_imp_vars_summary.csv", 
+if_model_imp_vars <- read.csv("results/tables/IF_rf_wCV_imp_vars_summary.csv", 
                            header = T, stringsAsFactors = F) %>% 
   filter(Variable != "fit_result")
 

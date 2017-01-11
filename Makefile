@@ -170,7 +170,6 @@ write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
 		$(TABLES)/time_pvalues.csv\ 
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
 		$(FIGS)/Figure3.pdf $(FIGS)/Figure4.pdf\
-		$(FIGS)/Figure5.pdf $(FIGS)/Figure6.pdf\
 		$(FIGS)/FigureS1.pdf $(FIGS)/FigureS2.pdf\
 		$(FIGS)/FigureS3.pdf $(FIGS)/FigureS4.pdf\
 		$(FIGS)/FigureS5.pdf

@@ -34,6 +34,8 @@ full_model_roc <- roc(test_data$lesion ~ full_model_probs_predictions[, "Yes"])
 
 auc_data_table <- rbind(auc_data_table, full = c(full_model_roc$auc, NA, NA, NA))
 write.csv(auc_data_table, "results/tables/auc_summary.csv")
+write.csv(cbind(lesion = as.character(test_data$lesion), full_model_probs_predictions), 
+          "results/tables/lesion_test_data_probs_summary.csv")
 
 test_data_roc <- rbind(test_data_roc, 
                        cbind(sensitivities = full_model_roc$sensitivities, 
@@ -72,7 +74,8 @@ shared <- filter(
   Group != samplesToRemove[, "followUp"])
 
 # Keep only OTUs in test data
-shared <- select(shared, Group, one_of(colnames(test_data)))
+OTUs_to_keep <- colnames(select(test_data, -lesion, -fit_result))
+shared <- select(shared, Group, one_of(OTUs_to_keep))
 
 
 # Load in test data set

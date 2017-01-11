@@ -41,7 +41,7 @@ accuracy_plot <- grid.arrange(
                      labels = c("Initial", "Follow Up")) + 
     coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("A") + ylab("Postive Probability") + 
+    ggtitle("A") + ylab("Lesion Postive Probability") + 
     xlab("") + theme_bw() + theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
@@ -62,7 +62,7 @@ accuracy_plot <- grid.arrange(
       labels = c("Initial", "Follow Up")) + 
     coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("C") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    ggtitle("C") + ylab("Lesion Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
@@ -83,7 +83,7 @@ accuracy_plot <- grid.arrange(
                      labels = c("Initial", "Follow Up")) + 
     coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("B") + ylab("Postive Probability") + 
+    ggtitle("B") + ylab("Initial Postive Probability") + 
     xlab("") + theme_bw() + theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
@@ -104,7 +104,7 @@ accuracy_plot <- grid.arrange(
       labels = c("Initial", "Follow Up")) + 
     coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("D") + ylab("Postive Probability") + xlab("") + theme_bw() + 
+    ggtitle("D") + ylab("Initial Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 

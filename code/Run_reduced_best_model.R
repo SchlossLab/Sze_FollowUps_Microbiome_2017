@@ -31,6 +31,8 @@ full_model_roc <- roc(test_data$lesion ~ full_model_probs_predictions[, "Yes"])
 # Add to needed data tables and write them back out
 auc_data_table <- rbind(auc_data_table, full = c(full_model_roc$auc, NA, NA, NA))
 write.csv(auc_data_table, "results/tables/reduced_auc_summary.csv")
+write.csv(cbind(lesion = as.character(test_data$lesion), full_model_probs_predictions), 
+          "results/tables/reduced_lesion_test_data_probs_summary.csv", row.names = F)
 
 test_data_roc <- rbind(test_data_roc, 
                        cbind(sensitivities = full_model_roc$sensitivities, 

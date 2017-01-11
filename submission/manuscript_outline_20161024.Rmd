@@ -1,6 +1,6 @@
 ---
 title: ''
-csl: mbio.csl
+csl: microbiome.csl
 fontsize: 12pt
 output:
   pdf_document:
@@ -44,27 +44,33 @@ change_summary <- read.csv('../results/tables/change_theta_fit_summary.csv', hea
 alpha_summary <- read.csv('../results/tables/alpha_table_summary.csv', header = T, row.names = 1)
 beta_summary <- read.csv('../results/tables/beta_diver_summary.csv', header = T, row.names = 1)
 time_pvalues <- read.csv("../results/tables/time_pvalues.csv", header = T, row.names = 1)
+all_OTU_pair_wilcox <- read.csv("../results/tables/OTU_paired_wilcoxson_test.csv", header = T)
 
-# training of model data
-model_train_summary <- read.csv('../results/tables/ROC_model_summary.csv', header = T)
-model_test_AUC_summary <- read.csv('../results/tables/auc_summary.csv', header = T, row.names = 1)
-imp_model_vars <- read.csv('../results/tables/rf_wCV_imp_vars_summary.csv', stringsAsFactors = F, header = T)
-rf_otu_tax <- read.csv('../results/tables/rf_otu_tax.csv', stringsAsFactors = F, header = T, row.names = 1)
-rf_lowest_ID <- createTaxaLabeller(rf_otu_tax)
+# Lesion Model (Full)
+lesion_top10_varsMDA <- read.csv('../results/tables/lesion_model_top_vars_MDA_Summary.csv', header = T)
+lesion_imp_vars <- read.csv('../results/tables/rf_otu_tax.csv', header = T, row.names = 1)
+lesion_AUC_run_summary <- read.csv('../results/tables/ROC_model_summary.csv', header = T)
 
-# model prediction and adjustment performance
-IF_model_wilcox_paired_summary <- read.csv('../results/tables/IF_model_wicox_paired_pvalue_summary.csv', header = T, row.names = 1)
-confusion_summary <- read.csv('../results/tables/confusion_summary.csv', header = T, row.names = 1)
-follow_up_prob_summary <- read.csv('../results/tables/follow_up_probability_summary.csv', header = T)
-followup_cm <- read.csv('../results/tables/followup_confusion_matrix.csv', header = T, row.names = 1)
-initial_cm <- read.csv('../results/tables/initial_confusion_matrix.csv', header = T, row.names = 1)
-roc_pvalues <- read.csv('../results/tables/roc_pvalue_summary.csv', header = T, row.names = 1)
+# Lesion Model (Reduced)
+reduced_lesion_AUC_run_summary <- read.csv('../results/tables/reduced_IF_ROC_model_summary.csv', header = T)
 
-# Predictive of both initial and follow up and in lesion model
-pvalue_common_imp_vars <- read.csv('../results/tables/pvalue_common_imp_vars.csv', header = T, row.names = 1)
+# IF Model (Full)
+IF_top10_varsMDA <- read.csv('../results/tables/IF_model_top_vars_MDA_Summary.csv', header = T)
+IF_imp_vars <- read.csv('../results/tables/if_rf_otu_tax.csv', header = T, row.names = 1)
+IF_AUC_run_summary <- read.csv('../results/tables/IF_ROC_model_summary.csv', header = T)
 
-# Results of CRC Bacteria
-pvalue_adn_crc_summary <- read.csv('../results/tables/adn_crc_maybe_pvalue_summary.csv', header = T, row.names = 1)
+# IF Model (Reduced)
+reduced_IF_AUC_run_summary <- read.csv('../results/tables/reduced_IF_ROC_model_summary.csv', header = T)
+
+
+# All model information
+all_probs_paired_wilcox <- read.csv('../results/tables/all_models_wilcox_paired_pvalue_summary.csv', header = T, stringsAsFactors = F)
+all_pred_stat_summary <- read.csv('../results/tables/all_models_summary_info.csv', header = T, stringsAsFactors = F)
+all_confu_matrix <- read.csv('../results/tables/all_models_confusion_summary.csv', header = T, stringsAsFactors = F)
+
+# Common Variable Info
+common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1)
+
 
 ```
 
@@ -76,17 +82,16 @@ Running Title: Human Microbiome and Colorectal Cancer
 
 \vspace{10mm}
 
-Marc A Sze, Nielson T Baxter, Mack T Ruffin IV, Mary AM Rogers, and Patrick D Schloss${^\dagger}$
-
-\vspace{10mm}
-
-Contributions: All authors were involved in the conception and design of the study. MAS analyzed the data. NTB processed samples and analyzed the data. All authors interpreted the data. MAS and PDS wrote the manuscript. All authors reviewed and revised the manuscript. All authors read and approved the final manuscript.
+Marc A Sze^1^, Nielson T Baxter^2^, Mack T Ruffin IV^3^, Mary AM Rogers^4^, and Patrick D Schloss^1^${^\dagger}$
 
 \vspace{20mm}
 
 $\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
 
-Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
+^1^Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
+^2^Department of Internal Medicine, Division of Infectious Disease, University of Michigan, Ann Arbor, MI
+^3^Department of Family Medicine and Community Medicine, Penn State Hershey Medical Center, Hershey, PA
+^4^Department of Internal Medicine, University of Michigan, Ann Arbor, MI
 \end{center}
 
 
@@ -95,17 +100,19 @@ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 
 ## Abstract
 
-Colorectal cancer (CRC) continues to be a worldwide health problem with early detection being used as a key component in mitigating deaths due to the disease. Previous research suggests a link between stool bacterial microbiome and CRC.   In this study, we used a model based on the microbiome, demographics, and prior medical history to classify individuals as having a lesion (i.e. adenoma or carcinoma).  We then used this model to characterize the change in the gut microbiota before and after surgery.  The overall objective was to investigate the changes in the microbiome after surgery in patients with adenomas or carcinomas.  This model was tested on a `r sum(initial_cm$ref_yes)` person group that included samples before and after treatment to allow for the assessment of how the model adjusts risk after treatment. The model used for prediction had an AUC of `r format(model_test_AUC_summary["full", "AUC"], digits = 3)`. For the follow up samples our Random Forest model significantly decreased the positive probability of lesion compared to the initial samples for both adenoma (P-value = `r format(IF_model_wilcox_paired_summary['all_adenoma', 'BH_correction'], scientific = TRUE, digits = 3)`) and carcinoma (P-value = `r format(IF_model_wilcox_paired_summary['carcinoma_only', 'BH_correction'], scientific = TRUE, digits = 3)`).  Our model predicted that `r format((followup_cm["pred_no", "ref_no"]/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)`% of the 67-person cohort had normal colons and `r format(((followup_cm["pred_yes", "ref_no"] + sum(followup_cm$ref_yes))/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)`% had a lesion.  Some OTUs that changed the most before and after treatment included OTUs that were affiliated with members of `r pvalue_common_imp_vars[order(pvalue_common_imp_vars$Pvalue), "Genus"][1:2]` and `r pvalue_common_imp_vars[order(pvalue_common_imp_vars$Pvalue), "Genus"][3]`. Our model suggests that treatment does significantly reduce the probability of having a colonic lesion.  Further surveillance of these individuals will enable us to determine whether models such as the one we present here can also be used to predict recurrence of colorectal cancer.  
+**Background:** Colorectal cancer (CRC) continues to be a worldwide health problem with early detection being used as a key component in mitigating deaths due to the disease. Previous research suggests a link between stool bacterial microbiome and CRC.   In this study, we used the bacterial microbiome and Fecal Immunoglobulin Test (FIT) to build models to either classify individuals as having a lesion (i.e. adenoma or carcinoma) or whether the sample was before or after surgery.  The overall objective was to investigate the changes in the bacterial microbiome after surgery in patients with lesion.  Specifically, we wanted to identify what within the community was different within those undergoing surgical removal of lesion. 
+**Results:** The model used for prediction had an AUC of `r format(model_test_AUC_summary["full", "AUC"], digits = 3)`. For the follow up samples our Random Forest model significantly decreased the positive probability of lesion compared to the initial samples for both adenoma (P-value = `r format(IF_model_wilcox_paired_summary['all_adenoma', 'BH_correction'], scientific = TRUE, digits = 3)`) and carcinoma (P-value = `r format(IF_model_wilcox_paired_summary['carcinoma_only', 'BH_correction'], scientific = TRUE, digits = 3)`).  Our model predicted that `r format((followup_cm["pred_no", "ref_no"]/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)`% of the 67-person cohort had normal colons and `r format(((followup_cm["pred_yes", "ref_no"] + sum(followup_cm$ref_yes))/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)`% had a lesion.  Some OTUs that changed the most before and after treatment included OTUs that were affiliated with members of `r pvalue_common_imp_vars[order(pvalue_common_imp_vars$Pvalue), "Genus"][1:2]` and `r pvalue_common_imp_vars[order(pvalue_common_imp_vars$Pvalue), "Genus"][3]`. 
+**Conclusions:** Our model suggests that treatment does significantly reduce the probability of having a colonic lesion.  Further surveillance of these individuals will enable us to determine whether models such as the one we present here can also be used to predict recurrence of colorectal cancer.  
 
 \newpage
 
-### Importance
+### Keywords
 
-This is one of the first studies to investigate within humans what happens to the bacterial microbiome before and after adenoma and carcinoma treatment.  Specifically, it aims to assess how a random forest machine learning algorithm built model respond to treatment and adjust it's positive probability calls of whether the individual has an adenoma or carcinoma due to surgical removal of the lesion.      
+bacterial microbiome; colorectal cancer; polyps; FIT; detection; risk factors      
 
 \newpage
 
-## Introduction
+## Background
 
 Colorectal cancer (CRC) continues to be a leading cause of cancer related deaths and is the second most common cancer death among men aged 40-79 years of age [@jemal_cancer_2010; @haggar_colorectal_2009].  Over the last few years death due to the disease has seen a significant decrease thanks mainly to improvements in screening [@jemal_cancer_2010].  However, despite this giant improvement there are still approximately 50,000 deaths from the disease a year [@haggar_colorectal_2009].  It is estimated that around 5-10% of all CRCs can be explained by autosomal dominant inheritance [@green_very_2007]. The vast majority of CRCs are not inherited and the exact etiology to disease has not been well worked out [@haggar_colorectal_2009].  Although many risk factors have been identified [@haggar_colorectal_2009] and non-invasive screening techniques have started to be put into consistent use [@liao_application_2013; @johnson_multi-target_2016] there has been a consistent increase in the incidence of CRC in the younger population.  
 
@@ -212,12 +219,6 @@ Differences in FIT between initial and follow ups for either adenoma or carcinom
 ***Reproducible methods.***
 A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017.
 
-\newpage
-
-## Acknowledgements
-
-The authors thank the Great Lakes-New England Early Detection Research Network for providing the fecal samples that were used in this study. This study was supported by funding from the National Institutes of Health to P. Schloss (R01GM099514, P30DK034933) and to the Early Detection Research Network (U01CA86400).
-
 
 \newpage
 
@@ -231,24 +232,48 @@ The authors thank the Great Lakes-New England Early Detection Research Network f
 **Figure 3: Graph of the Receiver Operating Characteristic Curve for lesion and Initial/Follow up models.** The shaded areas represents the range of values of a 100 different 80/20 splits of the test set data using either all variables (grey) or reduced variable (red) models.  The blue line represents the reduced variable model using 100% of the data set.  A) Lesion model.  B) Initial/Follow up model
 
 
-**Figure 4: Breakdown by Carcinoma and Adenoma of Prediction Results for Initial and Follow Up***  A) Positive probability adjustment of those with carcinoma from intial to follow up sample  B) Positive probability adjustment of those with adenoma as well as those with SRN and the probability adjustment from initial to follow up sample.  The dotted line represents the threshold used to make the decision of whether a sample was lesion positive or not.
-
-
-**Figure 5: Lesion Model OTU with a Significant Decrease in Relative Abundance that is also Predictive of Initial and Follow Up.**  After multiple comparison correction `r rownames(filter(pvalue_common_imp_vars, BH_corr < 0.05))` (`r filter(pvalue_common_imp_vars, BH_corr < 0.05)[, "Genus"]`) was the only one with a P-value < 0.05.  The dotted line represents the average relative abundance in the control training group.     
-
-
+**Figure 4: Breakdown by Carcinoma and Adenoma of Prediction Results for Lesion and Initial and Follow Up for Reduced Variable Models**  A) Positive probability adjustment of those with carcinoma from intial to follow up sample  B) Positive probability adjustment of those with adenoma as well as those with SRN and the probability adjustment from initial to follow up sample.  The dotted line represents the threshold used to make the decision of whether a sample was lesion positive or not.
 
 
 \newpage
 
 **Figure S1: Distribution of P-values from Paired Wilcoxson Analysis of OTUs in Initial versus Follow Up**
 
-**Figure S2: Summary of Important Variables in both Lesion and Initial/Follow Up models** A) MDA of the most important variables in the lesion model.  The black point represents the median and the different colors are the different runs up to 100.  B) The total number of appearances of each variable in the 100 different lesion models.  The cutoff of 50% was used to assess importance. 
+**Figure S2: Summary of Important Variables in the Lesion Model** A) MDA of the most important variables in the lesion model.  The black point represents the median and the different colors are the different runs up to 100.  B) The total number of appearances of each variable in the 100 different lesion models.  The cutoff of 50% was used to assess importance. 
 
-**Figure S3: Thetayc Graphed Against Time of Follow up Sample from Initial**
+**Figure S3: Summary of Important Variables in Initial Follow Up Model** A) MDA of the most important variables in the lesion model.  The black point represents the median and the different colors are the different runs up to 100.  B) The total number of appearances of each variable in the 100 different lesion models.  The cutoff of 50% was used to assess importance. 
+
+**Figure S4: Breakdown by Carcinoma and Adenoma of Prediction Results for Lesion and Initial and Follow Up for Full Variable Model** A) Positive probability adjustment of those with carcinoma from intial to follow up sample  B) Positive probability adjustment of those with adenoma as well as those with SRN and the probability adjustment from initial to follow up sample.  The dotted line represents the threshold used to make the decision of whether a sample was lesion positive or not.
+
+**Figure S5: Thetayc Graphed Against Time of Follow up Sample from Initial**
 
 \newpage
 
+## Declarations
+
+### Ethics approval and consent to participate
+
+### Consent for publication
+
+### Availability of data and material
+
+### Competing Interests
+
+All authors declare that they do not have any relevent competing interests to report.
+
+### Funding
+
+This study was supported by funding from the National Institutes of Health to P. Schloss (R01GM099514, P30DK034933) and to the Early Detection Research Network (U01CA86400).
+
+### Authors' contributions
+
+All authors were involved in the conception and design of the study. MAS analyzed the data. NTB processed samples and analyzed the data. All authors interpreted the data. MAS and PDS wrote the manuscript. All authors reviewed and revised the manuscript. All authors read and approved the final manuscript.
+
+### Acknowledgements
+
+The authors thank the Great Lakes-New England Early Detection Research Network for providing the fecal samples that were used in this study. 
+
+\newpage
 
 ## References
 

@@ -53,6 +53,7 @@ probability of having a colonic lesion. Further surveillance of these individual
 * Pandoc should in the user's PATH
 * PBS job scheduler for server (or something similar)
 * ghostscript libtiff-tools (to convert tiff to pdf)
+	* Can check on linux command line by typing `which tiff2pdf`
 
 #### Running analysis  
 ```git clone https://github.com/SchlossLab/Baxter_followUps_2016```  
