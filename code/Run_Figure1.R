@@ -25,14 +25,15 @@ thetayc_summary_table <- read.csv("results/tables/beta_diver_summary.csv", heade
 differences_graph <- grid.arrange(
   # Difference from bacterial community structure between adenoma and cancer
   ggplot(difference_table_treatment, 
-         aes(factor(dx, levels = c("adenoma", "cancer")), distance, group = 1)) + 
+         aes(factor(dx, levels = c("adenoma", "cancer"), labels = c("Adenoma", "Carcinoma")), 
+             distance, group = 1)) + 
     geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
     stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
     stat_summary(fun.y = mean, colour = "black", geom = "line") + 
     scale_color_manual(name = "Lesion Type", 
                        values = wes_palette("GrandBudapest"), 
                        breaks = c("adenoma", "adv_adenoma", "cancer"), 
-                       labels = c("Adenoma", "SRN", "Cancer")) + 
+                       labels = c("Adenoma", "SRN", "Carcinoma")) + 
     coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + 
     xlab("") + theme_bw() + ggtitle("A") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
@@ -46,7 +47,7 @@ differences_graph <- grid.arrange(
   
   # Difference from fit between adenoma and cancer
   ggplot(difference_table_treatment, 
-         aes(factor(dx, levels = c("adenoma", "cancer")), 
+         aes(factor(dx, levels = c("adenoma", "cancer"), labels = c("Adenoma", "Carcinoma")), 
              fit_difference*-1, group = 1)) + 
     geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
     stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
@@ -54,7 +55,7 @@ differences_graph <- grid.arrange(
     scale_color_manual(name = "Lesion Type", 
                        values = wes_palette("GrandBudapest"), 
                        breaks = c("adenoma", "adv_adenoma", "cancer"), 
-                       labels = c("Adenoma", "SRN", "Cancer")) + 
+                       labels = c("Adenoma", "SRN", "Carcinoma")) + 
     ylab("Change in Fit from Follow up to Initial") + 
     xlab("") + theme_bw() + ggtitle("B") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
