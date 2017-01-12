@@ -31,12 +31,14 @@ differences_graph <- grid.arrange(
     stat_summary(fun.y = mean, colour = "black", geom = "line") + 
     scale_color_manual(name = "Lesion Type", 
                        values = wes_palette("GrandBudapest"), 
-                       breaks = c("Adenoma", "adv Adenoma", "Cancer"), 
+                       breaks = c("adenoma", "adv_adenoma", "cancer"), 
                        labels = c("Adenoma", "SRN", "Cancer")) + 
     coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + 
     xlab("") + theme_bw() + ggtitle("A") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
+          plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "lines"), 
           legend.title = element_text(face="bold"), 
+          legend.position = c(0.75, 0.2), 
           title = element_text(face="bold", hjust = 0)) + 
     annotate("text", label = paste("P-value = ", 
               round(diff_summary_table["thetayc", "Pvalue"], digits = 4)), 
@@ -51,12 +53,14 @@ differences_graph <- grid.arrange(
     stat_summary(fun.y = mean, colour = "black", geom = "line") + 
     scale_color_manual(name = "Lesion Type", 
                        values = wes_palette("GrandBudapest"), 
-                       breaks = c("Adenoma", "adv Adenoma", "Cancer"), 
+                       breaks = c("adenoma", "adv_adenoma", "cancer"), 
                        labels = c("Adenoma", "SRN", "Cancer")) + 
     ylab("Change in Fit from Follow up to Initial") + 
     xlab("") + theme_bw() + ggtitle("B") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
+          plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "lines"), 
           legend.title = element_text(face="bold"), 
+          legend.position = "none", 
           title = element_text(face="bold", hjust = 0)) + 
     annotate("text", label = paste("P-value = ", 
             format(round(diff_summary_table["fit", "Pvalue"], digits = 7))), 
