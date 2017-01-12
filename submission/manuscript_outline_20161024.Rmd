@@ -46,13 +46,16 @@ beta_summary <- read.csv('../results/tables/beta_diver_summary.csv', header = T,
 time_pvalues <- read.csv("../results/tables/time_pvalues.csv", header = T, row.names = 1)
 all_OTU_pair_wilcox <- read.csv("../results/tables/OTU_paired_wilcoxson_test.csv", header = T)
 
+# Main CRC bacteria differences between Adenoma and Carcinoma
+main_crc_bugs_summary <- read.csv('../results/tables/adn_crc_maybe_pvalue_summary.csv', header = T, row.names = 1) 
+
 # Lesion Model (Full)
 lesion_top10_varsMDA <- read.csv('../results/tables/lesion_model_top_vars_MDA_Summary.csv', header = T)
 lesion_imp_vars <- read.csv('../results/tables/rf_otu_tax.csv', header = T, row.names = 1)
 lesion_AUC_run_summary <- read.csv('../results/tables/ROC_model_summary.csv', header = T)
 
 # Lesion Model (Reduced)
-reduced_lesion_AUC_run_summary <- read.csv('../results/tables/reduced_IF_ROC_model_summary.csv', header = T)
+reduced_lesion_AUC_run_summary <- read.csv('../results/tables/Reduced_ROC_model_summary.csv', header = T)
 
 # IF Model (Full)
 IF_top10_varsMDA <- read.csv('../results/tables/IF_model_top_vars_MDA_Summary.csv', header = T)
@@ -69,7 +72,7 @@ all_pred_stat_summary <- read.csv('../results/tables/all_models_summary_info.csv
 all_confu_matrix <- read.csv('../results/tables/all_models_confusion_summary.csv', header = T, stringsAsFactors = F)
 
 # Common Variable Info
-common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1)
+common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
 
 ```
@@ -101,7 +104,7 @@ $\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
 ## Abstract
 
 **Background:** Colorectal cancer (CRC) continues to be a worldwide health problem with early detection being used as a key component in mitigating deaths due to the disease. Previous research suggests a link between stool bacterial microbiome and CRC.   The overall objective was to investigate the changes in the bacterial microbiome after surgery in patients with lesion (i.e. adenoma or carcinoma).  Specifically, we wanted to identify what within the community was different within those undergoing surgical removal of lesion.  We also investigated the use of the bacterial microbiome and Fecal Immunoglobulin Test (FIT) to build models to either classify individuals as having a lesion or whether, based on the bacterial microbiome, the sample could be classified correctly as before or after surgery.   
-**Results:** Adenoma individual's bacterial microbiome were more similar to their pre-surgery sample then those with carcinoma (P-value = `r format(change_summary['thetayc', 'Pvalue'], digits = 3)`) and this was also reflected in FIT as well (P-value = `r format(change_summary['fit', 'Pvalue'], scientific = TRUE, digits = 3)`).
+**Results:** Adenoma individual's bacterial microbiome were more similar to their pre-surgery sample then those with carcinoma (P-value = `r format(change_summary['thetayc', 'Pvalue'], digits = 3)`) and this was also reflected in FIT as well (P-value = `r format(change_summary['fit', 'Pvalue'], scientific = TRUE, digits = 3)`).  There was no significant difference in any indivdiual OTU between samples before and after surgery (P > `r format(min(filter(all_OTU_pair_wilcox, analysis == "ALL")[, 'BH_corrected']), digits = 3)`.  A model with a total of `r length(lesion_top10_varsMDA$variable)` variables was able to classify lesion with an AUC range of `r format(max(reduced_lesion_AUC_run_summary$ROC), digits = 3)` to `r format(min(reduced_lesion_AUC_run_summary$ROC), digits = 3)` while the model to classify samples as before and after had `r length(IF_top10_varsMDA$variable)` with an AUC range of `format(max(reduced_IF_AUC_run_summary$ROC), digits = 3)` to `format(min(reduced_IF_AUC_run_summary$ROC), digits = 3)` for `r length(reduced_lesion_AUC_run_summary$ROC)` 20 repeated 10-fold cross-validated runs.  In total there were `r length(common_vars_summary$otu)` OTUs that were common to both models and were mostly commensals with largest representation from the genera belonging to `r common_vars_summary["Otu000005", "lowest_ID"]`  
 
 fo The model used for prediction had an AUC of `r format(model_test_AUC_summary["full", "AUC"], digits = 3)`. For the follow up samples our Random Forest model significantly decreased the positive probability of lesion compared to the initial samples for both adenoma (P-value = `r format(IF_model_wilcox_paired_summary['all_adenoma', 'BH_correction'], scientific = TRUE, digits = 3)`) and carcinoma (P-value = `r format(IF_model_wilcox_paired_summary['carcinoma_only', 'BH_correction'], scientific = TRUE, digits = 3)`).  Our model predicted that `r format((followup_cm["pred_no", "ref_no"]/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)`% of the 67-person cohort had normal colons and `r format(((followup_cm["pred_yes", "ref_no"] + sum(followup_cm$ref_yes))/(sum(followup_cm$ref_no) + sum(followup_cm$ref_yes)))*100, digits = 3)`% had a lesion.  Some OTUs that changed the most before and after treatment included OTUs that were affiliated with members of `r pvalue_common_imp_vars[order(pvalue_common_imp_vars$Pvalue), "Genus"][1:2]` and `r pvalue_common_imp_vars[order(pvalue_common_imp_vars$Pvalue), "Genus"][3]`. 
 **Conclusions:** Our model suggests that treatment does significantly reduce the probability of having a colonic lesion.  Further surveillance of these individuals will enable us to determine whether models such as the one we present here can also be used to predict recurrence of colorectal cancer.  
