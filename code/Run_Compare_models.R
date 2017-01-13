@@ -70,4 +70,3 @@ pvalue_table <- cbind(otu = rownames(common_taxa), lowest_ID = createTaxaLabelle
     method = "BH"))
 
 write.csv(pvalue_table, "results/tables/pvalue_IF_lesion_common_imp_vars.csv")
-
