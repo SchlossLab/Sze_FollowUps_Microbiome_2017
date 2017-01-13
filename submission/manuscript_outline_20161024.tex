@@ -100,26 +100,30 @@
 Cancer
 Treatment}\label{differences-in-the-stool-microbiome-before-and-after-colorectal-cancer-treatment}
 
+\textbackslash{}begin\{center\}\\
 \vspace{25mm}
 
-\begin{center}
 Running Title: Human Microbiome and Colorectal Cancer
 
-
 \vspace{10mm}
 
-Marc A Sze, Nielson T Baxter, Mack T Ruffin IV, Mary AM Rogers, and Patrick D Schloss${^\dagger}$
-
-\vspace{10mm}
-
-Contributions: All authors were involved in the conception and design of the study. MAS analyzed the data. NTB processed samples and analyzed the data. All authors interpreted the data. MAS and PDS wrote the manuscript. All authors reviewed and revised the manuscript. All authors read and approved the final manuscript.
+Marc A Sze\textsuperscript{1}, Nielson T Baxter\textsuperscript{2}, Mack
+T Ruffin IV\textsuperscript{3}, Mary AM Rogers\textsuperscript{4}, and
+Patrick D Schloss\textsuperscript{1}\({^\dagger}\)
 
 \vspace{20mm}
 
-$\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
+\(\dagger\) To whom correspondence should be addressed:
+\href{mailto:pschloss@umich.edu}{\nolinkurl{pschloss@umich.edu}}
 
-Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
-\end{center}
+\textsuperscript{1}Department of Microbiology and Immunology, University
+of Michigan, Ann Arbor, MI\\
+\textsuperscript{2}Department of Internal Medicine, Division of
+Infectious Disease, University of Michigan, Ann Arbor, MI\\
+\textsuperscript{3}Department of Family Medicine and Community Medicine,
+Penn State Hershey Medical Center, Hershey, PA\\
+\textsuperscript{4}Department of Internal Medicine, University of
+Michigan, Ann Arbor, MI \textbackslash{}end\{center\}
 
 \newpage
 
@@ -127,93 +131,96 @@ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 
 \subsection{Abstract}\label{abstract}
 
-Colorectal cancer (CRC) continues to be a worldwide health problem with
-early detection being used as a key component in mitigating deaths due
-to the disease. Previous research suggests a link between stool
-bacterial microbiome and CRC. In this study, we used a model based on
-the microbiome, demographics, and prior medical history to classify
-individuals as having a lesion (i.e.~adenoma or carcinoma). We then used
-this model to characterize the change in the gut microbiota before and
-after surgery. The overall objective was to investigate the changes in
-the microbiome after surgery in patients with adenomas or carcinomas.
-This model was tested on a 66 person group that included samples before
-and after treatment to allow for the assessment of how the model adjusts
-risk after treatment. The model used for prediction had an AUC of NA.
-For the follow up samples our Random Forest model significantly
-decreased the positive probability of lesion compared to the initial
-samples for both adenoma (P-value = 3.64e-11) and carcinoma (P-value =
-7.95e-08). Our model predicted that 36.4\% of the 67-person cohort had
-normal colons and 63.6\% had a lesion. Some OTUs that changed the most
-before and after treatment included OTUs that were affiliated with
-members of Blautia, Streptococcus and Escherichia/Shigella. Our model
-suggests that treatment does significantly reduce the probability of
-having a colonic lesion. Further surveillance of these individuals will
-enable us to determine whether models such as the one we present here
-can also be used to predict recurrence of colorectal cancer.
+\textbf{Background:} Colorectal cancer (CRC) continues to be a worldwide
+health problem with early detection being used as a key component in
+mitigating deaths due to the disease. Previous research suggests a link
+between stool bacterial microbiome and CRC. The overall objective was to
+investigate the changes in the bacterial microbiome after surgery in
+patients with lesion (i.e.~adenoma or carcinoma). Specifically, we
+wanted to identify what within the community was different within those
+undergoing surgical removal of lesion. We also investigated the use of
+the bacterial microbiome and Fecal Immunoglobulin Test (FIT) to build
+models to either classify individuals as having a lesion or whether,
+based on the bacterial microbiome, the sample could be classified
+correctly as before or after surgery.\\
+\textbf{Results:} Adenoma individual's bacterial microbiome were more
+similar to their pre-surgery sample then those with carcinoma (P-value =
+0.00198) and this was also reflected in FIT as well (P-value =
+2.15e-05). There was no significant difference in any indivdiual OTU
+between samples before and after surgery (P-value \textgreater{} 0.125).
+A model with a total of 37 variables was able to classify lesion with an
+AUC range of 0.847 to 0.791 while the model to classify samples as
+before and after had 33 with an AUC range of 0.79 to 0.651 for 100 20
+repeated 10-fold cross-validated runs. Both models had a significant
+decrease in the positive probability of a lesion between individual's
+before versus after surgery samples (P-value = 1.91e-11 and 6.72e-12).
+In total there were 14 OTUs that were common to both models and were
+mostly commensals with largest representation from OTUs belonging to
+Bacteroides, Blautia, Streptococcus, and Clostridiales.\\
+\textbf{Conclusions:} Our data suggests that treatment not only
+significantly reduces the probability of having a colonic lesion but
+also causes detectable changes in the bacterial microbiome. Further
+surveillance of these individuals will enable us to determine whether
+models such as the one we present here can also be used to predict
+recurrence of colorectal cancer.
 
 \newpage
 
-\subsubsection{Importance}\label{importance}
+\subsubsection{Keywords}\label{keywords}
 
-This is one of the first studies to investigate within humans what
-happens to the bacterial microbiome before and after adenoma and
-carcinoma treatment. Specifically, it aims to assess how a random forest
-machine learning algorithm built model respond to treatment and adjust
-it's positive probability calls of whether the individual has an adenoma
-or carcinoma due to surgical removal of the lesion.
+bacterial microbiome; colorectal cancer; polyps; FIT; detection; risk
+factors
 
 \newpage
 
-\subsection{Introduction}\label{introduction}
+\subsection{Background}\label{background}
 
 Colorectal cancer (CRC) continues to be a leading cause of cancer
 related deaths and is the second most common cancer death among men aged
-40-79 years of age (1, 2). Over the last few years death due to the
-disease has seen a significant decrease thanks mainly to improvements in
-screening (1). However, despite this giant improvement there are still
-approximately 50,000 deaths from the disease a year (2). It is estimated
-that around 5-10\% of all CRCs can be explained by autosomal dominant
-inheritance (3). The vast majority of CRCs are not inherited and the
-exact etiology to disease has not been well worked out (2). Although
-many risk factors have been identified (2) and non-invasive screening
-techniques have started to be put into consistent use (4, 5) there has
-been a consistent increase in the incidence of CRC in the younger
-population.
+40-79 years of age {[}1,2{]}. Over the last few years death due to the
+disease has seen a significant decrease, thanks mainly to improvements
+in screening {[}1{]}. However, despite this improvement there are still
+approximately 50,000 deaths from the disease a year {[}2{]}. It is
+estimated that around 5-10\% of all CRCs can be explained by autosomal
+dominant inheritance {[}3{]}. The vast majority of CRCs are not
+inherited and the exact etiology of the disease has not been well worked
+out {[}2{]}. Although many risk factors have been identified {[}2{]} and
+non-invasive screening techniques have started to be put into consistent
+use {[}4,5{]} there has been an consistent additional increase in the
+incidence of CRC in the younger population.
 
-This increased incidence of CRC in the younger population is concerncing
+This increased incidence of CRC in the younger population is concerning
 since having either an adenoma or carcinoma increases ones risk for
-future adenomas or carcinomas (6--8). This increased risk can also carry
-with it an increased risk of mortality due to this recurrence (9, 10).
-Therefore there has been a great amount of interest in early risk
-stratification tools (11, 12) that can help identify those they may be
-at risk of reccurence. Concurrently with this there has been a lot of
-interest in new areas such as the gut bacterial microbiome for insight
-into potential disease pathology.
+future adenomas or carcinomas {[}6--8{]}. This increased risk can also
+carry with it an increased chance of mortality due to this recurrence
+{[}9,10{]}. Therefore there has been a great amount of interest in early
+risk stratification tools {[}11,12{]} that can help identify those they
+may be at most susceptibility to reccurence. Concurrently, there has
+also been a lot of interest in new areas that could have a role in
+disease pathogenesis, such as the gut bacterial microbiome.
 
 There has been promising work on the bacterial microbiome and it's
 ability to be able to complement existing screening methods such as
-Fecal Immunoglobulin Test (FIT) or act alone as a screening tool (13,
-14). There has also been research into how this microbiome could be
-altered directly on tumor tissue itself (15). There have also been a few
-studies that have shown how this microbiome (16) or specific members
-within it (17) could be directly involved ith the pathogenesis of CRC.
+Fecal Immunoglobulin Test (FIT) or act alone as a screening tool
+{[}13,14{]}. There has also been research into how this microbiome could
+be altered directly on tumor tissue itself {[}15{]}. A few studies have
+now even shown how this microbiome {[}16{]} or specific members within
+it {[}17{]} could be directly involved with the pathogenesis of CRC.
 These studies have helped to provide a tantilzing link between the
 bacterial microbiome and CRC. However, at this present time there
 remains limited information on the bacterial microbiome before and after
-successful surgery for removal of the adenoma or carcinoma.
+successful surgery for removal of the adenoma or carcinoma and whether
+it changes at all.
 
 In this study we investigated what happened to the bacterial microbiome
 before and after surgery for both adenoma and carcinoma individuals. Our
 anlaysis includes both alpha and beta diversity analysis along with
-investigating indvidual operational taxonomic units (OTUs). We next
-utilized a Random Forest model that was trained on a completely separate
-data set and observed how this model as well as specific OTUs within
-this model performed on the initial and follow up samples. We then
-created a new model to classify intial and follow up samples and
-investigated how the model performs and what specific OUTs within the
-model change. Finally, we observed how specific bacteria that have been
-previously implicated in CRC changed before and after treatment in both
-the adenoma and carcinoma individuals.
+investigation of individual operational taxonomic units (OTUs). We also
+utilized Random Forest models and observed how these models well as
+specific OTUs within this model performed on before (initial) and after
+(follow up) surgery samples. We used these models to look for similar
+important OTUs to identify the most important ones for not only
+classifying initial and follow up samples but also lesion or normal.
 
 \newpage
 
@@ -221,106 +228,100 @@ the adenoma and carcinoma individuals.
 
 \textbf{\emph{Bacterial Community and Fit Changes before and after
 Treatment}} Based on thetayc distance metrics, comparing the initial to
-the follow up samples, there was no difference between the adenoma and
-carcinoma groups (P-value = 0.00198) {[}Figure 1a{]}. There was a
-difference in FIT between initial and follow up samples with the
-carcinoma group having a significant decrease in FIT versus the adenoma
-group (P-value = 2.15e-05) {[}Figure 1b{]}. Although the thetayc
-distance metric change was similar between adenoma and carcinoma the
-directionality of the change was significant in the cancer group between
-initial and follow up (P-value = 0.002) but not for the adenoma group
-(P-value = 0.997). This change can be visualized using an NMDS {[}Figure
-1c \& 1d{]}. When all follow up samples were compared to each other
-there was no significant overall difference between them (P-value =
-0.085). There was no significant difference between initial and follow
-up samples for observed OTUs, Shannon diversity, or evenness after
-correction for multiple comparisons {[}Table S1{]}. Time of follow up
-sample from initial sampling, did not have a significant difference
-between adenoma and carcinoma (uncorrected P-value = 0.784).
+the follow up samples, there was a significant difference between the
+adenoma and carcinoma groups (P-value = 0.00198) {[}Figure 1a{]}. There
+was also a significant difference in FIT between initial and follow up
+samples with the carcinoma group having a significant decrease in FIT
+versus the adenoma group (P-value = 2.15e-05) {[}Figure 1b{]}. The whole
+community structure before and after surgery are visualized on NMDS
+graphs for both adenoma {[}Figure1c{]} (PERMANOVA = 0.002) and carcinoma
+{[}Figure 1d{]} (PERMANOVA = 0.997). When all initial and follow up
+samples were compared to each other there was no significant overall
+difference between them (PERMANOVA = 0.085). There was also no
+significant difference between initial and follow up samples for
+observed OTUs, Shannon diversity, or evenness after correction for
+multiple comparisons {[}Table S1{]}. There was no significant difference
+between initial and follow up samples for any single OTU {[}Figure
+S1{]}.
 
-\textbf{\emph{Outcome of Model Training}} The range of the AUC for model
-training ranged from a minimum of 0.723 to a maximum of 0.795 with the
-middle of all 100 runs having an AUC of 0.761. Interestingly, the worst
-AUC model from training performed the best on it's respective 80/20
-split test data {[}Figure 3{]}. In fact the 80/20 test performance
-showed that the AUC for the middle model chosen was the most stable
-(best training model test set AUC = 0.646, middle training model test
-set AUC = 0.744, worse training model test set AUC = 0.904). That is to
-say it had the smallest change in AUC in comparison to the minimum and
-maximum AUC trained models. The middle model was close to the full
-training data AUC NA. There was no significant difference between the
-AUC of the best and middle training models (P-value = 1). There was also
-no difference in the middle model versus worse (P-value = 0.0431) or
-full data model (P-value = 1). The two comparisons with a significant
-difference were between the worse training model and the best training
-model (P-value = 6.83e-04) and the worse training model and full
-training model (P-value = 1.2e-03).
+\textbf{\emph{Differences in Adenoma and Carcinoma of Previously
+Associated Cancer Bacteria}} We next examined whether there were
+differences in previously well described carcinoma associated OTUs.
+These included the OTUs that aligned with Porphyromonas asaccharolytica
+(Otu000153), Fusobacterium nucleatum (Otu000226), Parvimonas micra
+(Otu000460), and Peptostreptococcus stomatis (Otu000653). First, the
+carcinoma samples showed a significant difference between initial and
+follow up samples for Peptostreptococcus stomatis (P-value = 0.0183) and
+Porphyromonas asaccharolytica (P-value = 0.0154) whereas there were no
+signficant differences in any of these OTUs in the adenoma samples
+{[}Table S4{]}. Second, when these OTUs were present, there was a clear
+magnitude difference in these specific OTUs based on whether they were
+from adenoma or carcinoma individuals {[}Figure 2{]}. However, only a
+small percentage of those with adenoma or carcinoma were positive for
+any of these OTUs.
 
-\textbf{\emph{Most Important Variables to the Model}} Overall, there
-were a total of 37 variables identified as being present in more than
-50\% of the training models {[}Figure S2{]}. The top 5 most important
-bacterial OTUs were Lachnospiraceae (Otu000013), Escherichia/Shigella
-(Otu000018), Ruminococcaceae (Otu000020), Ruminococcus (Otu000017), and
-Porphyromonas (Otu000153). These 5 OTUs were present in at least 90 out
-of the total 100 different 80/20 runs.
+\textbf{\emph{Full and Reduced Model Results}} Since differences were
+observed between initial and follow up samples and only a small number
+of individuals were positive for previously associated CRC bacteria we
+next investigated if we could create a model that could adequately
+classify and adjust lesion probability based on the bacterial community
+and FIT. The lesion model had an AUC range of 0.723 to 0.795 versus the
+initial follow up model which had and AUC range of 0.451 to 0.67 after
+100 20 repeated 10-fold cross validations. Interestingly, identification
+of the most important variables and reducing the variables considered to
+only these increased the AUC in the lesion model (0.791 - 0.847) and
+initial and follow up model (0.651 - 0.79).
 
-\textbf{\emph{Surgical Removal of an Adenoma or Carcinoma Results in a
-Decrease in Positive Probability Prediction}} A total of 1 sample was
-omitted from the original 67 test sample set since it was missing a
-complete set of follow up data. This left a total of 66 samples for test
-predictions. After multiple comparison correction there was a
-significant overall decrease in positive probability of a carcinoma and
-adenoma (P-value = 1.11e-11) {[}Figure 4{]}. This decrease was
-significant for both adenoma (P-value = 3.64e-11 {[}Figure 4a{]} and
-carcinoma (P-value = 7.95e-08) {[}Figure 4b{]} alone. This decrease in
-probability of lesion also held specifically for those with screen
-relative neoplasias (SRN) (P-value = 7.63e-06). A total of 66 or 100\%
-of all samples were correctly predicted to have a lesion. Although there
-was a decrease in positive probability only 24 of the total 66
-individuals were classified as adenoma or carcinoma free on follow up
-(successful classification of 37.9\%). There was no significant
-difference between the predictions and actual diagnosis for the initial
-samples in the 67-sample cohort test set. However, the predictions were
-significantly discordent with the diagnosis for the follow up samples
-(P-value = 4.19e-10). Although there were discordent results the
-respective sensitivity for the initial group was 100\% and for follow up
-was 100\%, respectively.
+The test set AUC range for the full and reduced lesion model were
+similar to that reported for the training set AUC ranges and the ROC
+curve ranges overlap each other {[}Figure 3a{]}. The ROC curve for the
+final lesion model used falls within the range of both the full and
+reduced lesion model {[}Figure 3a{]}. Interestingly, the test set AUC
+range for the initial and follow up performed much better then the
+training set AUCs. Both the full and reduced initial and follow up
+models overlapped with each other {[}Figure 3b{]} there was a marked
+decrease in the ROC curve for the final model used.
 
-There was 1 individual who still clearly had CRC on follow up as well as
-5 individuals whose status on follow up was unknown. Although the 1
-individual had a decrease in positive probability their follow up sample
-was still higher than the cutoff threshold of 0.5 (positive probability
-= 0.903). Interestingly, 1 individuals who were unknown on follow up
-still were over the threshold cutoff of 0.5 even though, like the 1
-individual with clear CRC on follow up, the probability of an adenoma or
-carcinoma decreased {[}Table S2{]}.
+\textbf{\emph{Most Important Variables to the Models}} The reduced
+models were built based on the most important variables to the
+respective full model. For the lesion model there were a total of 37
+variables {[}Figure S2{]} whereas for the initial and follow up model
+there were a total of 33 variables {[}Figure S3{]}. For both models FIT
+resulted in the largest decrease in MDA {[}Figure S2a \& S3a{]}.
 
-The follow up positive probabilities were not affected by either
-chemotherapy treatment (uncorrected P-value = 0.621) or radiation
-therapy (uncorrected P-value = 0.255). There was also no difference in
-the amount of change in the positive probability based on whether
-individuals received chemotherapy (unccorected P-value = 0.718) or
-radiation therapy (uncorrected P-value = 0.431).
+\textbf{\emph{Positive Probability Prediction after Surgical Removal of
+Adenoma or Carcinoma}} Regardless of model used there was a significant
+decrease in the positive probability of either the sample being lesion
+or an initial sample on follow up {[}Figure 4 \& S4{]} (full lesion
+P-value = 1.11e-11, reduced lesion P-value = 1.91e-11, initial and
+follow up P-value = 6.71e-12, and reduced initial and follow up P-value
+= 6.72e-12).
 
-\textbf{\emph{Specific OTUs in the Lesion Model are not Detected in
-Follow Up Versus Initial Samples}} Overall, there were a total of 11
-OTUs that were common between the main lesion model and the model for
-classifying initial and follow up samples specifically {[}Table S3{]}. A
-total of 1 OTU was still significant after multiple comparison
-correction and it's lowest taxonomic identification was to Blautia. In
-general, Otu000012 (Blautia) was decreased from initial to follow up
-{[}Figure 5{]}. The relative abundance was not drastically different
-then the mean of the values observed in the control training set
-{[}Figure 5{]}.
+For the full and reduced lesion model there was a significant difference
+in the classification for the lesion model between predicted and actual
+(P-value = 4.19e-10 and 6.98e-10, respectively) but not for the initial
+follow up model (P-value = 1.00 and 1.00). However, the lesion model
+correctly kept the one individual who still had a carcinoma on follow up
+above the cut off point {[}Figure 4a \& S4a{]} for a positive call while
+the initial and follow up models did not {[}Figure 4b \& S4b{]}.
 
-\textbf{\emph{Differences in Adenoma and Carcinoma in Previously
-Associated Cancer Bacteria}} First, there was a clear magnitude
-difference in these specific OTUs based on whether they were from
-adenoma or carcinoma individuals {[}Figure 6{]}. The carcinoma samples
-showed a significant difference between initial and follow up samples
-for Peptostreptococcus stomatis (P-value = 0.0183) and Porphyromonas
-asaccharolytica (P-value = 0.0154) whereas there were no signficant
-differences in any of these OTUs in the adenoma samples {[}Table S4{]}.
+\textbf{\emph{Common OTUs to both Lesion and Initial and Follow Up
+Models}} There were a total of 14 OTUs that were common to both models.
+Of these OTUs the most common taxonomic identifications were to Blautia,
+Bacteroides, Streptococcus, and Clostridiales. The majority of these
+OTUs had taxonomic identification to bacteria typically thought of as
+commensal {[}Table S2{]}.
+
+\textbf{Treatment and Time Differences}
+
+There was no difference in the amount of change in positive probability
+for either the full or reduced lesion model for either chemotherapy
+(P-value = 0.821 and 0.821) or radiation therapy (P-value = 0.69 and
+0.981). Although the initial follow up model was similar there was a
+significant decrease in positive probability for those treated with
+chemotherapy (P-value = 7.04e-04 and 5.07e-03Time of follow up sample
+from initial sampling, did not have a significant difference between
+adenoma and carcinoma (uncorrected P-value = 0.784).
 
 \newpage
 
@@ -349,34 +350,34 @@ Using the full training data model we predicted the probability of a
 lesion in the inital and follow up samples {[}Figure 4{]}. There was a
 signficant decrease in positive probability regardless of whether the
 sample was a carcinoma or adenoma. The overall sensitivity for lesion
-detection in the intial samples was 100 and for follow ups was 100.
-Although there was a decrease in overall probability of an adenoma or
-carcinoma only 24 were below the 0.5 threshold out of the total 65
-individuals who were diagnosed as not having a carcinoma on follow up.
+detection in the intial samples was and for follow ups was . Although
+there was a decrease in overall probability of an adenoma or carcinoma
+only were below the 0.5 threshold out of the total individuals who were
+diagnosed as not having a carcinoma on follow up.
 
 We then investigated which OTUs could potentially be more important in
 our model {[}Figure 5 \& Table S3{]}. Many of the OTUs identified
 classified to normal flora bacterium {[}Table S3{]}. Only a single OTU
 though was significant after multiple comparison correction and the
-lowest taxonomic identification of Otu000012 was to Blautia. Although
-there was a difference in the relative abundance at initial and follow
-up these values were not drastically different from the relative
-abundance values observed in the control individuals of the training set
-{[}Figure 5{]}. Although we were interested in what we could use to
-classify those with either adenoma or carcinoma versus normal. We found
-that the traditional bacteria associated with CRC were higher in
-magnitude in the carcinoma group and there were significant differences
-in some of these OTUs between the initial and follow up samples
-{[}Figure 5 and Tabl S5{]}. This research provides evidence that it is
-possible to use bacterial microbiome data to create a highily sensitive
-model, that is reactive to therapy, for detection of adenoma or
-carcinoma. It accomplishes this by using a unique sample set in which
-before and after surgery stool samples are available for assessment. By
-using these types of samples we are not only able to show sensitivity of
-lesion prediction but also able to show that this model is reactive.
-That is to say that after surgery for removal of the adenoma or
-carcinoma it decreases the positive probability to reflect a lower
-likelihood of the individual having an adenoma or carcinoma.
+lowest taxonomic identification of was to . Although there was a
+difference in the relative abundance at initial and follow up these
+values were not drastically different from the relative abundance values
+observed in the control individuals of the training set {[}Figure 5{]}.
+Although we were interested in what we could use to classify those with
+either adenoma or carcinoma versus normal. We found that the traditional
+bacteria associated with CRC were higher in magnitude in the carcinoma
+group and there were significant differences in some of these OTUs
+between the initial and follow up samples {[}Figure 5 and Tabl S5{]}.
+This research provides evidence that it is possible to use bacterial
+microbiome data to create a highily sensitive model, that is reactive to
+therapy, for detection of adenoma or carcinoma. It accomplishes this by
+using a unique sample set in which before and after surgery stool
+samples are available for assessment. By using these types of samples we
+are not only able to show sensitivity of lesion prediction but also able
+to show that this model is reactive. That is to say that after surgery
+for removal of the adenoma or carcinoma it decreases the positive
+probability to reflect a lower likelihood of the individual having an
+adenoma or carcinoma.
 
 This study builds upon previous work from numerous labs that have looked
 into the bacterial microbiome as a potential screening tool
@@ -456,36 +457,36 @@ high level of accuracy.
 \subsection{Methods}\label{methods}
 
 \textbf{\emph{Study Design and Patient Sampling}} The sampling and
-design of the study was similar to that reported in Baxter, et al (13).
-In brief, study exclusion involved those who had already undergone
-surgery, radiation, or chemotherapy, had colorectal cancer before a
-baseline stool sample could be obtained, had IBD, a known hereditary
-non-polyposis colorectal cancer, or Familial adenomatous polyposis.
-Samples used to build the model used for prediction were collected
-either prior to a colonoscopy or between 1 - 2 weeks after. The
-bacterial microbiome has been shown to nomralize within this time period
-(18). Kept apart from this training set were a total of 67 individuals
-that not only had a sample as described previoulsy but also a follow up
-sample between 188 - 546 days after surgery and treatment had been
-completed. This study was approved by the University of Michigan
-Institutional Review Board. All study participants provided informed
-consent and the study itself conformed to the guidelines set out by the
-Helsinki Declaration.
+design of the study was similar to that reported in Baxter, et al
+{[}13{]}. In brief, study exclusion involved those who had already
+undergone surgery, radiation, or chemotherapy, had colorectal cancer
+before a baseline stool sample could be obtained, had IBD, a known
+hereditary non-polyposis colorectal cancer, or Familial adenomatous
+polyposis. Samples used to build the model used for prediction were
+collected either prior to a colonoscopy or between 1 - 2 weeks after.
+The bacterial microbiome has been shown to nomralize within this time
+period {[}18{]}. Kept apart from this training set were a total of 67
+individuals that not only had a sample as described previoulsy but also
+a follow up sample between 188 - 546 days after surgery and treatment
+had been completed. This study was approved by the University of
+Michigan Institutional Review Board. All study participants provided
+informed consent and the study itself conformed to the guidelines set
+out by the Helsinki Declaration.
 
 \textbf{\emph{Fecal Immunochemical Test and 16S rRNA Gene Sequencing}}
 FIT was analyzed as previously published using both OC FIT-CHEK and
-OC-Auto Micro 80 automated system (Polymedco Inc.) (19). 16S rRNA gene
-sequencing was completed as previously described by Kozich, et al. (20).
-In brief, DNA extraction used the 96 well Soil DNA isolation kit (MO BIO
-Laboratories) and an epMotion 5075 automated pipetting system
-(Eppendorf). The V4 variable region was amplified and the resulting
-product was split between three sequencing runs with control, adenoma,
-and carcinoma evenly represented on each run. Each group was randomly
-assigned to avoid biases based on sample collection location.
+OC-Auto Micro 80 automated system (Polymedco Inc.) {[}19{]}. 16S rRNA
+gene sequencing was completed as previously described by Kozich, et al.
+{[}20{]}. In brief, DNA extraction used the 96 well Soil DNA isolation
+kit (MO BIO Laboratories) and an epMotion 5075 automated pipetting
+system (Eppendorf). The V4 variable region was amplified and the
+resulting product was split between three sequencing runs with control,
+adenoma, and carcinoma evenly represented on each run. Each group was
+randomly assigned to avoid biases based on sample collection location.
 
 \textbf{\emph{Sequence Processing}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences. This process
-has been previously described (20). The general processing workflow
+has been previously described {[}20{]}. The general processing workflow
 using mothur is as follows: Paired-end reads were first merged into
 contigs, quality filtered, aligned to the SILVA database, screening for
 chimeras, classified with a naive Bayesian classifier using the
@@ -494,28 +495,29 @@ Taxonomic Units (OTUs) using a 97\% similarity cutoff with an average
 neighbor clustering algorithm. The numer of sequences for each sample
 was rarified to 10521 in an attempt to minimize uneven sampling.
 
-\textbf{\emph{Lesion Model Creation}} The Random Forest (21) algorithm
-was used to create the model used for prediction of lesion (adenoma or
-carcinoma) for the 67 individuals with follow up samples. The model
-included data on FIT and the bacterial microbiome. Non-binary data was
-checked for near zero variance and auto correlation. Data columns that
-had near zero variance were removed. Columns that were correlated with
-each other over a Spearman correlation coefficient of 0.75 had one of
-the two columns removed. This pre-processing was performed with the R
-package caret (v6.0.73). Optimization of the mtry hyperparameter
-involved taking the samples and making 100 80/20 (train/test) splits in
-the data where control and lesion were equally represented in the 80 and
-20 split, respectively. This 80\% portion was then split again into an
-80/20 split, and run through 20 repeated 10-fold cross validations to
-optimzie the model's AUC (Area Under the Curve of the Receiver Operator
-Characteristic). This resulting model was then tested on the 20\% of the
-data that was originally held out from this overall process. Once the
-ideal mtry was found the entire 490 sample set was used to create the
-final Random Forest model on which testing on the 67-person cohort was
-completed. The default cutoff of 0.5 was used as the threshold to
-classify individuals as positive or negative for lesion. The
-hyperparameter, mtry, defines the number of variables to investigate at
-each split before a new division of the data is created.
+\textbf{\emph{Lesion Model Creation}} The Random Forest {[}21{]}
+algorithm was used to create the model used for prediction of lesion
+(adenoma or carcinoma) for the 67 individuals with follow up samples.
+The model included data on FIT and the bacterial microbiome. Non-binary
+data was checked for near zero variance and auto correlation. Data
+columns that had near zero variance were removed. Columns that were
+correlated with each other over a Spearman correlation coefficient of
+0.75 had one of the two columns removed. This pre-processing was
+performed with the R package caret (v6.0.73). Optimization of the mtry
+hyperparameter involved taking the samples and making 100 80/20
+(train/test) splits in the data where control and lesion were equally
+represented in the 80 and 20 split, respectively. This 80\% portion was
+then split again into an 80/20 split, and run through 20 repeated
+10-fold cross validations to optimzie the model's AUC (Area Under the
+Curve of the Receiver Operator Characteristic). This resulting model was
+then tested on the 20\% of the data that was originally held out from
+this overall process. Once the ideal mtry was found the entire 490
+sample set was used to create the final Random Forest model on which
+testing on the 67-person cohort was completed. The default cutoff of 0.5
+was used as the threshold to classify individuals as positive or
+negative for lesion. The hyperparameter, mtry, defines the number of
+variables to investigate at each split before a new division of the data
+is created.
 
 \textbf{\emph{Initial Follow Up Model Creation}} We also investigated
 whether a model could be created that could identify before and after
@@ -534,14 +536,14 @@ most important for the lesion or initial follow up models.
 
 \textbf{\emph{Statistical Analysis}} The R software package (v3.3.2) was
 used for all statisitical analysis. Comparisons between bacterial
-community structure utilized PERMANOVA (22) in the vegan package
+community structure utilized PERMANOVA {[}22{]} in the vegan package
 (v2.4.1) while comparisons between ROC curves utilized the method by
-DeLong et al. (23) executed by the pROC (v1.8) package. Comparisons
+DeLong et al. {[}23{]} executed by the pROC (v1.8) package. Comparisons
 between probabilities as well as overall amount of OTU between initial
 and follow up samples utilized a paired wilcoxson ranked sum test. Where
 multiple comparison testing was needed a Benjamini-Hochberg (BH)
-correction was applied (24) and a corrected P-value of less than 0.05
-was considered significant. Unless otherwise stated the P-values
+correction was applied {[}24{]} and a corrected P-value of less than
+0.05 was considered significant. Unless otherwise stated the P-values
 reported are those of the BH corrected ones.
 
 \textbf{\emph{Analysis Overview}} Differences in FIT between initial and
@@ -571,16 +573,6 @@ description of how the data were processed and analyzed can be found at
 
 \newpage
 
-\subsection{Acknowledgements}\label{acknowledgements}
-
-The authors thank the Great Lakes-New England Early Detection Research
-Network for providing the fecal samples that were used in this study.
-This study was supported by funding from the National Institutes of
-Health to P. Schloss (R01GM099514, P30DK034933) and to the Early
-Detection Research Network (U01CA86400).
-
-\newpage
-
 \textbf{Figure 1: Changes and differences between the adenoma or
 carcinoma group.} A) No significant difference was found between the
 adenoma and carcinoma group for thetayc (P-value = 0.00198). B) A
@@ -606,33 +598,80 @@ blue line represents the reduced variable model using 100\% of the data
 set. A) Lesion model. B) Initial/Follow up model
 
 \textbf{Figure 4: Breakdown by Carcinoma and Adenoma of Prediction
-Results for Initial and Follow Up}* A) Positive probability adjustment
-of those with carcinoma from intial to follow up sample B) Positive
-probability adjustment of those with adenoma as well as those with SRN
-and the probability adjustment from initial to follow up sample. The
-dotted line represents the threshold used to make the decision of
-whether a sample was lesion positive or not.
-
-\textbf{Figure 5: Lesion Model OTU with a Significant Decrease in
-Relative Abundance that is also Predictive of Initial and Follow Up.}
-After multiple comparison correction 1 (Blautia) was the only one with a
-P-value \textless{} 0.05. The dotted line represents the average
-relative abundance in the control training group.
+Results for Lesion and Initial and Follow Up for Reduced Variable
+Models} A) Positive probability adjustment of those with carcinoma from
+intial to follow up sample B) Positive probability adjustment of those
+with adenoma as well as those with SRN and the probability adjustment
+from initial to follow up sample. The dotted line represents the
+threshold used to make the decision of whether a sample was lesion
+positive or not.
 
 \newpage
 
 \textbf{Figure S1: Distribution of P-values from Paired Wilcoxson
 Analysis of OTUs in Initial versus Follow Up}
 
-\textbf{Figure S2: Summary of Important Variables in both Lesion and
-Initial/Follow Up models} A) MDA of the most important variables in the
-lesion model. The black point represents the median and the different
-colors are the different runs up to 100. B) The total number of
-appearances of each variable in the 100 different lesion models. The
-cutoff of 50\% was used to assess importance.
+\textbf{Figure S2: Summary of Important Variables in the Lesion Model}
+A) MDA of the most important variables in the lesion model. The black
+point represents the median and the different colors are the different
+runs up to 100. B) The total number of appearances of each variable in
+the 100 different lesion models. The cutoff of 50\% was used to assess
+importance.
 
-\textbf{Figure S3: Thetayc Graphed Against Time of Follow up Sample from
+\textbf{Figure S3: Summary of Important Variables in Initial Follow Up
+Model} A) MDA of the most important variables in the lesion model. The
+black point represents the median and the different colors are the
+different runs up to 100. B) The total number of appearances of each
+variable in the 100 different lesion models. The cutoff of 50\% was used
+to assess importance.
+
+\textbf{Figure S4: Breakdown by Carcinoma and Adenoma of Prediction
+Results for Lesion and Initial and Follow Up for Full Variable Model} A)
+Positive probability adjustment of those with carcinoma from intial to
+follow up sample B) Positive probability adjustment of those with
+adenoma as well as those with SRN and the probability adjustment from
+initial to follow up sample. The dotted line represents the threshold
+used to make the decision of whether a sample was lesion positive or
+not.
+
+\textbf{Figure S5: Thetayc Graphed Against Time of Follow up Sample from
 Initial}
+
+\newpage
+
+\subsection{Declarations}\label{declarations}
+
+\subsubsection{Ethics approval and consent to
+participate}\label{ethics-approval-and-consent-to-participate}
+
+\subsubsection{Consent for publication}\label{consent-for-publication}
+
+\subsubsection{Availability of data and
+material}\label{availability-of-data-and-material}
+
+\subsubsection{Competing Interests}\label{competing-interests}
+
+All authors declare that they do not have any relevent competing
+interests to report.
+
+\subsubsection{Funding}\label{funding}
+
+This study was supported by funding from the National Institutes of
+Health to P. Schloss (R01GM099514, P30DK034933) and to the Early
+Detection Research Network (U01CA86400).
+
+\subsubsection{Authors' contributions}\label{authors-contributions}
+
+All authors were involved in the conception and design of the study. MAS
+analyzed the data. NTB processed samples and analyzed the data. All
+authors interpreted the data. MAS and PDS wrote the manuscript. All
+authors reviewed and revised the manuscript. All authors read and
+approved the final manuscript.
+
+\subsubsection{Acknowledgements}\label{acknowledgements}
+
+The authors thank the Great Lakes-New England Early Detection Research
+Network for providing the fecal samples that were used in this study.
 
 \newpage
 
@@ -641,193 +680,132 @@ Initial}
 
 \hypertarget{refs}{}
 \hypertarget{ref-jemal_cancer_2010}{}
-1. \textbf{Jemal A}, \textbf{Siegel R}, \textbf{Xu J}, \textbf{Ward E}.
-2010. Cancer statistics, 2010. CA: a cancer journal for clinicians
-\textbf{60}:277--300.
-doi:\href{https://doi.org/10.3322/caac.20073}{10.3322/caac.20073}.
+1. Jemal A, Siegel R, Xu J, Ward E. Cancer statistics, 2010. CA: a
+cancer journal for clinicians. 2010;60:277--300.
 
 \hypertarget{ref-haggar_colorectal_2009}{}
-2. \textbf{Haggar FA}, \textbf{Boushey RP}. 2009. Colorectal cancer
-epidemiology: Incidence, mortality, survival, and risk factors. Clinics
-in Colon and Rectal Surgery \textbf{22}:191--197.
-doi:\href{https://doi.org/10.1055/s-0029-1242458}{10.1055/s-0029-1242458}.
+2. Haggar FA, Boushey RP. Colorectal cancer epidemiology: Incidence,
+mortality, survival, and risk factors. Clinics in Colon and Rectal
+Surgery. 2009;22:191--7.
 
 \hypertarget{ref-green_very_2007}{}
-3. \textbf{Green RC}, \textbf{Green JS}, \textbf{Buehler SK},
-\textbf{Robb JD}, \textbf{Daftary D}, \textbf{Gallinger S},
-\textbf{McLaughlin JR}, \textbf{Parfrey PS}, \textbf{Younghusband HB}.
-2007. Very high incidence of familial colorectal cancer in Newfoundland:
-A comparison with Ontario and 13 other population-based studies.
-Familial Cancer \textbf{6}:53--62.
-doi:\href{https://doi.org/10.1007/s10689-006-9104-x}{10.1007/s10689-006-9104-x}.
+3. Green RC, Green JS, Buehler SK, Robb JD, Daftary D, Gallinger S, et
+al. Very high incidence of familial colorectal cancer in Newfoundland: A
+comparison with Ontario and 13 other population-based studies. Familial
+Cancer. 2007;6:53--62.
 
 \hypertarget{ref-liao_application_2013}{}
-4. \textbf{Liao C-S}, \textbf{Lin Y-M}, \textbf{Chang H-C}, \textbf{Chen
-Y-H}, \textbf{Chong L-W}, \textbf{Chen C-H}, \textbf{Lin Y-S},
-\textbf{Yang K-C}, \textbf{Shih C-H}. 2013. Application of quantitative
-estimates of fecal hemoglobin concentration for risk prediction of
-colorectal neoplasia. World Journal of Gastroenterology
-\textbf{19}:8366--8372.
-doi:\href{https://doi.org/10.3748/wjg.v19.i45.8366}{10.3748/wjg.v19.i45.8366}.
+4. Liao C-S, Lin Y-M, Chang H-C, Chen Y-H, Chong L-W, Chen C-H, et al.
+Application of quantitative estimates of fecal hemoglobin concentration
+for risk prediction of colorectal neoplasia. World Journal of
+Gastroenterology. 2013;19:8366--72.
 
 \hypertarget{ref-johnson_multi-target_2016}{}
-5. \textbf{Johnson DH}, \textbf{Kisiel JB}, \textbf{Burger KN},
-\textbf{Mahoney DW}, \textbf{Devens ME}, \textbf{Ahlquist DA},
-\textbf{Sweetser S}. 2016. Multi-target stool DNA test: Clinical
-performance and impact on yield and quality of colonoscopy for
-colorectal cancer screening. Gastrointestinal Endoscopy.
-doi:\href{https://doi.org/10.1016/j.gie.2016.11.012}{10.1016/j.gie.2016.11.012}.
+5. Johnson DH, Kisiel JB, Burger KN, Mahoney DW, Devens ME, Ahlquist DA,
+et al. Multi-target stool DNA test: Clinical performance and impact on
+yield and quality of colonoscopy for colorectal cancer screening.
+Gastrointestinal Endoscopy. 2016;
 
 \hypertarget{ref-laiyemo_short-_2013}{}
-6. \textbf{Laiyemo AO}, \textbf{Doubeni C}, \textbf{Brim H},
-\textbf{Ashktorab H}, \textbf{Schoen RE}, \textbf{Gupta S},
-\textbf{Charabaty A}, \textbf{Lanza E}, \textbf{Smoot DT}, \textbf{Platz
-E}, \textbf{Cross AJ}. 2013. Short- and long-term risk of colorectal
-adenoma recurrence among whites and blacks. Gastrointestinal Endoscopy
-\textbf{77}:447--454.
-doi:\href{https://doi.org/10.1016/j.gie.2012.11.027}{10.1016/j.gie.2012.11.027}.
+6. Laiyemo AO, Doubeni C, Brim H, Ashktorab H, Schoen RE, Gupta S, et
+al. Short- and long-term risk of colorectal adenoma recurrence among
+whites and blacks. Gastrointestinal Endoscopy. 2013;77:447--54.
 
 \hypertarget{ref-matsuda_five-year_2009}{}
-7. \textbf{Matsuda T}, \textbf{Fujii T}, \textbf{Sano Y}, \textbf{Kudo
-S-e}, \textbf{Oda Y}, \textbf{Igarashi M}, \textbf{Iishi H},
-\textbf{Murakami Y}, \textbf{Ishikawa H}, \textbf{Shimoda T},
-\textbf{Kaneko K}, \textbf{Yoshida S}. 2009. Five-year incidence of
-advanced neoplasia after initial colonoscopy in Japan: A multicenter
-retrospective cohort study. Japanese Journal of Clinical Oncology
-\textbf{39}:435--442.
-doi:\href{https://doi.org/10.1093/jjco/hyp047}{10.1093/jjco/hyp047}.
+7. Matsuda T, Fujii T, Sano Y, Kudo S-e, Oda Y, Igarashi M, et al.
+Five-year incidence of advanced neoplasia after initial colonoscopy in
+Japan: A multicenter retrospective cohort study. Japanese Journal of
+Clinical Oncology. 2009;39:435--42.
 
 \hypertarget{ref-ren_long-term_2016}{}
-8. \textbf{Ren J}, \textbf{Kirkness CS}, \textbf{Kim M}, \textbf{Asche
-CV}, \textbf{Puli S}. 2016. Long-term risk of colorectal cancer by
-gender after positive colonoscopy: Population-based cohort study.
-Current Medical Research and Opinion \textbf{32}:1367--1374.
-doi:\href{https://doi.org/10.1080/03007995.2016.1174840}{10.1080/03007995.2016.1174840}.
+8. Ren J, Kirkness CS, Kim M, Asche CV, Puli S. Long-term risk of
+colorectal cancer by gender after positive colonoscopy: Population-based
+cohort study. Current Medical Research and Opinion. 2016;32:1367--74.
 
 \hypertarget{ref-loberg_long-term_2014}{}
-9. \textbf{Løberg M}, \textbf{Kalager M}, \textbf{Holme Ø}, \textbf{Hoff
-G}, \textbf{Adami H-O}, \textbf{Bretthauer M}. 2014. Long-term
-colorectal-cancer mortality after adenoma removal. The New England
-Journal of Medicine \textbf{371}:799--807.
-doi:\href{https://doi.org/10.1056/NEJMoa1315870}{10.1056/NEJMoa1315870}.
+9. Løberg M, Kalager M, Holme Ø, Hoff G, Adami H-O, Bretthauer M.
+Long-term colorectal-cancer mortality after adenoma removal. The New
+England Journal of Medicine. 2014;371:799--807.
 
 \hypertarget{ref-freeman_natural_2013}{}
-10. \textbf{Freeman HJ}. 2013. Natural history and long-term outcomes of
-patients treated for early stage colorectal cancer. Canadian Journal of
-Gastroenterology = Journal Canadien De Gastroenterologie
-\textbf{27}:409--413.
+10. Freeman HJ. Natural history and long-term outcomes of patients
+treated for early stage colorectal cancer. Canadian Journal of
+Gastroenterology = Journal Canadien De Gastroenterologie.
+2013;27:409--13.
 
 \hypertarget{ref-lee_identification_2016}{}
-11. \textbf{Lee JH}, \textbf{Lee JL}, \textbf{Park IJ}, \textbf{Lim
-S-B}, \textbf{Yu CS}, \textbf{Kim JC}. 2016. Identification of
+11. Lee JH, Lee JL, Park IJ, Lim S-B, Yu CS, Kim JC. Identification of
 Recurrence-Predictive Indicators in Stage I Colorectal Cancer. World
-Journal of Surgery.
-doi:\href{https://doi.org/10.1007/s00268-016-3833-2}{10.1007/s00268-016-3833-2}.
+Journal of Surgery. 2016;
 
 \hypertarget{ref-richards_evidence-based_2016}{}
-12. \textbf{Richards CH}, \textbf{Ventham NT}, \textbf{Mansouri D},
-\textbf{Wilson M}, \textbf{Ramsay G}, \textbf{Mackay CD},
-\textbf{Parnaby CN}, \textbf{Smith D}, \textbf{On J}, \textbf{Speake D},
-\textbf{McFarlane G}, \textbf{Neo YN}, \textbf{Aitken E},
-\textbf{Forrest C}, \textbf{Knight K}, \textbf{McKay A}, \textbf{Nair
-H}, \textbf{Mulholland C}, \textbf{Robertson JH}, \textbf{Carey FA},
-\textbf{Steele R}, \textbf{Scottish Surgical Research Group}. 2016. An
-evidence-based treatment algorithm for colorectal polyp cancers: Results
-from the Scottish Screen-detected Polyp Cancer Study (SSPoCS). Gut.
-doi:\href{https://doi.org/10.1136/gutjnl-2016-312201}{10.1136/gutjnl-2016-312201}.
+12. Richards CH, Ventham NT, Mansouri D, Wilson M, Ramsay G, Mackay CD,
+et al. An evidence-based treatment algorithm for colorectal polyp
+cancers: Results from the Scottish Screen-detected Polyp Cancer Study
+(SSPoCS). Gut. 2016;
 
 \hypertarget{ref-baxter_microbiota-based_2016}{}
-13. \textbf{Baxter NT}, \textbf{Ruffin MT}, \textbf{Rogers MAM},
-\textbf{Schloss PD}. 2016. Microbiota-based model improves the
-sensitivity of fecal immunochemical test for detecting colonic lesions.
-Genome Medicine \textbf{8}:37.
-doi:\href{https://doi.org/10.1186/s13073-016-0290-3}{10.1186/s13073-016-0290-3}.
+13. Baxter NT, Ruffin MT, Rogers MAM, Schloss PD. Microbiota-based model
+improves the sensitivity of fecal immunochemical test for detecting
+colonic lesions. Genome Medicine. 2016;8:37.
 
 \hypertarget{ref-zeller_potential_2014}{}
-14. \textbf{Zeller G}, \textbf{Tap J}, \textbf{Voigt AY},
-\textbf{Sunagawa S}, \textbf{Kultima JR}, \textbf{Costea PI},
-\textbf{Amiot A}, \textbf{Böhm J}, \textbf{Brunetti F},
-\textbf{Habermann N}, \textbf{Hercog R}, \textbf{Koch M},
-\textbf{Luciani A}, \textbf{Mende DR}, \textbf{Schneider MA},
-\textbf{Schrotz-King P}, \textbf{Tournigand C}, \textbf{Tran Van Nhieu
-J}, \textbf{Yamada T}, \textbf{Zimmermann J}, \textbf{Benes V},
-\textbf{Kloor M}, \textbf{Ulrich CM}, \textbf{Knebel Doeberitz M von},
-\textbf{Sobhani I}, \textbf{Bork P}. 2014. Potential of fecal microbiota
-for early-stage detection of colorectal cancer. Molecular Systems
-Biology \textbf{10}:766.
+14. Zeller G, Tap J, Voigt AY, Sunagawa S, Kultima JR, Costea PI, et al.
+Potential of fecal microbiota for early-stage detection of colorectal
+cancer. Molecular Systems Biology. 2014;10:766.
 
 \hypertarget{ref-dejea_microbiota_2014}{}
-15. \textbf{Dejea CM}, \textbf{Wick EC}, \textbf{Hechenbleikner EM},
-\textbf{White JR}, \textbf{Mark Welch JL}, \textbf{Rossetti BJ},
-\textbf{Peterson SN}, \textbf{Snesrud EC}, \textbf{Borisy GG},
-\textbf{Lazarev M}, \textbf{Stein E}, \textbf{Vadivelu J},
-\textbf{Roslani AC}, \textbf{Malik AA}, \textbf{Wanyiri JW}, \textbf{Goh
-KL}, \textbf{Thevambiga I}, \textbf{Fu K}, \textbf{Wan F}, \textbf{Llosa
-N}, \textbf{Housseau F}, \textbf{Romans K}, \textbf{Wu X},
-\textbf{McAllister FM}, \textbf{Wu S}, \textbf{Vogelstein B},
-\textbf{Kinzler KW}, \textbf{Pardoll DM}, \textbf{Sears CL}. 2014.
-Microbiota organization is a distinct feature of proximal colorectal
-cancers. Proceedings of the National Academy of Sciences of the United
-States of America \textbf{111}:18321--18326.
-doi:\href{https://doi.org/10.1073/pnas.1406199111}{10.1073/pnas.1406199111}.
+15. Dejea CM, Wick EC, Hechenbleikner EM, White JR, Mark Welch JL,
+Rossetti BJ, et al. Microbiota organization is a distinct feature of
+proximal colorectal cancers. Proceedings of the National Academy of
+Sciences of the United States of America. 2014;111:18321--6.
 
 \hypertarget{ref-zackular_manipulation_2016}{}
-16. \textbf{Zackular JP}, \textbf{Baxter NT}, \textbf{Chen GY},
-\textbf{Schloss PD}. 2016. Manipulation of the Gut Microbiota Reveals
-Role in Colon Tumorigenesis. mSphere \textbf{1}.
-doi:\href{https://doi.org/10.1128/mSphere.00001-15}{10.1128/mSphere.00001-15}.
+16. Zackular JP, Baxter NT, Chen GY, Schloss PD. Manipulation of the Gut
+Microbiota Reveals Role in Colon Tumorigenesis. mSphere. 2016;1.
 
 \hypertarget{ref-arthur_microbial_2014}{}
-17. \textbf{Arthur JC}, \textbf{Gharaibeh RZ}, \textbf{Mühlbauer M},
-\textbf{Perez-Chanona E}, \textbf{Uronis JM}, \textbf{McCafferty J},
-\textbf{Fodor AA}, \textbf{Jobin C}. 2014. Microbial genomic analysis
-reveals the essential role of inflammation in bacteria-induced
-colorectal cancer. Nature Communications \textbf{5}:4724.
-doi:\href{https://doi.org/10.1038/ncomms5724}{10.1038/ncomms5724}.
+17. Arthur JC, Gharaibeh RZ, Mühlbauer M, Perez-Chanona E, Uronis JM,
+McCafferty J, et al. Microbial genomic analysis reveals the essential
+role of inflammation in bacteria-induced colorectal cancer. Nature
+Communications. 2014;5:4724.
 
 \hypertarget{ref-obrien_impact_2013}{}
-18. \textbf{O'Brien CL}, \textbf{Allison GE}, \textbf{Grimpen F},
-\textbf{Pavli P}. 2013. Impact of colonoscopy bowel preparation on
-intestinal microbiota. PloS One \textbf{8}:e62815.
-doi:\href{https://doi.org/10.1371/journal.pone.0062815}{10.1371/journal.pone.0062815}.
+18. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
+bowel preparation on intestinal microbiota. PloS One. 2013;8:e62815.
 
 \hypertarget{ref-daly_evaluation_2013}{}
-19. \textbf{Daly JM}, \textbf{Bay CP}, \textbf{Levy BT}. 2013.
-Evaluation of fecal immunochemical tests for colorectal cancer
-screening. Journal of Primary Care \& Community Health
-\textbf{4}:245--250.
-doi:\href{https://doi.org/10.1177/2150131913487561}{10.1177/2150131913487561}.
+19. Daly JM, Bay CP, Levy BT. Evaluation of fecal immunochemical tests
+for colorectal cancer screening. Journal of Primary Care \& Community
+Health. 2013;4:245--50.
 
 \hypertarget{ref-kozich_development_2013}{}
-20. \textbf{Kozich JJ}, \textbf{Westcott SL}, \textbf{Baxter NT},
-\textbf{Highlander SK}, \textbf{Schloss PD}. 2013. Development of a
-dual-index sequencing strategy and curation pipeline for analyzing
-amplicon sequence data on the MiSeq Illumina sequencing platform.
-Applied and Environmental Microbiology \textbf{79}:5112--5120.
-doi:\href{https://doi.org/10.1128/AEM.01043-13}{10.1128/AEM.01043-13}.
+20. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
+Development of a dual-index sequencing strategy and curation pipeline
+for analyzing amplicon sequence data on the MiSeq Illumina sequencing
+platform. Applied and Environmental Microbiology. 2013;79:5112--20.
 
 \hypertarget{ref-breiman_random_2001}{}
-21. \textbf{Breiman L}. 2001. Random Forests. Machine Learning
-\textbf{45}:5--32.
-doi:\href{https://doi.org/10.1023/a:1010933404324}{10.1023/a:1010933404324}.
+21. Breiman L. Random Forests. Machine Learning {[}Internet{]}. 2001
+{[}cited 2013 Feb 7{]};45:5--32. Available from:
+\href{http://link.springer.com/article/10.1023/A\%3A1010933404324\%20http://link.springer.com/article/10.1023\%2FA\%3A1010933404324?LI=true}{http://link.springer.com/article/10.1023/A\%3A1010933404324 http://link.springer.com/article/10.1023\%2FA\%3A1010933404324?LI=true}
 
 \hypertarget{ref-anderson_permanova_2013}{}
-22. \textbf{Anderson MJ}, \textbf{Walsh DCI}. 2013. PERMANOVA, ANOSIM,
-and the Mantel test in the face of heterogeneous dispersions: What null
-hypothesis are you testing? Ecological Monographs \textbf{83}:557--574.
-doi:\href{https://doi.org/10.1890/12-2010.1}{10.1890/12-2010.1}.
+22. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
+the face of heterogeneous dispersions: What null hypothesis are you
+testing? Ecological Monographs {[}Internet{]}. 2013 {[}cited 2017 Jan
+5{]};83:557--74. Available from:
+\url{http://doi.wiley.com/10.1890/12-2010.1}
 
 \hypertarget{ref-delong_comparing_1988}{}
-23. \textbf{DeLong ER}, \textbf{DeLong DM}, \textbf{Clarke-Pearson DL}.
-1988. Comparing the areas under two or more correlated receiver
-operating characteristic curves: A nonparametric approach. Biometrics
-\textbf{44}:837--845.
+23. DeLong ER, DeLong DM, Clarke-Pearson DL. Comparing the areas under
+two or more correlated receiver operating characteristic curves: A
+nonparametric approach. Biometrics. 1988;44:837--45.
 
 \hypertarget{ref-benjamini_controlling_1995}{}
-24. \textbf{Benjamini Y}, \textbf{Hochberg Y}. 1995. Controlling the
-false discovery rate: A practical and powerful approach to multiple
-testing. Journal of the Royal Statistical Society Series B
-(Methodological) \textbf{57}:289--300.
+24. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
+practical and powerful approach to multiple testing. Journal of the
+Royal Statistical Society. Series B (Methodological). 1995;57:289--300.
 
 
 \end{document}

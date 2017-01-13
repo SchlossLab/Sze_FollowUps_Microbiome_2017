@@ -51,70 +51,24 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 \newpage
 
 
-**Table S2: Summary of Probability Assignment of Follow Up Individuals**
-
-```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
-
-follow_up_prob_summary <- read.csv('../results/tables/follow_up_probability_summary.csv', stringsAsFactors = F, header = T)
-
-st3 <- as.data.frame(filter(follow_up_prob_summary, sampleType == "initial")[, "Yes"]) %>% 
-  mutate(follow_yes = filter(follow_up_prob_summary, sampleType == "followup")[, "Yes"]) %>% 
-  mutate(disease_free = filter(follow_up_prob_summary, sampleType == "initial")[, "disease_free"]) %>% 
-  mutate(diagnosis = filter(follow_up_prob_summary, sampleType == "initial")[, "Dx_Bin"])
-
-st3$disease_free[st3$disease_free == "n"] <- "No"
-st3$disease_free[st3$disease_free == "unknown"] <- "Unknown"
-st3$disease_free[st3$disease_free == "y"] <- "Yes"
-
-colnames(st3) <- c("Initial Positive Probability", "Follow Up Positive Probability", "Disease Free on Follow Up", "Initial Diagnosis")
-
-kable(st3, format = "markdown", align = 'c', padding = 2)
-
-```
-
-\newpage
-
-
-**Table S3: Summary of OTUs in both Lesion and Initial/Follow Up Models**
+**Table S2: Summary of OTUs in both Lesion and Initial/Follow Up Models**
 
 ```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
 
-pvalue_common_imp_vars <- read.csv('../results/tables/pvalue_common_imp_vars.csv', header = T, row.names = 1)
+common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
-st4 <- select(pvalue_common_imp_vars, otu) %>% 
-  mutate(Tax = createTaxaLabeller(select(pvalue_common_imp_vars, -Pvalue, -BH_corr))) %>% 
-  mutate(Pvalue = pvalue_common_imp_vars$Pvalue) %>% 
-  mutate(BH_corr = pvalue_common_imp_vars$BH_corr)
+st2 <- select(common_vars_summary, otu) %>% 
+  mutate(Tax = gsub("_unclassified", "", common_vars_summary$lowest_ID)) %>% 
+  mutate(Pvalue = common_vars_summary$Pvalue) %>% 
+  mutate(BH_corr = common_vars_summary$BH_corr)
 
-colnames(st4) <- c("OTU", "Lowest Taxonomic ID", "P-value", "BH Corrected P-value")
+colnames(st2) <- c("OTU", "Lowest Taxonomic ID", "P-value", "BH Corrected P-value")
 
-kable(st4, format = "markdown", align = 'c', padding = 2)
+kable(st2, format = "markdown", align = 'c', padding = 2)
 
 ```
 
 
 \newpage
-
-
-**Table S4: Summary of P-values for Specific CRC OTUs between Initial and Follow Ups**
-
-```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
-
-pvalue_adn_crc_summary <- read.csv('../results/tables/adn_crc_maybe_pvalue_summary.csv', header = T, row.names = 1)
-
-st5 <- cbind(tax_id = c("Fusobacterium Nucleatum", "Parvimonas Micra", 
-                        "Peptostreptococcus Assacharolytica", "Porphyromonas Stomatis"), 
-             crc_pvalue = format(pvalue_adn_crc_summary$crc_pvalue, digits = 3), 
-             crc_bh = format(pvalue_adn_crc_summary$crc_BH, digits = 3), 
-             adn_pvalue = format(pvalue_adn_crc_summary$adn_pvalue, digits = 3), 
-             adn_bh = format(pvalue_adn_crc_summary$adn_BH, digits = 3))
-
-colnames(st5) <- c("Taxonomic ID", "CRC P-value", "CRC BH Corrected P-value", 
-                   "Adenoma P-value", "Adenoma BH Corrected P-value")
-
-kable(st5, format = "markdown", align = 'c', padding = 2)
-
-```
-
 
 
