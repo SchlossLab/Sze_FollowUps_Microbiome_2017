@@ -75,6 +75,8 @@ all_confu_matrix <- read.csv('../results/tables/all_models_confusion_summary.csv
 # Common Variable Info
 common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
+#Therapy Info
+chemo_rad_summary <- read.csv('../results/tables/probs_chemo_rad_pvalue_summary.csv', header = T, row.names = 1)
 
 ```
 
@@ -160,7 +162,7 @@ There were a total of `r length(common_vars_summary$otu)` OTUs that were common 
 
 **Treatment and Time Differences**
 
-There was also no difference in the amount of change in the positive probability based on whether individuals received chemotherapy (unccorected P-value = `r format(wilcox.test(filter(follow_up_prob_summary, sampleType == "initial", chemo == "yes")[, "Yes"] - filter(follow_up_prob_summary, sampleType == "followup", chemo == "yes")[, "Yes"], filter(follow_up_prob_summary, sampleType == "initial", chemo == "no")[, "Yes"] - filter(follow_up_prob_summary, sampleType == "followup", chemo == "no")[, "Yes"])$p.value, digits =3)`) or radiation therapy (uncorrected P-value = `r format(wilcox.test(filter(follow_up_prob_summary, sampleType == "initial", rads == "yes")[, "Yes"] - filter(follow_up_prob_summary, sampleType == "followup", rads == "yes")[, "Yes"], filter(follow_up_prob_summary, sampleType == "initial", rads == "no")[, "Yes"] - filter(follow_up_prob_summary, sampleType == "followup", rads == "no")[, "Yes"])$p.value, digits = 3)`). Time of follow up sample from initial sampling, did not have a significant difference between adenoma and carcinoma (uncorrected P-value = `r format(time_pvalues["thetayc_change", "uncorrected_p_value"], digits = 3)`).    
+There was no difference in the amount of change in positive probability for either the full or reduced lesion model for either chemotherapy (P-value = `r format(chemo_rad_summary['chemo_les', 'bh'], digits = 3)` and `r format(chemo_rad_summary['chemo_red_les', 'bh'], digits = 3)`) or radiation therapy (P-value = `r format(chemo_rad_summary['rad_les', 'bh'], digits = 3)` and `r format(chemo_rad_summary['rad_red_les', 'bh'], digits = 3)`). Although the initial follow up model was similar there was a significant decrease in positive probability for those treated with chemotherapy (P-value = `r format(chemo_rad_summary['chemo_IF', 'bh'], scientific = TRUE, digits = 3)` and `r format(chemo_rad_summary['chemo_red_IF', 'bh'], scientific = TRUE, digits = 3)`Time of follow up sample from initial sampling, did not have a significant difference between adenoma and carcinoma (uncorrected P-value = `r format(time_pvalues["thetayc_change", "uncorrected_p_value"], digits = 3)`).    
 
 \newpage
 
