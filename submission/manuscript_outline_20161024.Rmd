@@ -206,7 +206,7 @@ The Random Forest [@breiman_random_2001] algorithm was used to create the model 
 
 
 ***Initial Follow Up Model Creation***
-We also investigated whether a model could be created that could identify before and after surgery samples.  The training set utilized the `r length(rownames(good_metaf))`-person cohort that was previously used for testing of the lesion modeld.  The creation of this model and optimization of the mtry hyperparameter was completed using the same procedure that was used to create the lesion model. 
+We also investigated whether a model could be created that could identify before and after surgery samples.  The training set utilized the `r length(rownames(good_metaf))`-person cohort that was previously used for testing of the lesion model.  The creation of this model and optimization of the mtry hyperparameter was completed using the same procedure that was used to create the lesion model. 
 
 
 ***Selection of Important OTUs***
@@ -218,11 +218,11 @@ The R software package (v`r paste(version$major, ".", version$minor, sep = "")`)
 
 
 ***Analysis Overview***
-Differences in FIT between initial and follow ups for either adenoma or carcinoma were investigated.  Next, initial and follow up samples were analyzed for differences in alpha and beta diversity.  All OTUs used in the lesion model were also analyzed using a paired wilcoxson test.  The lesion model was then tested for accuracy in prediction and whether it reduced the positive probability of lesion after surgery.  The most important OTUs for this were used to build an updated model and this reduced feature model was assessed for it's similarity to the original model.  We then used the initial follow up model to assess whether this model could classify samples better then the lesion model.  The most important OTUs were then identified from this model and used to create a reduced feature initial follow up model.  This reduced feature model, as was done with the lesion model, was compared to the full model for loss of accuracy.  Finally, in order to investigate the relative abundance of specific bacteria, that have been previously associated with CRC, we selected OTUs that taxonomically classified to Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus Assacharolytica, and Porphyromonas Stomatis.  Specifically, we wanted to test if there were any differences based on whether the individual had an adenoma or carcinoma.  
+Differences in FIT between initial and follow ups for either adenoma or carcinoma were investigated.  Next, initial and follow up samples were analyzed for differences in alpha and beta diversity.  All OTUs used in the lesion model were then also analyzed using a paired wilcoxson test.  We then investigated the relative abundance of specific bacteria, that have been previously associated with CRC, we selected OTUs that taxonomically classified to Fusobacterium Nucleatum, Parvimonas Micra, Peptostreptococcus Assacharolytica, and Porphyromonas Stomatis.  Specifically, we wanted to test if there were any differences based on whether the individual had an adenoma or carcinoma.  The lesion model was then tested for accuracy in prediction and whether it reduced the positive probability of lesion after surgery.  The most important OTUs for this were used to build an updated model and this reduced feature model was assessed for it's similarity to the original model.  We then used the initial follow up model to assess whether this model could classify samples better then the lesion model.  The most important OTUs were then identified from this model and used to create a reduced feature initial follow up model.  This reduced feature model, as was done with the lesion model, was compared to the full model for loss of accuracy.  Finally, a list of common OTUs were found for the two different models used. 
 
 
 ***Reproducible methods.***
-A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017.
+A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017.  Raw sequences have been deposited into the NCBI Sequence Read Archive (SRP062005).
 
 
 \newpage
