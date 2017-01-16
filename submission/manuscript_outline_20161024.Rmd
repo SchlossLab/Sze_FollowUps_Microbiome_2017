@@ -3,18 +3,15 @@ title: ""
 bibliography: reference.bib
 output:
   pdf_document:
+    keep_tex: true
     includes:
       in_header: header.tex
-    keep_tex: yes
-  html_document: default
 csl: microbiome.csl
 fontsize: 12pt
 geometry: margin=1.0in
 ---
 
 # Differences in the Stool Microbiome Before and After Colorectal Cancer Treatment
-
-
 ```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 
 source('../code/functions.R')
@@ -30,7 +27,6 @@ opts_chunk$set("cache" = FALSE)
 opts_chunk$set("message" = FALSE)
 
 ```
-
 
 ```{r rdata_tables}
 # Extra data and meta data needed
@@ -79,23 +75,26 @@ common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_v
 chemo_rad_summary <- read.csv('../results/tables/probs_chemo_rad_pvalue_summary.csv', header = T, row.names = 1)
 
 ```
-\begin{center}  
-\vspace{25mm}  
+\vspace{25mm} 
 
+\begin{center}
 Running Title: Human Microbiome and Colorectal Cancer
 
 \vspace{10mm}
 
-Marc A Sze^1^, Nielson T Baxter^2^, Mack T Ruffin IV^3^, Mary AM Rogers^4^, and Patrick D Schloss^1^${^\dagger}$
+Marc A Sze${^1}$, Nielson T Baxter${^2}$, Mack T Ruffin IV${^3}$, Mary AM Rogers${^2}$, and Patrick D Schloss${^1}$${^\dagger}$
 
 \vspace{20mm}
 
 $\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
 
-^1^Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI  
-^2^Department of Internal Medicine, Division of Infectious Disease, University of Michigan, Ann Arbor, MI  
-^3^Department of Family Medicine and Community Medicine, Penn State Hershey Medical Center, Hershey, PA  
-^4^Department of Internal Medicine, University of Michigan, Ann Arbor, MI
+$1$ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
+
+$2$ Department of Internal Medicine, University of Michigan, Ann Arbor, MI   
+
+$3$ Department of Family Medicine and Community Medicine, Penn State Hershey Medical Center, Hershey, PA    
+
+
 \end{center}  
 
 
