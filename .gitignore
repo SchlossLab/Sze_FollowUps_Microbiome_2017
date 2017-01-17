@@ -17,3 +17,5 @@ code/wfit/
 exploratory/*.RData
 *.Rproj
 submission/*.tex
+sra_submission/
+
