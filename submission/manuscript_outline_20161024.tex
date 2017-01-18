@@ -221,95 +221,93 @@ classifying initial and follow up samples but also lesion or normal.
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{Bacterial Community and FIT Changes before and after
-Surgery}} Based on thetayc distance metrics, comparing the initial to
-the follow up samples, there was a significant difference between the
-adenoma and carcinoma groups (P-value = 0.00198) {[}Figure 1a{]}. There
-was also a significant difference in change in FIT between initial and
-follow up samples (P-value = 2.15e-05) {[}Figure 1b{]}. The whole
-community structure before and after surgery were visualized on NMDS
-graphs for both adenoma {[}Figure1c{]} (PERMANOVA = 0.997) and carcinoma
-{[}Figure 1d{]} (PERMANOVA = 0.002). When all initial and follow up
-samples were compared to each other there was no significant overall
-difference between them (PERMANOVA = 0.085). There was no significant
-difference between initial and follow up samples for observed OTUs,
-Shannon diversity, or evenness after correction for multiple comparisons
+\textbf{\emph{Bacterial Community and FIT}} Based on the thetayc
+distance metric, comparing the initial to the follow up samples, there
+was a significant difference between the adenoma and carcinoma groups
+(P-value = 0.00198) {[}Figure 1a{]}. There was also a significant
+difference in change in FIT between initial and follow up samples
+(P-value = 2.15e-05) {[}Figure 1b{]}. The whole community structure
+before and after surgery was visualized on NMDS graphs for both adenoma
+{[}Figure1c{]} (PERMANOVA = 0.997) and carcinoma {[}Figure 1d{]}
+(PERMANOVA = 0.002). When all initial and follow up samples were
+compared to each other there was no significant overall difference
+between them (PERMANOVA = 0.085). There was no significant difference
+between initial and follow up samples for observed OTUs, Shannon
+diversity, or evenness after correction for multiple comparisons
 {[}Table S1{]}. There was also no significant difference between initial
 and follow up samples for any single OTU {[}Figure S1{]}.
 
-\textbf{\emph{Differences in Adenoma and Carcinoma of Previously
-Associated Cancer Bacteria}} We next examined whether there were
-differences in previously well described carcinoma associated OTUs.
-These included the OTUs that aligned with \emph{Porphyromonas
-asaccharolytica} (Otu000153), \emph{Fusobacterium nucleatum}
-(Otu000226), \emph{Parvimonas micra} (Otu000460), and
+\textbf{\emph{Previously Associated Cancer Bacteria}} We next examined
+whether there were differences in previously well described carcinoma
+associated OTUs. These included the OTUs that aligned with
+\emph{Porphyromonas asaccharolytica} (Otu000153), \emph{Fusobacterium
+nucleatum} (Otu000226), \emph{Parvimonas micra} (Otu000460), and
 \emph{Peptostreptococcus stomatis} (Otu000653). First, the carcinoma
 samples showed a significant difference between initial and follow up
 samples for \emph{Peptostreptococcus stomatis} (P-value = 0.0183) and
 \emph{Porphyromonas asaccharolytica} (P-value = 0.0154) whereas there
-was no signficant differences in any of these OTUs in the adenoma
+were no signficant differences in any of these OTUs in the adenoma
 samples {[}Table S4{]}. Second, when these OTUs were present, there was
 a clear magnitude difference based on whether they were from adenoma or
 carcinoma {[}Figure 2{]}. However, only a small percentage of those with
 adenoma or carcinoma were positive for any of these OTUs.
 
-\textbf{\emph{Full and Reduced Model Results}} Since differences were
-observed between initial and follow up samples and only a small number
-of individuals were positive for previously associated CRC bacteria; we
-next investigated if we could create a model that could adequately
-classify and adjust lesion probability based on the bacterial community
-and FIT. The lesion model had an AUC range of 0.723 to 0.795 versus the
-initial follow up model which had an AUC range of 0.451 to 0.67 after
-100 20 repeated 10-fold cross validations. Interestingly, identification
-of the most important variables and reducing the models to only these
-factors increased the AUC in the lesion model (0.791 - 0.847) and
-initial and follow up model (0.651 - 0.79).
+\textbf{\emph{Full and Reduced Model}} Since differences were observed
+between initial and follow up samples and only a small number of
+individuals were positive for previously associated CRC bacteria; we
+next investigated if we could create models that could adequately
+classify and adjust either lesion or before sample probability based on
+the bacterial community and FIT. The lesion model had an AUC range of
+0.723 to 0.795 versus the before sample model which had an AUC range of
+0.451 to 0.67 after 100 iterations of 20 repeated 10-fold cross
+validations. Interestingly, identification of the most important
+variables and reducing the models to only these factors increased the
+AUC in the lesion model (0.791 - 0.847) and before sample model (0.651 -
+0.79).
 
 The test set AUC range for the full and reduced lesion model were
 similar to that reported for the training set AUC ranges and the ROC
 curve ranges overlap each other {[}Figure 3a{]}. The ROC curve for the
 final lesion model used was within the range of both the full and
 reduced lesion model {[}Figure 3a{]}. Interestingly, the test set AUC
-range for the initial and follow up performed much better then the
-training set AUCs. Both the full and reduced initial and follow up
-models overlapped with each other {[}Figure 3b{]} there was a marked
-decrease in the ROC curve for the final model used.
+range for the before sample model performed much better then the
+training set AUCs. Both the full and reduced before sample models
+overlapped with each other {[}Figure 3b{]} there was a marked decrease
+in the ROC curve for the final model used.
 
-\textbf{\emph{Most Important Variables to the Models}} The reduced
-models were built based on the most important variables to the
-respective full model. For the lesion model there were a total of 37
-variables {[}Figure S2{]} whereas for the initial and follow up model
-there were a total of 33 variables {[}Figure S3{]}. For both models FIT
-resulted in the largest decrease in MDA {[}Figure S2a \& S3a{]}.
+\textbf{\emph{Most Important Variables}} The reduced models were built
+based on the most important variables to the respective full model. For
+the lesion model there were a total of 37 variables {[}Figure S2{]}
+whereas for the before sample model there were a total of 33 variables
+{[}Figure S3{]}. For both models FIT resulted in the largest decrease in
+MDA {[}Figure S2a \& S3a{]}.
 
-\textbf{\emph{Positive Probability Prediction after Surgical Removal of
-Adenoma or Carcinoma}} Regardless of model used there was a significant
-decrease in the positive probability of either the sample being lesion
-or an initial sample on follow up {[}Figure 4 \& S4{]} (full lesion
-P-value = 1.11e-11, reduced lesion P-value = 1.91e-11, initial and
-follow up P-value = 6.71e-12, and reduced initial and follow up P-value
-= 6.72e-12).
+\textbf{\emph{Positive Probability after Lesion Removal}} Regardless of
+model used there was a significant decrease in the positive probability
+of either the sample being lesion or a before sample on follow up
+{[}Figure 4 \& S4{]} (full lesion P-value = 1.11e-11, reduced lesion
+P-value = 1.91e-11, initial and follow up P-value = 6.71e-12, and
+reduced initial and follow up P-value = 6.72e-12).
 
 For the full and reduced lesion model there was a significant difference
 in the classification for the lesion model between predicted and actual
-(P-value = 4.19e-10 and 6.98e-10, respectively) but not for the initial
-follow up model (P-value = 1.00 and 1.00). However, the lesion model
+(P-value = 4.19e-10 and 6.98e-10, respectively) but not for the before
+sample model (P-value = 1.00 and 1.00). However, the lesion model
 correctly kept the one individual who still had a carcinoma on follow up
-above the cut off point {[}Figure 4a \& S4a{]} for a positive call while
-the initial and follow up models did not {[}Figure 4b \& S4b{]}.
+above the cut off threshold {[}Figure 4a \& S4a{]} for a positive call
+while the before sample models did not {[}Figure 4b \& S4b{]}.
 
-\textbf{\emph{Common OTUs to both Lesion and Initial and Follow Up
-Models}} There were a total of 14 OTUs that were common to both models.
-Of these OTUs the most common taxonomic identifications were to Blautia,
-Bacteroides, Streptococcus, and Clostridiales. The majority of these
-OTUs had taxonomic identification to bacteria typically thought of as
-commensal {[}Table S2{]}.
+\textbf{\emph{Common OTUs to both Models}} There were a total of 14 OTUs
+that were common to both models. Of these OTUs the most common taxonomic
+identifications were to Blautia, Bacteroides, Streptococcus, and
+Clostridiales. The majority of these OTUs had classifications to
+bacteria typically thought of as commensal {[}Table S2{]}.
 
 \textbf{\emph{Treatment and Time Differences}} There was no difference
 in the amount of change in positive probability for either the full or
 reduced lesion model for either chemotherapy (P-value = 0.821 and 0.821)
-or radiation therapy (P-value = 0.69 and 0.981). Although the initial
-follow up model was similar there was a significant decrease in positive
+or radiation therapy (P-value = 0.69 and 0.981). Although the before
+sample model was similar there was a significant decrease in positive
 probability for those treated with chemotherapy (P-value = 7.04e-04 and
 5.07e-03). Time elapsed between the collection of the follow up sample
 from the initial sample, did not have a significant difference between
