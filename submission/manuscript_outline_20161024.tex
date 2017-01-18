@@ -336,24 +336,24 @@ abundance between initial and follow up for the carcinoma group and 0
 out of the 4 were significant for the adenoma group. This data suggests
 that the changes that may be important in the bacterial microbiome after
 surgery are not necessarily any one specific bacterium, a clear
-depression of CRC related bacteria, nor any addition of new or depressed
-bacterium but rather that a shift of the bacterial community as a whole
-occurs with the existing members of this microbiome.
+depression of CRC related bacteria, or any addition of new or depressed
+bacterium. Instead it may be due to a shift of the bacterial community
+as a whole between existing members of the host's microbiome.
 
 We next created a model that incorporated FIT and the bacterial
 microbiome to either be able to classify lesions (adenoma or carcinoma)
-or initial and follow up samples in order to confirm that the community
-was what was responding or changing due to surgery. We found that the
-OTUs that made up the most important variables to the model
-overwhelmingly belonged to comensal bacteria. With only the lesion model
-having a single OTU from previously associated cancer bacteria
-(\emph{Porphyromonas asaccharolytica}). Using only these important OTUs
-and FIT both models (lesion and initial and follow up) had a
-significantly decreased positive probability of either lesion or being
-an initial sample on follow up {[}Figure 4 \& S4{]}. Confirming the
-importance of the changes of comensal bacteria to these classifications
-was that a total of 14 OTUs were common to both models and the vast
-majority belonged to regular residents of our gut community.
+or before samples in order to confirm that the community was what was
+responding or changing due to surgery. We found that the OTUs that made
+up the most important variables to the model overwhelmingly belonged to
+comensal bacteria. With only the lesion model having a single OTU from a
+previously associated cancer bacterium (\emph{Porphyromonas
+asaccharolytica}). Using only these important OTUs and FIT both models
+(lesion and before sample) had a significantly decreased positive
+probability of either lesion or being an initial sample on follow up
+{[}Figure 4 \& S4{]}. Further confirmation of the importance of the
+changes of comensal bacteria to these classifications was that a total
+of 14 OTUs were common to both models and the vast majority belonged to
+regular residents of our gut community.
 
 There was no difference for the majority of models tested for
 differences in positive probablity based on whether chemotherapy or
@@ -378,29 +378,30 @@ more inflammatory bacterium to gain a foothold within the colon
 {[}19{]}.
 
 Curiously, we observed that the typical CRC associated bacteria were not
-predictive within our models. One potential explanation is that even
-with surgery and a shift of the bacterial community these specific
-bacteria still persisted within the colon. An alternative reason would
-be that even if they were reduced in relative abundance they were still
-present. Another potential explanation is that they were not present in
-enough individuals to be able to classify those with and without disease
-with a high degree of accuracy. It is possible that our Random Forest
-models were able to get the same information from measures such as FIT
-or other OTUs. Finally, it is also possible that all three of these
-potential explanations could have played a role. Regardless, our
-observations would suggest that an individual's resident bacteria have a
-large role to play in disease initiation and could change in a way that
-allows predictive models to lower the positive probability of a lesion
-after surgery {[}Figure 4{]}. It should be stated that our study does
-not argue against the importance of these CRC associated bacteria in the
+predictive within our models. There are a number of reasons why this may
+have occured. First, one potential explanation is that even with surgery
+and a shift of the bacterial community these specific bacteria still
+persisted within the colon. Second, the bacteria even if they were
+reduced in relative abundance they were still present within the gut.
+Third, is that they were not present in enough individuals to be able to
+classify those with and without disease with a high degree of accuracy.
+Fourth, is that it is possible that our Random Forest models were able
+to get the same information from measures such as FIT or other OTUs.
+Finally, it is also possible that all three of these potential
+explanations could have played a role. Regardless, our observations
+would suggest that an individual's resident bacteria have a large role
+to play in disease initiation and could change in a way that allows
+predictive models to lower the positive probability of a lesion after
+surgery {[}Figure 4{]}. It should be noted that our study does not argue
+against the importance of these CRC associated bacteria in the
 pathogenesis of disease but rather that the models do not utilize these
-specific bacteria for classification purposes (lesion or initial and
-follow up). In fact, it is possible that these CRC associated bacteria
-are important in the transition from adenoma to carcinoma and would be
-one explanation as to why in our data we not only see high initial
-relative abundances, in certain individuals, but also large decreases in
-relative abundance in those with carcinoma but not in those with adenoma
-after surgery {[}Figure 2{]}.
+specific bacteria for classification purposes (lesion or before sample).
+In fact, it is possible that these CRC associated bacteria are important
+in the transition from adenoma to carcinoma and would be one explanation
+as to why in our data we not only see high initial relative abundances,
+in certain individuals, but also large decreases in relative abundance
+in those with carcinoma but not in those with adenoma after surgery
+{[}Figure 2{]}.
 
 One limitation of our study is that we do not know whether individuals
 who were still classified as positive by the lesion model eventually had
@@ -408,7 +409,7 @@ a subsequent CRC diagnosis. This information would help to strengthen
 the case for our Random Forest based model to have kept a number of
 individuals above the cutoff threshold even though at follow up they
 were diagnosed as no longer having a lesion. Another limitation is that
-we do not know if adding modern tests such as the fecal DNA test
+we do not know if adding modern tests such as the stool DNA test
 {[}20{]} could help improve our overall AUC. Another limitation is that
 this study drew heavily from those with caucasian ancestry. The results
 may not be immediately representative of those with either Asian or
@@ -419,19 +420,19 @@ done our best to safeguard against this by not only running 10-fold
 cross validation but also having over 100 different 80/20 splits to try
 and mimic the type of variation that might be expected to occur.
 
-Another interesting outcome was that Within figure 3 the initial and
-follow up model showed better test AUC results then the training set
-AUC. This may have occured because the training AUC that was determined
-from 20 repeated 10 fold cross validation removed samples at random and
-did not take into account that they were matched samples. Another
-potential reason is that the model itself may be overfit since the total
-number of samples was not that large. However, the lesion model did not
-suffer from these discrepencies and similar conclusions can be drawn
-solely from this model. Regardless, further independent studies will
-need to be carried out to verify our findings since not only are we
-dealing with feces, which could be very different than the communities
-present on the actual tissue, but also are dealing with correlations
-that may not be representative of the true pathogensis of disease.
+Another interesting outcome was that Within figure 3 the before sample
+model showed better test AUC results then the training set AUC. This may
+have occured because the training AUC that was determined from 20
+repeated 10 fold cross validation removed samples at random and did not
+take into account that they were matched samples. Another potential
+reason is that the model itself may be overfit since the total number of
+samples was not that large. However, the lesion model did not suffer
+from these discrepencies and similar conclusions can be drawn solely
+from this model. Regardless, further independent studies will need to be
+carried out to verify our findings since not only are we dealing with
+feces, which could be very different than the communities present on the
+actual tissue, but also are dealing with correlations that may not be
+representative of the true pathogensis of disease.
 
 Despite these limitations we think that these findings significantly add
 to the existing scientific knowledge on CRC and the bacterial
