@@ -131,34 +131,33 @@ $3$ Department of Family Medicine and Community Medicine, Penn State Hershey Med
 \textbf{Background:} Colorectal cancer (CRC) continues to be a worldwide
 health problem with early detection being used as a key component in
 mitigating deaths due to the disease. Previous research suggests a link
-between fecal bacterial microbiome and CRC. The overall objective was to
-investigate the changes in the bacterial microbiome after surgery in
-patients with lesion (i.e.~adenoma or carcinoma). Specifically, we
-wanted to identify what within the community was different within those
-undergoing surgical removal of lesion. We also investigated the use of
-the bacterial microbiome and Fecal Immunoglobulin Test (FIT) to build
-models to either classify individuals as having a lesion or whether,
-based on the bacterial microbiome, the sample could be classified
-correctly as before or after surgery.\\
+between fecal bacterial microbiome and CRC. The overall objective of our
+study was to investigate the changes in the bacterial microbiome after
+surgery in patients with lesion (i.e.~adenoma or carcinoma).
+Specifically, we wanted to identify what within the community was
+different within those undergoing surgical removal of lesion. We also
+wanted to investigate the use of the bacterial microbiome and Fecal
+Immunoglobulin Test (FIT) to build models which could classify
+individuals as having a lesion or as before surgery.\\
 \textbf{Results:} Adenoma individual's bacterial microbiome were more
 similar to their pre-surgery sample then those with carcinoma (P-value =
-0.00198) and this was also reflected in FIT (P-value = 2.15e-05). There
-was no significant difference in any indivdiual OTU between samples
-before and after surgery (P-value \textgreater{} 0.125). A model with a
-total of 37 variables was able to classify lesion (AUC = 0.847 - 0.791
-while the model to classify samples as before and after surgery had 33
-variables (AUC = 0.79 - 0.651). Both models had a significant decrease
-in the positive probability of a lesion or being a before surgery sample
-(P-value = 1.91e-11 and 6.72e-12). In total there were 14 OTUs that were
-common to both models and the majority of these classified to commensal
-bacteria with the largest representation belonging to Bacteroides,
-Blautia, Streptococcus, and Clostridiales.\\
+0.00198). Their change in FIT was also significantly different then
+those with carcinoma (P-value = 2.15e-05). There was no significant
+difference in any indivdiual OTU between samples before and after
+surgery (P-value \textgreater{} 0.125). A model with a total of 37
+variables was able to classify lesion (AUC = 0.847 - 0.791) while the
+model to classify samples as before surgery had 33 variables (AUC = 0.79
+- 0.651). The after surgery samples had a significant decrease in the
+model positive probability of a lesion or before surgery sample (P-value
+= 1.91e-11 and 6.72e-12). In total there were 14 OTUs that were common
+to both models and the majority of these classified to commensal
+bacteria (Bacteroides, Blautia, Streptococcus, and Clostridiales).\\
 \textbf{Conclusions:} Our data suggests that treatment not only
-significantly reduces the probability of having a colonic lesion but
-also causes detectable changes in the bacterial microbiome. Further
-surveillance of these individuals will enable us to determine whether
-models such as the one we present here can also be used to predict
-recurrence of colorectal cancer.
+significantly reduces the probability of having a colonic lesion within
+our models but also causes detectable changes in the bacterial
+microbiome. Further surveillance of these individuals will enable us to
+determine whether models such as the ones we present could be used to
+predict recurrence of colorectal cancer.
 
 \newpage
 
@@ -209,109 +208,106 @@ successful surgery for removal of the adenoma or carcinoma and whether
 it changes at all.
 
 In this study we investigated what happened to the bacterial microbiome
-before and after surgery for indivdiuals with either adenoma and
+before and after surgery for indivdiuals with either adenoma or
 carcinoma. Our anlaysis includes both alpha and beta diversity analysis
 along with investigation of individual operational taxonomic units
 (OTUs). We also utilized Random Forest models and observed how these
-models as well as specific OTUs within this model performed on before
-(initial) and after (follow up) surgery samples. We used these models to
-look for similar important OTUs to identify the crucial OTUs for not
-only classifying initial and follow up samples but also lesion or
-normal.
+models as well as specific OTUs within them performed before (initial)
+and after (follow up) surgery. We also used these models to look for
+similar important OTUs to identify the crucial OTUs for not only
+classifying initial and follow up samples but also lesion or normal.
 
 \newpage
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{Bacterial Community and FIT Changes before and after
-Surgery}} Based on thetayc distance metrics, comparing the initial to
-the follow up samples, there was a significant difference between the
-adenoma and carcinoma groups (P-value = 0.00198) {[}Figure 1a{]}. There
-was also a significant difference in change in FIT between initial and
-follow up samples (P-value = 2.15e-05) {[}Figure 1b{]}. The whole
-community structure before and after surgery were visualized on NMDS
-graphs for both adenoma {[}Figure1c{]} (PERMANOVA = 0.997) and carcinoma
-{[}Figure 1d{]} (PERMANOVA = 0.002). When all initial and follow up
-samples were compared to each other there was no significant overall
-difference between them (PERMANOVA = 0.085). There was no significant
-difference between initial and follow up samples for observed OTUs,
-Shannon diversity, or evenness after correction for multiple comparisons
+\textbf{\emph{Bacterial Community and FIT}} Based on the thetayc
+distance metric, comparing the initial to the follow up samples, there
+was a significant difference between the adenoma and carcinoma groups
+(P-value = 0.00198) {[}Figure 1a{]}. There was also a significant
+difference in change in FIT between initial and follow up samples
+(P-value = 2.15e-05) {[}Figure 1b{]}. The whole community structure
+before and after surgery was visualized on NMDS graphs for both adenoma
+{[}Figure1c{]} (PERMANOVA = 0.997) and carcinoma {[}Figure 1d{]}
+(PERMANOVA = 0.002). When all initial and follow up samples were
+compared to each other there was no significant overall difference
+between them (PERMANOVA = 0.085). There was no significant difference
+between initial and follow up samples for observed OTUs, Shannon
+diversity, or evenness after correction for multiple comparisons
 {[}Table S1{]}. There was also no significant difference between initial
 and follow up samples for any single OTU {[}Figure S1{]}.
 
-\textbf{\emph{Differences in Adenoma and Carcinoma of Previously
-Associated Cancer Bacteria}} We next examined whether there were
-differences in previously well described carcinoma associated OTUs.
-These included the OTUs that aligned with \emph{Porphyromonas
-asaccharolytica} (Otu000153), \emph{Fusobacterium nucleatum}
-(Otu000226), \emph{Parvimonas micra} (Otu000460), and
+\textbf{\emph{Previously Associated Cancer Bacteria}} We next examined
+whether there were differences in previously well described carcinoma
+associated OTUs. These included the OTUs that aligned with
+\emph{Porphyromonas asaccharolytica} (Otu000153), \emph{Fusobacterium
+nucleatum} (Otu000226), \emph{Parvimonas micra} (Otu000460), and
 \emph{Peptostreptococcus stomatis} (Otu000653). First, the carcinoma
 samples showed a significant difference between initial and follow up
 samples for \emph{Peptostreptococcus stomatis} (P-value = 0.0183) and
 \emph{Porphyromonas asaccharolytica} (P-value = 0.0154) whereas there
-was no signficant differences in any of these OTUs in the adenoma
+were no signficant differences in any of these OTUs in the adenoma
 samples {[}Table S4{]}. Second, when these OTUs were present, there was
 a clear magnitude difference based on whether they were from adenoma or
 carcinoma {[}Figure 2{]}. However, only a small percentage of those with
 adenoma or carcinoma were positive for any of these OTUs.
 
-\textbf{\emph{Full and Reduced Model Results}} Since differences were
-observed between initial and follow up samples and only a small number
-of individuals were positive for previously associated CRC bacteria; we
-next investigated if we could create a model that could adequately
-classify and adjust lesion probability based on the bacterial community
-and FIT. The lesion model had an AUC range of 0.723 to 0.795 versus the
-initial follow up model which had an AUC range of 0.451 to 0.67 after
-100 20 repeated 10-fold cross validations. Interestingly, identification
-of the most important variables and reducing the models to only these
-factors increased the AUC in the lesion model (0.791 - 0.847) and
-initial and follow up model (0.651 - 0.79).
+\textbf{\emph{Full and Reduced Model}} Since differences were observed
+between initial and follow up samples and only a small number of
+individuals were positive for previously associated CRC bacteria; we
+next investigated if we could create models that could adequately
+classify and adjust either lesion or before sample probability based on
+the bacterial community and FIT. The lesion model had an AUC range of
+0.723 to 0.795 versus the before sample model which had an AUC range of
+0.451 to 0.67 after 100 iterations of 20 repeated 10-fold cross
+validations. Interestingly, identification of the most important
+variables and reducing the models to only these factors increased the
+AUC in the lesion model (0.791 - 0.847) and before sample model (0.651 -
+0.79).
 
 The test set AUC range for the full and reduced lesion model were
 similar to that reported for the training set AUC ranges and the ROC
 curve ranges overlap each other {[}Figure 3a{]}. The ROC curve for the
 final lesion model used was within the range of both the full and
 reduced lesion model {[}Figure 3a{]}. Interestingly, the test set AUC
-range for the initial and follow up performed much better then the
-training set AUCs. Both the full and reduced initial and follow up
-models overlapped with each other {[}Figure 3b{]} there was a marked
-decrease in the ROC curve for the final model used.
+range for the before sample model performed much better then the
+training set AUCs. Both the full and reduced before sample models
+overlapped with each other {[}Figure 3b{]} there was a marked decrease
+in the ROC curve for the final model used.
 
-\textbf{\emph{Most Important Variables to the Models}} The reduced
-models were built based on the most important variables to the
-respective full model. For the lesion model there were a total of 37
-variables {[}Figure S2{]} whereas for the initial and follow up model
-there were a total of 33 variables {[}Figure S3{]}. For both models FIT
-resulted in the largest decrease in MDA {[}Figure S2a \& S3a{]}.
+\textbf{\emph{Most Important Variables}} The reduced models were built
+based on the most important variables to the respective full model. For
+the lesion model there were a total of 37 variables {[}Figure S2{]}
+whereas for the before sample model there were a total of 33 variables
+{[}Figure S3{]}. For both models FIT resulted in the largest decrease in
+MDA {[}Figure S2a \& S3a{]}.
 
-\textbf{\emph{Positive Probability Prediction after Surgical Removal of
-Adenoma or Carcinoma}} Regardless of model used there was a significant
-decrease in the positive probability of either the sample being lesion
-or an initial sample on follow up {[}Figure 4 \& S4{]} (full lesion
-P-value = 1.11e-11, reduced lesion P-value = 1.91e-11, initial and
-follow up P-value = 6.71e-12, and reduced initial and follow up P-value
-= 6.72e-12).
+\textbf{\emph{Positive Probability after Lesion Removal}} Regardless of
+model used there was a significant decrease in the positive probability
+of either the sample being lesion or a before sample on follow up
+{[}Figure 4 \& S4{]} (full lesion P-value = 1.11e-11, reduced lesion
+P-value = 1.91e-11, initial and follow up P-value = 6.71e-12, and
+reduced initial and follow up P-value = 6.72e-12).
 
 For the full and reduced lesion model there was a significant difference
 in the classification for the lesion model between predicted and actual
-(P-value = 4.19e-10 and 6.98e-10, respectively) but not for the initial
-follow up model (P-value = 1.00 and 1.00). However, the lesion model
+(P-value = 4.19e-10 and 6.98e-10, respectively) but not for the before
+sample model (P-value = 1.00 and 1.00). However, the lesion model
 correctly kept the one individual who still had a carcinoma on follow up
-above the cut off point {[}Figure 4a \& S4a{]} for a positive call while
-the initial and follow up models did not {[}Figure 4b \& S4b{]}.
+above the cut off threshold {[}Figure 4a \& S4a{]} for a positive call
+while the before sample models did not {[}Figure 4b \& S4b{]}.
 
-\textbf{\emph{Common OTUs to both Lesion and Initial and Follow Up
-Models}} There were a total of 14 OTUs that were common to both models.
-Of these OTUs the most common taxonomic identifications were to Blautia,
-Bacteroides, Streptococcus, and Clostridiales. The majority of these
-OTUs had taxonomic identification to bacteria typically thought of as
-commensal {[}Table S2{]}.
+\textbf{\emph{Common OTUs to both Models}} There were a total of 14 OTUs
+that were common to both models. Of these OTUs the most common taxonomic
+identifications were to Blautia, Bacteroides, Streptococcus, and
+Clostridiales. The majority of these OTUs had classifications to
+bacteria typically thought of as commensal {[}Table S2{]}.
 
 \textbf{\emph{Treatment and Time Differences}} There was no difference
 in the amount of change in positive probability for either the full or
 reduced lesion model for either chemotherapy (P-value = 0.821 and 0.821)
-or radiation therapy (P-value = 0.69 and 0.981). Although the initial
-follow up model was similar there was a significant decrease in positive
+or radiation therapy (P-value = 0.69 and 0.981). Although the before
+sample model was similar there was a significant decrease in positive
 probability for those treated with chemotherapy (P-value = 7.04e-04 and
 5.07e-03). Time elapsed between the collection of the follow up sample
 from the initial sample, did not have a significant difference between
@@ -340,24 +336,24 @@ abundance between initial and follow up for the carcinoma group and 0
 out of the 4 were significant for the adenoma group. This data suggests
 that the changes that may be important in the bacterial microbiome after
 surgery are not necessarily any one specific bacterium, a clear
-depression of CRC related bacteria, nor any addition of new or depressed
-bacterium but rather that a shift of the bacterial community as a whole
-occurs with the existing members of this microbiome.
+depression of CRC related bacteria, or any addition of new or depressed
+bacterium. Instead it may be due to a shift of the bacterial community
+as a whole between existing members of the host's microbiome.
 
 We next created a model that incorporated FIT and the bacterial
 microbiome to either be able to classify lesions (adenoma or carcinoma)
-or initial and follow up samples in order to confirm that the community
-was what was responding or changing due to surgery. We found that the
-OTUs that made up the most important variables to the model
-overwhelmingly belonged to comensal bacteria. With only the lesion model
-having a single OTU from previously associated cancer bacteria
-(\emph{Porphyromonas asaccharolytica}). Using only these important OTUs
-and FIT both models (lesion and initial and follow up) had a
-significantly decreased positive probability of either lesion or being
-an initial sample on follow up {[}Figure 4 \& S4{]}. Confirming the
-importance of the changes of comensal bacteria to these classifications
-was that a total of 14 OTUs were common to both models and the vast
-majority belonged to regular residents of our gut community.
+or before samples in order to confirm that the community was what was
+responding or changing due to surgery. We found that the OTUs that made
+up the most important variables to the model overwhelmingly belonged to
+comensal bacteria. With only the lesion model having a single OTU from a
+previously associated cancer bacterium (\emph{Porphyromonas
+asaccharolytica}). Using only these important OTUs and FIT both models
+(lesion and before sample) had a significantly decreased positive
+probability of either lesion or being an initial sample on follow up
+{[}Figure 4 \& S4{]}. Further confirmation of the importance of the
+changes of comensal bacteria to these classifications was that a total
+of 14 OTUs were common to both models and the vast majority belonged to
+regular residents of our gut community.
 
 There was no difference for the majority of models tested for
 differences in positive probablity based on whether chemotherapy or
@@ -382,29 +378,30 @@ more inflammatory bacterium to gain a foothold within the colon
 {[}19{]}.
 
 Curiously, we observed that the typical CRC associated bacteria were not
-predictive within our models. One potential explanation is that even
-with surgery and a shift of the bacterial community these specific
-bacteria still persisted within the colon. An alternative reason would
-be that even if they were reduced in relative abundance they were still
-present. Another potential explanation is that they were not present in
-enough individuals to be able to classify those with and without disease
-with a high degree of accuracy. It is possible that our Random Forest
-models were able to get the same information from measures such as FIT
-or other OTUs. Finally, it is also possible that all three of these
-potential explanations could have played a role. Regardless, our
-observations would suggest that an individual's resident bacteria have a
-large role to play in disease initiation and could change in a way that
-allows predictive models to lower the positive probability of a lesion
-after surgery {[}Figure 4{]}. It should be stated that our study does
-not argue against the importance of these CRC associated bacteria in the
+predictive within our models. There are a number of reasons why this may
+have occured. First, one potential explanation is that even with surgery
+and a shift of the bacterial community these specific bacteria still
+persisted within the colon. Second, the bacteria even if they were
+reduced in relative abundance they were still present within the gut.
+Third, is that they were not present in enough individuals to be able to
+classify those with and without disease with a high degree of accuracy.
+Fourth, is that it is possible that our Random Forest models were able
+to get the same information from measures such as FIT or other OTUs.
+Finally, it is also possible that all three of these potential
+explanations could have played a role. Regardless, our observations
+would suggest that an individual's resident bacteria have a large role
+to play in disease initiation and could change in a way that allows
+predictive models to lower the positive probability of a lesion after
+surgery {[}Figure 4{]}. It should be noted that our study does not argue
+against the importance of these CRC associated bacteria in the
 pathogenesis of disease but rather that the models do not utilize these
-specific bacteria for classification purposes (lesion or initial and
-follow up). In fact, it is possible that these CRC associated bacteria
-are important in the transition from adenoma to carcinoma and would be
-one explanation as to why in our data we not only see high initial
-relative abundances, in certain individuals, but also large decreases in
-relative abundance in those with carcinoma but not in those with adenoma
-after surgery {[}Figure 2{]}.
+specific bacteria for classification purposes (lesion or before sample).
+In fact, it is possible that these CRC associated bacteria are important
+in the transition from adenoma to carcinoma and would be one explanation
+as to why in our data we not only see high initial relative abundances,
+in certain individuals, but also large decreases in relative abundance
+in those with carcinoma but not in those with adenoma after surgery
+{[}Figure 2{]}.
 
 One limitation of our study is that we do not know whether individuals
 who were still classified as positive by the lesion model eventually had
@@ -412,7 +409,7 @@ a subsequent CRC diagnosis. This information would help to strengthen
 the case for our Random Forest based model to have kept a number of
 individuals above the cutoff threshold even though at follow up they
 were diagnosed as no longer having a lesion. Another limitation is that
-we do not know if adding modern tests such as the fecal DNA test
+we do not know if adding modern tests such as the stool DNA test
 {[}20{]} could help improve our overall AUC. Another limitation is that
 this study drew heavily from those with caucasian ancestry. The results
 may not be immediately representative of those with either Asian or
@@ -423,19 +420,19 @@ done our best to safeguard against this by not only running 10-fold
 cross validation but also having over 100 different 80/20 splits to try
 and mimic the type of variation that might be expected to occur.
 
-Another interesting outcome was that Within figure 3 the initial and
-follow up model showed better test AUC results then the training set
-AUC. This may have occured because the training AUC that was determined
-from 20 repeated 10 fold cross validation removed samples at random and
-did not take into account that they were matched samples. Another
-potential reason is that the model itself may be overfit since the total
-number of samples was not that large. However, the lesion model did not
-suffer from these discrepencies and similar conclusions can be drawn
-solely from this model. Regardless, further independent studies will
-need to be carried out to verify our findings since not only are we
-dealing with feces, which could be very different than the communities
-present on the actual tissue, but also are dealing with correlations
-that may not be representative of the true pathogensis of disease.
+Another interesting outcome was that Within figure 3 the before sample
+model showed better test AUC results then the training set AUC. This may
+have occured because the training AUC that was determined from 20
+repeated 10 fold cross validation removed samples at random and did not
+take into account that they were matched samples. Another potential
+reason is that the model itself may be overfit since the total number of
+samples was not that large. However, the lesion model did not suffer
+from these discrepencies and similar conclusions can be drawn solely
+from this model. Regardless, further independent studies will need to be
+carried out to verify our findings since not only are we dealing with
+feces, which could be very different than the communities present on the
+actual tissue, but also are dealing with correlations that may not be
+representative of the true pathogensis of disease.
 
 Despite these limitations we think that these findings significantly add
 to the existing scientific knowledge on CRC and the bacterial
