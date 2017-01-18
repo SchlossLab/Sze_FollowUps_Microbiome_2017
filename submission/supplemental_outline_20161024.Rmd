@@ -5,6 +5,8 @@ csl: microbiome.csl
 output: 
   pdf_document:
     keep_tex: true
+    includes:
+      in_header: header.tex
 fontsize: 12pt
 geometry: margin=1.0in
 ---
