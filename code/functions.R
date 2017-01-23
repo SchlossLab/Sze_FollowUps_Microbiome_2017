@@ -18,7 +18,8 @@ loadLibs <- function(deps){
 # Order of paired samples has to already be set with the exact order matching 
 # e.g. if you have 10 samples that are pairs 1 and 6 have to be the same person
 get_alpha_pvalues <- function(data_table, alpha = TRUE, 
-                              table_names = c("sobs", "shannon", "evenness"), numComp = 3, multi = "BH"){
+                              table_names = c("sobs", "shannon", "evenness"), 
+                              numComp = length(table_names), multi = "BH"){
   
   #Set up output table
   alpha_pvalue_table <- as.data.frame(matrix(ncol = 2, nrow = numComp, dimnames = list(rows = table_names, 
@@ -31,7 +32,7 @@ get_alpha_pvalues <- function(data_table, alpha = TRUE,
                                                         paired = TRUE)$p.value})
   
   # Get BH corrected p-values
-  alpha_pvalue_table$BH_adj_pvalue <- p.adjust(alpha_pvalue_table$pvalue, method = paste(multi))
+  alpha_pvalue_table$BH_adj_pvalue <- p.adjust(alpha_pvalue_table$pvalue, method = multi)
   
   return(alpha_pvalue_table)
 }
