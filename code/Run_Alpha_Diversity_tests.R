@@ -17,19 +17,17 @@ alpha_summary <- read.delim("data/process/final.groups.ave-std.summary", strings
 # Create data set to be tested on
 alpha_data <- alpha_summary[match(c(good_metaf$initial, good_metaf$followUp), alpha_summary$group), ]
 
-# Add custom columns from metaf
-alpha_data$sampleType[alpha_data$group %in% good_metaf$initial] <- "initial"
-alpha_data$sampleType[alpha_data$group %in% good_metaf$followUp] <- "followups"
-
-alpha_data$diagnosis[alpha_data$group %in% filter(good_metaf, Diagnosis != "adenoma")[, "initial"]] <- "adenomocarcinoma"
-alpha_data$diagnosis[alpha_data$group %in% filter(good_metaf, Diagnosis != "adenoma")[, "followUp"]] <- "adenomaocarcinoma"
-alpha_data$diagnosis[alpha_data$group %in% filter(good_metaf, Diagnosis == "adenoma")[, "initial"]] <- "adenoma"
-alpha_data$diagnosis[alpha_data$group %in% filter(good_metaf, Diagnosis == "adenoma")[, "followUp"]] <- "adenoma"
+# Add custom columns from metaf and select only ones to be used for testing
+alpha_data <- mutate(alpha_data, 
+                     sampleType = 
+                       ifelse(alpha_data$group %in% good_metaf$initial, "initial", "followups"), 
+                     diagnosis = 
+                       ifelse(alpha_data$group %in% filter(good_metaf, Diagnosis != "adenoma")[, "initial"] | 
+                         alpha_data$group %in% filter(good_metaf, Diagnosis != "adenoma")[, "followUp"], 
+                         "adenocarcinoma", "adenoma")) %>% 
+              select(group, sobs, shannon, shannoneven, sampleType, diagnosis)
 
 # Select out specific columns for significance testing with a paired wilcoxson test
-alpha_data <- select(alpha_data, group, sobs, shannon, shannoneven, sampleType, diagnosis)
-
-
 All_followups <- get_alpha_pvalues(alpha_data, rows_names = c("all_sobs", "all_shannon", "all_evenness"))
 
 Adn_followups <- get_alpha_pvalues(filter(alpha_data, diagnosis == "adenoma"), rows_names = c("adn_sobs", "adn_shannon", "adn_evenness"))
