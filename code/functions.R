@@ -14,6 +14,30 @@ loadLibs <- function(deps){
 }
 
 
+# Run alpha diversity tests
+# Order of paired samples has to already be set with the exact order matching 
+# e.g. if you have 10 samples that are pairs 1 and 6 have to be the same person
+get_alpha_pvalues <- function(data_table, alpha = TRUE, 
+                              table_names = c("sobs", "shannon", "evenness"), numComp = 3, multi = "BH"){
+  
+  #Set up output table
+  alpha_pvalue_table <- as.data.frame(matrix(ncol = 2, nrow = numComp, dimnames = list(rows = table_names, 
+                                                                                       cols = c("pvalue", "BH_adj_pvalue"))))
+  #Get p-values of paired test
+  alpha_pvalue_table[, "pvalue"] <- apply(data_table[, c("sobs", "shannon", "shannoneven")], 2, 
+                                          function(x){
+                                            wilcox.test(x[data_table$sampleType == "initial"], 
+                                                        x[data_table$sampleType == "followups"], 
+                                                        paired = TRUE)$p.value})
+  
+  # Get BH corrected p-values
+  alpha_pvalue_table$BH_adj_pvalue <- p.adjust(alpha_pvalue_table$pvalue, method = paste(multi))
+  
+  return(alpha_pvalue_table)
+}
+
+
+
 # This function creates a square distance matrix and splits it based 
 # on specified criteria for init and follow. 
 dissplit <- function(file, metafile, init='initial', follow='followUp', split=T, meta = T){
@@ -451,40 +475,6 @@ get_abund_pvalues <- function(initialData, followupData, multi = T, correction =
  return(temptable)
 }
 
-
-# Run alpha diversity tests
-# Order of paired samples has to already be set
-get_alpha_pvalues <- function(data_table, numComp = 3, table_names = c("sobs", "shannon", "evenness"), 
-                              multi = "BH"){
-  
-  alpha_pvalue_table <- as.data.frame(matrix(ncol = 2, nrow = numComp, dimnames = list(rows = rows_names, 
-                                                                                 cols = c("pvalue", "BH_adj_pvalue"))))
-  
-  for(i in 1:length(rownames(alpha_pvalue_table))){
-    # The 1 is to ignore the sample names (group) column
-    alpha_pvalue_table[i, 'pvalue'] <- wilcox.test(x = filter(data_table, sampleType == "initial")[, 1+i], 
-                                                   y = filter(data_table, sampleType == "followups")[, 1+i], 
-                                                   paired = TRUE)$p.value
-  }
-  
-  alpha_pvalue_table$BH_adj_pvalue <- p.adjust(alpha_pvalue_table$pvalue, method = paste(multi))
-  
-  return(alpha_pvalue_table)
-}
-
-
-test <- apply(alpha_data[, c("sobs", "shannon", "shannoneven")], 2, 
-      function(x){
-        wilcox.test(x[alpha_data$sampleType == "initial"], 
-                             x[alpha_data$sampleType == "followups"], 
-                             paired = TRUE)
-      })
-
-
-lapply(unique(alpha_data$diagnosis), function(i){
-  y <- alpha_data[c(alpha_data$group %in% i),]
-  return(pairwise.wilcox.test(y$adn_shannon, y$diagnosis, p.adjust.method = "BH"))
-})
 
 
 
