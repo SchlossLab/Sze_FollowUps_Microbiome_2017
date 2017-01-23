@@ -28,11 +28,11 @@ alpha_data <- mutate(alpha_data,
               select(group, sobs, shannon, shannoneven, sampleType, diagnosis)
 
 # Select out specific columns for significance testing with a paired wilcoxson test
-All_followups <- get_alpha_pvalues(alpha_data, rows_names = c("all_sobs", "all_shannon", "all_evenness"))
+All_followups <- get_alpha_pvalues(alpha_data, table_names = c("all_sobs", "all_shannon", "all_evenness"))
 
-Adn_followups <- get_alpha_pvalues(filter(alpha_data, diagnosis == "adenoma"), rows_names = c("adn_sobs", "adn_shannon", "adn_evenness"))
+Adn_followups <- get_alpha_pvalues(filter(alpha_data, diagnosis == "adenoma"), table_names = c("adn_sobs", "adn_shannon", "adn_evenness"))
 
-CRC_followups <- get_alpha_pvalues(filter(alpha_data, diagnosis != "adenoma"), rows_names = c("crc_sobs", "crc_shannon", "crc_evenness"))
+CRC_followups <- get_alpha_pvalues(filter(alpha_data, diagnosis != "adenoma"), table_names = c("crc_sobs", "crc_shannon", "crc_evenness"))
 
 
 alpha_table_summary <- rbind(All_followups, Adn_followups, CRC_followups)

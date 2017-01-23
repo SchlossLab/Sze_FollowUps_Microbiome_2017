@@ -454,7 +454,7 @@ get_abund_pvalues <- function(initialData, followupData, multi = T, correction =
 
 # Run alpha diversity tests
 # Order of paired samples has to already be set
-get_alpha_pvalues <- function(data_table, numComp = 3, rows_names = c("sobs", "shannon", "evenness"), 
+get_alpha_pvalues <- function(data_table, numComp = 3, table_names = c("sobs", "shannon", "evenness"), 
                               multi = "BH"){
   
   alpha_pvalue_table <- as.data.frame(matrix(ncol = 2, nrow = numComp, dimnames = list(rows = rows_names, 
@@ -471,6 +471,22 @@ get_alpha_pvalues <- function(data_table, numComp = 3, rows_names = c("sobs", "s
   
   return(alpha_pvalue_table)
 }
+
+
+test <- apply(alpha_data[, c("sobs", "shannon", "shannoneven")], 2, 
+      function(x){
+        wilcox.test(x[alpha_data$sampleType == "initial"], 
+                             x[alpha_data$sampleType == "followups"], 
+                             paired = TRUE)
+      })
+
+
+lapply(unique(alpha_data$diagnosis), function(i){
+  y <- alpha_data[c(alpha_data$group %in% i),]
+  return(pairwise.wilcox.test(y$adn_shannon, y$diagnosis, p.adjust.method = "BH"))
+})
+
+
 
 
 # Function to obtain paired wilcoxson tests on probabilities at initial and follow up
