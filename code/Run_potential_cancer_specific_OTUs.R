@@ -77,7 +77,7 @@ write.csv(crc_select_data, "results/tables/adn_crc_maybe_diff.csv", row.names = 
 
 # Run statistics testing
 pvalue_summary <- matrix(nrow = 4, ncol = 4, dimnames = list(
-  nrow = c("fn", "parv", "pept", "porp"), ncol = c("crc_pvalue", "crc_BH", "adn_pvalue", "adn_BH")))
+  nrow = c("porp", "fn", "parv", "pept"), ncol = c("crc_pvalue", "crc_BH", "adn_pvalue", "adn_BH")))
 
 for(i in 1:length(good_counts_init)){
   
