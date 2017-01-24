@@ -5,10 +5,8 @@
 # Load in needed functions and libraries
 
 source('code/functions.R')
-source('code/graphFunctions.R')
 
-loadLibs(c("dplyr", "tidyr"))
-
+loadLibs("dplyr")
 
 # Load in needed data
 good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)

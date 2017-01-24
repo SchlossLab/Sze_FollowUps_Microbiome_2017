@@ -4,11 +4,9 @@
 
 # Load needed functions and libraries
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("dplyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson", "knitr"))
-
+           "gridExtra", "scales", "wesanderson"))
 
 # Load needed data
 difference_table_treatment <- read.csv("results/tables/difference_table.csv", header = T)

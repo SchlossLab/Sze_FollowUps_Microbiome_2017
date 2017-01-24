@@ -6,11 +6,9 @@
 
 # Load needed functions
 source('code/functions.R')
-source('code/graphFunctions.R')
-
 
 # Load needed libraries
-loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
+loadLibs(c("dplyr", "reshape2"))
 
 # Load needed data tables
 tax <- read.delim('data/process/final.taxonomy', sep='\t', 
@@ -25,7 +23,6 @@ tax_df <- as.data.frame(apply(tax_df, 2,
                               function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
 rm(tax)
 
-
 good_metaf <- read.csv(
   "results/tables/mod_metadata/good_metaf_final.csv", 
   stringsAsFactors = F, header = T) %>% 
@@ -34,27 +31,29 @@ good_metaf <- read.csv(
 
 shared <- read.delim('data/process/final.0.03.subsample.shared', 
                      header=T, sep='\t') %>% select(-label, -numOtus)
-rownames(shared) <- shared$Group
 
-shared <- shared[as.character(c(good_metaf$initial, good_metaf$followUp)), ]
+shared <- filter(shared, Group %in% as.character(c(good_metaf$initial, good_metaf$followUp))) %>% 
+  slice(match(as.character(c(good_metaf$initial, good_metaf$followUp)), Group)) %>% 
+  mutate(sampleType = c(rep("initial", length(good_metaf$initial)), 
+                        rep("followup", length(good_metaf$followUp))))
 
-# Generate row sums
-total_seqs <- rowSums(select(shared, -Group))[1]
+# Generate relative abundance
+total_seqs <- rowSums(select(shared, -Group, -sampleType))[1]
 
-shared <- apply(select(shared, -Group), 2, function(x) x/total_seqs)
-shared <- as.data.frame(shared)
+shared <- cbind(Group = shared$Group, 
+                sampleType = shared$sampleType, 
+                as.data.frame(apply(select(shared, -Group, -sampleType), 2, 
+                                    function(x) x/total_seqs)))
+
 
 # Identify which OTUs are part of the genera of intrest
-
-fusobacterium_IDs <- mutate(tax_df, otu = rownames(tax_df)) %>% filter(Genus == "Fusobacterium" )
-parvimonas_IDs <- mutate(tax_df, otu = rownames(tax_df)) %>% filter(Genus == "Parvimonas" )
-peptostrep_IDs <- mutate(tax_df, otu = rownames(tax_df)) %>% filter(Genus == "Peptostreptococcus" )
-porpho_IDs <- mutate(tax_df, otu = rownames(tax_df)) %>% filter(Genus == "Porphyromonas" )
+IDs <- mutate(tax_df, otu = rownames(tax_df)) %>% 
+  filter(Genus == "Fusobacterium" | Genus == "Parvimonas" | 
+           Genus == "Peptostreptococcus" | Genus == "Porphyromonas")
 
 # Isolate the specific OTUs of interest  
-
-shared_imp_init <- select(shared, one_of(c(fusobacterium_IDs[, "otu"], parvimonas_IDs[, "otu"], 
-                                   peptostrep_IDs[, "otu"], porpho_IDs[, "otu"]))) %>% slice(1:66)
+shared_imp_init <- select(shared, Group, sampleType, one_of(IDs[, "otu"])) %>% 
+  filter(sampleType == "initial") %>% select(-Group, -sampleType)
 
 # Get number of positive counts by column
 total_counts_init <- colSums(shared_imp_init != 0)
@@ -62,32 +61,23 @@ good_counts_init <- names(total_counts_init[total_counts_init > 10])
 
 # Create data table for graphing
 
-crc_select_data <- as.data.frame(cbind(value = c(shared[, good_counts_init[1]], 
-                                                 shared[, good_counts_init[2]], 
-                                                 shared[, good_counts_init[3]], 
-                                                 shared[, good_counts_init[4]]))) %>% 
-  mutate(otu = c(rep(good_counts_init[1], length(rownames(shared))), 
-                 rep(good_counts_init[2], length(rownames(shared))), 
-                 rep(good_counts_init[3], length(rownames(shared))), 
-                 rep(good_counts_init[4], length(rownames(shared))))) %>% 
+crc_select_data <- select(shared, Group, sampleType, one_of(good_counts_init)) %>% 
+  mutate(EDRN = rep(good_metaf$EDRN, length(unique(shared$sampleType))), 
+         Disease_Free = rep(good_metaf$Disease_Free, length(unique(shared$sampleType))), 
+         Dx_Bin = rep(good_metaf$Dx_Bin, length(unique(shared$sampleType)))) %>% 
+  melt(id.vars = c("Group", "sampleType", "EDRN", "Disease_Free", "Dx_Bin"), variable.name = "otu") %>% 
   mutate(tax_id = c(rep(as.character(tax_df[good_counts_init[1], "Genus"]), length(good_metaf$EDRN)*2), 
                     rep(as.character(tax_df[good_counts_init[2], "Genus"]), length(good_metaf$EDRN)*2), 
                     rep(as.character(tax_df[good_counts_init[3], "Genus"]), length(good_metaf$EDRN)*2), 
-                    rep(as.character(tax_df[good_counts_init[4], "Genus"]), length(good_metaf$EDRN)*2))) %>% 
-  mutate(EDRN = rep(good_metaf$EDRN, length(good_counts_init)*2)) %>% 
-  mutate(Disease_Free = rep(good_metaf$Disease_Free, length(good_counts_init)*2)) %>% 
-  mutate(Dx_Bin = rep(good_metaf$Dx_Bin, length(good_counts_init)*2)) %>% 
-  mutate(sampleType = rep(c(rep("initial", length(good_metaf$EDRN)), 
-                            rep("followup", length(good_metaf$EDRN))), length(good_counts_init)))
-
+                    rep(as.character(tax_df[good_counts_init[4], "Genus"]), length(good_metaf$EDRN)*2)))
+  
 # Write out table for future use
 
 write.csv(crc_select_data, "results/tables/adn_crc_maybe_diff.csv", row.names = F)
 
 # Run statistics testing
-
 pvalue_summary <- matrix(nrow = 4, ncol = 4, dimnames = list(
-  nrow = c("fn", "parv", "pept", "porp"), ncol = c("crc_pvalue", "crc_BH", "adn_pvalue", "adn_BH")))
+  nrow = c("porp", "fn", "parv", "pept"), ncol = c("crc_pvalue", "crc_BH", "adn_pvalue", "adn_BH")))
 
 for(i in 1:length(good_counts_init)){
   

@@ -81,6 +81,38 @@ dissplit <- function(file, metafile, init='initial', follow='followUp', split=T,
 }
 
 
+# Create a function that will pick distance values between samples based on user defined
+# two vectors and outputs a data frame.
+pickDistanceValues <- function(vec1, vec2, distanceTable, metadata, group, withMeta = TRUE){
+  
+  tempDistance <- c()
+  
+  if (withMeta == TRUE){
+    
+    for (i in 1:length(vec1)){
+      
+      tempDistance <- c(tempDistance, distanceTable[vec1[i], vec2[i]])
+      
+    }
+    
+    tempTable <- cbind(as.data.frame(as.numeric(tempDistance)), metadata[, group])
+    colnames(tempTable) <- c("distance", group)
+    
+  } else{
+    
+    tempTable <- distanceTable[vec1, vec2]
+    
+  }
+  
+  
+  
+  return(tempTable) 
+}
+
+
+
+
+
 # This function obtains the Wilcoxson Rank Sum and generates the bonferroni corrected P-values based on supplied groups
 getCorrectedPvalue <- function(testTable, variableList, group, wilcox = T, kruskal = F){
   # Load needed library and initialize table
@@ -243,37 +275,6 @@ compare4ModelVariables <- function(variableList){
   
   return(tempList)
 }
-
-
-
-# Create a function that will pick distance values between samples based on user defined
-# two vectors and outputs a data frame.
-pickDistanceValues <- function(vec1, vec2, distanceTable, metadata, group, withMeta = TRUE){
-
-    tempDistance <- c()
-  
-  if (withMeta == TRUE){
-    
-    for (i in 1:length(vec1)){
-      
-      tempDistance <- c(tempDistance, distanceTable[vec1[i], vec2[i]])
-      
-    }
-    
-    tempTable <- cbind(as.data.frame(as.numeric(tempDistance)), metadata[, group])
-    colnames(tempTable) <- c("distance", group)
-    
-  } else{
-    
-    tempTable <- distanceTable[vec1, vec2]
-    
-  }
-      
-
-    
-  return(tempTable) 
-}
-
 
 
 
