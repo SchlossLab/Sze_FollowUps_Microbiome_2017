@@ -1,5 +1,6 @@
-### Create Figure 1
 ### Investigate differences between initial and follow up for thetayc and Fit
+### Compare whether changes are different between the two groups
+## Marc Sze
 
 # Load needed functions and libraries
 source('code/functions.R')
