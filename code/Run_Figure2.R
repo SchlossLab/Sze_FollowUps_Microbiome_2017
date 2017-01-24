@@ -4,10 +4,9 @@
 
 # Load needed functions
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 # Load needed packages
-loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
+loadLibs(c("dplyr", "ggplot2", "gridExtra", "scales", "wesanderson"))
 
 # Load needed data
 graph_data <- read.csv("results/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
@@ -15,10 +14,10 @@ graph_data <- read.csv("results/tables/adn_crc_maybe_diff.csv", header = T, stri
 graph_data <- mutate(graph_data, j_values = jitter(value, 3))
 
 labs <- c(
-  paste("Fusobacterium nucleatum ", "(", unique(graph_data$otu)[1], ")", sep = ""), 
-  paste("Parvimonas micra ", "(", unique(graph_data$otu)[2], ")", sep = ""), 
-  paste("Peptostreptococcus stomatis ", "(", unique(graph_data$otu)[3], ")", sep = ""), 
-  paste("Porphyromonas asaccharolytica ", "(", unique(graph_data$otu)[4], ")", sep = ""))
+  paste("Porphyromonas asaccharolytica ", "(", unique(graph_data$otu)[1], ")", sep = ""), 
+  paste("Fusobacterium nucleatum ", "(", unique(graph_data$otu)[2], ")", sep = ""), 
+  paste("Parvimonas micra ", "(", unique(graph_data$otu)[3], ")", sep = ""), 
+  paste("Peptostreptococcus stomatis ", "(", unique(graph_data$otu)[4], ")", sep = ""))
 
 names(labs) <- unique(graph_data$otu)
 
