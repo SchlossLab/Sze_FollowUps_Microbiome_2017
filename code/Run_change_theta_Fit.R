@@ -5,8 +5,7 @@
 # Load needed functions and libraries
 source('code/functions.R')
 
-loadLibs(c("dplyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson", "vegan", "knitr"))
+loadLibs("dplyr")
 
 # Load needed data
 thetaCompTotal <- dissplit('data/process/final.thetayc.0.03.lt.ave.dist',
