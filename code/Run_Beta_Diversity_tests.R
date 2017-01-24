@@ -18,6 +18,7 @@ metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv",
 
 # Load in needed data from distance matrix in a specific order for both Adenoma and Carcinoma  
 dataList <- list(
+  #choose all follow up distances
   all_followUp_dist = pickDistanceValues(
     as.character(c(metaF$initial[metaF$dx == "adenoma"], 
                    metaF$initial[metaF$dx == "cancer"], 
@@ -28,12 +29,14 @@ dataList <- list(
                    metaF$followUp[metaF$dx == "adenoma"], 
                    metaF$followUp[metaF$dx == "cancer"])), 
     thetaCompTotal, withMeta = FALSE), 
+  #choose only adenoma distances
   polyp_dist = pickDistanceValues(
     as.character(c(metaF$initial[metaF$dx == "adenoma"], 
                    metaF$followUp[metaF$dx == "adenoma"])), 
     as.character(c(metaF$initial[metaF$dx == "adenoma"], 
                    metaF$followUp[metaF$dx == "adenoma"])), 
     thetaCompTotal, withMeta = FALSE), 
+  #choose only crc distances
   crc_dist = pickDistanceValues(
     as.character(c(metaF$initial[metaF$dx != "adenoma"], 
                    metaF$followUp[metaF$dx != "adenoma"])), 
@@ -43,12 +46,15 @@ dataList <- list(
   
 # Create vector with group labels that match custom order of created distance matrix
 breakDown_samples <- list(
+  #call vector for all follow up samples
   all = c(rep("initialA", length(metaF$dx[metaF$dx == "adenoma"])), 
           rep("initialC", length(metaF$dx[metaF$dx == "cancer"])), 
           rep("follow_upA", length(metaF$dx[metaF$dx == "adenoma"])), 
           rep("follow_upC", length(metaF$dx[metaF$dx == "cancer"]))), 
+  #call vector for adenoma follow up samples
   adn = c(rep("initial", length(metaF$dx[metaF$dx == "adenoma"])), 
           rep("follow_up", length(metaF$dx[metaF$dx == "adenoma"]))), 
+  #call vector for crc follow up samples
   crc = c(rep("initial", length(metaF$dx[metaF$dx != "adenoma"])), 
           rep("follow_up", length(metaF$dx[metaF$dx != "adenoma"]))))
 
