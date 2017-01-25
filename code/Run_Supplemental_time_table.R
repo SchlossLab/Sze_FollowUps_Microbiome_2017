@@ -25,14 +25,15 @@ difference_table_treatment <- pickDistanceValues(
   c("fit_result", "fit_followUp", "Dx_Bin", "dx", "time", "EDRN"))
 
 # Create a summary table 
-summary_statistics <- as.data.frame(rbind(
-  c("Adenoma", filter(difference_table_treatment, dx == "adenoma") %>% 
+summary_statistics <- bind_rows(
+  c(filter(difference_table_treatment, dx == "adenoma") %>% 
       select(distance, time) %>% summarise_each(funs(mean, sd))), 
-  c("Cancer", filter(difference_table_treatment, dx == "cancer") %>% 
-      select(distance, time) %>% summarize_each(funs(mean, sd)))))
+  c(filter(difference_table_treatment, dx == "cancer") %>% 
+      select(distance, time) %>% summarize_each(funs(mean, sd)))) %>% 
+  mutate(dx = c("adenoma", "cancer"))
 
 colnames(summary_statistics) <- c(
-  "dx", "mean_thetayc_change", "mean_days", "sd_thetayc_change", "sd_days")
+  "mean_thetayc_change", "mean_days", "sd_thetayc_change", "sd_days", "dx")
 
 pvalues_summary <- rbind(
   c("thetayc_change", wilcox.test(distance ~ dx, 
@@ -43,6 +44,7 @@ pvalues_summary <- rbind(
 colnames(pvalues_summary) <- c("test_values", "uncorrected_p_value")
 
 write.csv(pvalues_summary, "results/tables/time_pvalues.csv", row.names = F)
+write.csv(summary_statistics, "results/tables/time_summary_data.csv", row.names = F)
 write.csv(difference_table_treatment, "results/tables/time_datatable.csv", 
   row.names = F)
 
