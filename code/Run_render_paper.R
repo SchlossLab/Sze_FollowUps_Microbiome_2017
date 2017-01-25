@@ -3,7 +3,6 @@
 
 # Load needed functions
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 # Load needed library
 loadLibs(c("knitr", "rmarkdown"))

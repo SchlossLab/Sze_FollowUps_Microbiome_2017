@@ -245,13 +245,14 @@ associated OTUs. These included the OTUs that aligned with
 nucleatum} (Otu000226), \emph{Parvimonas micra} (Otu000460), and
 \emph{Peptostreptococcus stomatis} (Otu000653). First, the carcinoma
 samples showed a significant difference between initial and follow up
-samples for \emph{Peptostreptococcus stomatis} (P-value = 0.0183) and
-\emph{Porphyromonas asaccharolytica} (P-value = 0.0154) whereas there
-were no signficant differences in any of these OTUs in the adenoma
-samples {[}Table S4{]}. Second, when these OTUs were present, there was
-a clear magnitude difference based on whether they were from adenoma or
-carcinoma {[}Figure 2{]}. However, only a small percentage of those with
-adenoma or carcinoma were positive for any of these OTUs.
+samples for \emph{Peptostreptococcus stomatis} (P-value = 0.00913),
+\emph{Parvimonas micra} (P-value = 0.0185), and \emph{Porphyromonas
+asaccharolytica} (P-value = 0.00913) whereas there were no signficant
+differences in any of these OTUs in the adenoma samples. Second, when
+these OTUs were present, there was a clear magnitude difference based on
+whether they were from adenoma or carcinoma {[}Figure 2{]}. However,
+only a small percentage of those with adenoma or carcinoma were positive
+for any of these OTUs.
 
 \textbf{\emph{Full and Reduced Model}} Since differences were observed
 between initial and follow up samples and only a small number of
@@ -310,9 +311,10 @@ reduced lesion model for either chemotherapy (P-value = 0.821 and 0.821)
 or radiation therapy (P-value = 0.69 and 0.981). Although the before
 sample model was similar there was a significant decrease in positive
 probability for those treated with chemotherapy (P-value = 7.04e-04 and
-5.07e-03). Time elapsed between the collection of the follow up sample
-from the initial sample, did not have a significant difference between
-adenoma and carcinoma (uncorrected P-value = 0.784).
+5.07e-03). There was a significant difference in time elapsed in the
+collection of the follow up sample between adenoma and carcinoma samples
+(uncorrected P-value = 7.59e-05) with time passed being lower for
+adenoma (253 +/- 41.3 days) then carcinoma (351 +/- 102 days).
 
 \newpage
 
@@ -332,7 +334,7 @@ surgery found no single OTU to be significantly different {[}Figure
 S1{]}.
 
 Interestingly, when only previously associated cancer bacteria were
-investigated only 2 out of the 4 had a significant decrease in relative
+investigated only 3 out of the 4 had a significant decrease in relative
 abundance between initial and follow up for the carcinoma group and 0
 out of the 4 were significant for the adenoma group. This data suggests
 that the changes that may be important in the bacterial microbiome after
@@ -419,7 +421,12 @@ relatively large we still run the risk of overfitting or having a model
 that may not be immediately extrapolateable to other populations. We've
 done our best to safeguard against this by not only running 10-fold
 cross validation but also having over 100 different 80/20 splits to try
-and mimic the type of variation that might be expected to occur.
+and mimic the type of variation that might be expected to occur. The
+time difference in collection of sample between adenoma and carcinoma
+that was observed could have affected our observed results. However, our
+random forest based model, specifically the lesion trained model, were
+still able to adjust positive probabilities for both adenoma and
+carcinoma to similar amounts despite this.
 
 Another interesting outcome was that within figure 3 the before sample
 model showed better test AUC results then the training set AUC. This may
@@ -585,8 +592,8 @@ and the pink represents follow up samples.
 \textbf{Figure 2: Previously Associated CRC Bacteria in Initial and
 Follow up Samples.} A) Carcinoma initial and follow up samples. There
 was a significant difference in initial and follow up sample for the
-OTUs classfied as \emph{Peptostreptococcus stomatis} (P-value = 0.0183)
-and \emph{Porphyromonas asaccharolytica} (P-value = 0.0154). B) Adenoma
+OTUs classfied as \emph{Peptostreptococcus stomatis} (P-value = 0.00913)
+and \emph{Porphyromonas asaccharolytica} (P-value = 0.00913). B) Adenoma
 initial and follow up samples. There were no significant differences
 between initial and follow up.
 

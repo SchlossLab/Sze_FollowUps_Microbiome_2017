@@ -5,9 +5,8 @@
 
 #Load needed libraries
 source('code/functions.R')
-source('code/graphFunctions.R')
 
-loadLibs(c("dplyr", "scales", "wesanderson", "ggplot2", "caret"))
+loadLibs(c("dplyr", "scales", "caret"))
 
 #Load needed data
 test_data <- read.csv("results/tables/full_test_data.csv", header = TRUE, row.names = 1)
@@ -43,21 +42,5 @@ fitControl <- trainControl(## 10-fold CV
 
 
 save.image("exploratory/RF_reduced_features_model_setup.RData")
-
-
-# Create Random Forest model
-#set.seed(3457)
-#full_model <- randomForest(lesion ~ ., data = test_data_imps, mtry = maximized_mtry, ntree = 2000)
-#full_model_probs_predictions <- full_model$votes
-#full_model_roc <- roc(test_data$lesion ~ full_model_probs_predictions[, "Yes"])
-
-
-
-
-
-
-
-
-
 
 

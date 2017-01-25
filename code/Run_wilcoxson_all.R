@@ -6,7 +6,6 @@
 
 #Load needed libraries
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("dplyr", "scales", "wesanderson", "ggplot2"))
 

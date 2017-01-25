@@ -4,7 +4,6 @@
 
 #Load needed code and packages
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 

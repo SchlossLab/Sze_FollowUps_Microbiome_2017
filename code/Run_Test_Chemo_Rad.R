@@ -5,7 +5,6 @@
 
 ###Load needed Libraries and functions
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("dplyr", "tidyr"))
 

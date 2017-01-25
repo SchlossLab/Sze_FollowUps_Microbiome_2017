@@ -29,7 +29,6 @@ Supplemental
 ```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 
 source('../code/functions.R')
-source('../code/graphFunctions.R')
 
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 

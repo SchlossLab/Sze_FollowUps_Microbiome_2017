@@ -14,14 +14,10 @@
 
 ## Cutoff of 0.5 (default was used for this) for RF model
 
-
 ###Load needed Libraries and functions
 source('code/functions.R')
-source('code/graphFunctions.R')
 
-loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", 
-           "wesanderson", "caret", "pROC"))
-
+loadLibs(c("dplyr", "reshape2", "scales", "caret", "pROC"))
 
 # Set up relevent environment variables
 imp_vars_list <- list()
