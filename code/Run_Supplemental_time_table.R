@@ -29,11 +29,12 @@ summary_statistics <- bind_rows(
   c(filter(difference_table_treatment, dx == "adenoma") %>% 
       select(distance, time) %>% summarise_each(funs(mean, sd))), 
   c(filter(difference_table_treatment, dx == "cancer") %>% 
-      select(distance, time) %>% summarize_each(funs(mean, sd)))) %>% 
-  mutate(dx = c("adenoma", "cancer"))
+      select(distance, time) %>% summarize_each(funs(mean, sd)))) 
 
 colnames(summary_statistics) <- c(
-  "mean_thetayc_change", "mean_days", "sd_thetayc_change", "sd_days", "dx")
+  "mean_thetayc_change", "mean_days", "sd_thetayc_change", "sd_days")
+
+rownames(summary_statistics) <- c("adenoma", "carcinoma")
 
 pvalues_summary <- rbind(
   c("thetayc_change", wilcox.test(distance ~ dx, 
@@ -44,7 +45,7 @@ pvalues_summary <- rbind(
 colnames(pvalues_summary) <- c("test_values", "uncorrected_p_value")
 
 write.csv(pvalues_summary, "results/tables/time_pvalues.csv", row.names = F)
-write.csv(summary_statistics, "results/tables/time_summary_data.csv", row.names = F)
+write.csv(summary_statistics, "results/tables/time_summary_data.csv")
 write.csv(difference_table_treatment, "results/tables/time_datatable.csv", 
   row.names = F)
 
