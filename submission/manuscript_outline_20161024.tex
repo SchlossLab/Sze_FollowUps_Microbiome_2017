@@ -421,7 +421,12 @@ relatively large we still run the risk of overfitting or having a model
 that may not be immediately extrapolateable to other populations. We've
 done our best to safeguard against this by not only running 10-fold
 cross validation but also having over 100 different 80/20 splits to try
-and mimic the type of variation that might be expected to occur.
+and mimic the type of variation that might be expected to occur. The
+time difference in collection of sample between adenoma and carcinoma
+that was observed could have affected our observed results. However, our
+random forest based model, specifically the lesion trained model, were
+still able to adjust positive probabilities for both adenoma and
+carcinoma to similar amounts despite this.
 
 Another interesting outcome was that within figure 3 the before sample
 model showed better test AUC results then the training set AUC. This may
