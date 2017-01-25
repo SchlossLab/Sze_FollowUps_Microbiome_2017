@@ -75,7 +75,7 @@ crc_select_data <- select(shared, Group, sampleType, one_of(good_counts_init)) %
 # Write out table for future use
 write.csv(crc_select_data, "results/tables/adn_crc_maybe_diff.csv", row.names = F)
 
-# Run statistics testing
+# Run statistics testing and BH correction
 test_data <- select(shared, Group, sampleType, Dx_Bin, one_of(good_counts_init))
 
 pvalue_summary <- cbind(
