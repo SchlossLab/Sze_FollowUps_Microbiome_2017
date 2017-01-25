@@ -5,7 +5,6 @@
 
 #Load needed libraries
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("randomForest", "dplyr", "ggplot2", "reshape2", 
            "gridExtra", "scales", "wesanderson", "caret", "doMC"))

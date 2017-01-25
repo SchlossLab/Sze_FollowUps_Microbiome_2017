@@ -5,9 +5,8 @@
 
 #Load needed libraries
 source('code/functions.R')
-source('code/graphFunctions.R')
 
-loadLibs(c("dplyr", "caret","scales", "wesanderson", "doMC"))
+loadLibs(c("dplyr", "caret","scales", "doMC"))
 
 load("exploratory/RF_model_setup.RData")
 
@@ -21,10 +20,6 @@ i = 1
 #               Model Training and Parameter Tuning                             #
 #                                                                               #
 #################################################################################
-
-# Create the tune grid to be used
-#tunegrid <- expand.grid(
- # .mtry=c(1:441), .ntree=c(250, 500, 1000, 1500, 2000))
 
 # Call number of processors to use
 registerDoMC(cores = 4)

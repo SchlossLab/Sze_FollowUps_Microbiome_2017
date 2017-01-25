@@ -4,7 +4,6 @@
 
 #Load needed libraries
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("dplyr", "caret","scales", "wesanderson", "randomForest", "pROC"))
 

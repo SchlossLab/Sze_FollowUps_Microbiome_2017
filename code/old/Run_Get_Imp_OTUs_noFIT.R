@@ -6,6 +6,7 @@
 
 ###Load needed Libraries and functions
 source('code/functions.R')
+source('code/graphFunctions.R')
 
 loadLibs(c("randomForest", "dplyr", "ggplot2", "reshape2", 
   "gridExtra", "scales", "wesanderson", "caret", "doMC"))
@@ -31,7 +32,12 @@ shared <- read.delim('data/process/final.0.03.subsample.shared',
 good_metaf_select <- data_frame(
   sample = c(good_metaf$initial, good_metaf$followUp)) %>% 
   mutate(lesion = c(good_metaf$lesion, good_metaf$lesion_follow), 
-         fit_result = c(good_metaf$fit_result, good_metaf$fit_followUp))
+         Hx_Prev = rep(good_metaf$Hx_Prev, 2), 
+         Hx_Fam_CRC = rep(good_metaf$Hx_Fam_CRC, 2), 
+         White = rep(good_metaf$White, 2), 
+         BMI = rep(good_metaf$BMI, 2), 
+         Age = rep(good_metaf$Age, 2), 
+         Gender = rep(good_metaf$Gender, 2))
 
 test_data <- inner_join(good_metaf_select, shared, 
   by = c("sample" = "Group"))
@@ -41,23 +47,27 @@ rm(shared)
 # Filter and use only specific data
 
 test_data <- test_data %>% 
-  select(sample, lesion, fit_result, contains("Otu0")) %>% 
-  mutate(lesion = c(rep(1, 67), rep(0, 67)))
+  select(sample, lesion, Hx_Prev, Hx_Fam_CRC, White, 
+    BMI, Age, Gender, contains("Otu0")) %>% 
+  mutate(lesion = factor(lesion), Gender = factor(Gender)) %>% 
+  mutate(Hx_Prev = factor(Hx_Prev), Hx_Fam_CRC = factor(Hx_Fam_CRC), 
+    White = factor(White))
 
 #Filter out rows that are not all complete
 
 test_data <- test_data[complete.cases(test_data), ]
 
 # Need to create dummy variables for those that are factor classes
-#temp_dummy <- dummyVars(~lesion,  data = test_data)
-#useable_dummy_vars <- as.data.frame(predict(temp_dummy, 
-#  newdata = test_data))
+temp_dummy <- dummyVars(~lesion + Gender + Hx_Prev + Hx_Fam_CRC + White, 
+  data = test_data)
+useable_dummy_vars <- as.data.frame(predict(temp_dummy, 
+  newdata = test_data))
 
 # Combine data frame back together and covert samples to rownames
-#test_data <- useable_dummy_vars %>% 
-#mutate(sample = (test_data$sample)) %>% 
-#  inner_join(test_data, by = "sample") %>% 
-#  select(-lesion)
+test_data <- useable_dummy_vars %>% 
+mutate(sample = (test_data$sample)) %>% 
+  inner_join(test_data, by = "sample") %>% 
+  select(-Gender, -Hx_Prev, -Hx_Fam_CRC, -White, -lesion)
 
 rownames(test_data) <- test_data$sample
 test_data <- select(test_data, -sample)
@@ -80,46 +90,48 @@ test_data <- test_data[, -nzv]
 # Have some perfectly negatively correlated so will have to remove those
 # similar to nzv provides vector of columns that need to be removed
 
-#test_matrix <- cor(test_data, method = "spearman")
+test_matrix <- cor(test_data, method = "spearman")
 
-#summary(test_matrix[upper.tri(test_matrix)])
+summary(test_matrix[upper.tri(test_matrix)])
 
-#highly_correlated <- findCorrelation(test_matrix, cutoff = 0.75)
+highly_correlated <- findCorrelation(test_matrix, cutoff = 0.75)
 
-#test_data <- test_data[, -highly_correlated]
+test_data <- test_data[, -highly_correlated]
 
-#rm(test_matrix, temp_dummy, nzv, highly_correlated)
+rm(test_matrix, temp_dummy, nzv, highly_correlated)
 
 # Look for linear dependencies
 # Looks for sets of linear combinations and removes columns
 # based on whether or not the linear combination still exits 
 # with or without the variable present
 
-#test_for_combos <- findLinearCombos(test_data) # Found some 
+test_for_combos <- findLinearCombos(test_data) # Found some 
 # This is different from the initial samples so could be due to the limited samples
 # Do not remove and keep in this instance
 
 
 # Creates factor variables
-#test_data <- test_data %>% 
-#  mutate(Gender.m = factor(Gender.m, 
-#    levels = c(0, 1), 
-#    labels = c("No", "Yes")), 
-#  Hx_Prev.1 = factor(Hx_Prev.1, 
-#    levels = c(0, 1), 
-#    labels = c("No", "Yes")), 
-#  Hx_Fam_CRC.1 = factor(Hx_Fam_CRC.1, 
-#    levels = c(0, 1), 
-#    labels = c("No", "Yes")), 
-#  White.1 = factor(White.1, 
-#    levels = c(0, 1), 
-#    labels = c("No", "Yes"))) 
+test_data <- test_data %>% 
+  mutate(Gender.m = factor(Gender.m, 
+    levels = c(0, 1), 
+    labels = c("No", "Yes")), 
+  Hx_Prev.1 = factor(Hx_Prev.1, 
+    levels = c(0, 1), 
+    labels = c("No", "Yes")), 
+  Hx_Fam_CRC.1 = factor(Hx_Fam_CRC.1, 
+    levels = c(0, 1), 
+    labels = c("No", "Yes")), 
+  White.1 = factor(White.1, 
+    levels = c(0, 1), 
+    labels = c("No", "Yes"))) 
 
 # Add the lesion variable to the test_data
 test_data <- test_data[-67, ]
 
-test_data$lesion <- factor(test_data$lesion, 
+test_data$lesion.1 <- factor(test_data$lesion.1, 
   levels = c(0, 1), labels = c("No", "Yes"))
+
+test_data <- rename(test_data, lesion = lesion.1)
 
 #write out table for future use
 
@@ -139,8 +151,9 @@ eighty_twenty_splits <- as.data.frame(matrix(nrow=104, ncol = 100))
 # Make sure that the same individual is only in the train or test respectively
 for(i in 1:length(colnames(eighty_twenty_splits))){
   
-  test <- sample(1:66, size = 52)
-  eighty_twenty_splits[i] <- c(test, test+66)
+  test <- sample_n(test_data[1:66, ], size = 52)
+  eighty_twenty_splits[i] <- c(as.numeric(rownames(test)), 
+    as.numeric(rownames(test))+67)
   colnames(eighty_twenty_splits)[i] <- paste("split_", i, sep="")
 }
 
@@ -231,7 +244,7 @@ for(i in 1:length(colnames(eighty_twenty_splits))){
 
 
 # Save image with data and relevant parameters
-save.image("exploratory/RF_model_Imp_OTU.RData")
+save.image("exploratory/RF_model_noFIT_Imp_OTU.RData")
 
 
 
