@@ -15,7 +15,6 @@ geometry: margin=1.0in
 ```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 
 source('../code/functions.R')
-source('../code/graphFunctions.R')
 
 loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 
@@ -136,7 +135,7 @@ Based on the thetayc distance metric, comparing the initial to the follow up sam
 
 
 ***Previously Associated Cancer Bacteria***
-We next examined whether there were differences in previously well described carcinoma associated OTUs.  These included the OTUs that aligned with *Porphyromonas asaccharolytica* (`r unique(filter(crc_bug_info, tax_id == "Porphyromonas")[, "otu"])`), *Fusobacterium nucleatum* (`r unique(filter(crc_bug_info, tax_id == "Fusobacterium")[, "otu"])`), *Parvimonas micra* (`r unique(filter(crc_bug_info, tax_id == "Parvimonas")[, "otu"])`), and *Peptostreptococcus stomatis* (`r unique(filter(crc_bug_info, tax_id == "Peptostreptococcus")[, "otu"])`).  First, the carcinoma samples showed a significant difference between initial and follow up samples for *Peptostreptococcus stomatis* (P-value = `r format(main_crc_bugs_summary["pept", "crc_BH"], digits = 3)`) and *Porphyromonas asaccharolytica* (P-value = `r format(main_crc_bugs_summary["porp", "crc_BH"], digits = 3)`) whereas there were no signficant differences in any of these OTUs in the adenoma samples [Table S4]. Second, when these OTUs were present, there was a clear magnitude difference based on whether they were from adenoma or carcinoma [Figure 2].  However, only a small percentage of those with adenoma or carcinoma were positive for any of these OTUs.
+We next examined whether there were differences in previously well described carcinoma associated OTUs.  These included the OTUs that aligned with *Porphyromonas asaccharolytica* (`r unique(filter(crc_bug_info, tax_id == "Porphyromonas")[, "otu"])`), *Fusobacterium nucleatum* (`r unique(filter(crc_bug_info, tax_id == "Fusobacterium")[, "otu"])`), *Parvimonas micra* (`r unique(filter(crc_bug_info, tax_id == "Parvimonas")[, "otu"])`), and *Peptostreptococcus stomatis* (`r unique(filter(crc_bug_info, tax_id == "Peptostreptococcus")[, "otu"])`).  First, the carcinoma samples showed a significant difference between initial and follow up samples for *Peptostreptococcus stomatis* (P-value = `r format(main_crc_bugs_summary["pept", "crc_BH"], digits = 3)`), *Parvimonas micra* (P-value = `r format(main_crc_bugs_summary["parv", "crc_BH"], digits = 3)`), and *Porphyromonas asaccharolytica* (P-value = `r format(main_crc_bugs_summary["porp", "crc_BH"], digits = 3)`) whereas there were no signficant differences in any of these OTUs in the adenoma samples. Second, when these OTUs were present, there was a clear magnitude difference based on whether they were from adenoma or carcinoma [Figure 2].  However, only a small percentage of those with adenoma or carcinoma were positive for any of these OTUs.
 
 
 ***Full and Reduced Model***
