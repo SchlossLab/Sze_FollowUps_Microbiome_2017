@@ -2,13 +2,11 @@
 ### Investigate if days has an impact on the overall outcome
 ## Marc Sze
 
-
+# Load needed packages and functions
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", 
   "scales", "wesanderson"))
-
 
 # Load needed data
 thetaCompTotal <- dissplit(
@@ -20,7 +18,6 @@ metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv",
   stringsAsFactors = F, header = T)
 good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
   stringsAsFactors = F, header = T)
-
 
 # Load needed data
 thetaCompTotal <- dissplit(
