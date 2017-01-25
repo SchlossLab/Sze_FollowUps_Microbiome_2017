@@ -16,7 +16,7 @@ geometry: margin=1.0in
 
 source('../code/functions.R')
 
-loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
+loadLibs(c("dplyr", "reshape2", "scales", "knitr", "rmarkdown"))
 
 opts_chunk$set("tidy" = TRUE)
 opts_chunk$set("echo" = FALSE)
@@ -39,6 +39,7 @@ change_summary <- read.csv('../results/tables/change_theta_fit_summary.csv', hea
 alpha_summary <- read.csv('../results/tables/alpha_table_summary.csv', header = T, row.names = 1)
 beta_summary <- read.csv('../results/tables/beta_diver_summary.csv', header = T, row.names = 1)
 time_pvalues <- read.csv("../results/tables/time_pvalues.csv", header = T, row.names = 1)
+time_summary <- read.csv("../results/tables/time_summary_data.csv", header = T, row.names = 1)
 all_OTU_pair_wilcox <- read.csv("../results/tables/OTU_paired_wilcoxson_test.csv", header = T)
 
 # Main CRC bacteria differences between Adenoma and Carcinoma
@@ -158,7 +159,7 @@ There were a total of `r length(common_vars_summary$otu)` OTUs that were common 
 
 
 ***Treatment and Time Differences***
-There was no difference in the amount of change in positive probability for either the full or reduced lesion model for either chemotherapy (P-value = `r format(chemo_rad_summary['chemo_les', 'bh'], digits = 3)` and `r format(chemo_rad_summary['chemo_red_les', 'bh'], digits = 3)`) or radiation therapy (P-value = `r format(chemo_rad_summary['rad_les', 'bh'], digits = 3)` and `r format(chemo_rad_summary['rad_red_les', 'bh'], digits = 3)`). Although the before sample model was similar there was a significant decrease in positive probability for those treated with chemotherapy (P-value = `r format(chemo_rad_summary['chemo_IF', 'bh'], scientific = TRUE, digits = 3)` and `r format(chemo_rad_summary['chemo_red_IF', 'bh'], scientific = TRUE, digits = 3)`).  Time elapsed between the collection of the follow up sample from the initial sample, did not have a significant difference between adenoma and carcinoma (uncorrected P-value = `r format(time_pvalues["thetayc_change", "uncorrected_p_value"], digits = 3)`).    
+There was no difference in the amount of change in positive probability for either the full or reduced lesion model for either chemotherapy (P-value = `r format(chemo_rad_summary['chemo_les', 'bh'], digits = 3)` and `r format(chemo_rad_summary['chemo_red_les', 'bh'], digits = 3)`) or radiation therapy (P-value = `r format(chemo_rad_summary['rad_les', 'bh'], digits = 3)` and `r format(chemo_rad_summary['rad_red_les', 'bh'], digits = 3)`). Although the before sample model was similar there was a significant decrease in positive probability for those treated with chemotherapy (P-value = `r format(chemo_rad_summary['chemo_IF', 'bh'], scientific = TRUE, digits = 3)` and `r format(chemo_rad_summary['chemo_red_IF', 'bh'], scientific = TRUE, digits = 3)`).  There was a significant difference in time elapsed in the collection of the follow up sample between adenoma and carcinoma samples (uncorrected P-value = `r format(time_pvalues["time", "uncorrected_p_value"], scientific = TRUE, digits = 3)`) with time passed being lower for adenoma (`r format(time_summary['adenoma', 'mean_days'], digits = 3)` +/- `r format(time_summary['adenoma', 'sd_days'], digits = 3)` days) then carcinoma (`r format(time_summary['carcinoma', 'mean_days'], digits = 3)` +/- `r format(time_summary['carcinoma', 'sd_days'], digits = 3)` days).    
 
 \newpage
 
