@@ -154,6 +154,27 @@ getProb_PairedWilcox <- function(dataTable,
 }
 
 
+# Create a label key for the facet wrap function for ggplot2
+createTaxaLabeller <- function(taxaTable){
+  # collects all entries from the first data list that is not unclassified
+  dataList <- apply(taxaTable, 1, function(x) x[x != "unclassified"])
+  # creates a vector of the lowest ID taxonomy
+  if (class(dataList) == "list"){
+
+    tempCall <- unname(unlist(lapply(dataList, function(x) x[length(x)])))
+  
+  } else{
+
+    tempCall <- apply(dataList, 2, function(x) x[length(x[x != "Bacteria"])+1])
+  }
+  
+  # assigns names to the vector that are the OTU labels
+  names(tempCall) <- rownames(taxaTable)
+  # returns that vector
+  return(tempCall)
+}
+
+
 # Create function to obtain confusion summary data
 # Of importance is the Mcnemar P-value for comparison of actual versus predicted similarity
 # needs caret to work properly and needs a meta data table with a column called Disease_Free
