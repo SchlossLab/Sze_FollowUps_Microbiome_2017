@@ -15,6 +15,11 @@ shared <- read.delim('data/process/final.0.03.subsample.shared',
 metaI <- read.csv("results/tables/mod_metadata/metaI_final.csv", 
   stringsAsFactors = F, header = T) 
 
+good_metaf <- read.csv('results/tables/mod_metadata/good_metaf_final.csv', 
+                       header = T, stringsAsFactors = F) %>% select(initial)
+
+metaI <- filter(metaI, !(sample %in% good_metaf$initial))
+
 #################################################################################
 #                                                                               #
 #                                                                               #
