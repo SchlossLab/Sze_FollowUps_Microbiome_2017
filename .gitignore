@@ -18,4 +18,5 @@ exploratory/*.RData
 *.Rproj
 submission/*.tex
 sra_submission/
-
+*.fastq
+*.sra

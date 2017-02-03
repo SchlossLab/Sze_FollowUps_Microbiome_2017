@@ -7,20 +7,19 @@ WORKDIR=data/process
 REF=data/references
 
 #Future section for dowloading data
-
-cp /mnt/EXT/Schloss-data/niel/Baxter_followUps_2016/scratch/fastqs/*.gz $DOWNDIR
-
+#wget -r -q -np -nd -k -P $DOWNDIR ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP062/SRP062005/
+wget -r -q -np -nd -k -P $DOWNDIR ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP096/SRP096978/
 
 #Unzip fastq files and place them in work directory
+for sample in $DOWNDIR/*.sra
+do
+	fastq-dump --split-files $sample -O $WORKDIR
 
-gzip -d $DOWNDIR/*.gz
-mv $DOWNDIR/*.fastq $WORKDIR
-rm $WORKDIR/2851671_S52_L001_R2_001.fastq $WORKDIR/3379661_S76_L001_R1_001.fastq
+done
 
 #Run mothur process
 
-$mothurRv "#make.file(inputdir=$WORKDIR);
-	make.contigs(file=current, processors=4);
+$mothurRv "#make.contigs(file=$WORKDIR/stability.files, processors=4);
 	summary.seqs(fasta=current);
 	screen.seqs(fasta=current, group=current, summary=current, maxambig=0, maxlength=275);
 	summary.seqs(fasta=current);

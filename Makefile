@@ -98,7 +98,7 @@ $(TABLES)/time_pvalues.csv :
 	R -e "source('code/Run_Supplemental_time_table.R')"
 	
 exploratory/RF_model_100.RData : 
-	mkdir $(CODE)/wfit
+	mkdir $(CODE)/full
 	R -e "source('code/setup_RF_test.R')"
 	bash $(CODE)/createDuplicates.sh
 	bash $(CODE)/create_pbs.sh
