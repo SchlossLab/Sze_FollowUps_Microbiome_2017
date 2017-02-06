@@ -13,10 +13,11 @@ wfit/
 exploratory/wfit/
 nofit/
 exploratory/wofit/
-code/wfit/
+code/full/
 exploratory/*.RData
 *.Rproj
 submission/*.tex
 sra_submission/
 *.fastq
 *.sra
+code/reduced/

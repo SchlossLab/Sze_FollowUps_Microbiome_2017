@@ -41,7 +41,7 @@ shared <- read.delim('data/process/final.0.03.subsample.shared',
          Dx_Bin = rep(good_metaf$Dx_Bin, 2))
 
 # Generate relative abundance
-total_seqs <- rowSums(select(shared, -Group, -sampleType))[1]
+total_seqs <- rowSums(select(shared, -Group, -sampleType, -Dx_Bin))[1]
 
 shared <- cbind(Group = shared$Group, 
                 sampleType = shared$sampleType, 
@@ -59,7 +59,7 @@ shared_imp_init <- select(shared, Group, sampleType, Dx_Bin, one_of(as.character
 
 # Get number of positive counts by column
 total_counts_init <- colSums(shared_imp_init != 0)
-good_counts_init <- names(total_counts_init[total_counts_init > 10])
+good_counts_init <- names(total_counts_init[total_counts_init > 7])
 
 # Create data table for graphing
 crc_select_data <- select(shared, Group, sampleType, one_of(good_counts_init)) %>% 

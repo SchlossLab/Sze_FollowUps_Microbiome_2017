@@ -87,7 +87,7 @@ differences_graph <- grid.arrange(
           legend.position = "none") + 
     annotate("text", label = paste("PERMANOVA = ", 
                                    round(thetayc_summary_table["Carcinoma", "PERMANOVA"], digits = 3)), 
-             x = 0.40, y = -0.50, size = 2.5) + coord_fixed(ratio = 1.20), ncol = 2, nrow = 2)
+             x = 0.10, y = -0.50, size = 2.5) + coord_fixed(ratio = 1.20), ncol = 2, nrow = 2)
 
 
 ggsave(file = "results/figures/Figure1.pdf", differences_graph, 
