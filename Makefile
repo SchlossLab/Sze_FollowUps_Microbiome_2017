@@ -105,6 +105,7 @@ exploratory/RF_model_100.RData :
 	bash $(CODE)/qsubmission.sh
 
 exploratory/Reducedfeatures_RF_model_100.RData : 
+	mkdir $(CODE)/reduced
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
 	R -e "source('code/Run_reduce_feature_lesion_model.R')"
 	bash $(CODE)/createDuplicates_reducedVars.sh
