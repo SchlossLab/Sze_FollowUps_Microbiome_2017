@@ -57,3 +57,4 @@ write.csv(change_theta_fit_summary,
 
 #Write out difference table
 write.csv(difference_table_treatment, "results/tables/difference_table.csv", row.names = F)
+
