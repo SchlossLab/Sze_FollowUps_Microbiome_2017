@@ -17,22 +17,19 @@ loadLibs <- function(deps){
 # Run alpha diversity tests
 # Order of paired samples has to already be set with the exact order matching 
 # e.g. if you have 10 samples that are pairs 1 and 6 have to be the same person
-get_alpha_pvalues <- function(data_table, alpha = TRUE, 
-                              table_names = c("sobs", "shannon", "evenness"), 
-                              numComp = length(table_names), multi = "BH"){
+get_alpha_pvalues <- function(data_table, table_names = c("sobs", "shannon", "evenness"), 
+                              numComp = length(table_names)){
   
   #Set up output table
-  alpha_pvalue_table <- as.data.frame(matrix(ncol = 2, nrow = numComp, dimnames = list(rows = table_names, 
-                                                                                       cols = c("pvalue", "BH_adj_pvalue"))))
+  alpha_pvalue_table <- as.data.frame(matrix(ncol = 1, nrow = numComp, 
+                                             dimnames = list(rows = table_names, 
+                                                             cols = "pvalue")))
   #Get p-values of paired test
   alpha_pvalue_table[, "pvalue"] <- apply(data_table[, c("sobs", "shannon", "shannoneven")], 2, 
                                           function(x){
                                             wilcox.test(x[data_table$sampleType == "initial"], 
                                                         x[data_table$sampleType == "followups"], 
                                                         paired = TRUE)$p.value})
-  
-  # Get BH corrected p-values
-  alpha_pvalue_table$BH_adj_pvalue <- p.adjust(alpha_pvalue_table$pvalue, method = multi)
   
   return(alpha_pvalue_table)
 }

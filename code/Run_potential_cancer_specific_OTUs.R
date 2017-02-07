@@ -79,6 +79,12 @@ write.csv(crc_select_data, "results/tables/adn_crc_maybe_diff.csv", row.names = 
 test_data <- select(shared, Group, sampleType, Dx_Bin, one_of(good_counts_init))
 
 pvalue_summary <- cbind(
+  lesion_pvalue = apply(select(test_data, one_of(good_counts_init)), 2, 
+                        function(x){
+                          wilcox.test(x[test_data$sampleType == "initial"], 
+                                      x[test_data$sampleType == "followup"], 
+                                      paired = TRUE)$p.value}),
+  
   crc_pvalue = apply(select(test_data, one_of(good_counts_init)), 2, 
                      function(x){
                        wilcox.test(x[test_data$sampleType == "initial" & test_data$Dx_Bin == "cancer"], 
@@ -90,9 +96,14 @@ pvalue_summary <- cbind(
                                    x[test_data$sampleType == "followup" & test_data$Dx_Bin != "cancer"], 
                                    paired = TRUE)$p.value}))
 
-pvalue_summary <- cbind(pvalue_summary, 
-  crc_BH = p.adjust(pvalue_summary[, "crc_pvalue"], method = "BH"),
-  adn_BH = p.adjust(pvalue_summary[, "adn_pvalue"], method = "BH"))
+adjusted_pvalues <- p.adjust(c(pvalue_summary[, "lesion_pvalue"], 
+                               pvalue_summary[, "crc_pvalue"], 
+                               pvalue_summary[, "adn_pvalue"]), method = "BH")
+
+pvalue_summary <- cbind(
+  pvalue_summary, lesion_BH = adjusted_pvalues[1:length(good_counts_init)], 
+  crc_BH = adjusted_pvalues[(length(good_counts_init) + 1):(length(good_counts_init)*2)], 
+  adn_BH = adjusted_pvalues[(length(good_counts_init)*2 + 1):(length(good_counts_init)*3)])
 
 rownames(pvalue_summary) <- c("porp", "fn", "parv", "pept")
 
