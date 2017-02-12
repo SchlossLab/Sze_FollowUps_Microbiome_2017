@@ -54,7 +54,7 @@ mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.pic
 mv $WORKDIR/stability.*.error.* $WORKDIR/error_analysis/
 mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.pick.pick.count_table $WORKDIR/error_analysis/
 mv $WORKDIR/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.fasta $WORKDIR/error_analysis/
-mv $WORKDIR/stability.files $WORKDIR/error_analysis/
+mv $WORKDIR/stability.files $WORKDIR/followup.files
 
 # Split the files for clustering
 
