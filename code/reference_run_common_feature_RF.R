@@ -51,4 +51,4 @@ predict(test_tune_list[[paste("data_split", i, sep = "")]],
 
 
 # Save image with data and relevant parameters
-save.image(paste("exploratory/Reducedfeatures_RF_model_", i, ".RData", sep=""))
+save.image(paste("exploratory/Commonfeatures_RF_model_", i, ".RData", sep=""))
