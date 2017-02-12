@@ -21,3 +21,4 @@ sra_submission/
 *.fastq
 *.sra
 code/reduced/
+code/common/
