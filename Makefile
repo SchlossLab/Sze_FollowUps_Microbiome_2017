@@ -147,6 +147,13 @@ $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv :
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 	R -e "source('code/Run_Compare_models.R')"
 
+exploratory/CommonFeatures_RF_model_100.RData : 
+	mkdir $(CODE)/common
+	R -e "source('code/Run_common_feature_model.R')"
+	bash $(CODE)/createDuplicates_commonVars.sh
+	bash $(CODE)/create_commonVars_pbs.sh
+	bash $(CODE)/qsubmission_commonVars.sh
+
 $(FIGS)/FigureS3.pdf : 
 	R -e "source('code/Run_FigureS3.R')"
 
