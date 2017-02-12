@@ -22,7 +22,7 @@ reduced_IF_model_roc <- read.csv("results/tables/reduced_IF_test_data_roc.csv", 
 
 roc_curve_graph <- grid.arrange(
   # Graph showing all variable and reduced variable lesion model
-  test <- filter(lesion_model_roc, run != "middle_roc") %>% 
+  test <- filter(lesion_model_roc, run != "middle_roc" & run != "full_roc") %>% 
     ggplot(aes(x = sensitivities, y = specificities)) + 
     geom_polygon(alpha = 0.25) + 
     geom_line(aes(group = run), size = 1.25, color = "black", alpha = 0.5) + 

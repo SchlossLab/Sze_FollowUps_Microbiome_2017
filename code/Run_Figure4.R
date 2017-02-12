@@ -138,7 +138,7 @@ accuracy_plot <- grid.arrange(
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-      legend.position = c(0.20, 0.15), 
+      legend.position = c(0.20, 0.12), 
       plot.title = element_text(face="bold", hjust = 0)), 
   
   # Graph the IF model CRC data only
