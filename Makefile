@@ -149,7 +149,7 @@ $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv :
 
 exploratory/CommonFeatures_RF_model_100.RData : 
 	mkdir $(CODE)/common
-	R -e "source('code/common_feature_model.R')"
+	R -e "source('code/Run_common_feature_model.R')"
 	bash $(CODE)/createDuplicates_commonVars.sh
 	bash $(CODE)/create_commonVars_pbs.sh
 	bash $(CODE)/qsubmission_commonVars.sh
