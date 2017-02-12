@@ -32,7 +32,7 @@ good_metaf <- read.csv(
   filter(!is.na(fit_followUp))
 
 # Load in shared file and modify to have initial and follow up
-shared <- read.delim('data/process/final.0.03.subsample.shared', 
+shared <- read.delim('data/process/final.shared', 
                      header=T, sep='\t') %>% select(-label, -numOtus) %>% 
   filter(Group %in% as.character(c(good_metaf$initial, good_metaf$followUp))) %>% 
   slice(match(as.character(c(good_metaf$initial, good_metaf$followUp)), Group)) %>% 
@@ -41,7 +41,7 @@ shared <- read.delim('data/process/final.0.03.subsample.shared',
          Dx_Bin = rep(good_metaf$Dx_Bin, 2))
 
 # Generate relative abundance
-total_seqs <- rowSums(select(shared, -Group, -sampleType, -Dx_Bin))[1]
+total_seqs <- rowSums(select(shared, -Group, -sampleType, -Dx_Bin))
 
 shared <- cbind(Group = shared$Group, 
                 sampleType = shared$sampleType, 
@@ -59,7 +59,7 @@ shared_imp_init <- select(shared, Group, sampleType, Dx_Bin, one_of(as.character
 
 # Get number of positive counts by column
 total_counts_init <- colSums(shared_imp_init != 0)
-good_counts_init <- names(total_counts_init[total_counts_init > 7])
+good_counts_init <- names(total_counts_init[total_counts_init > 10])
 
 # Create data table for graphing
 crc_select_data <- select(shared, Group, sampleType, one_of(good_counts_init)) %>% 
@@ -79,6 +79,12 @@ write.csv(crc_select_data, "results/tables/adn_crc_maybe_diff.csv", row.names = 
 test_data <- select(shared, Group, sampleType, Dx_Bin, one_of(good_counts_init))
 
 pvalue_summary <- cbind(
+  lesion_pvalue = apply(select(test_data, one_of(good_counts_init)), 2, 
+                        function(x){
+                          wilcox.test(x[test_data$sampleType == "initial"], 
+                                      x[test_data$sampleType == "followup"], 
+                                      paired = TRUE)$p.value}),
+  
   crc_pvalue = apply(select(test_data, one_of(good_counts_init)), 2, 
                      function(x){
                        wilcox.test(x[test_data$sampleType == "initial" & test_data$Dx_Bin == "cancer"], 
@@ -90,9 +96,14 @@ pvalue_summary <- cbind(
                                    x[test_data$sampleType == "followup" & test_data$Dx_Bin != "cancer"], 
                                    paired = TRUE)$p.value}))
 
-pvalue_summary <- cbind(pvalue_summary, 
-  crc_BH = p.adjust(pvalue_summary[, "crc_pvalue"], method = "BH"),
-  adn_BH = p.adjust(pvalue_summary[, "adn_pvalue"], method = "BH"))
+adjusted_pvalues <- p.adjust(c(pvalue_summary[, "lesion_pvalue"], 
+                               pvalue_summary[, "crc_pvalue"], 
+                               pvalue_summary[, "adn_pvalue"]), method = "BH")
+
+pvalue_summary <- cbind(
+  pvalue_summary, lesion_BH = adjusted_pvalues[1:length(good_counts_init)], 
+  crc_BH = adjusted_pvalues[(length(good_counts_init) + 1):(length(good_counts_init)*2)], 
+  adn_BH = adjusted_pvalues[(length(good_counts_init)*2 + 1):(length(good_counts_init)*3)])
 
 rownames(pvalue_summary) <- c("porp", "fn", "parv", "pept")
 

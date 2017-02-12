@@ -11,15 +11,19 @@ loadLibs(c("dplyr", "ggplot2", "gridExtra", "scales", "wesanderson"))
 # Load needed data
 graph_data <- read.csv("results/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
 
-graph_data <- mutate(graph_data, j_values = jitter(value, 3))
+# Add column to jitter values and italicize names
+graph_data <- mutate(graph_data, 
+    j_values = jitter(value, 3), 
+    labs = c(
+      rep(paste("paste(italic('Porphyromonas asaccharolytica '))", '(', unique(graph_data$otu)[1], ')', sep = ''), 
+          length(rownames(graph_data))/length(unique(graph_data$tax_id))), 
+      rep(paste("paste(italic('Fusobacterium nucleatum '))", '(', unique(graph_data$otu)[2], ')', sep = ''), 
+          length(rownames(graph_data))/length(unique(graph_data$tax_id))), 
+    rep(paste("paste(italic('Parvimonas micra '))", '(', unique(graph_data$otu)[3], ')', sep = ''), 
+          length(rownames(graph_data))/length(unique(graph_data$tax_id))), 
+    rep(paste("paste(italic('Peptostreptococcus stomatis '))", '(', unique(graph_data$otu)[4], ')', sep = ''), 
+        length(rownames(graph_data))/length(unique(graph_data$tax_id)))))
 
-labs <- c(
-  paste("Porphyromonas asaccharolytica ", "(", unique(graph_data$otu)[1], ")", sep = ""), 
-  paste("Fusobacterium nucleatum ", "(", unique(graph_data$otu)[2], ")", sep = ""), 
-  paste("Parvimonas micra ", "(", unique(graph_data$otu)[3], ")", sep = ""), 
-  paste("Peptostreptococcus stomatis ", "(", unique(graph_data$otu)[4], ")", sep = ""))
-
-names(labs) <- unique(graph_data$otu)
 
 # Create the figure
 
@@ -30,7 +34,7 @@ crc_specific <- grid.arrange(
                j_values*100, group = factor(EDRN))) + 
     geom_line(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
     geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
-    facet_wrap(~otu, labeller = as_labeller(labs), scales = "free_y") + 
+    facet_wrap(~labs, labeller = label_parsed, scales = "free_y") + 
     theme_bw() + ylab("% Relative Abundance") + xlab("") + ggtitle("A") + 
     scale_colour_manual(name = "Cancer Free", 
                         label = c("No", "Yes", "Unknown"),  
@@ -50,7 +54,7 @@ crc_specific <- grid.arrange(
     ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
                j_values*100, group = factor(EDRN))) + 
     geom_line(aes(color = factor(Dx_Bin))) + geom_point(aes(color = factor(Dx_Bin))) +  
-    facet_wrap(~otu, labeller = as_labeller(labs), scales = "free_y") + 
+    facet_wrap(~labs, labeller = label_parsed, scales = "free_y") + 
     theme_bw() + ylab("% Relative Abundance") + xlab("") + ggtitle("B") + 
     scale_colour_manual(name = "Polyp Type", values = c("cyan", "blue"), 
                         breaks = c("adenoma", "adv_adenoma"), 
@@ -60,7 +64,7 @@ crc_specific <- grid.arrange(
       labels = c("Initial", "Follow Up")) + 
     theme(legend.title = element_text(face="bold", size = 8), 
           legend.text = element_text(size = 6), 
-          legend.position = c(0.35, 0.85), 
+          legend.position = c(0.1, 0.85), 
           plot.margin = unit(c(1, 1, 1, 1), "lines"), 
           plot.title = element_text(size=20, face="bold"), 
           strip.text.x = element_text(size = 8))
