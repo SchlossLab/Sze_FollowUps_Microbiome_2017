@@ -44,12 +44,12 @@ IFA <- ggplot(IF_MDA_full, aes(factor(variables,
                                               levels = rev(unique(IF_MDA_full$variables)), 
                                               labels = rev(graph_labels)), 
                                        log10(value))) + 
-  geom_point(aes(color = variable)) + stat_summary(fun.y = "median", colour = "black", geom = "point", size = 3) + 
+  geom_point(aes(color = variable)) + stat_summary(fun.y = "median", colour = "black", geom = "point", size = 2) + 
   coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("Variable") +  ggtitle("A") + 
   theme(plot.title = element_text(face = "bold", size = 32, hjust = 0), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
-        axis.text.y = element_text(size = 8))
+        axis.text.y = element_text(size = 4.5))
 
 # create part B plot
 
@@ -64,7 +64,7 @@ IFB <- ggplot(occurance_data, aes(factor(Variable,
   theme(plot.title = element_text(face = "bold", size = 32, hjust = 0), 
         axis.title = element_text(face = "bold"), 
         legend.position = "none", 
-        axis.text.y = element_text(size = 8), 
+        axis.text.y = element_text(size = 4.5), 
         panel.grid = element_blank())
 
 
