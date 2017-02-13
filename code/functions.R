@@ -272,9 +272,11 @@ get_co_occurance <- function(comparisonTable, variables){
     }
     
     
-    dataTable <- cbind(dataTable, format(coldata/maximums[i], digits = 3))
+    dataTable <- cbind(dataTable, as.numeric(format(coldata/maximums[i], digits = 3)))
     
   }
+  
+  dataTable[upper.tri(dataTable)] <- t(dataTable)[upper.tri(dataTable)]
   
   colnames(dataTable) <- comparisons
   rownames(dataTable) <- comparisons
@@ -283,7 +285,34 @@ get_co_occurance <- function(comparisonTable, variables){
 }
 
 
-
+# Function to get list of co-occurances above a cutoff
+get_list_coocur <- function(dataTable, cutoff = 0.5){
+  
+  x = 1
+  test <- list()
+  
+  for(i in 1:length(rownames(dataTable))){
+    
+    OTUs <- c()
+    
+    if(i != length(rownames(dataTable))){
+      
+      for(j in (1+x):length(rownames(dataTable))){
+        
+        if(dataTable[j, i] > cutoff){
+          
+          OTUs <- c(OTUs, rownames(dataTable)[j])
+        }
+        
+      }
+      
+      test[[colnames(dataTable)[i]]] <- OTUs
+      x = x + 1
+    }
+    
+  }
+  return(test)
+}
 
 
 
