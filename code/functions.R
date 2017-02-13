@@ -235,6 +235,58 @@ make_confusionTable <- function(dataTable, metaData, n = 1, m = 66){
                                             ncol = c("ref_no", "ref_yes")))
 }
 
+# Function to track co-occurances of specific OTUs
+# Sums all times in a sample each OTU is found together 
+# Normalizes by the OTU pair that has the least number of positive samples
+get_co_occurance <- function(comparisonTable, variables){
+  
+  dataTable <- c()
+  
+  for(i in 1:length(variables)){
+    
+    coldata <- c()
+    maximums <- c()
+    
+    for(j in 1:length(variables)){
+      tempdata <- c()
+      
+      
+      for(k in 1:length(rownames(comparisonTable))){
+        y = 0
+        
+        if(comparisonTable[k, j] > 0 & comparisonTable[k, i] > 0){
+          
+          y = y + 1
+          
+        }
+        tempdata <- c(tempdata, y)
+        
+      }
+      
+      maximums <- c(maximums, ifelse(
+        length(comparisonTable[, i][comparisonTable[, i] > 0]) > length(comparisonTable[, j][comparisonTable[, j] > 0]), 
+        length(comparisonTable[, j][comparisonTable[, j] > 0]), 
+        length(comparisonTable[, i][comparisonTable[, i] > 0])))
+      
+      coldata <- rbind(coldata, sum(tempdata))
+    }
+    
+    
+    dataTable <- cbind(dataTable, format(coldata/maximums[i], digits = 3))
+    
+  }
+  
+  colnames(dataTable) <- comparisons
+  rownames(dataTable) <- comparisons
+  
+  return(dataTable)
+}
+
+
+
+
+
+
 
 
 
