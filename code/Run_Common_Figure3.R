@@ -32,7 +32,6 @@ write.csv(common_wilcox_pvalue_summary,
 
 
 
-
 common_graph <- grid.arrange(
   # Graph showing all variable and reduced variable lesion model
   filter(common_lesion_model_roc, run != "full_roc") %>% 
