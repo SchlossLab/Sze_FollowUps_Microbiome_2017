@@ -235,6 +235,101 @@ make_confusionTable <- function(dataTable, metaData, n = 1, m = 66){
                                             ncol = c("ref_no", "ref_yes")))
 }
 
+# Function to track co-occurances of specific OTUs
+# Sums all times in a sample each OTU is found together 
+# Normalizes by the OTU pair that has the least number of positive samples
+get_co_occurance <- function(comparisonTable, variables){
+  
+  dataTable <- c()
+  
+  for(i in 1:length(variables)){
+    
+    coldata <- c()
+    maximums <- c()
+    
+    for(j in 1:length(variables)){
+      tempdata <- c()
+      
+      
+      for(k in 1:length(rownames(comparisonTable))){
+        y = 0
+        
+        if(comparisonTable[k, j] > 0 & comparisonTable[k, i] > 0){
+          
+          y = y + 1
+          
+        }
+        tempdata <- c(tempdata, y)
+        
+      }
+      
+      maximums <- c(maximums, ifelse(
+        length(comparisonTable[, i][comparisonTable[, i] > 0]) > length(comparisonTable[, j][comparisonTable[, j] > 0]), 
+        length(comparisonTable[, j][comparisonTable[, j] > 0]), 
+        length(comparisonTable[, i][comparisonTable[, i] > 0])))
+      
+      coldata <- rbind(coldata, sum(tempdata))
+    }
+    
+    
+    dataTable <- cbind(dataTable, as.numeric(format(coldata/maximums[i], digits = 3)))
+    
+  }
+  
+  dataTable[upper.tri(dataTable)] <- t(dataTable)[upper.tri(dataTable)]
+  
+  colnames(dataTable) <- c(1:length(variables))
+  rownames(dataTable) <- c(1:length(variables))
+  
+  return(dataTable)
+}
+
+
+# Function to get list of co-occurances above a cutoff
+get_list_coocur <- function(dataTable, cutoff = 0.5){
+  
+  x = 1
+  test <- list()
+  
+  for(i in 1:length(rownames(dataTable))){
+    
+    OTUs <- c()
+    
+    if(i != length(rownames(dataTable))){
+      
+      for(j in (1+x):length(rownames(dataTable))){
+        
+        if(dataTable[j, i] > cutoff){
+          
+          OTUs <- c(OTUs, as.numeric(rownames(dataTable)[j]))
+        }
+        
+      }
+      
+      test[[colnames(dataTable)[i]]] <- OTUs
+      x = x + 1
+    }
+    
+  }
+  return(test)
+}
+
+
+# Generate a total count for the total number of connections
+get_connection_totals <- function(dataList){
+  
+  x = 0
+  for(i in 1:length(dataList)){
+    
+    for(j in 1:length(dataList[[i]])){
+      
+      x = x + 1
+    }
+  }
+  return(x)
+}
+
+
 
 
 
