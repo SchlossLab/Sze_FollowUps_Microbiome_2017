@@ -16,7 +16,7 @@ common_imp_vars <- read.csv("results/tables/pvalue_IF_lesion_common_imp_vars.csv
 
 #Create data table with only reduced features (impvars only)
 vars_to_keep <- common_imp_vars$otu
-test_data_imps <- select(test_data, lesion, one_of(vars_to_keep))
+test_data_imps <- select(test_data, lesion, fit_result, one_of(vars_to_keep))
 
 
 #################################################################################
