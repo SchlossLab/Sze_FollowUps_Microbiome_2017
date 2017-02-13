@@ -14,7 +14,7 @@ loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales",
 lesion_model_roc <- read.csv("results/tables/test_data_roc.csv", header = T)
 reduced_lesion_model_roc <- read.csv("results/tables/reduced_test_data_roc.csv", header = T)
 lesion_auc_info <- read.csv("results/tables/auc_summary.csv", 
-  header = T, row.names = 1)
+                            header = T, row.names = 1)
 
 
 IF_model_roc <- read.csv("results/tables/IF_test_data_roc.csv", header = T)
@@ -46,11 +46,8 @@ roc_curve_graph <- grid.arrange(
     scale_x_continuous(trans = "reverse") + theme_bw() + geom_abline(intercept = 1, linetype = 2, size = 1) + 
     ggtitle("B") + xlab("Sensitivity") + ylab("Specificity") + theme(plot.title = element_text(face = "bold")), 
   nrow = 1, ncol = 2)
- 
+
 
 # Save graph image as a pdf
 ggsave(file = "results/figures/Figure3.tiff", roc_curve_graph, device = "tiff", 
        width=8, height = 8, dpi = 300)
-
-
-
