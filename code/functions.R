@@ -278,8 +278,8 @@ get_co_occurance <- function(comparisonTable, variables){
   
   dataTable[upper.tri(dataTable)] <- t(dataTable)[upper.tri(dataTable)]
   
-  colnames(dataTable) <- comparisons
-  rownames(dataTable) <- comparisons
+  colnames(dataTable) <- c(1:length(variables))
+  rownames(dataTable) <- c(1:length(variables))
   
   return(dataTable)
 }
@@ -301,7 +301,7 @@ get_list_coocur <- function(dataTable, cutoff = 0.5){
         
         if(dataTable[j, i] > cutoff){
           
-          OTUs <- c(OTUs, rownames(dataTable)[j])
+          OTUs <- c(OTUs, as.numeric(rownames(dataTable)[j]))
         }
         
       }
@@ -314,6 +314,20 @@ get_list_coocur <- function(dataTable, cutoff = 0.5){
   return(test)
 }
 
+
+# Generate a total count for the total number of connections
+get_connection_totals <- function(dataList){
+  
+  x = 0
+  for(i in 1:length(dataList)){
+    
+    for(j in 1:length(dataList[[i]])){
+      
+      x = x + 1
+    }
+  }
+  return(x)
+}
 
 
 
