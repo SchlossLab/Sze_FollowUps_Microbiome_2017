@@ -54,7 +54,7 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 
 **Table S2: Summary of OTUs in both Lesion and Initial/Follow Up Models**
 
-```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
+```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
 common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
@@ -71,5 +71,47 @@ kable(st2, format = "markdown", align = 'c', padding = 2)
 
 
 \newpage
+
+
+
+**Table S3: Summary of Comparisons based on Chemotherapy or Radiation Received**
+
+```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
+
+chemo_rad_summary <- read.csv('../results/tables/probs_chemo_rad_pvalue_summary.csv', 
+                              header = T, stringsAsFactors = F)
+
+variable <- c(rep("Positive Probability", 8), rep("Thetayc", 2), rep(c("Sobs", "Shannon", "Evenness"), 2))
+comparison <- c(rep("Chemotherapy", 4), rep("Radiation", 4), "Chemotherapy", "Radiation", 
+                rep("Chemotherapy", 3), rep("Radiation", 3))
+
+st3 <- cbind(variable, comparison, format(chemo_rad_summary$pvalue, digits = 4), format(chemo_rad_summary$bh, digits = 4))
+
+colnames(st3) <- c("Variable Tested", "Treatment", "P-value", "BH Corrected P-value")
+
+kable(st3, format = "markdown", align = 'c', padding = 2)
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

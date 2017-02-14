@@ -50,9 +50,3 @@ plot(test)
 
 
 
-test <- graph_from_literal()
-make_empty_graph(n = 5, directed = F)
-add_edges(g, c(1,2, 2,3, 3,4, 4,5))
-
-
-
