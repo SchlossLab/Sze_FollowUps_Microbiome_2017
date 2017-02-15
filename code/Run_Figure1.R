@@ -54,7 +54,7 @@ differences_graph <- grid.arrange(
                        values = wes_palette("GrandBudapest"), 
                        breaks = c("adenoma", "adv_adenoma", "cancer"), 
                        labels = c("Adenoma", "SRN", "Carcinoma")) + 
-    ylab("Change in Fit from Follow up to Initial") + 
+    ylab("Change in FIT from Follow up to Initial") + 
     xlab("") + theme_bw() + ggtitle("B") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
           plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "lines"), 
