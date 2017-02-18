@@ -138,3 +138,59 @@ auc_data_table[, "Spec_cv"] <- c(
 write.csv(auc_data_table, "results/tables/reduced_auc_summary.csv")
 
 
+# Collect the mean and SD for the MDA of the most important variables
+top_vars_MDA <- lapply(imp_vars_list, function(x) 
+  x[order(x[, "Variable"]), ])
+
+top_vars_MDA_by_run <- as.data.frame(matrix(nrow = length(top_vars_MDA[["run_1"]]$Variable), 
+                                            ncol = length(imp_vars_list), 
+                                            dimnames = list(
+                                              nrow = top_vars_MDA[["run_1"]]$Variable[
+                                                order(top_vars_MDA[["run_1"]]$Overall, decreasing = T)], 
+                                              ncol = paste("run_", seq(1:100), sep = ""))))
+
+for(i in 1:length(top_vars_MDA_by_run)){
+  
+  tempData <- top_vars_MDA[[i]]
+  rownames(tempData) <- tempData$Variable
+  top_vars_MDA_by_run[, i] <- tempData[rownames(top_vars_MDA_by_run), "Overall"]
+  rm(tempData)
+}
+
+# "1" pulls the value of mean or sd from the data frame
+MDA_vars_summary <- cbind(
+  mean_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
+  sd_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
+  variable = rownames(top_vars_MDA_by_run))
+
+write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
+          "results/tables/reduced_lesion_model_top_vars_MDA_Summary.csv", row.names = F)
+
+lesion_model_top_vars_MDA_full_data <- 
+  mutate(top_vars_MDA_by_run, variables = rownames(top_vars_MDA_by_run)) %>% 
+  melt(id = c("variables"))
+
+write.csv(lesion_model_top_vars_MDA_full_data, 
+          "results/tables/reduced_lesion_model_top_vars_MDA.csv", row.names = F)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
