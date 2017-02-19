@@ -26,6 +26,7 @@ colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
 tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
 rm(tax)
 
+# Order the data file from most to least important based on mean MDA
 lesion_MDA_data_summary <- lesion_MDA_data_summary[order(lesion_MDA_data_summary$mean_MDA, decreasing = TRUE), ]
 
 
