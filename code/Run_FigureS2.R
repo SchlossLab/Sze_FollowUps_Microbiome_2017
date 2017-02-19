@@ -29,11 +29,10 @@ rm(tax)
 # Order the data file from most to least important based on mean MDA
 lesion_MDA_data_summary <- lesion_MDA_data_summary[order(lesion_MDA_data_summary$mean_MDA, decreasing = TRUE), ]
 
-
 # Pull OTUs that are only in the MDA data
 OTU_IDs <- unique(filter(lesion_MDA_data_summary, variable != "fit_result")[, "variable"])
 select_tax_df <- tax_df[OTU_IDs, ]
-low_tax_ID <- gsub("_unclassified", "", createTaxaLabeller(select_tax_df))
+low_tax_ID <- gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df)))
 
 # create labels for factor values with low taxonomy
 graph_labels <- c("FIT", paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = ""))
