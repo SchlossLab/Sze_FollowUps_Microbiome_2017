@@ -488,16 +488,16 @@ design were similar to that reported in Baxter, et al {[}3{]}. In brief,
 study exclusion involved those who had already undergone surgery,
 radiation, or chemotherapy, had colorectal cancer before a baseline
 fecal sample could be obtained, had IBD, a known hereditary
-non-polyposis colorectal cancer, or Familial adenomatous polyposis.
+non-polyposis colorectal cancer, or familial adenomatous polyposis.
 Samples used to build the models for prediction were collected either
 prior to a colonoscopy or between 1 - 2 weeks after. The bacterial
 microbiome has been shown to normalize within this time period {[}18{]}.
 Our follow up data set had a total of 67 individuals that not only had a
 sample as described but also a follow up sample between 188 - 546 days
-after surgery and treatment had been completed. This study was approved
-by the University of Michigan Institutional Review Board. All study
-participants provided informed consent and the study itself conformed to
-the guidelines set out by the Helsinki Declaration.
+after lesion removal and treatment had been completed. This study was
+approved by the University of Michigan Institutional Review Board. All
+study participants provided informed consent and the study itself
+conformed to the guidelines set out by the Helsinki Declaration.
 
 \textbf{\emph{FIT and 16S rRNA Gene Sequencing:}} FIT was analyzed as
 previously published using both OC FIT-CHEK and OC-Auto Micro 80
@@ -523,7 +523,7 @@ was rarefied to 10523 in an attempt to minimize uneven sampling.
 
 \textbf{\emph{Lesion Model Creation:}} The Random Forest {[}21{]}
 algorithm was used to create the model used for prediction of lesion
-(adenoma or carcinoma) with the main testing and training of the model
+(adenoma or carcinoma) with the main training and testing of the model
 completed on a data set of 423 individuals. This model was then applied
 to our follow up data set of 67 individuals.
 
@@ -552,18 +552,19 @@ classifications on the 67-person cohort was completed.
 The default cutoff of 0.5 was used as the threshold to classify
 individuals as positive or negative for lesion. The hyper-parameter,
 mtry, defines the number of variables to investigate at each split
-before a new division of the data is created with the Random Forest
+before a new division of the data was created with the Random Forest
 model.
 
 \textbf{\emph{Initial Sample Model Creation:}} We also investigated
 whether a model could be created that could identify pre (initial) and
-post (follow up) lesion removal. The main difference was that only the
-67-person cohort was used at all stages of model building and
-classification. Other than this difference the creation of this model
-and optimization of the mtry hyper-parameter was completed using the
-same procedure as was used for the lesion model. Instead of classifying
-samples as positive or negative of lesion this model classified samples
-as positive or negative for being an initial to lesion removal sample.
+post (follow up) lesion removal samples from each other. The main
+difference was that only the 67-person cohort was used at all stages of
+model building and classification. Other than this difference the
+creation of this model and optimization of the mtry hyper-parameter was
+completed using the same procedure as was used for the lesion model.
+Instead of classifying samples as positive or negative of lesion this
+model classified samples as positive or negative for being an initial to
+lesion removal sample.
 
 \textbf{\emph{Statistical Analysis:}} The R software package (v3.3.2)
 was used for all statistical analysis. Comparisons between bacterial
@@ -580,18 +581,17 @@ corrected.
 any differences based on whether the individual had an adenoma or
 carcinoma. This was done by testing initial and follow up samples for
 differences in alpha and beta diversity, testing differences in FIT
-between initial and follow ups, testing all OTUs that were used in
-either built model, and investigating the relative abundance of specific
-previously associated CRC bacteria (\emph{Fusobacterium nucleatum},
-\emph{Parvimonas micra}, \emph{Peptostreptococcus assacharolytica}, and
-\emph{Porphyromonas stomatis}) based on adenoma and carcinoma. From here
-the lesion model was then tested for accuracy in prediction and whether
-it reduced the positive probability of lesion after surgery. We then
-used the initial sample model to assess whether it could classify
-samples better then the lesion model and whether it could reduce the
-positive probability of an initial sample in the follow up samples.
-Finally, a list of common OTUs were found for the two two different
-models used.
+between initial and follow ups, testing all OTUs, and investigating the
+relative abundance of specific previously associated CRC bacteria
+(\emph{Fusobacterium nucleatum}, \emph{Parvimonas micra},
+\emph{Peptostreptococcus assacharolytica}, and \emph{Porphyromonas
+stomatis}) based on adenoma and carcinoma. From here the lesion model
+was then tested for accuracy in prediction and whether it reduced the
+positive probability of lesion after surgery. We then used the initial
+sample model to assess whether it could classify samples better then the
+lesion model and whether it could reduce the positive probability of an
+initial sample in the follow up samples. Finally, a list of common OTUs
+were found for the two two different models used.
 
 \textbf{\emph{Reproducible Methods:}} A detailed and reproducible
 description of how the data were processed and analyzed can be found at
