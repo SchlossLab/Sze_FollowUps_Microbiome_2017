@@ -255,9 +255,10 @@ community and FIT measurements. This model had an AUC range of 0.811 -
 0.866 after 100 iterations of 20 repeated 10-fold cross validations. The
 ROC curve for the final lesion model used was within the observed range
 of the 100 different test set AUC iterations {[}Figure 3A{]}. There were
-a total of 53 variables {[}Figure 3B{]}. For this model FIT measurement
-resulted in the largest decrease in MDA while the OTU with the largest
-MDA was \emph{Lachnospiraceae} (Otu000015) {[}Figure 3B{]}.
+a total of 53 variables that were used in this model {[}Figure 3B{]}.
+The FIT measurement for fecal blood resulted in the largest decrease in
+MDA while the OTU with the largest MDA was \emph{Lachnospiraceae}
+(Otu000015) {[}Figure 3B{]}.
 
 If there were common OTUs that could separate adenoma and carcinoma from
 normal controls, we would expect to find a decrease in the positive
@@ -282,10 +283,11 @@ iterations of 20 repeated 10-fold cross validations. The test set AUC
 range for this model performed better then the training set AUCs. There
 was a marked decrease in the ROC curve for the final model used when
 compared to the 100 test set AUC iterations {[}Figure 4A{]}. There were
-a total of 70 variables {[}Figure 4B{]}. For this model
-\emph{Pseudomonas} (Otu000438) resulted in the largest decrease in MDA
-while FIT measurement resulted in the sixth largest decrease in MDA
-{[}Figure 4B{]}.
+a total of 70 variables that were used for this model {[}Figure 4B{]}.
+The variable that resulted in the largest MDA was \emph{Pseudomonas}
+(Otu000438) resulted in the largest decrease in MDA while FIT
+measurement for fecal blood resulted in the sixth largest decrease in
+MDA {[}Figure 4B{]}.
 
 If there were common OTUs that could separate initial from follow up
 sample regardless of whether the lesion was adenoma or carcinoma we
@@ -353,18 +355,18 @@ an adenoma from benign tissue.
 We next created a model that incorporated FIT and the bacterial
 microbiome to be able to classify lesions (adenoma or carcinoma). What
 we found was that not only was the positive probability of a lesion
-reduced after lesion removal {[}Figure 4 \& S4{]} but also that the
+reduced after lesion removal {[}Figure 3 \& 4{]} but also that the
 commonly associated CRC bacteria were not highly represented within this
 model. Rather, OTUs that made up the most important variables
 overwhelmingly belonged to commensal bacteria. With only a single OTU
 from a previously associated cancer bacterium (\emph{Porphyromonas
 asaccharolytica}). We followed this up by creating a second model to
 classify initial versus follow up samples. We found that this model was
-able to accurately classify initial versus follow up samples {[}Figure 4
-\& S4{]}. Providing additional information on the importance of
-commensal bacteria was that there were a total of 23 OTUs in common to
-both models and the vast majority belonged to regular residents of our
-gut community {[}Table S3{]}.
+able to accurately classify initial versus follow up samples {[}Figure 3
+\& 4{]}. Providing additional information on the importance of commensal
+bacteria was that there were a total of 23 OTUs in common to both models
+and the vast majority belonged to regular residents of our gut community
+{[}Table S3{]}.
 
 For the majority of tests performed there were no differences in the
 bacterial microbiome based on whether chemotherapy or radiation was
@@ -403,16 +405,17 @@ OTUs. It is also possible that both of these explanations could have
 played a role. Regardless, our observations would suggest that an
 individual's resident bacteria have a large role to play in disease
 initiation and could change in a way that allows predictive models to
-lower the positive probability of a lesion after surgery {[}Figure 4{]}.
-It should be noted that our study does not argue against the importance
-of these CRC associated bacteria in the pathogenesis of disease but
-rather that they are not the main bacteria changing after surgical
-removal of lesion. In fact, it is possible that these CRC associated
-bacteria are important in the transition from adenoma to carcinoma and
-would be one explanation as to why in our data we not only see high
-initial relative abundances in carcinoma and not adenoma individuals but
-also large decreases in relative abundance in some of those with
-carcinoma but not in those with adenoma after surgery {[}Figure 2{]}.
+lower the positive probability of a lesion after surgery {[}Figure 3C \&
+3D{]}. It should be noted that our study does not argue against the
+importance of these CRC associated bacteria in the pathogenesis of
+disease but rather that they are not the main bacteria changing after
+surgical removal of lesion. In fact, it is possible that these CRC
+associated bacteria are important in the transition from adenoma to
+carcinoma and would be one explanation as to why in our data we not only
+see high initial relative abundances in carcinoma and not adenoma
+individuals but also large decreases in relative abundance in some of
+those with carcinoma but not in those with adenoma after surgery
+{[}Figure 2{]}.
 
 Many of the common OTUs between the different models used had many OTUs
 that taxonomically classified to potential butyrate producers {[}Table
@@ -454,7 +457,7 @@ differences between individuals with adenoma or carcinoma. This
 confounding though would not affect the observations where these
 individuals are grouped together.
 
-Interestingly, within figure 3 the before sample model showed better
+Interestingly, within figure 4 the initial sample model showed better
 test AUC results then the training set AUC. This may have occurred
 because the training AUC determined from 20 repeated 10 fold cross
 validation removed samples at random and did not take into account that
@@ -525,43 +528,45 @@ was rarefied to 10523 in an attempt to minimize uneven sampling.
 algorithm was used to create the model used for prediction of lesion
 (adenoma or carcinoma) with the main testing and training of the model
 completed on a data set of 423 individuals. This model was then applied
-to our follow up data set of 67 individuals. In brief, the model
-included data on FIT and the bacterial microbiome. Non-binary data was
-checked for near zero variance and OTUs that had near zero variance were
-removed. This pre-processing was performed with the R package caret
-(v6.0.73). Optimization of the mtry hyper-parameter involved taking the
-samples and making 100 different 80/20 (train/test) splits of the data
-where normal and lesion were represented in the same proportion within
-both the whole data set and the 80/20 split. Each of these splits were
-then run through 20 repeated 10-fold cross validations to optimize the
-mtry hyper-parameter by maximizing the AUC (Area Under the Curve of the
-Receiver Operator Characteristic). This resulting model was then tested
-on the 20\% of the data that was originally held out from this overall
-process. Once the ideal mtry was found the entire 423 sample set was
-used to create the final Random Forest model on which classifications on
-the 67-person cohort was completed. The default cutoff of 0.5 was used
-as the threshold to classify individuals as positive or negative for
-lesion. The hyper-parameter, mtry, defines the number of variables to
-investigate at each split before a new division of the data is created
-with the Random Forest model.
+to our follow up data set of 67 individuals.
+
+In brief, the model included data on FIT and the bacterial microbiome.
+Non-binary data was checked for near zero variance and OTUs that had
+near zero variance were removed. This pre-processing was performed with
+the R package caret (v6.0.73). Optimization of the mtry hyper-parameter
+involved taking the samples and making 100 different 80/20 (train/test)
+splits of the data where normal and lesion were represented in the same
+proportion within both the whole data set and the 80/20 split. Each of
+these splits were then run through 20 repeated 10-fold cross validations
+to optimize the mtry hyper-parameter by maximizing the AUC (Area Under
+the Curve of the Receiver Operator Characteristic). This resulting model
+was then tested on the 20\% of the data that was originally held out
+from this overall process. Next, in order to assess which variables were
+most important to the model we counted the number of times a variable
+was present in the top 10\% of mean decrease in accuracy (MDA) for each
+of the 100 different 80/20 split models and then filtered this list to
+variables that were only present more than 50\% of the time. This final
+collated list of variables was what was considered the most important
+for the model. This reduced data set was then run through the mtry
+optimization again. Once the ideal mtry was found the entire 423 sample
+set was used to create the final Random Forest model on which
+classifications on the 67-person cohort was completed.
+
+The default cutoff of 0.5 was used as the threshold to classify
+individuals as positive or negative for lesion. The hyper-parameter,
+mtry, defines the number of variables to investigate at each split
+before a new division of the data is created with the Random Forest
+model.
 
 \textbf{\emph{Initial Sample Model Creation:}} We also investigated
 whether a model could be created that could identify pre (initial) and
-post (follow up) surgery samples. The main difference was that only the
+post (follow up) lesion removal. The main difference was that only the
 67-person cohort was used at all stages of model building and
 classification. Other than this difference the creation of this model
 and optimization of the mtry hyper-parameter was completed using the
 same procedure as was used for the lesion model. Instead of classifying
 samples as positive or negative of lesion this model classified samples
-as positive or negative for being an initial surgery sample.
-
-\textbf{\emph{Selection of Important OTUs:}} In order to assess which
-variables were most important to either model we counted the number of
-times a variable was present in the top 10\% of mean decrease in
-accuracy (MDA) for each of the 100 different 80/20 split models and then
-filtered this list to variables that were only present more than 50\% of
-the time. This final collated list of variables was what was considered
-the most important for the lesion or before sample models.
+as positive or negative for being an initial to lesion removal sample.
 
 \textbf{\emph{Statistical Analysis:}} The R software package (v3.3.2)
 was used for all statistical analysis. Comparisons between bacterial
@@ -584,17 +589,12 @@ previously associated CRC bacteria (\emph{Fusobacterium nucleatum},
 \emph{Parvimonas micra}, \emph{Peptostreptococcus assacharolytica}, and
 \emph{Porphyromonas stomatis}) based on adenoma and carcinoma. From here
 the lesion model was then tested for accuracy in prediction and whether
-it reduced the positive probability of lesion after surgery. The most
-important OTUs for this were used to build a reduced model and it was
-assessed for similarity to the original model. We then used the initial
-sample model to assess whether it could classify samples better then the
-lesion model. The most important OTUs were then identified from this
-model and used to create a reduced feature initial sample model. This
-reduced feature model, as was done with the lesion model, was compared
-to the full model for loss of accuracy. A list of common OTUs were found
-for the two different models used. Finally, both lesion and initial
-sample models initial positive probabilities were tested against the
-follow up positive probabilities.
+it reduced the positive probability of lesion after surgery. We then
+used the initial sample model to assess whether it could classify
+samples better then the lesion model and whether it could reduce the
+positive probability of an initial sample in the follow up samples.
+Finally, a list of common OTUs were found for the two two different
+models used.
 
 \textbf{\emph{Reproducible Methods:}} A detailed and reproducible
 description of how the data were processed and analyzed can be found at
@@ -623,56 +623,34 @@ OTUs classified as \emph{Parvimonas micra} (P-value = 0.0116) and
 initial and follow up samples. There were no significant differences
 between initial and follow up.
 
-\textbf{Figure 3: Receiver Operating Characteristic Curve for Lesion and
-Initial Sample Models.} The shaded areas represents the range of values
-of a 100 different 80/20 splits of the test set data using either all
-variables (grey) or reduced variable (red) models. The blue line
-represents the reduced variable model using 100\% of the data set and
-what was used for subsequent classification. A) Lesion model. B) Before
-sample model
+\textbf{Figure 3: The Lesion Model.} A) ROC Curve: The shaded areas
+represents the range of values of a 100 different 80/20 splits of the
+test set data and the blue line represents the model using 100\% of the
+data set and what was used for subsequent classification. B) Summary of
+Important Variables. MDA of the most important variables in the lesion
+model. The black point represents the median and the different colors
+are the different runs up to 100. C) Positive probability change from
+initial to follow up sample in those with carcinomaA) Lesion model. D)
+Positive probability change from initial to follow up sample if those
+with adenoma or Screen Relevant Neoplasia (SRN)
 
-\textbf{Figure 4: Breakdown by Carcinoma and Adenoma of Prediction
-Results for Lesion and Initial Sample Reduced Variable Models} A) Lesion
-positive probability change from initial to follow up sample in those
-with carcinoma B) Initial positive probability change from initial to
-follow up sample in those with carcinoma C) Lesion positive probability
-change from initial to follow up sample if those with adenoma or Screen
-Relevant Neoplasia (SRN). D) Initial positive probability change from
-initial to follow up sample in those with adenoma or SRN. The dotted
-line represents the threshold used to make the decision of whether a
-sample was positive or not.
+\textbf{Figure 4: The Initial Sample Model.} A) ROC Curve: The shaded
+areas represents the range of values of a 100 different 80/20 splits of
+the test set data and the blue line represents the model using 100\% of
+the data set and what was used for subsequent classification. B) Summary
+of Important Variables. MDA of the most important variables in the
+initial sample model. The black point represents the median and the
+different colors are the different runs up to 100. C) Positive
+probability change from initial to follow up sample in those with
+carcinoma. D) Positive probability change from initial to follow up
+sample if those with adenoma or Screen Relevant Neoplasia (SRN).
 
 \newpage
 
 \textbf{Figure S1: Distribution of P-values from Paired Wilcoxson
 Analysis of All OTUs for Initial versus Follow Up}
 
-\textbf{Figure S2: Summary of Important Variables in the Lesion Model}
-A) MDA of the most important variables in the lesion model. The black
-point represents the median and the different colors are the different
-runs up to 100. B) The total number of appearances of each variable in
-the 100 different lesion models. The cutoff of 50\% was used to assess
-importance.
-
-\textbf{Figure S3: Summary of Important Variables in Before Sample
-Model} A) MDA of the most important variables in the lesion model. The
-black point represents the median and the different colors are the
-different runs up to 100. B) The total number of appearances of each
-variable in the 100 different lesion models. The cutoff of 50\% was used
-to assess importance.
-
-\textbf{Figure S4: Breakdown by Carcinoma and Adenoma of Prediction
-Results for Lesion and Before Sample Full Variable Models} A) Lesion
-positive probability change from initial to follow up sample in those
-with carcinoma B) Initial positive probability change from initial to
-follow up sample in those with carcinoma C) Lesion positive probability
-change from initial to follow up sample in those with adenoma or Screen
-Relevant Neoplasia (SRN). D) Initial positive probability change from
-initial to follow up sample in those with adenoma or SRN. The dotted
-line represents the threshold used to make the decision of whether a
-sample was positive or not.
-
-\textbf{Figure S5: Thetayc Versus Time of Follow up Sample from Initial}
+\textbf{Figure S2: Thetayc Versus Time of Follow up Sample from Initial}
 
 \newpage
 
