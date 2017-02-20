@@ -222,15 +222,15 @@ A detailed and reproducible description of how the data were processed and analy
 \newpage
 
 
-**Figure 1: General Differences between the Adenoma or Carcinoma Group.**  A) A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`).  B) A significant difference was found between the adenoma and carcinoma group for change in FIT measurement (P-value = `r format(change_summary['fit', 'Pvalue'], scientific = TRUE, digits = 3)`). C) NMDS of the initial and follow up samples for the Adenoma group.  D) NMDS of the initial and follow up samples for the Carcinoma group. For C) and D) the teal represents initial samples and the pink represents follow up samples. 
+**Figure 1: General Differences between the Adenoma and Carcinoma Group.**  A) A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`).  B) A significant difference was found between the adenoma and carcinoma group for change in FIT measurement (P-value = `r format(change_summary['fit', 'Pvalue'], scientific = TRUE, digits = 3)`). C) NMDS of the initial and follow up samples for the Adenoma group.  D) NMDS of the initial and follow up samples for the Carcinoma group. For C) and D) the teal represents initial samples and the pink represents follow up samples. 
 
-**Figure 2: Previously Associated CRC Bacteria in Initial and Follow up Samples.**  A) Carcinoma initial and follow up samples had an observed significant difference in initial and follow up sample for the OTUs classified as *Parvimonas micra* (P-value = `r format(main_crc_bugs_summary["parv", "crc_BH"], digits = 3)`) and *Porphyromonas asaccharolytica* (P-value = `r format(main_crc_bugs_summary["porp", "crc_BH"], digits = 3)`).  B) Adenoma initial and follow up samples.  There were no significant differences between initial and follow up.
-
-
-**Figure 3: The Lesion Model.** A) ROC Curve: The shaded areas represents the range of values of a 100 different 80/20 splits of the test set data and the blue line represents the model using 100% of the data set and what was used for subsequent classification.  B) Summary of Important Variables.  MDA of the most important variables in the lesion model.  The black point represents the median and the different colors are the different runs up to 100. C) Positive probability change from initial to follow up sample in those with carcinomaA) Lesion model.  D) Positive probability change from initial to follow up sample if those with adenoma or Screen Relevant Neoplasia (SRN)
+**Figure 2: Previously Associated CRC Bacteria in Initial and Follow Up Samples.**  A) Carcinoma initial and follow up samples had an observed significant difference in initial and follow up sample for the OTUs classified as *Parvimonas micra* (P-value = `r format(main_crc_bugs_summary["parv", "crc_BH"], digits = 3)`) and *Porphyromonas asaccharolytica* (P-value = `r format(main_crc_bugs_summary["porp", "crc_BH"], digits = 3)`).  B) Adenoma initial and follow up samples.  There were no significant differences between initial and follow up (P-value = `r format(main_crc_bugs_summary["porp", "adn_BH"], digits = 3)`.
 
 
-**Figure 4: The Initial Sample Model.**  A) ROC Curve: The shaded areas represents the range of values of a 100 different 80/20 splits of the test set data and the blue line represents the model using 100% of the data set and what was used for subsequent classification.  B) Summary of Important Variables.  MDA of the most important variables in the initial sample model.  The black point represents the median and the different colors are the different runs up to 100.  C) Positive probability change from initial to follow up sample in those with carcinoma.  D) Positive probability change from initial to follow up sample if those with adenoma or Screen Relevant Neoplasia (SRN).
+**Figure 3: The Lesion Model.** A) ROC curve: The shaded areas represents the range of values of a 100 different 80/20 splits of the test set data and the blue line represents the model using 100% of the data set and what was used for subsequent classification.  B) Summary of Important Variables.  MDA of the most important variables in the lesion model.  The black point represents the mean and the different colors are the values of each different run up to 100. C) Positive probability change from initial to follow up sample in those with carcinoma.  D) Positive probability change from initial to follow up sample if those with adenoma or advanced adenoma (Screen Relevant Neoplasia (SRN)).
+
+
+**Figure 4: The Initial Sample Model.**  A) ROC curve: The shaded areas represents the range of values of a 100 different 80/20 splits of the test set data and the blue line represents the model using 100% of the data set and what was used for subsequent classification.  B) Summary of Important Variables.  MDA of the most important variables in the initial sample model.  The black point represents the mean and the different colors are the values of each different run up to 100.  C) Positive probability change from initial to follow up sample in those with carcinoma.  D) Positive probability change from initial to follow up sample of those with adenoma or advanced adenoma (Screen Relevant Neoplasia (SRN)).
 
 
 
@@ -249,6 +249,8 @@ A detailed and reproducible description of how the data were processed and analy
 ### Consent for publication
 
 ### Availability of data and material
+
+A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017.  Raw sequences have been deposited into the NCBI Sequence Read Archive (SRP062005 and SRP096978) and the necessary metadata can be found at https://www.ncbi.nlm.nih.gov/Traces/study/ and searching the respective SRA study accession.
 
 ### Competing Interests
 
