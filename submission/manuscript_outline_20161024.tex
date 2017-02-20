@@ -269,26 +269,24 @@ separated individuals based on whether they had an adenoma or carcinoma
 there was only a decrease in positive probability for the carcinoma
 group {[}Figure 3C{]} (P-value \textless{} 0.001) and not for the
 adenoma group {[}Figure 3D{]} (P-value \textgreater{} 0.05). We also
-observed that there were no significant differences in whether the
-models classified the samples as having lesion between the predicted and
-actual (P-value \textgreater{} 0.05). The lesion model was able to
-correctly classify the one individual who still had a carcinoma on
-follow up {[}Figure 3C{]}.
+observed that there were no significant differences between the
+predicted and actual calls (P-value \textgreater{} 0.05). The lesion
+model was also able to correctly classify the one individual who still
+had a carcinoma on follow up {[}Figure 3C{]}.
 
 \textbf{\emph{The Initial Sample Model:}} After building a model to
 classify based on lesion we wanted to then build a separate model
-specifically to be able to classify whether samples were initial or
-follow up samples based on the bacterial community and FIT measurements.
-The initial sample model had an AUC range of 0.641 to 0.805 after 100
-iterations of 20 repeated 10-fold cross validations. The test set AUC
-range for this model performed better then the training set AUCs. There
-was a marked decrease in the ROC curve for the final model used when
-compared to the 100 test set AUC iterations {[}Figure 4A{]}. There were
-a total of 70 variables that were used for this model {[}Figure 4B{]}.
-The variable that resulted in the largest MDA was \emph{Pseudomonas}
-(Otu000438) resulted in the largest decrease in MDA while FIT
-measurement for fecal blood resulted in the sixth largest decrease in
-MDA {[}Figure 4B{]}.
+specifically to be able to classify whether samples were initial samples
+based on the bacterial community and FIT measurements. The initial
+sample model had an AUC range of 0.641 to 0.805 after 100 iterations of
+20 repeated 10-fold cross validations. The test set AUC range for this
+model performed better then the training set AUCs. There was a marked
+decrease in the ROC curve for the final model used when compared to the
+100 test set AUC iterations {[}Figure 4A{]}. There were a total of 70
+variables that were used for this model {[}Figure 4B{]}. The variable
+that resulted in the largest MDA was \emph{Pseudomonas} (Otu000438)
+while FIT measurement for fecal blood resulted in the sixth largest
+decrease in MDA {[}Figure 4B{]}.
 
 If there were common OTUs that could separate initial from follow up
 sample regardless of whether the lesion was adenoma or carcinoma we
