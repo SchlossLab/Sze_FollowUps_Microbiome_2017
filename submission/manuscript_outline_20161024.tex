@@ -96,14 +96,14 @@
 
 \begin{document}
 
-\section{Differences in the fecal Microbiome Before and After Colorectal
-Cancer
-Treatment}\label{differences-in-the-fecal-microbiome-before-and-after-colorectal-cancer-treatment}
+\section{The Fecal Microbiome Before and After Treatment for Colorectal
+Adenoma or
+Carcinoma}\label{the-fecal-microbiome-before-and-after-treatment-for-colorectal-adenoma-or-carcinoma}
 
 \vspace{25mm}
 
 \begin{center}
-Running Title: Human Microbiome and Colorectal Cancer
+Running Title: Human Microbiome before and after Colorectal Cancer
 
 \vspace{10mm}
 
@@ -136,21 +136,22 @@ microbiome occur after lesion (i.e.~adenoma or carcinoma) removal.
 Specifically, we wanted to identify what within the community was
 different before and after removal of said lesion.
 
-\textbf{Results:} The bacterial microbiome in pre and post surgery
-samples for the adenoma group were more similar to each other than the
-carcinoma group (P-value \textless{} 0.05). There was no difference for
-either the adenoma or carcinoma group in the relative abundance of any
-OTU between the pre and post lesion removal (P-value \textgreater{}
-0.05). A model built to classify model built to classify lesion had an
-AUC range of 0.811 - 0.866 while a model built to classify initial
-versus follow up samples had an AUC range of 0.641 - 0.805. The post
-removal sample for both models had a decrease in the positive
-probability for either lesion or initial sample (P-value \textless{}
-0.05). The lesion model used a total of 53 variables while the initial
-sample model used a total of 70 variables. A total of 23 OTUs were
-common to both models with the majority of these classifying to
-commensal bacteria (e.g. \emph{Bacteroides}, \emph{Clostridiales},
-\emph{Blautia}, and \emph{Ruminococcaceae}).
+\textbf{Results:} The bacterial microbiome in pre and post lesion
+removal samples for the adenoma group were more similar to each other
+than the carcinoma group (P-value \textless{} 0.05). There was no
+difference for either the adenoma or carcinoma group in the relative
+abundance of any OTU between the pre and post lesion removal (P-value
+\textgreater{} 0.05). A model built to classify model built to classify
+lesion had an AUC range of 0.811 - 0.866 while a model built to classify
+initial versus follow up samples had an AUC range of 0.641 - 0.805.
+Follow up samples had a decrease in the positive probability (P-value
+\textless{} 0.05). This decrease in positive probability was also
+observed for the initial sample model (P-value \textless{} 0.05). The
+lesion model used a total of 53 variables while the initial sample model
+used a total of 70 variables. A total of 23 OTUs were common to both
+models with the majority of these classifying to commensal bacteria
+(e.g. \emph{Bacteroides}, \emph{Clostridiales}, \emph{Blautia}, and
+\emph{Ruminococcaceae}).
 
 \textbf{Conclusions:} Our data supports the hypothesis that there are
 differences in the bacterial microbiome between pre and post lesion
@@ -183,26 +184,26 @@ it's ability to complement existing screening methods such as Fecal
 Immunoglobulin Test (FIT) or act alone as a screening tool {[}3,4{]}.
 There has also been research into how the bacterial microbiome could be
 altered directly on tumor tissue itself {[}5{]}. A few studies have also
-shown how this microbiome {[}6{]} or specific members within it {[}7{]}
-could be directly involved with the pathogenesis of CRC. These studies
-have helped to provide a tantalizing link between the bacterial
-microbiome and CRC. Although these studies suggest that the bacterial
-microbiome might change after treatment there remains limited
+shown how this bacterial microbiome {[}6{]} or specific members within
+it {[}7{]} could be directly involved with the pathogenesis of CRC.
+These studies have helped to provide a tantalizing link between the
+bacterial microbiome and CRC. Although these studies suggest that the
+bacterial microbiome might change after treatment there remains limited
 information on the bacterial microbiome before and after surgical
 removal of lesion (adenoma or carcinoma) and whether the community
 changes at all.
 
 In this study we tested the hypothesis that the bacterial microbiome
-changes between pre (initial) and post (follow up) samples after removal
-of a lesion (adenoma or carcinoma). Our analysis included both alpha and
-beta diversity analysis along with investigation of individual
-operational taxonomic units (OTUs). We also utilized Random Forest to
-build models to classify either initial and follow up samples or lesion
-and normal samples and then subsequently observe how these models, as
-well as specific OTUs within them, performed pre and post surgery. We
+changes between pre (initial) and post (follow up) samples removal of
+lesion (adenoma or carcinoma). Our analysis included both alpha and beta
+diversity analysis along with investigation of individual operational
+taxonomic units (OTUs). We also utilized Random Forest to build models
+to classify either lesion and normal samples or initial and follow up
+samples and then subsequently observe how these models, as well as
+specific OTUs within them, performed pre and post lesion removal. We
 also investigated the models for similar important OTUs to identify the
-crucial OTUs for not only classifying initial and follow up samples but
-also lesion or normal.
+crucial OTUs for not only classifying lesion or normalsamples but also
+initial and follow up.
 
 \newpage
 
@@ -268,26 +269,24 @@ separated individuals based on whether they had an adenoma or carcinoma
 there was only a decrease in positive probability for the carcinoma
 group {[}Figure 3C{]} (P-value \textless{} 0.001) and not for the
 adenoma group {[}Figure 3D{]} (P-value \textgreater{} 0.05). We also
-observed that there were no significant differences in whether the
-models classified the samples as having lesion between the predicted and
-actual (P-value \textgreater{} 0.05). The lesion model was able to
-correctly classify the one individual who still had a carcinoma on
-follow up {[}Figure 3C{]}.
+observed that there were no significant differences between the
+predicted and actual calls (P-value \textgreater{} 0.05). The lesion
+model was also able to correctly classify the one individual who still
+had a carcinoma on follow up {[}Figure 3C{]}.
 
 \textbf{\emph{The Initial Sample Model:}} After building a model to
 classify based on lesion we wanted to then build a separate model
-specifically to be able to classify whether samples were initial or
-follow up samples based on the bacterial community and FIT measurements.
-The initial sample model had an AUC range of 0.641 to 0.805 after 100
-iterations of 20 repeated 10-fold cross validations. The test set AUC
-range for this model performed better then the training set AUCs. There
-was a marked decrease in the ROC curve for the final model used when
-compared to the 100 test set AUC iterations {[}Figure 4A{]}. There were
-a total of 70 variables that were used for this model {[}Figure 4B{]}.
-The variable that resulted in the largest MDA was \emph{Pseudomonas}
-(Otu000438) resulted in the largest decrease in MDA while FIT
-measurement for fecal blood resulted in the sixth largest decrease in
-MDA {[}Figure 4B{]}.
+specifically to be able to classify whether samples were initial samples
+based on the bacterial community and FIT measurements. The initial
+sample model had an AUC range of 0.641 to 0.805 after 100 iterations of
+20 repeated 10-fold cross validations. The test set AUC range for this
+model performed better then the training set AUCs. There was a marked
+decrease in the ROC curve for the final model used when compared to the
+100 test set AUC iterations {[}Figure 4A{]}. There were a total of 70
+variables that were used for this model {[}Figure 4B{]}. The variable
+that resulted in the largest MDA was \emph{Pseudomonas} (Otu000438)
+while FIT measurement for fecal blood resulted in the sixth largest
+decrease in MDA {[}Figure 4B{]}.
 
 If there were common OTUs that could separate initial from follow up
 sample regardless of whether the lesion was adenoma or carcinoma we
@@ -329,8 +328,8 @@ S3{]}.
 \subsection{Discussion}\label{discussion}
 
 From our results there were large observed differences in the bacterial
-microbiome between pre and post surgery samples based on whether the
-individual had an adenoma or carcinoma. There were much larger
+microbiome between pre and post lesion removal samples based on whether
+the individual had an adenoma or carcinoma. There were much larger
 differences between initial and follow up samples based on the thetayc
 distance metric and in fecal blood as measured by FIT for individuals
 with carcinoma versus adenoma {[}Figure 1{]}. However, there were no
@@ -338,10 +337,7 @@ differences between initial and follow up samples for Shannon Diversity,
 observed OTUs, or evenness regardless of whether the individual had an
 adenoma or carcinoma {[}Table S1{]}. There was also no differences in
 relative abundance of any specific OTU for lesion, adenoma only, or
-carcinoma only {[}Figure s1{]}. Although there was a detectable change
-in the carcinoma group and this change was towards what would be
-expected for normal controls, the follow up samples may not be a
-completely normal bacterial microbiome.
+carcinoma only {[}Figure S1{]}.
 
 Although there were no differences when investigating all OTUs, when
 looking specifically at four OTUs that taxonomically classified to
@@ -366,7 +362,10 @@ able to accurately classify initial versus follow up samples {[}Figure 3
 \& 4{]}. Providing additional information on the importance of commensal
 bacteria was that there were a total of 23 OTUs in common to both models
 and the vast majority belonged to regular residents of our gut community
-{[}Table S3{]}.
+{[}Table S2{]}. Although there was a detectable change in the carcinoma
+group and this change was towards what would be expected for normal
+controls, the follow up samples may not be a completely normal bacterial
+microbiome.
 
 For the majority of tests performed there were no differences in the
 bacterial microbiome based on whether chemotherapy or radiation was
@@ -378,9 +377,8 @@ carcinoma (351 +/- 102 days). These results would indicate that the
 findings described were specific to the surgical intervention and that
 some of the differences observed between carcinoma and adenoma samples
 could be due to differences in collection time between samples for the
-two different groups. For time differences, specifically, it could
-confound the observation that carcinomas changed more than adenomas
-{[}Figure 1a \& 1d{]}.
+two different groups. Specifically, it could confound the observation
+that carcinomas changed more than adenomas {[}Figure 1a \& 1d{]}.
 
 This study builds upon previous work from numerous labs that have looked
 into the bacterial microbiome as a potential screening tool
@@ -396,8 +394,8 @@ in allowing more inflammatory bacterium to gain a foothold within the
 colon {[}8{]}.
 
 Curiously, we observed that the typical CRC associated bacteria were not
-predictive ewithin our models. There are a number of reasons why this
-may have occurred. First, is that they were not present in enough
+predictive within our models. There are a number of reasons why this may
+have occurred. First, is that they were not present in enough
 individuals to be able to classify those with and without disease with a
 high degree of accuracy. Second, is that our Random Forest models were
 able to gather the same information from measures such as FIT or other
@@ -417,24 +415,23 @@ individuals but also large decreases in relative abundance in some of
 those with carcinoma but not in those with adenoma after surgery
 {[}Figure 2{]}.
 
-Many of the common OTUs between the different models used had many OTUs
-that taxonomically classified to potential butyrate producers {[}Table
-S2{]}. Another batch of OTUs classified to bacteria that can either
-degrade polyphenols or are inhibited by them. Both butyrate and
-polyphenols are thought to be protective against cancer in part by
-reducing inflammation {[}13{]}. These protective compounds are derived
-from the breakdown of fiber, fruits, and vegetables by resident gut
-microbes. One example of this potential
-diet-microbiome-inflammation-polyp axis is that \emph{Bacteroides},
-which was highly prevalent in our models, are known to be increased in
-those with high non-meat based protein consumption {[}14{]}. High
-protein consumption in general has been linked with an increased CRC
-risk {[}15{]}. Conversely, \emph{Bacteroides} are inhibited by
-polyphenols which are derived from fruits and vegetables {[}16{]}. Our
-data fits with the hypothesis that the microbial metabolites from
-breakdown products within our own diet could not only help to shape the
-existing community but also have an effect on CRC risk and disease
-progression.
+Many of the common OTUs between the two models used had many OTUs that
+taxonomically classified to potential butyrate producers {[}Table S2{]}.
+Another batch of OTUs classified to bacteria that can either degrade
+polyphenols or are inhibited by them. Both butyrate and polyphenols are
+thought to be protective against cancer in part by reducing inflammation
+{[}13{]}. These protective compounds are derived from the breakdown of
+fiber, fruits, and vegetables by resident gut microbes. One example of
+this potential diet-microbiome-inflammation-polyp axis is that
+\emph{Bacteroides}, which was highly prevalent in our models, are known
+to be increased in those with high non-meat based protein consumption
+{[}14{]}. High protein consumption in general has been linked with an
+increased CRC risk {[}15{]}. Conversely, \emph{Bacteroides} are
+inhibited by polyphenols which are derived from fruits and vegetables
+{[}16{]}. Our data fits with the hypothesis that the microbial
+metabolites from breakdown products within our own diet could not only
+help to shape the existing community but also have an effect on CRC risk
+and disease progression.
 
 One limitation of our study is that we do not know whether individuals
 who were still classified as positive by the lesion model eventually had
@@ -473,14 +470,14 @@ pathogenesis of disease.
 
 Despite these limitations our findings add to the existing scientific
 knowledge on CRC and the bacterial microbiome: That there is a
-measurable difference in the bacterial community after surgical removal
-of lesion. Further, the ability for machine learning algorithms to take
-bacterial microbiome data and successfully lower positive probability
-after either adenoma or carcinoma removal provides evidence that there
-are specific signatures, mostly attributable to commensal organisms,
-associated with these lesions. Our data provides evidence that commensal
-bacteria may be important in the development of polyps and also
-potentially the transition from adenoma to carcinoma.
+measurable difference in the bacterial community after adenoma or
+carcinoma removal. Further, the ability for machine learning algorithms
+to take bacterial microbiome data and successfully lower positive
+probability after either adenoma or carcinoma removal provides evidence
+that there are specific signatures, mostly attributable to commensal
+organisms, associated with these lesions. Our data provides evidence
+that commensal bacteria may be important in the development of polyps
+and also potentially the transition from adenoma to carcinoma.
 
 \newpage
 
@@ -491,16 +488,16 @@ design were similar to that reported in Baxter, et al {[}3{]}. In brief,
 study exclusion involved those who had already undergone surgery,
 radiation, or chemotherapy, had colorectal cancer before a baseline
 fecal sample could be obtained, had IBD, a known hereditary
-non-polyposis colorectal cancer, or Familial adenomatous polyposis.
+non-polyposis colorectal cancer, or familial adenomatous polyposis.
 Samples used to build the models for prediction were collected either
 prior to a colonoscopy or between 1 - 2 weeks after. The bacterial
 microbiome has been shown to normalize within this time period {[}18{]}.
 Our follow up data set had a total of 67 individuals that not only had a
 sample as described but also a follow up sample between 188 - 546 days
-after surgery and treatment had been completed. This study was approved
-by the University of Michigan Institutional Review Board. All study
-participants provided informed consent and the study itself conformed to
-the guidelines set out by the Helsinki Declaration.
+after lesion removal and treatment had been completed. This study was
+approved by the University of Michigan Institutional Review Board. All
+study participants provided informed consent and the study itself
+conformed to the guidelines set out by the Helsinki Declaration.
 
 \textbf{\emph{FIT and 16S rRNA Gene Sequencing:}} FIT was analyzed as
 previously published using both OC FIT-CHEK and OC-Auto Micro 80
@@ -526,7 +523,7 @@ was rarefied to 10523 in an attempt to minimize uneven sampling.
 
 \textbf{\emph{Lesion Model Creation:}} The Random Forest {[}21{]}
 algorithm was used to create the model used for prediction of lesion
-(adenoma or carcinoma) with the main testing and training of the model
+(adenoma or carcinoma) with the main training and testing of the model
 completed on a data set of 423 individuals. This model was then applied
 to our follow up data set of 67 individuals.
 
@@ -555,18 +552,19 @@ classifications on the 67-person cohort was completed.
 The default cutoff of 0.5 was used as the threshold to classify
 individuals as positive or negative for lesion. The hyper-parameter,
 mtry, defines the number of variables to investigate at each split
-before a new division of the data is created with the Random Forest
+before a new division of the data was created with the Random Forest
 model.
 
 \textbf{\emph{Initial Sample Model Creation:}} We also investigated
 whether a model could be created that could identify pre (initial) and
-post (follow up) lesion removal. The main difference was that only the
-67-person cohort was used at all stages of model building and
-classification. Other than this difference the creation of this model
-and optimization of the mtry hyper-parameter was completed using the
-same procedure as was used for the lesion model. Instead of classifying
-samples as positive or negative of lesion this model classified samples
-as positive or negative for being an initial to lesion removal sample.
+post (follow up) lesion removal samples from each other. The main
+difference was that only the 67-person cohort was used at all stages of
+model building and classification. Other than this difference the
+creation of this model and optimization of the mtry hyper-parameter was
+completed using the same procedure as was used for the lesion model.
+Instead of classifying samples as positive or negative of lesion this
+model classified samples as positive or negative for being an initial to
+lesion removal sample.
 
 \textbf{\emph{Statistical Analysis:}} The R software package (v3.3.2)
 was used for all statistical analysis. Comparisons between bacterial
@@ -583,18 +581,17 @@ corrected.
 any differences based on whether the individual had an adenoma or
 carcinoma. This was done by testing initial and follow up samples for
 differences in alpha and beta diversity, testing differences in FIT
-between initial and follow ups, testing all OTUs that were used in
-either built model, and investigating the relative abundance of specific
-previously associated CRC bacteria (\emph{Fusobacterium nucleatum},
-\emph{Parvimonas micra}, \emph{Peptostreptococcus assacharolytica}, and
-\emph{Porphyromonas stomatis}) based on adenoma and carcinoma. From here
-the lesion model was then tested for accuracy in prediction and whether
-it reduced the positive probability of lesion after surgery. We then
-used the initial sample model to assess whether it could classify
-samples better then the lesion model and whether it could reduce the
-positive probability of an initial sample in the follow up samples.
-Finally, a list of common OTUs were found for the two two different
-models used.
+between initial and follow ups, testing all OTUs, and investigating the
+relative abundance of specific previously associated CRC bacteria
+(\emph{Fusobacterium nucleatum}, \emph{Parvimonas micra},
+\emph{Peptostreptococcus assacharolytica}, and \emph{Porphyromonas
+stomatis}) based on adenoma and carcinoma. From here the lesion model
+was then tested for accuracy in prediction and whether it reduced the
+positive probability of lesion after surgery. We then used the initial
+sample model to assess whether it could classify samples better then the
+lesion model and whether it could reduce the positive probability of an
+initial sample in the follow up samples. Finally, a list of common OTUs
+were found for the two two different models used.
 
 \textbf{\emph{Reproducible Methods:}} A detailed and reproducible
 description of how the data were processed and analyzed can be found at
@@ -606,7 +603,7 @@ respective SRA study accession.
 
 \newpage
 
-\textbf{Figure 1: General Differences between the Adenoma or Carcinoma
+\textbf{Figure 1: General Differences between the Adenoma and Carcinoma
 Group.} A) A significant difference was found between the adenoma and
 carcinoma group for thetayc (P-value = 0.000472). B) A significant
 difference was found between the adenoma and carcinoma group for change
@@ -616,34 +613,35 @@ follow up samples for the Carcinoma group. For C) and D) the teal
 represents initial samples and the pink represents follow up samples.
 
 \textbf{Figure 2: Previously Associated CRC Bacteria in Initial and
-Follow up Samples.} A) Carcinoma initial and follow up samples had an
+Follow Up Samples.} A) Carcinoma initial and follow up samples had an
 observed significant difference in initial and follow up sample for the
 OTUs classified as \emph{Parvimonas micra} (P-value = 0.0116) and
 \emph{Porphyromonas asaccharolytica} (P-value = 0.00842). B) Adenoma
 initial and follow up samples. There were no significant differences
-between initial and follow up.
+between initial and follow up (P-value = 0.37.
 
-\textbf{Figure 3: The Lesion Model.} A) ROC Curve: The shaded areas
+\textbf{Figure 3: The Lesion Model.} A) ROC curve: The shaded areas
 represents the range of values of a 100 different 80/20 splits of the
 test set data and the blue line represents the model using 100\% of the
 data set and what was used for subsequent classification. B) Summary of
 Important Variables. MDA of the most important variables in the lesion
-model. The black point represents the median and the different colors
-are the different runs up to 100. C) Positive probability change from
-initial to follow up sample in those with carcinomaA) Lesion model. D)
+model. The black point represents the mean and the different colors are
+the values of each different run up to 100. C) Positive probability
+change from initial to follow up sample in those with carcinoma. D)
 Positive probability change from initial to follow up sample if those
-with adenoma or Screen Relevant Neoplasia (SRN)
+with adenoma or advanced adenoma (Screen Relevant Neoplasia (SRN)).
 
-\textbf{Figure 4: The Initial Sample Model.} A) ROC Curve: The shaded
+\textbf{Figure 4: The Initial Sample Model.} A) ROC curve: The shaded
 areas represents the range of values of a 100 different 80/20 splits of
 the test set data and the blue line represents the model using 100\% of
 the data set and what was used for subsequent classification. B) Summary
 of Important Variables. MDA of the most important variables in the
-initial sample model. The black point represents the median and the
-different colors are the different runs up to 100. C) Positive
-probability change from initial to follow up sample in those with
-carcinoma. D) Positive probability change from initial to follow up
-sample if those with adenoma or Screen Relevant Neoplasia (SRN).
+initial sample model. The black point represents the mean and the
+different colors are the values of each different run up to 100. C)
+Positive probability change from initial to follow up sample in those
+with carcinoma. D) Positive probability change from initial to follow up
+sample of those with adenoma or advanced adenoma (Screen Relevant
+Neoplasia (SRN)).
 
 \newpage
 
@@ -663,6 +661,14 @@ participate}\label{ethics-approval-and-consent-to-participate}
 
 \subsubsection{Availability of data and
 material}\label{availability-of-data-and-material}
+
+A detailed and reproducible description of how the data were processed
+and analyzed can be found at
+\url{https://github.com/SchlossLab/Sze_followUps_2017}. Raw sequences
+have been deposited into the NCBI Sequence Read Archive (SRP062005 and
+SRP096978) and the necessary metadata can be found at
+\url{https://www.ncbi.nlm.nih.gov/Traces/study/} and searching the
+respective SRA study accession.
 
 \subsubsection{Competing Interests}\label{competing-interests}
 
