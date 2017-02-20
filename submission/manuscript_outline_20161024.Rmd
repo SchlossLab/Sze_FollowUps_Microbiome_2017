@@ -11,7 +11,7 @@ fontsize: 12pt
 geometry: margin=1.0in
 ---
 
-# Differences in the fecal Microbiome Before and After Colorectal Cancer Treatment
+# The Fecal Microbiome Before and After Treatment for Colorectal Adenoma or Carcinoma
 ```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 
 source('../code/functions.R')
@@ -71,7 +71,7 @@ chemo_rad_summary <- read.csv('../results/tables/probs_chemo_rad_pvalue_summary.
 \vspace{25mm} 
 
 \begin{center}
-Running Title: Human Microbiome and Colorectal Cancer
+Running Title: Human Microbiome before and after Colorectal Cancer
 
 \vspace{10mm}
 
