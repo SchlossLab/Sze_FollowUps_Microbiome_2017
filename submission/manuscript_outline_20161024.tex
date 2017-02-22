@@ -139,19 +139,19 @@ different before and after removal of said lesion.
 \textbf{Results:} The bacterial microbiome changed more in response to
 lesion removal in carcinoma cases compared to adenoma cases (P-value
 \textless{} 0.05). There was no difference for either the adenoma or
-carcinoma group in the relative abundance of any OTU between the pre and
+carcinoma group in the relative abundance of any OTU between pre and
 post lesion removal (P-value \textgreater{} 0.05). A model built to
 classify lesion had an AUC range of 0.811 - 0.866 while a model built to
-classify initial versus follow up samples had an AUC range of 0.641 -
-0.805. Follow up samples had a decrease in the positive probability of
-lesion (P-value \textless{} 0.05) suggesting a movement towards a more
-normal bacterial community. The initial sample model had a decrease in
-positive probability for the follow up samples tobe an initial sample
-(P-value \textless{} 0.05). The lesion model used a total of 53
-variables while the initial sample model used a total of 70 variables. A
-total of 23 OTUs were common to both models with the majority of these
-classifying to commensal bacteria (e.g. \emph{Bacteroides},
-\emph{Clostridiales}, \emph{Blautia}, and \emph{Ruminococcaceae}).
+classify initial samples had an AUC range of 0.641 - 0.805. Follow up
+samples had a decrease in the positive probability of lesion (P-value
+\textless{} 0.05) suggesting a movement towards a more normal bacterial
+community. The initial sample model had a decrease in positive
+probability for the follow up samples to be an initial sample (P-value
+\textless{} 0.05). The lesion model used a total of 53 variables while
+the initial sample model used a total of 70 variables. A total of 23
+OTUs were common to both models with the majority of these classifying
+to commensal bacteria (e.g. \emph{Bacteroides}, \emph{Clostridiales},
+\emph{Blautia}, and \emph{Ruminococcaceae}).
 
 \textbf{Conclusions:} Our data supports the hypothesis that there are
 changes in the bacterial microbiome following colorectal cancer lesion
@@ -174,22 +174,22 @@ factors
 
 Colorectal cancer (CRC) continues to be a leading cause of cancer
 related deaths and is currently the third most common cause of cancer
-deaths {[}1,2{]}. Over the last few years rate of disease mortality has
-seen a significant decrease, thanks mainly to improvements in screening
-{[}1{]}. However, despite this improvement there are still approximately
-50,000 deaths from the disease per year {[}2{]}.
+deaths {[}1,2{]}. Over the last few years the rate of disease mortality
+has seen a significant decrease, thanks mainly to improvements in
+screening {[}1{]}. However, despite this improvement there are still
+approximately 50,000 deaths from the disease per year {[}2{]}.
 
-Over the last few years there has been research into how the bacterial
-microbiome could be altered directly on tumor tissue itself {[}3{]}. A
-few studies have also shown how this bacterial microbiome {[}4{]} or
-specific members within it {[}5{]} could be directly involved with the
-pathogenesis of CRC. These studies have helped to provide a tantalizing
-link between the bacterial microbiome and CRC. Building off of these
-findings, there has been promising work on the bacterial microbiome and
-its ability to complement existing screening methods such as Fecal
-Immunoglobulin Test (FIT) or act alone as a screening tool {[}6,7{]}.
-Although these studies suggest that the bacterial microbiome might
-change after treatment there remains limited information on the
+Over the last few years a few studies have shown how this bacterial
+microbiome {[}3{]} or specific members within it {[}4{]} could be
+directly involved with the pathogenesis of CRC. There has also been
+research into how the bacterial microbiome could be altered directly on
+tumor tissue itself {[}5{]}. These studies have helped to provide a
+tantalizing link between the bacterial microbiome and CRC. Building off
+of these findings, there has been promising work on the bacterial
+microbiome and its ability to complement existing screening methods such
+as Fecal Immunoglobulin Test (FIT) or act alone as a screening tool
+{[}6,7{]}. Although these studies suggest that the bacterial microbiome
+might change after treatment there remains limited information on the
 bacterial microbiome response to lesion (adenoma or carcinoma) removal.
 
 In this study we tested the hypothesis that the bacterial microbiome
@@ -197,12 +197,12 @@ changes between pre (initial) and post (follow up) removal of lesion
 (adenoma or carcinoma). We analyzed changes in alpha and beta diversity
 as well as specific Operational Taxonomic Units (OTUs) relative
 abundance. We utilized Random Forest to build two models. The first
-model was built to classify either lesion and normal samples while the
-second was built to classify initial and follow up samples. Subsequent
+model was built to classify lesion and normal samples while the second
+was built to classify initial and follow up samples. Subsequent
 observations on how these models, as well as specific OTUs within them,
 performed pre and post lesion removal helped inform us as to whether
 initial and follow up samples were changing and whether it was towards a
-more normal bacterial microbiome or not. We then investigated the two
+more normal bacterial microbiome or not. We also investigated the two
 models for similar important OTUs to identify the crucial OTUs for not
 only classifying lesion or normal samples but also initial and follow
 up.
@@ -216,12 +216,12 @@ we first wanted to test whether there were any broad differences between
 initial and follow up samples based on lesion being either adenoma (n =
 41) or carcinoma (n = 26). We found that the bacterial community in
 those with carcinoma were more dissimilar to their initial sample than
-those with adenoma (P-value \textless{} 0.001) {[}Figure 1a{]}. We also
+those with adenoma (P-value \textless{} 0.001) {[}Figure 1A{]}. We also
 found that there were larger changes in fecal blood (measured by FIT)
 for those with carcinoma versus adenoma (P-value \textless{} 0.0001)
-{[}Figure 1b{]}. The bacterial community structure before and after
-surgery was visualized using NMDS for both adenoma {[}Figure1c{]}
-(PERMANOVA \textgreater{} 0.05) and carcinoma {[}Figure 1d{]} (PERMANOVA
+{[}Figure 1B{]}. The bacterial community structure before and after
+surgery was visualized using NMDS for both adenoma {[}Figure 1C{]}
+(PERMANOVA \textgreater{} 0.05) and carcinoma {[}Figure 1D{]} (PERMANOVA
 \textless{} 0.05). Interestingly, when initial and follow up samples
 were compared, regardless of whether the lesions were adenoma or
 carcinoma, there was no significant overall difference in beta diversity
@@ -319,10 +319,11 @@ whether additional treatments, such as chemotherapy and radiation, could
 have an impact on the results that we observed. There was only a
 significant difference for change in positive probability for those
 treated with chemotherapy for the initial sample model (P-value
-\textless{} 0.05). This suggests that those treated for chemotherapy my
-have had a larger change from the initial sample then those without such
-treatment. All other variables that were tested showed no difference
-based on whether chemotherapy or radiation was used {[}Table S3{]}.
+\textless{} 0.05). This suggests that follow up samples for those
+treated for chemotherapy my have had a larger change from the initial
+sample then those without such treatment. All other variables that were
+tested showed no difference based on whether chemotherapy or radiation
+was used {[}Table S3{]}.
 
 \newpage
 
@@ -393,8 +394,9 @@ surgical intervention and that some of the differences observed between
 carcinoma and adenoma samples could be due to differences in collection
 time between samples for the two different groups. Specifically, it
 could confound the observation that carcinomas changed more than
-adenomas {[}Figure 1a \& 1d{]}. This confounding though would not affect
-the observations where these individuals were grouped together.
+adenomas {[}Figure 1A \& 1D{]}. This confounding though would not affect
+the observations where these individuals were grouped together {[}Figure
+3 \& 4{]}.
 
 Curiously, we observed that the typical CRC associated bacteria were not
 predictive within our models. There are a number of reasons why this may
@@ -418,7 +420,7 @@ individuals but also large decreases in relative abundance in some of
 those with carcinoma but not in those with adenoma after surgery
 {[}Figure 2{]}.
 
-Many of the common OTUs between the two models used had many OTUs that
+Many of the common OTUs between the two models had OTUs that
 taxonomically classified to potential butyrate producers {[}Table S2{]}.
 Another batch of OTUs classified to bacteria that can either degrade
 polyphenols or are inhibited by them. Both butyrate and polyphenols are
@@ -461,8 +463,8 @@ matched samples. Another potential reason is that the model itself may
 be over-fit since the total number of samples was not that large.
 However, the lesion model did not suffer from these discrepancies.
 Further independent studies need to be carried out to verify our
-findings and models since we are dealing with correlations that may not
-be truly representative of the pathogenesis of disease.
+findings since we are dealing with correlations that may not be truly
+representative of the pathogenesis of disease.
 
 Despite these limitations our findings add to the existing scientific
 knowledge on CRC and the bacterial microbiome: That there is a
@@ -708,21 +710,21 @@ cancer journal for clinicians. 2010;60:277--300.
 mortality, survival, and risk factors. Clinics in Colon and Rectal
 Surgery. 2009;22:191--7.
 
-\hypertarget{ref-dejea_microbiota_2014}{}
-3. Dejea CM, Wick EC, Hechenbleikner EM, White JR, Mark Welch JL,
-Rossetti BJ, et al. Microbiota organization is a distinct feature of
-proximal colorectal cancers. Proceedings of the National Academy of
-Sciences of the United States of America. 2014;111:18321--6.
-
 \hypertarget{ref-zackular_manipulation_2016}{}
-4. Zackular JP, Baxter NT, Chen GY, Schloss PD. Manipulation of the Gut
+3. Zackular JP, Baxter NT, Chen GY, Schloss PD. Manipulation of the Gut
 Microbiota Reveals Role in Colon Tumorigenesis. mSphere. 2016;1.
 
 \hypertarget{ref-arthur_microbial_2014}{}
-5. Arthur JC, Gharaibeh RZ, Mühlbauer M, Perez-Chanona E, Uronis JM,
+4. Arthur JC, Gharaibeh RZ, Mühlbauer M, Perez-Chanona E, Uronis JM,
 McCafferty J, et al. Microbial genomic analysis reveals the essential
 role of inflammation in bacteria-induced colorectal cancer. Nature
 Communications. 2014;5:4724.
+
+\hypertarget{ref-dejea_microbiota_2014}{}
+5. Dejea CM, Wick EC, Hechenbleikner EM, White JR, Mark Welch JL,
+Rossetti BJ, et al. Microbiota organization is a distinct feature of
+proximal colorectal cancers. Proceedings of the National Academy of
+Sciences of the United States of America. 2014;111:18321--6.
 
 \hypertarget{ref-baxter_microbiota-based_2016}{}
 6. Baxter NT, Ruffin MT, Rogers MAM, Schloss PD. Microbiota-based model
