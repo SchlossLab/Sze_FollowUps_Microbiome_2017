@@ -111,6 +111,19 @@ rownames(pvalue_summary) <- c("porp", "fn", "parv", "pept")
 write.csv(pvalue_summary, "results/tables/adn_crc_maybe_pvalue_summary.csv")
 
 
+### Need to manually confirm OTUs using a similar approach from Baxter, et al.  
+### Can use any database to confirm calls after pulling representative sequences from
+### the final.rep.seqs file.
+
+### For this I used the RDP database release 11 update 5 
+### Filters included:
+  ### Strain: Both
+  ### Source: Isolates
+  ### Size: > or = to 1200
+  ### Quality = Good
+  ### KNN matches = 20
+
+### Need to have higher than or equal to 97% ID match with these criteria
 
 
 
