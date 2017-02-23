@@ -132,7 +132,7 @@ $3$ Department of Family Medicine and Community Medicine, Penn State Hershey Med
 health problem with previous research suggesting that a link may exist
 between the fecal bacterial microbiome and CRC. The overall objective of
 our study was to test the hypothesis that changes in the bacterial
-microbiome occur after lesion (i.e.~adenoma or carcinoma) removal.
+microbiome occur after lesion (i.e.~adenoma and carcinoma) removal.
 Specifically, we wanted to identify components within the community that
 were different before and after removal of said lesion.
 
@@ -154,10 +154,10 @@ commensal bacteria (e.g. \emph{Bacteroides}, \emph{Clostridiales},
 \emph{Blautia}, and \emph{Ruminococcaceae}).
 
 \textbf{Conclusions:} Our data supports the hypothesis that there are
-changes in the bacterial microbiome following colorectal cancer lesion
-removal. Individuals with carcinoma have more drastic differences to the
-overall community then those with adenoma. Changes to commensal bacteria
-were some of the most important variables for model classification,
+changes in the bacterial microbiome following colorectal lesion removal.
+Individuals with carcinoma have more drastic differences to the overall
+community then those with adenoma. Changes to commensal bacteria were
+some of the most important variables for model classification,
 suggesting that these bacteria may be central to initial polyp formation
 and transition to carcinoma.
 
@@ -190,22 +190,21 @@ complement existing screening methods such as Fecal Immunoglobulin Test
 (FIT) or act alone as a screening tool {[}6,7{]}. Although these studies
 suggest that the bacterial microbiome might change after treatment there
 remains limited information on the bacterial microbiome response to
-lesion (adenoma or carcinoma) removal.
+lesion (adenoma and carcinoma) removal.
 
 In this study we tested the hypothesis that the bacterial microbiome
-changes between pre (initial) and post (follow up) removal of lesion
-(adenoma or carcinoma). We analyzed changes in alpha and beta diversity
-as well as the relative abundance of specific Operational Taxonomic
-Units (OTUs). We utilized Random Forest to build two models. The first
-model was built to classify lesion and normal (non-lesion) samples while
-the second was built to classify initial and follow up samples.
-Subsequent observations on how these models, as well as specific OTUs
-within them, performed pre and post lesion removal helped inform us as
-to whether initial and follow up samples were changing and whether it
-was towards a more normal bacterial microbiome or not. We also
-investigated the two models for similar important OTUs to identify the
-crucial OTUs for not only classifying lesion or normal samples but also
-initial and follow up.
+changes between pre (initial) and post (follow up) removal of lesion. We
+analyzed changes in alpha and beta diversity as well as the relative
+abundance of specific Operational Taxonomic Units (OTUs). We utilized
+Random Forest to build two models. The first model was built to classify
+lesion versus non-lesion (normal) samples while the second was built to
+classify initial versus follow up samples. Subsequent observations on
+how these models, as well as specific OTUs within them, performed pre
+and post lesion removal helped inform us as to whether initial and
+follow up samples were changing and whether it was towards a more normal
+bacterial microbiome or not. We also investigated the two models for
+similar important OTUs to identify the crucial OTUs for not only
+classifying lesion or normal samples but also initial versus follow up.
 
 \newpage
 
@@ -407,7 +406,7 @@ OTUs. It is also possible that both of these explanations could have
 played a role. Regardless, our observations would suggest that an
 individual's resident bacteria have a large role to play in disease
 initiation and could change in a way that allows predictive models to
-lower the positive probability of a lesion after surgery {[}Figure 3C \&
+lower the positive probability of a lesion after removal {[}Figure 3C \&
 3D{]}. It should be noted that our study does not argue against the
 importance of these CRC associated bacteria in the pathogenesis of
 disease but rather that they are not the main bacteria changing after
@@ -416,7 +415,8 @@ bacteria are important in the transition from adenoma to carcinoma and
 would be one explanation as to why in our data we not only see high
 initial relative abundances in carcinoma and not adenoma individuals but
 also large decreases in relative abundance in some of those with
-carcinoma but not in those with adenoma after surgery {[}Figure 2{]}.
+carcinoma but not in those with adenoma after lesion removal {[}Figure
+2{]}.
 
 Many of the common OTUs between the two models had OTUs that
 taxonomically classified to potential butyrate producers {[}Table S2{]}.
@@ -466,11 +466,11 @@ representative of the pathogenesis of disease.
 
 Despite these limitations our findings add to the existing scientific
 knowledge on CRC and the bacterial microbiome: That there is a
-measurable difference in the bacterial community after adenoma or
+measurable difference in the bacterial community after adenoma and
 carcinoma removal. Further, the ability for machine learning algorithms
 to take bacterial microbiome data and successfully lower positive
-probability after either adenoma or carcinoma removal provides evidence
-that there are specific signatures, mostly attributable to commensal
+probability after adenoma and carcinoma removal provides evidence that
+there are specific signatures, mostly attributable to commensal
 organisms, associated with these lesions. Our data provides evidence
 that commensal bacteria may be important in the development of polyps
 and also potentially the transition from adenoma to carcinoma.
@@ -586,8 +586,8 @@ between initial and follow ups, testing all OTUs, and investigating the
 relative abundance of specific previously associated CRC bacteria
 (\emph{Fusobacterium nucleatum}, \emph{Parvimonas micra},
 \emph{Peptostreptococcus assacharolytica}, and \emph{Porphyromonas
-stomatis}) based on adenoma and carcinoma. From here the lesion model
-was then tested for accuracy in prediction and whether it reduced the
+stomatis}) based on adenoma or carcinoma. From here the lesion model was
+then tested for accuracy in prediction and whether it reduced the
 positive probability of lesion after surgery. We then used the initial
 sample model to assess whether it could classify samples better then the
 lesion model and whether it could reduce the positive probability of an
@@ -659,7 +659,13 @@ Analysis of All OTUs for Initial versus Follow Up}
 \subsubsection{Ethics approval and consent to
 participate}\label{ethics-approval-and-consent-to-participate}
 
+The University of Michigan Institutional Review Board approved this
+study, and all subjects provided informed consent. This study conformed
+to the guidelines of the Helsinki Declaration.
+
 \subsubsection{Consent for publication}\label{consent-for-publication}
+
+Not applicable.
 
 \subsubsection{Availability of data and
 material}\label{availability-of-data-and-material}
