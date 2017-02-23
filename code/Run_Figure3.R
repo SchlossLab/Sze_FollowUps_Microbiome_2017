@@ -87,7 +87,7 @@ Lesion_plot <- grid.arrange(
     geom_point(aes(color=factor(disease_free, 
                                 levels = c("n", "y", "unknown"))), size = 2) + 
     geom_line(aes(color=factor(disease_free, 
-                               levels = c("n", "y", "unknown"))), linetype = 2, alpha = 0.6) + 
+                               levels = c("n", "y", "unknown"))), alpha = 0.6) + 
     scale_color_manual(name = "Cancer Free\n on Follow Up", 
                        label = c("No", "Yes", "Unknown"),  
                        values = wes_palette("GrandBudapest")) + 
