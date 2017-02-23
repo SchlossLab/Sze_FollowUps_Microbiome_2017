@@ -38,7 +38,9 @@ differences_graph <- grid.arrange(
           plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "lines"), 
           legend.title = element_text(face="bold"), 
           legend.position = c(0.75, 0.2), 
-          title = element_text(face="bold", hjust = 0)) + 
+          title = element_text(face="bold", hjust = 0), 
+          panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()) + 
     annotate("text", label = paste("P-value = ", 
               round(diff_summary_table["thetayc", "Pvalue"], digits = 4)), 
                 x = 0.85, y = 0, size = 2.5), 
@@ -60,7 +62,9 @@ differences_graph <- grid.arrange(
           plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "lines"), 
           legend.title = element_text(face="bold"), 
           legend.position = "none", 
-          title = element_text(face="bold", hjust = 0)) + 
+          title = element_text(face="bold", hjust = 0), 
+          panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()) + 
     annotate("text", label = paste("P-value = ", 
             format(round(diff_summary_table["fit", "Pvalue"], digits = 7))), 
               x = 0.90, y = -2250, size = 2.5), 
@@ -75,7 +79,10 @@ differences_graph <- grid.arrange(
     theme(plot.title = element_text(face = "bold", hjust = 0), 
           legend.position = c(0.20, 0.12), 
           legend.title = element_blank(), 
-          legend.key = element_blank()) + 
+          legend.key = element_blank(), 
+          legend.background = element_rect(color = "black"), 
+          panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()) + 
     annotate("text", label = paste("PERMANOVA = ", 
                                    round(thetayc_summary_table["Adenoma", "PERMANOVA"], digits = 3)), 
              x = 0.20, y = -0.50, size = 2.5) + coord_fixed(ratio = 1.20), 
@@ -92,7 +99,10 @@ differences_graph <- grid.arrange(
     scale_color_manual(values = c('#FD6467', '#F1BB7B')) + scale_fill_manual(values = c('#FD6467', '#F1BB7B')) + 
     theme(plot.title = element_text(face = "bold", hjust = 0), 
           legend.position = c(0.20, 0.12), 
-          legend.title = element_blank()) + 
+          legend.title = element_blank(), 
+          legend.background = element_rect(color = "black"), 
+          panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()) + 
     annotate("text", label = paste("PERMANOVA = ", 
                                    round(thetayc_summary_table["Carcinoma", "PERMANOVA"], digits = 3)), 
              x = 0.10, y = -0.50, size = 2.5) + coord_fixed(ratio = 1.27), ncol = 2, nrow = 2)
