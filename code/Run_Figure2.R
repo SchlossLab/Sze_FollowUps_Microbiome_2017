@@ -36,7 +36,7 @@ crc_specific <- grid.arrange(
     geom_point(aes(color = factor(Disease_Free, levels = c("n", "y", "unknown")))) + 
     facet_wrap(~labs, labeller = label_parsed, scales = "free_y") + 
     theme_bw() + ylab("% Relative Abundance") + xlab("") + ggtitle("A") +  
-    scale_colour_manual(name = "Cancer Free", 
+    scale_colour_manual(name = "Cancer Free\n on Follow Up", 
                         label = c("No", "Yes", "Unknown"),  
                         values = wes_palette("GrandBudapest")) + 
     scale_x_discrete(

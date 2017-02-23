@@ -86,8 +86,9 @@ Lesion_plot <- grid.arrange(
                       levels = c("initial", "followup")), Yes, group = factor(EDRN))) + 
     geom_point(aes(color=factor(disease_free, 
                                 levels = c("n", "y", "unknown"))), size = 2) + 
-    geom_line(linetype = 2, alpha = 0.3) + 
-    scale_color_manual(name = "Cancer Free", 
+    geom_line(aes(color=factor(disease_free, 
+                               levels = c("n", "y", "unknown"))), linetype = 2, alpha = 0.6) + 
+    scale_color_manual(name = "Cancer Free\n on Follow Up", 
                        label = c("No", "Yes", "Unknown"),  
                        values = wes_palette("GrandBudapest")) + 
     scale_x_discrete(breaks = c("initial", "followup"), 
@@ -98,8 +99,9 @@ Lesion_plot <- grid.arrange(
     xlab("") + theme_bw() + theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-      legend.position = c(0.25, 0.15), 
-      plot.title = element_text(face="bold", hjust = 0)), 
+      legend.position = c(0.25, 0.20), 
+      plot.title = element_text(face="bold", hjust = 0)) + 
+    annotate("text", label = paste("Carcinoma"), x = 1.5, y = 1.02, size = 2.5), 
   
     # Graph the lesion adenoma data only
   filter(red_follow_up_probability, diagnosis == "adenoma") %>%
@@ -120,7 +122,8 @@ Lesion_plot <- grid.arrange(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
       legend.position = c(0.20, 0.12), 
-      plot.title = element_text(face="bold", hjust = 0))
+      plot.title = element_text(face="bold", hjust = 0)) + 
+    annotate("text", label = paste("Adenoma"), x = 1.5, y = 1.02, size = 2.5)
   
 )
 
