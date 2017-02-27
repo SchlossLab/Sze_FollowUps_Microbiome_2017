@@ -1,6 +1,5 @@
-### Prediction of Follow Ups Analysis
-### How do the with and without FIT models do in correctly calling initial and follow up samples
-### P-value table of comparison and Figure 4 graph
+### Create Figure 4
+### Graph for the Initial Sample Model
 ## Marc Sze
 
 
@@ -8,138 +7,83 @@
 source('code/functions.R')
 
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson", "caret"))
+           "gridExtra", "scales", "wesanderson"))
 
-# Load lesion model data
-follow_up_probability <- read.csv(
-  "results/tables/follow_up_probability_summary.csv", 
-  header = T, stringsAsFactors = F)
 
-red_follow_up_probability <- read.csv("results/tables/reduced_follow_up_probability_summary.csv", 
-                                      stringsAsFactors = F, header = T)
+### Load in needed data tables
+reduced_IF_model_roc <- read.csv("results/tables/reduced_IF_test_data_roc.csv", header = T)
+IF_MDA_data_summary <- read.csv("results/tables/reduced_IF_model_top_vars_MDA_Summary.csv", 
+                                header = T, stringsAsFactors = F)
 
-# Load IF model data
-IF_follow_up_probability <- read.csv(
-  "results/tables/IF_follow_up_probability_summary.csv", 
-  header = T, stringsAsFactors = F)
+IF_MDA_full <- read.csv("results/tables/reduced_IF_model_top_vars_MDA.csv", 
+                        header = T, stringsAsFactors = F)
 
 IF_red_follow_up_probability <- read.csv("results/tables/reduced_IF_follow_up_probability_summary.csv", 
-                                      stringsAsFactors = F, header = T)
+                                         stringsAsFactors = F, header = T)
 
+tax <- read.delim('data/process/final.taxonomy', sep='\t', header=T, row.names=1)
 
-# Read in meta data tables
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
-                       stringsAsFactors = F, header = T) %>% 
-filter(!is.na(fit_followUp))
+# Convert taxa table to a data frame with columns for each taxonomic division
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+rm(tax)
 
+# Order the data file from most to least important based on mean MDA
+IF_MDA_data_summary <- IF_MDA_data_summary[order(IF_MDA_data_summary$mean_MDA, decreasing = TRUE), ]
 
-# create tables to hold wilcoxson paired tests pvalues with BH correction
-lesion_wilcox_pvalue_summary <- getProb_PairedWilcox(follow_up_probability)
-lesion_red_wilcox_pvalue_summary <- getProb_PairedWilcox(red_follow_up_probability)
-IF_wilcox_pvalue_summary <- getProb_PairedWilcox(IF_follow_up_probability)
-IF_red_wilcox_pvalue_summary <- getProb_PairedWilcox(IF_red_follow_up_probability)
+# Pull OTUs that are only in the MDA data
+OTU_IDs <- unique(IF_MDA_data_summary$variable)
+select_tax_df <- tax_df[OTU_IDs, ]
+low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
 
-all_wilcox_summary <- rbind(lesion_wilcox_pvalue_summary, 
-                    lesion_red_wilcox_pvalue_summary, 
-                    IF_wilcox_pvalue_summary, 
-                    IF_red_wilcox_pvalue_summary)
+# create labels for factor values with low taxonomy
+graph_labels <- c(paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = ""))
+OTU_names <- names(low_tax_ID)
 
-all_wilcox_summary <- as.data.frame(all_wilcox_summary) %>% 
-  mutate(model_type = c(rep("lesion", 4), rep("red_lesion", 4), rep("IF", 4), rep("red_IF", 4))) %>% 
-  mutate(comparison = rep(c("lesion", "all_adenoma", "carcinoma_only", "SRN_only"), 4))
-
-
-# Create temporary list to store used data
-tempList <- list(
-  lesion = follow_up_probability, 
-  red_lesion = red_follow_up_probability, 
-  IF = IF_follow_up_probability, 
-  red_IF = IF_red_follow_up_probability
-)
-
-# Get model summary information
-
-model_summary_info <- as.data.frame(c())
-models <- c("lesion", "red_lesion", "IF", "red_IF")
-
-for(i in 1:length(tempList)){
+test <- c()
+for(i in 1:length(low_tax_ID)){
+  if(is.na(low_tax_ID[i])){
+    
+    test <- c(test, bquote(paste("FIT", sep = "")))
+  } else {
+    
+    test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(", .(OTU_names[i]), ")", sep = "")))
+  }
   
-  model_summary_info <- 
-    rbind(model_summary_info, 
-          cbind(info = rownames(get_confusion_data(tempList[[i]], good_metaf)), 
-                rbind(
-                  get_confusion_data(tempList[[i]], good_metaf), 
-                  get_confusion_data(filter(tempList[[i]], Dx_Bin != "cancer"), 
-                                     filter(good_metaf, Dx_Bin != "cancer")), 
-                  get_confusion_data(filter(tempList[[i]], Dx_Bin == "cancer"), 
-                                     filter(good_metaf, Dx_Bin == "cancer"))), 
-                samples_tested = c(rep("all", 18), rep("adn", 18), rep("crc", 18)), 
-                model_type = rep(models[i], 54)
-  ))
 }
 
+test2 <- do.call(expression, test)
 
-# create a new matrix to store the data
-confusion_counts_summary <- c()
+# Create Figure
 
-for(i in 1:length(tempList)){
+initial_model <- grid.arrange(
   
-  confusion_counts_summary <- rbind(
-    confusion_counts_summary, 
-    make_confusionTable(tempList[[i]], good_metaf), 
-    make_confusionTable(tempList[[i]], good_metaf, n = 67, m = 132))
-
-}
-
-# Add final column to confusion counts table on model type
-confusion_counts_summary <- as.data.frame(confusion_counts_summary) %>% 
-  mutate(model_type = c(rep("lesion", 4), rep("red_lesion", 4), rep("IF", 4), rep("red_IF", 4)))
-
-# Create Figure 4 
-# Visual summery of the pvalues obtained
-
-accuracy_plot <- grid.arrange(
-  # Graph the lesion carcinoma data only
-  filter(red_follow_up_probability, diagnosis != "adenoma") %>% 
-    ggplot(aes(factor(sampleType, 
-      levels = c("initial", "followup")), Yes, group = factor(EDRN))) + 
-    geom_point(aes(color=factor(disease_free, 
-      levels = c("n", "y", "unknown"))), size = 2) + 
-    geom_line(linetype = 2, alpha = 0.3) + 
-    scale_color_manual(name = "Cancer Free", 
-                       label = c("No", "Yes", "Unknown"),  
-                       values = wes_palette("GrandBudapest")) + 
-    scale_x_discrete(breaks = c("initial", "followup"), 
-                     labels = c("Initial", "Follow Up")) + 
-    coord_cartesian(ylim = c(0, 1)) + 
-    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("A") + ylab("Lesion Postive Probability") + 
-    xlab("") + theme_bw() + theme(
-      axis.title = element_text(face="bold"), 
-      legend.title = element_text(face="bold"), 
-      legend.position = c(0.25, 0.15), 
-      plot.title = element_text(face="bold", hjust = 0)), 
+  # ROC Graph
+  filter(reduced_IF_model_roc, run != "full_roc") %>% ggplot(aes(x = sensitivities, y = specificities)) + 
+    geom_polygon(data = filter(reduced_IF_model_roc, run != "full_roc"), alpha = 0.5, fill = "gray") + 
+    geom_line(data = filter(reduced_IF_model_roc, run != "full_roc"), 
+              aes(group = run), size = 1.25, color = "gray") + 
+    geom_line(data = filter(reduced_IF_model_roc, run == "full_roc"), 
+              size = 1.5, color = "cornflowerblue") + 
+    scale_x_continuous(trans = "reverse") + theme_bw() + geom_abline(intercept = 1, linetype = 2, size = 1) + 
+    ggtitle("A") + xlab("Sensitivity") + ylab("Specificity") + 
+    theme(plot.title = element_text(face = "bold"), 
+          axis.title = element_text(face = "bold")), 
   
-  # Graph the lesion adenoma data only
-  filter(red_follow_up_probability, diagnosis == "adenoma") %>%
-    ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
-               Yes, group = factor(EDRN))) + 
-    geom_point(aes(color=factor(Dx_Bin))) + 
-    geom_line(aes(color = factor(Dx_Bin))) + 
-    scale_color_manual(name = "Polyp Type", values = c("cyan", "blue"), 
-                       breaks = c("adenoma", "adv_adenoma"), 
-                       labels = c("Adenoma", "SRN")) + 
-    scale_x_discrete(
-      breaks = c("initial", "followup"), 
-      labels = c("Initial", "Follow Up")) + 
-    coord_cartesian(ylim = c(0, 1)) + 
-    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("C") + ylab("Lesion Postive Probability") + xlab("") + theme_bw() + 
-    theme(
-      axis.title = element_text(face="bold"), 
-      legend.title = element_text(face="bold"), 
-      legend.position = c(0.20, 0.12), 
-      plot.title = element_text(face="bold", hjust = 0)), 
+  # MDA Graph
+  ggplot(IF_MDA_full, aes(factor(variables, 
+                                 levels = rev(unique(IF_MDA_data_summary$variable)), 
+                                 labels = rev(graph_labels)), 
+                          log10(value))) + 
+    geom_point(aes(color = variable)) + stat_summary(fun.y = "median", colour = "black", geom = "point", size = 2) + 
+    coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
+    scale_x_discrete(labels = rev(test2)) + 
+    theme(plot.title = element_text(face = "bold"), 
+          legend.position = "none", 
+          axis.title = element_text(face = "bold"), 
+          axis.text.y = element_text(size = 6)), 
   
   # Graph the IF model CRC data only
   filter(IF_red_follow_up_probability, diagnosis != "adenoma") %>% 
@@ -147,20 +91,22 @@ accuracy_plot <- grid.arrange(
                       levels = c("initial", "followup")), Yes, group = factor(EDRN))) + 
     geom_point(aes(color=factor(disease_free, 
                                 levels = c("n", "y", "unknown"))), size = 2) + 
-    geom_line(linetype = 2, alpha = 0.3) + 
-    scale_color_manual(name = "Cancer Free", 
+    geom_line(aes(color=factor(disease_free, 
+                               levels = c("n", "y", "unknown"))), alpha = 0.6) + 
+    scale_color_manual(name = "Cancer Free\n on Follow Up", 
                        label = c("No", "Yes", "Unknown"),  
                        values = wes_palette("GrandBudapest")) + 
     scale_x_discrete(breaks = c("initial", "followup"), 
                      labels = c("Initial", "Follow Up")) + 
     coord_cartesian(ylim = c(0, 1)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("B") + ylab("Initial Postive Probability") + 
+    ggtitle("C") + ylab("Initial Postive Probability") + 
     xlab("") + theme_bw() + theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
-      legend.position = c(0.25, 0.15), 
-      plot.title = element_text(face="bold", hjust = 0)), 
+      legend.position = c(0.25, 0.20), 
+      plot.title = element_text(face="bold", hjust = 0)) + 
+    annotate("text", label = paste("Carcinoma"), x = 1.5, y = 1.02, size = 2.5), 
   
   # Graph the IF model adenoma data only
   filter(IF_red_follow_up_probability, diagnosis == "adenoma") %>%
@@ -181,23 +127,26 @@ accuracy_plot <- grid.arrange(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
       legend.position = c(0.20, 0.15), 
-      plot.title = element_text(face="bold", hjust = 0))
-  
+      plot.title = element_text(face="bold", hjust = 0)) + 
+    annotate("text", label = paste("Adenoma"), x = 1.5, y = 1.02, size = 2.5)
 )
 
 
 # Save figures and write necessary tables
-ggsave(file = "results/figures/Figure4.pdf", accuracy_plot, 
+ggsave(file = "results/figures/Figure4.tiff", initial_model, 
        width=8.5, height = 11, dpi = 300)
 
-#Write out data tables for other use
-write.csv(all_wilcox_summary, 
-          "results/tables/all_models_wilcox_paired_pvalue_summary.csv", row.names = F)
 
-write.csv(model_summary_info, 
-          "results/tables/all_models_summary_info.csv", row.names = F)
 
-write.csv(confusion_counts_summary, "results/tables/all_models_confusion_summary.csv", row.names = F)
+
+
+
+ 
+
+
+
+
+
 
 
 

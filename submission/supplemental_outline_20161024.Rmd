@@ -30,7 +30,7 @@ Supplemental
 
 source('../code/functions.R')
 
-loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
+loadLibs(c("tidyr", "dplyr", "scales", "knitr", "rmarkdown"))
 
 ```
 
@@ -58,12 +58,23 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 
 common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
+lesion_top10_varsMDA <- read.csv('../results/tables/reduced_lesion_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
+IF_top10_varsMDA <- read.csv('../results/tables/reduced_IF_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
+
+# Create selection vector
+common_vars <- common_vars_summary$otu
+
+# Create MDA vectors
+lesion_MDA <- filter(lesion_top10_varsMDA, variable %in% common_vars) %>% slice(match(common_vars, variable)) %>% select(mean_MDA)
+
+initial_MDA <- filter(IF_top10_varsMDA, variable %in% common_vars) %>% slice(match(common_vars, variable)) %>% select(mean_MDA)
+
 st2 <- select(common_vars_summary, otu) %>% 
   mutate(Tax = gsub("_unclassified", "", common_vars_summary$lowest_ID)) %>% 
-  mutate(Pvalue = common_vars_summary$Pvalue) %>% 
-  mutate(BH_corr = common_vars_summary$BH_corr)
+  mutate(lesion_MDA = lesion_MDA$mean_MDA) %>% 
+  mutate(initial_MDA = initial_MDA$mean_MDA) %>% arrange(desc(lesion_MDA))
 
-colnames(st2) <- c("OTU", "Lowest Taxonomic ID", "P-value", "BH Corrected P-value")
+colnames(st2) <- c("OTU", "Lowest Taxonomic ID", "Lesion Model MDA", "Initial Model MDA")
 
 kable(st2, format = "markdown", align = 'c', padding = 2)
 
