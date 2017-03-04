@@ -106,6 +106,17 @@ $(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/metaF_final.csv\
 $(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
 
+exploratory/RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
+$(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+code/reference_run_RF.R code/RF_reference.pbs code/setup_RF_test.R\
+$(CODE)/createDuplicates.sh $(CODE)/create_pbs.sh $(CODE)/qsubmission.sh
+	mkdir $(CODE)/full
+	R -e "source('code/setup_RF_test.R')"
+	bash $(CODE)/createDuplicates.sh
+	bash $(CODE)/create_pbs.sh
+	bash $(CODE)/qsubmission.sh
+
+
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
 $(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
@@ -115,12 +126,6 @@ code/Run_Figure1.R
 $(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-exploratory/RF_model_100.RData : 
-	mkdir $(CODE)/full
-	R -e "source('code/setup_RF_test.R')"
-	bash $(CODE)/createDuplicates.sh
-	bash $(CODE)/create_pbs.sh
-	bash $(CODE)/qsubmission.sh
 
 exploratory/Reducedfeatures_RF_model_100.RData : 
 	mkdir $(CODE)/reduced
