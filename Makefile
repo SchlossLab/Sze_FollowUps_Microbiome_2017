@@ -96,19 +96,23 @@ $(TABLES)/thetayc_% : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(TABLES)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
+$(TABLES)/adn_crc_maybe_pvalue_summary.csv : $(PROC)/final.taxonomy\
+$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.shared\
+code/Run_potential_cancer_specific_OTUs.R
+	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
+
+$(TABLES)/time_pvalues.csv : 
+	R -e "source('code/Run_Supplemental_time_table.R')"
+
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
 $(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
 code/Run_Figure1.R
 	R -e "source('code/Run_Figure1.R')"
 
-$(FIGS)/Figure2.pdf :
-	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
+$(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-$(TABLES)/time_pvalues.csv : 
-	R -e "source('code/Run_Supplemental_time_table.R')"
-	
 exploratory/RF_model_100.RData : 
 	mkdir $(CODE)/full
 	R -e "source('code/setup_RF_test.R')"
