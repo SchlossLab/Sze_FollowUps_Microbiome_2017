@@ -179,6 +179,13 @@ $(TABLES)/reduced_auc_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_reduced_best_model.R
 	R -e "source('code/Run_reduced_best_model.R')"
 
+$(TABLES)/all_models_wilcox_paired_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
+$(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+code/Run_probs_comparison.R
+	R -e "source('code/Run_probs_comparison.R')"
+
+
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
 $(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
@@ -195,11 +202,9 @@ $(FIGS)/Figure3.pdf :
 	rm results/figures/Figure3.tiff
 
 $(FIGS)/Figure4.pdf : 
-	R -e "source('code/Run_probs_comparison.R')"
 	R -e "source('code/Run_Figure4.R')"
 	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/Figure4.tiff
 	rm results/figures/Figure4.tiff
-
 
 $(FIGS)/FigureS1.pdf :
 	R -e "source('code/Run_wilcoxson_all.R')"
