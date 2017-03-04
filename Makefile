@@ -101,7 +101,9 @@ $(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.shared\
 code/Run_potential_cancer_specific_OTUs.R
 	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
 
-$(TABLES)/time_pvalues.csv : 
+$(TABLES)/time_pvalues.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/metaF_final.csv\
+$(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
 
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
