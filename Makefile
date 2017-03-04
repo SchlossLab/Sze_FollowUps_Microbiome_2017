@@ -106,6 +106,79 @@ $(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/metaF_final.csv\
 $(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
 
+exploratory/RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
+$(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+code/reference_run_RF.R code/RF_reference.pbs code/setup_RF_test.R\
+$(CODE)/createDuplicates.sh $(CODE)/create_pbs.sh $(CODE)/qsubmission.sh
+	mkdir $(CODE)/full
+	R -e "source('code/setup_RF_test.R')"
+	bash $(CODE)/createDuplicates.sh
+	bash $(CODE)/create_pbs.sh
+	bash $(CODE)/qsubmission.sh
+
+exploratory/rocs.RData : exploratory/RF_model_%.RData\
+code/Run_Combine_Testing_pull_imp_OTUs.R
+	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
+
+exploratory/Reducedfeatures_RF_model_100.RData : $(TABLES)/full_test_data.csv\
+$(TABLES)/rf_wCV_imp_vars_summary.csv code/RF_reduced_vars_reference.pbs\
+code/reference_run_reduced_feature_RF.R code/Run_reduce_feature_lesion_model.R\
+$(CODE)/createDuplicates_reducedVars.sh $(CODE)/create_reducedVars_pbs.sh\
+$(CODE)/qsubmission_reducedVars.sh
+	mkdir $(CODE)/reduced
+	R -e "source('code/Run_reduce_feature_lesion_model.R')"
+	bash $(CODE)/createDuplicates_reducedVars.sh
+	bash $(CODE)/create_reducedVars_pbs.sh
+	bash $(CODE)/qsubmission_reducedVars.sh
+
+exploratory/RF_model_Imp_OTU.RData : $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Run_Get_Imp_OTUs.R
+	R -e "source('code/Run_Get_Imp_OTUs.R')"
+
+$(TABLES)/IF_model_top_vars_MDA_% : exploratory/RF_model_Imp_OTU.RData\
+code/Run_combine_IF_aggregate_model.R
+	R -e "source('code/Run_combine_IF_aggregate_model.R')"
+
+$(TABLES)/IF_follow_up_probability_summary.csv : $(TABLES)/IF_test_tune_data.csv\
+$(TABLES)/IF_ROC_model_summary.csv $(TABLES)/IF_test_data_roc.csv\
+$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
+code/Run_IF_best_model.R
+	R -e "source('code/Run_IF_best_model.R')"
+
+exploratory/IF_reduced_RF_model_Imp_OTU.RData : $(TABLES)/IF_test_tune_data.csv\
+$(TABLES)/IF_rf_wCV_imp_vars_summary.csv code/Run_reduce_feature_IF_model.R
+	R -e "source('code/Run_reduce_feature_IF_model.R')"
+
+$(TABLES)/reduced_IF_model_top_vars_% : exploratory/IF_reduced_RF_model_Imp_OTU.RData\
+Run_combine_reduced_IF_aggregate_model.R
+	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
+
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv : $(TABLES)/reduced_IF_test_tune_data.csv\
+$(TABLES)/reduced_IF_ROC_model_summary.csv $(TABLES)/reduced_IF_test_data_roc.csv\
+$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
+code/Run_IF_reduced_best_model.R
+	R -e "source('code/Run_IF_reduced_best_model.R')"
+
+$(TABLES)/reduced_lesion_model_top_vars_% : exploratory/Reducedfeatures_RF_model_%.RData\
+$(TABLES)/reduced_test_tune_data.csv $(TABLES)/reduced_test_data_splits.csv\
+code/Run_combine_aggregate_reduced_model.R
+	#Collects the needed data to generate figure 3
+	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
+
+$(TABLES)/roc_pvalue_summary.csv : exploratory/rocs.RData\
+$(TABLES)/full_test_data.csv $(TABLES)/ROC_model_summary.csv $(TABLES)/test_data_roc.csv\
+$(TABLES)/auc_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared $(TABLES)/follow_up_prediction_table.csv\
+code/Run_Create_Use_Best_Model.R
+	#Generates complete model built on all data and updates tables
+	R -e "source('code/Run_Create_Use_Best_Model.R')"
+
+$(TABLES)/reduced_follow_up_probability_summary.csv : $(TABLES)/reduced_test_tune_data.csv\
+$(TABLES)/Reduced_ROC_model_summary.csv $(TABLES)/reduced_test_data_roc.csv\
+$(TABLES)/reduced_auc_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Run_reduced_best_model.R
+	R -e "source('code/Run_reduced_best_model.R')"
+
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
 $(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
@@ -115,35 +188,7 @@ code/Run_Figure1.R
 $(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-exploratory/RF_model_100.RData : 
-	mkdir $(CODE)/full
-	R -e "source('code/setup_RF_test.R')"
-	bash $(CODE)/createDuplicates.sh
-	bash $(CODE)/create_pbs.sh
-	bash $(CODE)/qsubmission.sh
-
-exploratory/Reducedfeatures_RF_model_100.RData : 
-	mkdir $(CODE)/reduced
-	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
-	R -e "source('code/Run_reduce_feature_lesion_model.R')"
-	bash $(CODE)/createDuplicates_reducedVars.sh
-	bash $(CODE)/create_reducedVars_pbs.sh
-	bash $(CODE)/qsubmission_reducedVars.sh
-
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv : 
-	R -e "source('code/Run_Get_Imp_OTUs.R')"
-	R -e "source('code/Run_combine_IF_aggregate_model.R')"
-	R -e "source('code/Run_IF_best_model.R')"
-	R -e "source('code/Run_reduce_feature_IF_model.R')"
-	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
-	R -e "source('code/Run_IF_reduced_best_model.R')"
-
 $(FIGS)/Figure3.pdf : 
-	#Collects the needed data to generate figure 3
-	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
-	#Generates complete model built on all data and updates tables
-	R -e "source('code/Run_Create_Use_Best_Model.R')"
-	R -e "source('code/Run_reduced_best_model.R')"
 	#Creates the actual Figure 3
 	R -e "source('code/Run_Figure3.R')"
 	tiff2pdf -z -o results/figures/Figure3.pdf results/figures/Figure3.tiff
