@@ -190,6 +190,22 @@ $(PROC)/final.0.03.subsample.shared $(TABLES)/mod_metadata/good_metaf_final.csv\
 code/Run_wilcoxson_all.R
 	R -e "source('code/Run_wilcoxson_all.R')"
 
+$(TABLES)/probs_chemo_rad_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
+$(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
+$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
+code/Run_Test_Chemo_Rad.R
+	R -e "source('code/Run_Test_Chemo_Rad.R')"
+
+$(TABLES)/%_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/%_imp_vars_summary.csv\
+code/Run_ID_imp_OTUs.R
+	R -e "source('code/Run_ID_imp_OTUs.R')"
+
+$(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : $(TABLES)/%_otu_tax.csv\
+$(PROC)/final.0.03.subsample.shared $(TABLES)/mod_metadata/good_metaf_final.csv\
+code/Run_Compare_models.R
+	R -e "source('code/Run_Compare_models.R')"
+
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
 $(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
@@ -216,10 +232,7 @@ $(FIGS)/FigureS1.pdf :
 $(FIGS)/FigureS2.pdf : 
 	R -e "source('code/Run_FigureS2.R')"
 
-$(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : 
-	R -e "source('code/Run_Test_Chemo_Rad.R')"
-	R -e "source('code/Run_ID_imp_OTUs.R')"
-	R -e "source('code/Run_Compare_models.R')"
+
 
 #exploratory/CommonFeatures_RF_model_100.RData : 
 #	mkdir $(CODE)/common
