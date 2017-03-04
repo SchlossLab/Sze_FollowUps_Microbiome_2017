@@ -131,6 +131,34 @@ $(CODE)/qsubmission_reducedVars.sh
 	bash $(CODE)/create_reducedVars_pbs.sh
 	bash $(CODE)/qsubmission_reducedVars.sh
 
+exploratory/RF_model_Imp_OTU.RData : $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Run_Get_Imp_OTUs.R
+	R -e "source('code/Run_Get_Imp_OTUs.R')"
+
+$(TABLES)/IF_model_top_vars_MDA_% : exploratory/RF_model_Imp_OTU.RData\
+code/Run_combine_IF_aggregate_model.R
+	R -e "source('code/Run_combine_IF_aggregate_model.R')"
+
+$(TABLES)/IF_follow_up_probability_summary.csv : $(TABLES)/IF_test_tune_data.csv\
+$(TABLES)/IF_ROC_model_summary.csv $(TABLES)/IF_test_data_roc.csv\
+$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
+code/Run_IF_best_model.R
+	R -e "source('code/Run_IF_best_model.R')"
+
+exploratory/IF_reduced_RF_model_Imp_OTU.RData : $(TABLES)/IF_test_tune_data.csv\
+$(TABLES)/IF_rf_wCV_imp_vars_summary.csv code/Run_reduce_feature_IF_model.R
+	R -e "source('code/Run_reduce_feature_IF_model.R')"
+
+$(TABLES)/reduced_IF_model_top_vars_% : exploratory/IF_reduced_RF_model_Imp_OTU.RData\
+Run_combine_reduced_IF_aggregate_model.R
+	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
+
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv : $(TABLES)/reduced_IF_test_tune_data.csv\
+$(TABLES)/reduced_IF_ROC_model_summary.csv $(TABLES)/reduced_IF_test_data_roc.csv\
+$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
+code/Run_IF_reduced_best_model.R
+	R -e "source('code/Run_IF_reduced_best_model.R')"
+
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
 $(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
@@ -140,19 +168,6 @@ code/Run_Figure1.R
 $(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-
-
-
-
-
-
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv : 
-	R -e "source('code/Run_Get_Imp_OTUs.R')"
-	R -e "source('code/Run_combine_IF_aggregate_model.R')"
-	R -e "source('code/Run_IF_best_model.R')"
-	R -e "source('code/Run_reduce_feature_IF_model.R')"
-	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
-	R -e "source('code/Run_IF_reduced_best_model.R')"
 
 $(FIGS)/Figure3.pdf : 
 	#Collects the needed data to generate figure 3
