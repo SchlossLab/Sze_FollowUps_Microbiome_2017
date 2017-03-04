@@ -159,6 +159,26 @@ $(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
 code/Run_IF_reduced_best_model.R
 	R -e "source('code/Run_IF_reduced_best_model.R')"
 
+$(TABLES)/reduced_lesion_model_top_vars_% : exploratory/Reducedfeatures_RF_model_%.RData\
+$(TABLES)/reduced_test_tune_data.csv $(TABLES)/reduced_test_data_splits.csv\
+code/Run_combine_aggregate_reduced_model.R
+	#Collects the needed data to generate figure 3
+	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
+
+$(TABLES)/roc_pvalue_summary.csv : exploratory/rocs.RData\
+$(TABLES)/full_test_data.csv $(TABLES)/ROC_model_summary.csv $(TABLES)/test_data_roc.csv\
+$(TABLES)/auc_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared $(TABLES)/follow_up_prediction_table.csv\
+code/Run_Create_Use_Best_Model.R
+	#Generates complete model built on all data and updates tables
+	R -e "source('code/Run_Create_Use_Best_Model.R')"
+
+$(TABLES)/reduced_follow_up_probability_summary.csv : $(TABLES)/reduced_test_tune_data.csv\
+$(TABLES)/Reduced_ROC_model_summary.csv $(TABLES)/reduced_test_data_roc.csv\
+$(TABLES)/reduced_auc_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Run_reduced_best_model.R
+	R -e "source('code/Run_reduced_best_model.R')"
+
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
 $(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
@@ -168,13 +188,7 @@ code/Run_Figure1.R
 $(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-
 $(FIGS)/Figure3.pdf : 
-	#Collects the needed data to generate figure 3
-	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
-	#Generates complete model built on all data and updates tables
-	R -e "source('code/Run_Create_Use_Best_Model.R')"
-	R -e "source('code/Run_reduced_best_model.R')"
 	#Creates the actual Figure 3
 	R -e "source('code/Run_Figure3.R')"
 	tiff2pdf -z -o results/figures/Figure3.pdf results/figures/Figure3.tiff
