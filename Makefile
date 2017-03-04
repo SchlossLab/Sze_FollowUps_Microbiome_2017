@@ -116,6 +116,20 @@ $(CODE)/createDuplicates.sh $(CODE)/create_pbs.sh $(CODE)/qsubmission.sh
 	bash $(CODE)/create_pbs.sh
 	bash $(CODE)/qsubmission.sh
 
+exploratory/rocs.RData : exploratory/RF_model_%.RData\
+code/Run_Combine_Testing_pull_imp_OTUs.R
+	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
+
+exploratory/Reducedfeatures_RF_model_100.RData : $(TABLES)/full_test_data.csv\
+$(TABLES)/rf_wCV_imp_vars_summary.csv code/RF_reduced_vars_reference.pbs\
+code/reference_run_reduced_feature_RF.R code/Run_reduce_feature_lesion_model.R\
+$(CODE)/createDuplicates_reducedVars.sh $(CODE)/create_reducedVars_pbs.sh\
+$(CODE)/qsubmission_reducedVars.sh
+	mkdir $(CODE)/reduced
+	R -e "source('code/Run_reduce_feature_lesion_model.R')"
+	bash $(CODE)/createDuplicates_reducedVars.sh
+	bash $(CODE)/create_reducedVars_pbs.sh
+	bash $(CODE)/qsubmission_reducedVars.sh
 
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
@@ -127,13 +141,10 @@ $(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
 
-exploratory/Reducedfeatures_RF_model_100.RData : 
-	mkdir $(CODE)/reduced
-	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
-	R -e "source('code/Run_reduce_feature_lesion_model.R')"
-	bash $(CODE)/createDuplicates_reducedVars.sh
-	bash $(CODE)/create_reducedVars_pbs.sh
-	bash $(CODE)/qsubmission_reducedVars.sh
+
+
+
+
 
 $(TABLES)/reduced_IF_follow_up_probability_summary.csv : 
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
