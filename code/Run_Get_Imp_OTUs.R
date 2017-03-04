@@ -41,7 +41,7 @@ rm(shared)
 # Filter and use only specific data
 
 test_data <- test_data %>% 
-  select(sample, lesion, fit_result, contains("Otu0")) %>% 
+  select(sample, lesion, contains("Otu0")) %>% 
   mutate(lesion = c(rep(1, 67), rep(0, 67)))
 
 #Filter out rows that are not all complete
@@ -116,8 +116,6 @@ test_data <- test_data[, -nzv]
 #    labels = c("No", "Yes"))) 
 
 # Add the lesion variable to the test_data
-test_data <- test_data[-67, ]
-
 test_data$lesion <- factor(test_data$lesion, 
   levels = c(0, 1), labels = c("No", "Yes"))
 

@@ -34,7 +34,7 @@ rm(shared)
 # Filter and use only specific data
 
 test_data <- test_data %>% 
-  select(sample, fit_result, contains("Otu0"))
+  select(sample, contains("Otu0"))
 
 #Filter out rows that are not all complete
 
