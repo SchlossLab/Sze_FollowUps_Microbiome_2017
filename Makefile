@@ -155,9 +155,14 @@ $(FIGS)/Figure4.pdf :
 	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/Figure4.tiff
 	rm results/figures/Figure4.tiff
 
+
 $(FIGS)/FigureS1.pdf :
 	R -e "source('code/Run_wilcoxson_all.R')"
 	R -e "source('code/Run_FigureS1.R')"
+
+$(FIGS)/FigureS2.pdf : 
+	R -e "source('code/Run_FigureS2.R')"
+
 
 $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : 
 	R -e "source('code/Run_Test_Chemo_Rad.R')"
@@ -171,8 +176,7 @@ $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv :
 #	bash $(CODE)/create_commonVars_pbs.sh
 #	bash $(CODE)/qsubmission_commonVars.sh
 
-$(FIGS)/FigureS2.pdf : 
-	R -e "source('code/Run_FigureS2.R')"
+
 
 
 ################################################################################
