@@ -185,6 +185,10 @@ $(TABLES)/reduced_IF_follow_up_probability_summary.csv $(TABLES)/mod_metadata/go
 code/Run_probs_comparison.R
 	R -e "source('code/Run_probs_comparison.R')"
 
+$(TABLES)/OTU_paired_wilcoxson_test.csv : $(TABLES)/full_test_data.csv\
+$(PROC)/final.0.03.subsample.shared $(TABLES)/mod_metadata/good_metaf_final.csv\
+code/Run_wilcoxson_all.R
+	R -e "source('code/Run_wilcoxson_all.R')"
 
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
@@ -207,12 +211,10 @@ $(FIGS)/Figure4.pdf :
 	rm results/figures/Figure4.tiff
 
 $(FIGS)/FigureS1.pdf :
-	R -e "source('code/Run_wilcoxson_all.R')"
 	R -e "source('code/Run_FigureS1.R')"
 
 $(FIGS)/FigureS2.pdf : 
 	R -e "source('code/Run_FigureS2.R')"
-
 
 $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : 
 	R -e "source('code/Run_Test_Chemo_Rad.R')"
