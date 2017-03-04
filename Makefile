@@ -97,9 +97,10 @@ $(TABLES)/thetayc_% : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(TABLES)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
-$(FIGS)/Figure1.pdf : 
-	
-	
+$(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
+$(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
+$(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
+code/Run_Figure1.R
 	R -e "source('code/Run_Figure1.R')"
 
 $(FIGS)/Figure2.pdf :
