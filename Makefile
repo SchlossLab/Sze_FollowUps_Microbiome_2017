@@ -65,11 +65,10 @@ $(REFS)/trainset14_032015.% :
 #
 ################################################################################
 
-$(PROC)/unmatched.% : code/mothur.batch
+$(PROC)/unmatched.% : 
 	bash $(CODE)/mothur.batch
 
-$(PROC)/final.% : $(PROC)/unmatched.fasta $(PROC)/unmatched.count_table\
-$(PROC)/unmatched.taxonomy code/mothurCluster.batch
+$(PROC)/final.% : 
 	bash $(CODE)/mothurCluster.batch
 
 ################################################################################
