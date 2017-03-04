@@ -5,6 +5,7 @@ TABLES = results/tables
 PROC = data/process
 FINAL = submission
 CODE = code
+METADATA = data/raw/metadata
 
 
 # utility function to print various variables. For example, running the
@@ -78,7 +79,9 @@ $(PROC)/final.% :
 #
 ################################################################################
 
-$(TABLES)/mod_metadata/good_metaf_final.csv :
+$(TABLES)/mod_metadata/good_metaf_final.csv : $(METADATA)/followUps_metadata.txt\
+$(METADATA)/initials_metadata.tsv $(METADATA)/followUp_outcome_data.csv\
+code/make_metadata_tables.R 
 	R -e "source('code/make_metadata_tables.R')"
 
 
