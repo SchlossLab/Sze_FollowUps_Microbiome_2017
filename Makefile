@@ -5,6 +5,7 @@ TABLES = results/tables
 PROC = data/process
 FINAL = submission
 CODE = code
+METADATA = data/raw/metadata
 
 
 # utility function to print various variables. For example, running the
@@ -78,25 +79,42 @@ $(PROC)/final.% :
 #
 ################################################################################
 
-$(TABLES)/mod_metadata/good_metaf_final.csv :
+$(TABLES)/mod_metadata/good_metaf_final.csv : $(METADATA)/followUps_metadata.txt\
+$(METADATA)/initials_metadata.tsv $(METADATA)/followUp_outcome_data.csv\
+code/make_metadata_tables.R 
 	R -e "source('code/make_metadata_tables.R')"
 
-
-$(TABLES)/alpha_table_summary.csv : 
+$(TABLES)/alpha_table_summary.csv : $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
-$(FIGS)/Figure1.pdf : 
+$(TABLES)/difference_table.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 	R -e "source('code/Run_change_theta_Fit.R')"
+
+$(TABLES)/thetayc_% : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
+
+$(TABLES)/adn_crc_maybe_pvalue_summary.csv : $(PROC)/final.taxonomy\
+$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.shared\
+code/Run_potential_cancer_specific_OTUs.R
+	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
+
+$(TABLES)/time_pvalues.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/metaF_final.csv\
+$(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
+	R -e "source('code/Run_Supplemental_time_table.R')"
+
+$(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
+$(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
+$(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
+code/Run_Figure1.R
 	R -e "source('code/Run_Figure1.R')"
 
-$(FIGS)/Figure2.pdf :
-	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
+$(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-$(TABLES)/time_pvalues.csv : 
-	R -e "source('code/Run_Supplemental_time_table.R')"
-	
 exploratory/RF_model_100.RData : 
 	mkdir $(CODE)/full
 	R -e "source('code/setup_RF_test.R')"
@@ -137,9 +155,14 @@ $(FIGS)/Figure4.pdf :
 	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/Figure4.tiff
 	rm results/figures/Figure4.tiff
 
+
 $(FIGS)/FigureS1.pdf :
 	R -e "source('code/Run_wilcoxson_all.R')"
 	R -e "source('code/Run_FigureS1.R')"
+
+$(FIGS)/FigureS2.pdf : 
+	R -e "source('code/Run_FigureS2.R')"
+
 
 $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : 
 	R -e "source('code/Run_Test_Chemo_Rad.R')"
@@ -153,8 +176,7 @@ $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv :
 #	bash $(CODE)/create_commonVars_pbs.sh
 #	bash $(CODE)/qsubmission_commonVars.sh
 
-$(FIGS)/FigureS2.pdf : 
-	R -e "source('code/Run_FigureS2.R')"
+
 
 
 ################################################################################
