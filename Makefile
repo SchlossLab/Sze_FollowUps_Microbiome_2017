@@ -85,14 +85,21 @@ $(METADATA)/initials_metadata.tsv $(METADATA)/followUp_outcome_data.csv\
 code/make_metadata_tables.R 
 	R -e "source('code/make_metadata_tables.R')"
 
-
 $(TABLES)/alpha_table_summary.csv : $(TABLES)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
-$(FIGS)/Figure1.pdf : 
+$(TABLES)/difference_table.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 	R -e "source('code/Run_change_theta_Fit.R')"
+
+$(TABLES)/thetayc_% : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
+
+$(FIGS)/Figure1.pdf : 
+	
+	
 	R -e "source('code/Run_Figure1.R')"
 
 $(FIGS)/Figure2.pdf :
