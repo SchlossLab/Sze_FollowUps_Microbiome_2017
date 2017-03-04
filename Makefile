@@ -85,7 +85,8 @@ code/make_metadata_tables.R
 	R -e "source('code/make_metadata_tables.R')"
 
 
-$(TABLES)/alpha_table_summary.csv : 
+$(TABLES)/alpha_table_summary.csv : $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
 $(FIGS)/Figure1.pdf : 
