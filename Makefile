@@ -134,7 +134,7 @@ exploratory/RF_model_Imp_OTU.RData : $(TABLES)/mod_metadata/good_metaf_final.csv
 $(PROC)/final.0.03.subsample.shared code/Run_Get_Imp_OTUs.R
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
 
-$(TABLES)/IF_model_top_vars_MDA_% : exploratory/RF_model_Imp_OTU.RData\
+$(TABLES)/IF_model_top_vars_MDA_Summary.csv : exploratory/RF_model_Imp_OTU.RData\
 code/Run_combine_IF_aggregate_model.R
 	R -e "source('code/Run_combine_IF_aggregate_model.R')"
 
@@ -148,7 +148,7 @@ exploratory/IF_reduced_RF_model_Imp_OTU.RData : $(TABLES)/IF_test_tune_data.csv\
 $(TABLES)/IF_rf_wCV_imp_vars_summary.csv code/Run_reduce_feature_IF_model.R
 	R -e "source('code/Run_reduce_feature_IF_model.R')"
 
-$(TABLES)/reduced_IF_model_top_vars_% : exploratory/IF_reduced_RF_model_Imp_OTU.RData\
+$(TABLES)/reduced_IF_model_top_vars_MDA_Summary.csv : exploratory/IF_reduced_RF_model_Imp_OTU.RData\
 Run_combine_reduced_IF_aggregate_model.R
 	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
 
@@ -158,9 +158,8 @@ $(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
 code/Run_IF_reduced_best_model.R
 	R -e "source('code/Run_IF_reduced_best_model.R')"
 
-$(TABLES)/reduced_lesion_model_top_vars_% : exploratory/Reducedfeatures_RF_model_%.RData\
-$(TABLES)/reduced_test_tune_data.csv $(TABLES)/reduced_test_data_splits.csv\
-code/Run_combine_aggregate_reduced_model.R
+$(TABLES)/reduced_lesion_model_top_vars_MDA_Summary : $(TABLES)/reduced_test_tune_data.csv\
+$(TABLES)/reduced_test_data_splits.csv code/Run_combine_aggregate_reduced_model.R
 	#Collects the needed data to generate figure 3
 	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
 
@@ -196,13 +195,13 @@ $(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary
 code/Run_Test_Chemo_Rad.R
 	R -e "source('code/Run_Test_Chemo_Rad.R')"
 
-$(TABLES)/%_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/%_imp_vars_summary.csv\
-code/Run_ID_imp_OTUs.R
+$(TABLES)/%_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
+$(TABLES)/results/tables/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 
-$(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : $(TABLES)/%_otu_tax.csv\
-$(PROC)/final.0.03.subsample.shared $(TABLES)/mod_metadata/good_metaf_final.csv\
-code/Run_Compare_models.R
+$(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : $(TABLES)/rf_otu_tax.csv\
+$(TABLES)/if_rf_otu_tax.csv $(PROC)/final.0.03.subsample.shared\
+$(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Compare_models.R
 	R -e "source('code/Run_Compare_models.R')"
 
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
@@ -215,16 +214,18 @@ $(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
 $(FIGS)/Figure3.pdf : $(TABLES)/reduced_test_data_roc.csv\
-$(TABLES)/reduced_lesion_model_top_vars_% $(TABLES)/reduced_follow_up_probability_summary.csv\
-$(PROC)/final.taxonomy code/Run_Figure3.R
+$(TABLES)/reduced_lesion_model_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_lesion_model_top_vars_MDA.csv\
+$(TABLES)/reduced_follow_up_probability_summary.csv $(PROC)/final.taxonomy code/Run_Figure3.R
 	#Creates the actual Figure 3
 	R -e "source('code/Run_Figure3.R')"
 	tiff2pdf -z -o results/figures/Figure3.pdf results/figures/Figure3.tiff
 	rm results/figures/Figure3.tiff
 
 $(FIGS)/Figure4.pdf : $(TABLES)/reduced_IF_test_data_roc.csv\
-$(TABLES)/reduced_IF_model_top_vars_% $(TABLES)/reduced_IF_follow_up_probability_summary.csv\
-$(PROC)/final.taxonomy code/Run_Figure4.R
+$(TABLES)/reduced_IF_model_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_IF_model_top_vars_MDA.csv\
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(PROC)/final.taxonomy code/Run_Figure4.R
 	R -e "source('code/Run_Figure4.R')"
 	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/Figure4.tiff
 	rm results/figures/Figure4.tiff
