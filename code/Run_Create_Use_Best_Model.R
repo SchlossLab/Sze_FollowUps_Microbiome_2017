@@ -58,22 +58,8 @@ shared <- read.delim('data/process/final.0.03.subsample.shared',
 rownames(shared) <- shared$Group
 shared <- shared[as.character(samples), ]
 
-# one sample has no follow up fit so need to remove that
-samplesToRemove <- filter(good_metaf, is.na(fit_followUp)) %>% 
-  select(initial, followUp)
-
-# Update good_metaf
-updated_metaf <- filter(
-  good_metaf, initial != samplesToRemove[, "initial"])
-
-
-# Remove the sample
-shared <- filter(
-  shared, Group != samplesToRemove[, "initial"], 
-  Group != samplesToRemove[, "followUp"])
-
 # Keep only OTUs in test data
-OTUs_to_keep <- colnames(select(test_data, -lesion, -fit_result))
+OTUs_to_keep <- colnames(select(test_data, -lesion))
 shared <- select(shared, Group, one_of(OTUs_to_keep))
 
 
@@ -102,12 +88,12 @@ probability_data_table <- cbind(
   Yes = c(initial_predictions[, "Yes"], followup_predictions[, "Yes"]), 
   sampleType = c(rep("initial", length(rownames(initial_predictions))), 
                  rep("followup", length(rownames(followup_predictions)))), 
-  disease_free = rep(updated_metaf$Disease_Free, 2), 
-  diagnosis = rep(updated_metaf$Diagnosis, 2), 
-  Dx_Bin = rep(updated_metaf$Dx_Bin, 2), 
-  chemo = rep(updated_metaf$chemo_received, 2), 
-  rads = rep(updated_metaf$radiation_received, 2), 
-  EDRN = rep(updated_metaf$EDRN, 2))
+  disease_free = rep(good_metaf$Disease_Free, 2), 
+  diagnosis = rep(good_metaf$Diagnosis, 2), 
+  Dx_Bin = rep(good_metaf$Dx_Bin, 2), 
+  chemo = rep(good_metaf$chemo_received, 2), 
+  rads = rep(good_metaf$radiation_received, 2), 
+  EDRN = rep(good_metaf$EDRN, 2))
 
 write.csv(probability_data_table, 
           "results/tables/follow_up_probability_summary.csv", row.names = F)
