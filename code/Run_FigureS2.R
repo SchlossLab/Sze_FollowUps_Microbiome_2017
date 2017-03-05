@@ -18,5 +18,5 @@ time_graph <- ggplot(diff_table_time, aes(x = time, y = distance)) +
   coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + xlab("Time from Initial (Days)") + 
   theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"))
 
-ggsave(file = "results/figures/FigureS5.pdf", time_graph, 
+ggsave(file = "results/figures/FigureS2.pdf", time_graph, 
        width=6, height = 8, dpi = 300)
