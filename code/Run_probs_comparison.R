@@ -29,8 +29,7 @@ IF_red_follow_up_probability <- read.csv("results/tables/reduced_IF_follow_up_pr
 
 # Read in meta data tables
 good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
-                       stringsAsFactors = F, header = T) %>% 
-filter(!is.na(fit_followUp))
+                       stringsAsFactors = F, header = T)
 
 
 # create tables to hold wilcoxson paired tests pvalues with BH correction
