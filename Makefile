@@ -116,8 +116,7 @@ $(CODE)/createDuplicates.sh $(CODE)/create_pbs.sh $(CODE)/qsubmission.sh
 	bash $(CODE)/create_pbs.sh
 	bash $(CODE)/qsubmission.sh
 
-exploratory/rocs.RData : exploratory/RF_model_%.RData\
-code/Run_Combine_Testing_pull_imp_OTUs.R
+exploratory/rocs.RData : code/Run_Combine_Testing_pull_imp_OTUs.R
 	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
 
 exploratory/Reducedfeatures_RF_model_100.RData : $(TABLES)/full_test_data.csv\
@@ -215,21 +214,27 @@ code/Run_Figure1.R
 $(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-$(FIGS)/Figure3.pdf : 
+$(FIGS)/Figure3.pdf : $(TABLES)/reduced_test_data_roc.csv\
+$(TABLES)/reduced_lesion_model_top_vars_% $(TABLES)/reduced_follow_up_probability_summary.csv\
+$(PROC)/final.taxonomy code/Run_Figure3.R
 	#Creates the actual Figure 3
 	R -e "source('code/Run_Figure3.R')"
 	tiff2pdf -z -o results/figures/Figure3.pdf results/figures/Figure3.tiff
 	rm results/figures/Figure3.tiff
 
-$(FIGS)/Figure4.pdf : 
+$(FIGS)/Figure4.pdf : $(TABLES)/reduced_IF_test_data_roc.csv\
+$(TABLES)/reduced_IF_model_top_vars_% $(TABLES)/reduced_IF_follow_up_probability_summary.csv\
+$(PROC)/final.taxonomy code/Run_Figure4.R
 	R -e "source('code/Run_Figure4.R')"
 	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/Figure4.tiff
 	rm results/figures/Figure4.tiff
 
-$(FIGS)/FigureS1.pdf :
+$(FIGS)/FigureS1.pdf : $(TABLES)/OTU_paired_wilcoxson_test.csv\
+code/Run_FigureS1.R
 	R -e "source('code/Run_FigureS1.R')"
 
-$(FIGS)/FigureS2.pdf : 
+$(FIGS)/FigureS2.pdf : $(TABLES)/time_datatable.csv\
+code/Run_FigureS2.R
 	R -e "source('code/Run_FigureS2.R')"
 
 
