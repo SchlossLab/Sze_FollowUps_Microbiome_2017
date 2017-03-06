@@ -11,7 +11,7 @@ loadLibs(c("dplyr", "vegan"))
 
 # Load needed data
 thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
-metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv", 
+metaF <- read.csv("data/process/mod_metadata/metaF_final.csv", 
   stringsAsFactors = F, header = T)
 
 
@@ -86,8 +86,8 @@ for(i in 1:length(dataList)){
 }
 
 # Save tables for later use
-write.csv(beta_diver_summary, "results/tables/beta_diver_summary.csv")
-write.csv(thetayc.mds.list[["adn"]], "results/tables/thetayc_adn_IF.csv", row.names = F)
-write.csv(thetayc.mds.list[["crc"]], "results/tables/thetayc_crc_IF.csv", row.names = F)
+write.csv(beta_diver_summary, "data/process/tables/beta_diver_summary.csv")
+write.csv(thetayc.mds.list[["adn"]], "data/process/tables/thetayc_adn_IF.csv", row.names = F)
+write.csv(thetayc.mds.list[["crc"]], "data/process/tables/thetayc_crc_IF.csv", row.names = F)
 
 
