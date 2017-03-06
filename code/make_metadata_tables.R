@@ -3,7 +3,6 @@
 
 ###Load needed Libraries and functions
 source('code/functions.R')
-source('code/graphFunctions.R')
 
 loadLibs(c("dplyr", "tidyr"))
 
@@ -78,9 +77,9 @@ good_metaf$lesionf[good_metaf$Disease_Free == 'n'] <- 1
 good_metaf$lesionf[good_metaf$Disease_Free == 'y' | good_metaf$Disease_Free == 'unknown'] <- 0
 
 
-write.csv(metaI, "results/tables/mod_metadata/metaI_final.csv", row.names = F)
-write.csv(metaF, "results/tables/mod_metadata/metaF_final.csv", row.names = F)
-write.csv(good_metaf, "results/tables/mod_metadata/good_metaf_final.csv", row.names = F)
+write.csv(metaI, "data/process/mod_metadata/metaI_final.csv", row.names = F)
+write.csv(metaF, "data/process/mod_metadata/metaF_final.csv", row.names = F)
+write.csv(good_metaf, "data/process/mod_metadata/good_metaf_final.csv", row.names = F)
 
 
 
