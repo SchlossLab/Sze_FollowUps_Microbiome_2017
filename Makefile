@@ -149,7 +149,7 @@ $(TABLES)/IF_rf_wCV_imp_vars_summary.csv code/Run_reduce_feature_IF_model.R
 	R -e "source('code/Run_reduce_feature_IF_model.R')"
 
 $(TABLES)/reduced_IF_model_top_vars_MDA_Summary.csv : exploratory/IF_reduced_RF_model_Imp_OTU.RData\
-Run_combine_reduced_IF_aggregate_model.R
+code/Run_combine_reduced_IF_aggregate_model.R
 	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
 
 $(TABLES)/reduced_IF_follow_up_probability_summary.csv : $(TABLES)/reduced_IF_test_tune_data.csv\
@@ -158,8 +158,7 @@ $(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
 code/Run_IF_reduced_best_model.R
 	R -e "source('code/Run_IF_reduced_best_model.R')"
 
-$(TABLES)/reduced_lesion_model_top_vars_MDA_Summary : $(TABLES)/reduced_test_tune_data.csv\
-$(TABLES)/reduced_test_data_splits.csv code/Run_combine_aggregate_reduced_model.R
+$(TABLES)/reduced_lesion_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_model.R
 	#Collects the needed data to generate figure 3
 	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
 
@@ -195,8 +194,8 @@ $(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary
 code/Run_Test_Chemo_Rad.R
 	R -e "source('code/Run_Test_Chemo_Rad.R')"
 
-$(TABLES)/%_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
-$(TABLES)/results/tables/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
+$(TABLES)/rf_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
+$(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 
 $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : $(TABLES)/rf_otu_tax.csv\
