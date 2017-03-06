@@ -10,7 +10,7 @@ loadLibs("dplyr")
 # Load needed data
 thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
 
-metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv", 
+metaF <- read.csv("data/process/mod_metadata/metaF_final.csv", 
   stringsAsFactors = F, header = T)
 
 # Crate distance table with only initial and follow ups
@@ -53,8 +53,8 @@ change_theta_fit_summary['fit', ] <- c(
 
 # Save table for later use
 write.csv(change_theta_fit_summary, 
-  "results/tables/change_theta_fit_summary.csv")
+  "data/process/tables/change_theta_fit_summary.csv")
 
 #Write out difference table
-write.csv(difference_table_treatment, "results/tables/difference_table.csv", row.names = F)
+write.csv(difference_table_treatment, "data/process/tables/difference_table.csv", row.names = F)
 
