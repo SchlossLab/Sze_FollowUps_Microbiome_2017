@@ -26,7 +26,7 @@ rm(tax)
 
 # Load in metad data, create Disease_Free variable, and remove values with NA
 good_metaf <- read.csv(
-  "results/tables/mod_metadata/good_metaf_final.csv", 
+  "data/process/mod_metadata/good_metaf_final.csv", 
   stringsAsFactors = F, header = T) %>% 
   mutate(lesion_follow = ifelse(Disease_Free == "n", 1, 0)) %>% 
   filter(!is.na(fit_followUp))
@@ -73,7 +73,7 @@ crc_select_data <- select(shared, Group, sampleType, one_of(good_counts_init)) %
                     rep(as.character(tax_df[tax_df$otu == good_counts_init[4], "Genus"]), length(good_metaf$initial)*2)))
   
 # Write out table for future use
-write.csv(crc_select_data, "results/tables/adn_crc_maybe_diff.csv", row.names = F)
+write.csv(crc_select_data, "data/process/tables/adn_crc_maybe_diff.csv", row.names = F)
 
 # Run statistics testing and BH correction
 test_data <- select(shared, Group, sampleType, Dx_Bin, one_of(good_counts_init))
@@ -108,7 +108,7 @@ pvalue_summary <- cbind(
 rownames(pvalue_summary) <- c("porp", "fn", "parv", "pept")
 
 # Write out the pvalue table for future use
-write.csv(pvalue_summary, "results/tables/adn_crc_maybe_pvalue_summary.csv")
+write.csv(pvalue_summary, "data/process/tables/adn_crc_maybe_pvalue_summary.csv")
 
 
 ### Need to manually confirm OTUs using a similar approach from Baxter, et al.  
