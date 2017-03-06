@@ -39,7 +39,7 @@ select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
 
 # create labels for factor values with low taxonomy
-graph_labels <- c("FIT", paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = ""))
+graph_labels <- paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = "")
 OTU_names <- names(low_tax_ID)
 
 test <- c()
