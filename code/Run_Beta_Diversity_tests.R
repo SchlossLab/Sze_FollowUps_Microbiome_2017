@@ -10,8 +10,7 @@ loadLibs(c("dplyr", "vegan"))
 
 
 # Load needed data
-thetaCompTotal <- dissplit('data/process/final.thetayc.0.03.lt.ave.dist',
-  split=F, meta = F)
+thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
 metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv", 
   stringsAsFactors = F, header = T)
 
