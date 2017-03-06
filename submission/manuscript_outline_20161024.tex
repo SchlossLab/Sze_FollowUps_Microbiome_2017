@@ -141,17 +141,17 @@ lesion removal in carcinoma cases compared to adenoma cases (P-value
 \textless{} 0.05). There was no difference for either the adenoma or
 carcinoma group in the relative abundance of any OTU between pre and
 post lesion removal (P-value \textgreater{} 0.05). A model built to
-classify lesion had an AUC range of 0.811 - 0.866 and follow up samples
+classify lesion had an AUC range of 0.692 - 0.761 and follow up samples
 had a decrease in the positive probability of lesion (P-value
-\textless{} 0.05) suggesting a movement towards a more normal bacterial
-community. A second model built to classify initial samples had an AUC
-range of 0.641 - 0.805 and had a decrease in positive probability for
-the follow up samples to be an initial sample (P-value \textless{}
-0.05). The lesion model used a total of 53 variables while the initial
-sample model used a total of 70 variables. A total of 23 OTUs were
-common to both models with the majority of these classifying to
-commensal bacteria (e.g. \emph{Bacteroides}, \emph{Clostridiales},
-\emph{Blautia}, and \emph{Ruminococcaceae}).
+\textgreater{} 0.05) suggesting a movement towards a more normal
+bacterial community. A second model built to classify initial samples
+had an AUC range of 0.657 - 0.796 and had a decrease in positive
+probability for the follow up samples to be an initial sample (P-value
+\textless{} 0.05). The lesion model used a total of 54 variables while
+the initial sample model used a total of 70 variables. A total of 32
+OTUs were common to both models with the majority of these classifying
+to commensal bacteria (e.g. \emph{Lachnospiraceae},
+\emph{Ruminococcaceae}, \emph{Bacteroides}, and \emph{Ruminococcus}).
 
 \textbf{Conclusions:} Our data supports the hypothesis that there are
 changes in the bacterial microbiome following colorectal lesion removal.
@@ -251,11 +251,11 @@ only those with adenoma {[}Figure 2B{]}.
 were any common bacterial microbiome changes in individuals with adenoma
 and carcinoma versus normal controls. We investigated this by creating a
 model to classify samples as lesion versus normal based on the bacterial
-community and FIT measurements. This model had an AUC range of 0.811 -
-0.866 after 100 iterations of 20 repeated 10-fold cross validations. The
+community and FIT measurements. This model had an AUC range of 0.692 -
+0.761 after 100 iterations of 20 repeated 10-fold cross validations. The
 ROC curve for the final lesion model used was within the observed range
 of the 100 different test set AUC iterations {[}Figure 3A{]}. There were
-a total of 53 variables that were used in this model {[}Figure 3B{]}.
+a total of 54 variables that were used in this model {[}Figure 3B{]}.
 The FIT measurement for fecal blood resulted in the largest decrease in
 MDA while the OTU with the largest MDA was \emph{Lachnospiraceae}
 (Otu000015) {[}Figure 3B{]}.
@@ -263,28 +263,28 @@ MDA while the OTU with the largest MDA was \emph{Lachnospiraceae}
 If there were common OTUs that could separate adenoma and carcinoma from
 normal controls, we would expect to find a decrease in the positive
 probability of the follow up sample to be a lesion. This is what we
-observed for the lesion model (P-value \textless{} 0.001). When we
+observed for the lesion model (P-value \textgreater{} 0.001). When we
 separated individuals based on whether they had an adenoma or carcinoma
 there was only a decrease in positive probability for the carcinoma
-group {[}Figure 3C{]} (P-value \textless{} 0.001) and not for the
+group {[}Figure 3C{]} (P-value \textgreater{} 0.001) and not for the
 adenoma group {[}Figure 3D{]} (P-value \textgreater{} 0.05). We also
 observed that there were no significant differences between the
-predicted and actual calls (P-value \textgreater{} 0.05). The lesion
-model was also able to correctly classify the one individual who still
-had a carcinoma on follow up {[}Figure 3C{]}.
+predicted and actual calls (P-value \textless{} 0.05). The lesion model
+was also able to correctly classify the one individual who still had a
+carcinoma on follow up {[}Figure 3C{]}.
 
 \textbf{\emph{The Initial Sample Model:}} After building a model to
 classify based on lesion we built a separate model specifically to be
 able to classify whether samples were initial (before lesion was
 removed) samples based on the bacterial community and FIT measurements.
-The initial sample model had an AUC range of 0.641 to 0.805 after 100
+The initial sample model had an AUC range of 0.657 to 0.796 after 100
 iterations of 20 repeated 10-fold cross validations. The test set AUC
 range for this model performed better then the training set AUCs. There
 was a marked decrease in the ROC curve for the final model used when
 compared to the 100 test set AUC iterations {[}Figure 4A{]}. There were
 a total of 70 variables that were used for this model {[}Figure 4B{]}.
-The variable that resulted in the largest MDA was \emph{Pseudomonas}
-(Otu000438) while FIT measurement for fecal blood resulted in the sixth
+The variable that resulted in the largest MDA was \emph{Ruminococcaceae}
+(Otu000278) while FIT measurement for fecal blood resulted in the sixth
 largest decrease in MDA {[}Figure 4B{]}.
 
 If there were common OTUs that could separate initial from follow up
@@ -306,11 +306,11 @@ classification of lesion but also for the classification of initial or
 follow up sample. Potentially, these specific OTUs are the most
 important with respect to the bacterial microbiome response to removal
 of lesion. When we compared the two different models with each other
-there were a total of 23 common OTUs. Some of the most common taxonomic
-identifications belonged to \emph{Bacteroides}, \emph{Clostridiales},
-\emph{Blautia}, and \emph{Ruminococcaceae}. The vast majority of these
-OTUs had classifications to bacteria typically thought of as commensal
-{[}Table S2{]}.
+there were a total of 32 common OTUs. Some of the most common taxonomic
+identifications belonged to \emph{Lachnospiraceae},
+\emph{Ruminococcaceae}, \emph{Bacteroides}, and \emph{Ruminococcus}. The
+vast majority of these OTUs had classifications to bacteria typically
+thought of as commensal {[}Table S2{]}.
 
 \textbf{\emph{Treatment Differences:}} After observing these changes in
 the bacterial community and positive probability we wanted to assess
@@ -379,7 +379,7 @@ that regardless of adenoma or carcinoma there are distinct common
 changes within the bacterial microbiome that occurs after lesion removal
 {[}Figure 4{]}. Both models had OTUs that overwhelmingly belonged to
 commensal bacteria. Providing additional information on the importance
-of commensal bacteria was that there were a total of 23 OTUs in common
+of commensal bacteria was that there were a total of 32 OTUs in common
 to both models and the vast majority belonged to regular residents of
 our gut community {[}Table S2{]}.
 
