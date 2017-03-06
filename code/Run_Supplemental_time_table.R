@@ -8,14 +8,12 @@ source('code/functions.R')
 loadLibs("dplyr")
 
 # Load needed data
-thetaCompTotal <- dissplit(
-  'data/process/final.thetayc.0.03.lt.ave.dist',
-  split=F, meta = F)
-metaI <- read.csv("results/tables/mod_metadata/metaI_final.csv", 
+thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
+metaI <- read.csv("data/process/mod_metadata/metaI_final.csv", 
   stringsAsFactors = F, header = T)
-metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv", 
+metaF <- read.csv("data/process/mod_metadata/metaF_final.csv", 
   stringsAsFactors = F, header = T)
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
+good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", 
   stringsAsFactors = F, header = T)
 
 #Generate distance table to be used
@@ -44,8 +42,8 @@ pvalues_summary <- rbind(
 
 colnames(pvalues_summary) <- c("test_values", "uncorrected_p_value")
 
-write.csv(pvalues_summary, "results/tables/time_pvalues.csv", row.names = F)
-write.csv(summary_statistics, "results/tables/time_summary_data.csv")
-write.csv(difference_table_treatment, "results/tables/time_datatable.csv", 
+write.csv(pvalues_summary, "data/process/tables/time_pvalues.csv", row.names = F)
+write.csv(summary_statistics, "data/process/tables/time_summary_data.csv")
+write.csv(difference_table_treatment, "data/process/tables/time_datatable.csv", 
   row.names = F)
 
