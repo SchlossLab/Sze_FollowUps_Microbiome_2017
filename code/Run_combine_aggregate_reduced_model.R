@@ -24,9 +24,9 @@ for(i in 1:n){
   load(paste("exploratory/Reducedfeatures_RF_model_", i, ".RData", sep=""))
   
   if(i == 1){
-    write.csv(eighty_twenty_splits, "results/tables/reduced_test_data_splits.csv", 
+    write.csv(eighty_twenty_splits, "data/process/tables/reduced_test_data_splits.csv", 
               row.names = F)
-    write.csv(test_data_imps, "results/tables/reduced_test_tune_data.csv", 
+    write.csv(test_data_imps, "data/process/tables/reduced_test_tune_data.csv", 
               row.names = F)
   }
   
@@ -68,13 +68,13 @@ for(i in 1:n){
 write.csv(
   mutate(best_model_data, run = rownames(best_model_data), 
          best_mtry = t(as.data.frame.list(best_tune))), 
-  "results/tables/Reduced_ROC_model_summary.csv", row.names = F)
+  "data/process/tables/Reduced_ROC_model_summary.csv", row.names = F)
 
 
 # Get Ranges of 100 10-fold 20 times CV data (worse, best)
-actual_data <- read.csv("results/tables/reduced_test_tune_data.csv", header = T)
+actual_data <- read.csv("data/process/tables/reduced_test_tune_data.csv", header = T)
 
-data_splits <- read.csv("results/tables/reduced_test_data_splits.csv", 
+data_splits <- read.csv("data/process/tables/reduced_test_data_splits.csv", 
                         header = T, stringsAsFactors = F)
 
 best_run <- as.numeric(strsplit((
@@ -109,7 +109,7 @@ test_roc_data <- cbind(
     rep("worse_roc", length(roc_data_list[["worse_roc"]]$sensitivities))))
 
 write.csv(test_roc_data, 
-          "results/tables/reduced_test_data_roc.csv", row.names = F)
+          "data/process/tables/reduced_test_data_roc.csv", row.names = F)
 
 
 # Create AUC data table for figure 3
@@ -135,7 +135,7 @@ auc_data_table[, "Spec_cv"] <- c(
   best_model_data[paste("run_", worse_run, sep = ""), "Spec"])
 
 
-write.csv(auc_data_table, "results/tables/reduced_auc_summary.csv")
+write.csv(auc_data_table, "data/process/tables/reduced_auc_summary.csv")
 
 
 # Collect the mean and SD for the MDA of the most important variables
@@ -164,14 +164,14 @@ MDA_vars_summary <- cbind(
   variable = rownames(top_vars_MDA_by_run))
 
 write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
-          "results/tables/reduced_lesion_model_top_vars_MDA_Summary.csv", row.names = F)
+          "data/process/tables/reduced_lesion_model_top_vars_MDA_Summary.csv", row.names = F)
 
 lesion_model_top_vars_MDA_full_data <- 
   mutate(top_vars_MDA_by_run, variables = rownames(top_vars_MDA_by_run)) %>% 
   melt(id = c("variables"))
 
 write.csv(lesion_model_top_vars_MDA_full_data, 
-          "results/tables/reduced_lesion_model_top_vars_MDA.csv", row.names = F)
+          "data/process/tables/reduced_lesion_model_top_vars_MDA.csv", row.names = F)
 
 
 
