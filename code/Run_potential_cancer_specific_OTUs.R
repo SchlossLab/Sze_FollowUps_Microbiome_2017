@@ -7,7 +7,7 @@
 source('code/functions.R')
 
 # Load needed libraries
-loadLibs(c("dplyr", "reshape2"))
+loadLibs(c("dplyr", "tidyr"))
 
 # Load needed data tables
 tax <- read.delim('data/process/final.taxonomy', sep='\t', 
@@ -23,60 +23,50 @@ tax_df <- data.frame(do.call('rbind',
 tax_df <- as.data.frame(apply(tax_df, 2, 
                               function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
 rm(tax)
-
 # Load in metad data, create Disease_Free variable, and remove values with NA
 good_metaf <- read.csv(
   "data/process/mod_metadata/good_metaf_final.csv", 
   stringsAsFactors = F, header = T) %>% 
-  mutate(lesion_follow = ifelse(Disease_Free == "n", 1, 0)) %>% 
-  filter(!is.na(fit_followUp))
+  mutate(lesion_follow = ifelse(Disease_Free == "n", 1, 0))
 
-# Load in shared file and modify to have initial and follow up
-shared <- read.delim('data/process/final.shared', 
-                     header=T, sep='\t') %>% select(-label, -numOtus) %>% 
-  filter(Group %in% as.character(c(good_metaf$initial, good_metaf$followUp))) %>% 
+# Gather by lowest level classification (genus)
+genera_data <- as.data.frame(get_tax_level_shared('data/process/final.shared', 'data/process/final.taxonomy', 6))
+
+# Generate relative abundance
+total_seqs <- rowSums(genera_data)
+
+genera_data <- cbind(Group = rownames(genera_data), 
+              as.data.frame(apply(genera_data, 2, 
+                                  function(x) x/total_seqs)))
+
+# Aggregate data and reshape for graphing
+temp_data <- genera_data %>% filter(Group %in% as.character(c(good_metaf$initial, good_metaf$followUp))) %>% 
   slice(match(as.character(c(good_metaf$initial, good_metaf$followUp)), Group)) %>% 
   mutate(sampleType = c(rep("initial", length(good_metaf$initial)), 
                         rep("followup", length(good_metaf$followUp))), 
          Dx_Bin = rep(good_metaf$Dx_Bin, 2))
 
-# Generate relative abundance
-total_seqs <- rowSums(select(shared, -Group, -sampleType, -Dx_Bin))
+crc_select_data <- cbind(
+  EDRN = rep(good_metaf$EDRN, 2), 
+  Group = temp_data$Group, 
+  sampleType = temp_data$sampleType, 
+  Dx_Bin = temp_data$Dx_Bin, 
+  Disease_free = rep(good_metaf$Disease_Free, 2), 
+  select(temp_data, Fusobacterium, Parvimonas, Peptostreptococcus, Porphyromonas)) %>% 
+  gather(key = Genus, 
+         value = rel.abund, Fusobacterium, Parvimonas, Peptostreptococcus, Porphyromonas)
 
-shared <- cbind(Group = shared$Group, 
-                sampleType = shared$sampleType, 
-                Dx_Bin = shared$Dx_Bin, 
-                as.data.frame(apply(select(shared, -Group, -sampleType, -Dx_Bin), 2, 
-                                    function(x) x/total_seqs)))
 
-# Identify which OTUs are part of the genera of intrest
-IDs <- filter(tax_df, Genus == "Fusobacterium" | Genus == "Parvimonas" | 
-           Genus == "Peptostreptococcus" | Genus == "Porphyromonas")
-
-# Isolate the specific OTUs of interest  
-shared_imp_init <- select(shared, Group, sampleType, Dx_Bin, one_of(as.character(IDs[, "otu"]))) %>% 
-  filter(sampleType == "initial") %>% select(-Group, -sampleType, -Dx_Bin)
-
-# Get number of positive counts by column
-total_counts_init <- colSums(shared_imp_init != 0)
-good_counts_init <- names(total_counts_init[total_counts_init > 10])
-
-# Create data table for graphing
-crc_select_data <- select(shared, Group, sampleType, one_of(good_counts_init)) %>% 
-  mutate(EDRN = rep(good_metaf$EDRN, length(unique(shared$sampleType))), 
-         Disease_Free = rep(good_metaf$Disease_Free, length(unique(shared$sampleType))), 
-         Dx_Bin = rep(good_metaf$Dx_Bin, length(unique(shared$sampleType)))) %>% 
-  melt(id.vars = c("Group", "sampleType", "EDRN", "Disease_Free", "Dx_Bin"), variable.name = "otu") %>% 
-  mutate(tax_id = c(rep(as.character(tax_df[tax_df$otu == good_counts_init[1], "Genus"]), length(good_metaf$initial)*2), 
-                    rep(as.character(tax_df[tax_df$otu == good_counts_init[2], "Genus"]), length(good_metaf$initial)*2), 
-                    rep(as.character(tax_df[tax_df$otu == good_counts_init[3], "Genus"]), length(good_metaf$initial)*2), 
-                    rep(as.character(tax_df[tax_df$otu == good_counts_init[4], "Genus"]), length(good_metaf$initial)*2)))
-  
 # Write out table for future use
 write.csv(crc_select_data, "data/process/tables/adn_crc_maybe_diff.csv", row.names = F)
 
 # Run statistics testing and BH correction
-test_data <- select(shared, Group, sampleType, Dx_Bin, one_of(good_counts_init))
+test_data <- temp_data %>% select(Fusobacterium, Parvimonas, Peptostreptococcus, Porphyromonas) %>% 
+  mutate(Dx_Bin = rep(good_metaf$Dx_Bin, 2), 
+         sampleType = temp_data$sampleType, 
+         Disease_free = rep(good_metaf$Disease_Free, 2))
+
+good_counts_init <- c("Fusobacterium", "Parvimonas", "Peptostreptococcus", "Porphyromonas")
 
 pvalue_summary <- cbind(
   lesion_pvalue = apply(select(test_data, one_of(good_counts_init)), 2, 
@@ -109,24 +99,5 @@ rownames(pvalue_summary) <- c("porp", "fn", "parv", "pept")
 
 # Write out the pvalue table for future use
 write.csv(pvalue_summary, "data/process/tables/adn_crc_maybe_pvalue_summary.csv")
-
-
-### Need to manually confirm OTUs using a similar approach from Baxter, et al.  
-### Can use any database to confirm calls after pulling representative sequences from
-### the final.rep.seqs file.
-
-### For this I used the RDP database release 11 update 5 
-### Filters included:
-  ### Strain: Both
-  ### Source: Isolates
-  ### Size: > or = to 1200
-  ### Quality = Good
-  ### KNN matches = 20
-
-### Need to have higher than or equal to 97% ID match with these criteria
-
-
-
-
 
 
