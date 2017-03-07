@@ -11,12 +11,12 @@ loadLibs(c("dplyr", "tidyr"))
 # Read in data tables
 
 data_list <- list(
-  lesion_probs = read.csv("results/tables/follow_up_probability_summary.csv", header = T, stringsAsFactors = F), 
-  red_lesion_probs = read.csv("results/tables/reduced_follow_up_probability_summary.csv", 
+  lesion_probs = read.csv("data/process/tables/follow_up_probability_summary.csv", header = T, stringsAsFactors = F), 
+  red_lesion_probs = read.csv("data/process/tables/reduced_follow_up_probability_summary.csv", 
                               header = T, stringsAsFactors = F), 
-  IF_probs = read.csv("results/tables/IF_follow_up_probability_summary.csv", 
+  IF_probs = read.csv("data/process/tables/IF_follow_up_probability_summary.csv", 
                       header = T, stringsAsFactors = F), 
-  red_IF_probs = read.csv("results/tables/reduced_IF_follow_up_probability_summary.csv", 
+  red_IF_probs = read.csv("data/process/tables/reduced_IF_follow_up_probability_summary.csv", 
                           header = T, stringsAsFactors = F)
 )
 
@@ -46,11 +46,10 @@ for(i in 1:length(data_list)){
 
 # Test thetayc value differences between treatment type
 
-difference_table_treatment <- read.csv("results/tables/difference_table.csv", 
+difference_table_treatment <- read.csv("data/process/tables/difference_table.csv", 
                                        header = T, stringsAsFactors = F) %>% 
-  filter(!is.na(fit_followUp)) %>% 
-  mutate(chemo = data_list[["lesion_probs"]][1:66, "chemo"], 
-         rads = data_list[["lesion_probs"]][1:66, "rads"])
+  mutate(chemo = data_list[["lesion_probs"]][1:67, "chemo"], 
+         rads = data_list[["lesion_probs"]][1:67, "rads"])
 
 pvalue_table["chemo_b", "pvalue"] <- wilcox.test(
   filter(difference_table_treatment, chemo == "yes")[, "distance"], 
@@ -62,7 +61,7 @@ pvalue_table["rad_b", "pvalue"] <- wilcox.test(
 
 
 # Test alpha diversity metrics by treatment type
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
+good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
 alpha_summary <- read.delim("data/process/final.groups.ave-std.summary", stringsAsFactors = F)
 
 # Create data set to be tested on
@@ -102,6 +101,6 @@ for(i in 1:length(alpha_to_test)){
 # Implement P-value correction
 pvalue_table$bh <- p.adjust(pvalue_table$pvalue, method = "BH")
 
-write.csv(pvalue_table, "results/tables/probs_chemo_rad_pvalue_summary.csv")
+write.csv(pvalue_table, "data/process/tables/probs_chemo_rad_pvalue_summary.csv")
 
 

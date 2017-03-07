@@ -8,9 +8,9 @@ source('code/functions.R')
 loadLibs(c("dplyr", "caret","scales", "wesanderson", "randomForest", "pROC"))
 
 # Read in necessary data frames
-test_data <- read.csv("results/tables/IF_test_tune_data.csv", header = TRUE)
-split_data_results <- read.csv("results/tables/IF_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
-test_data_roc <- read.csv("results/tables/IF_test_data_roc.csv", header = TRUE, stringsAsFactors = F)
+test_data <- read.csv("data/process/tables/IF_test_tune_data.csv", header = TRUE)
+split_data_results <- read.csv("data/process/tables/IF_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
+test_data_roc <- read.csv("data/process/tables/IF_test_data_roc.csv", header = TRUE, stringsAsFactors = F)
 
 # Get best mtry to use
 mtry_table <- table(split_data_results$best_mtry)
@@ -31,10 +31,10 @@ test_data_roc <- rbind(test_data_roc, cbind(sensitivities = full_model_roc$sensi
                                             run = rep("full_roc", length(full_model_roc$sensitivities))))
 
 write.csv(test_data_roc, 
-          "results/tables/IF_test_data_roc.csv", row.names = F)
+          "data/process/tables/IF_test_data_roc.csv", row.names = F)
 
 #load in metadata to get IDs to select shared file by
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
+good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", 
                        stringsAsFactors = F, header = T)
 
 #create vector in correct order
@@ -84,5 +84,5 @@ probability_data_table <- cbind(
   EDRN = rep(good_metaf$EDRN, 2))
 
 write.csv(probability_data_table, 
-          "results/tables/IF_follow_up_probability_summary.csv", row.names = F)
+          "data/process/tables/IF_follow_up_probability_summary.csv", row.names = F)
 

@@ -35,46 +35,36 @@ get_alpha_pvalues <- function(data_table, table_names = c("sobs", "shannon", "ev
 }
 
 
-
-# This function creates a square distance matrix and splits it based 
-# on specified criteria for init and follow. 
-dissplit <- function(file, metafile, init='initial', follow='followUp', split=T, meta = T){
-  source('code/read.dist.R')
-  dist <- read.dist(file)
-  intra <- c()
-  # Complete only if split is wanted
-  if (meta == T){
+# This loads in a mothur triangle matrix and converts it to a square matrix
+read.dist <- function(file, input='lt', make.square=T, diag=0){
+  if(input=='lt'){
+    stuff <- scan(file, what='character') #gets all of the elements of the file
+    n <- as.numeric(stuff[1]) # n = number of groups/samples in file
+    stuff <- stuff[-1] # removes number of groups from list of stuff
+    m <- data.frame(matrix(NA, nrow=n, ncol=n) ) #makes empty matrix based on number of groups
+    diag(m) <- diag #fills in diagonal with specified value
     
-    for(i in 1:nrow(metafile)){
-      intra[i] <- as.numeric(dist[
-        as.character(metafile[i, init]),as.character(metafile[i, follow])])
+    c <- 1 # c keeps track of postion in stuff vector
+    for(i in 1:n){
+      group <- stuff[c] #get group name
+      colnames(m)[i] <- group
+      rownames(m)[i] <- group
+      
+      if(i > 1){
+        m[i,1:(i-1)] <- stuff[(c+1):(c+i-1)] #fills in matrix with values from stuff
+      }
+      c<-c+i #this because math
     }
-    intra_ade <- intra[metaF$dx=='adenoma']
-    intra_canc <- intra[metaF$dx=='cancer']
-    
-    ###Pull out only interindividual distances and convert to vector
-    inter <- dist[as.character(metaF$initial),as.character(metaF$followUp)]
-    
-    #Remove those that are in the intra and replace with NA
-    diag(inter) <- NA
-    #Check that it only took out 67 measurements
-    length(which(is.na(inter)))
-    
-    inter <- as.numeric(as.vector(unlist(inter)))
-    inter <- inter[!is.na(inter)]
-    
-    combined <- list(intra_ade, intra_canc, inter)
-    names(combined) <- c("intra_ade", "intra_canc", "inter")
-    
+    if(make.square){
+      m[upper.tri(m)] <- t(m)[upper.tri(m)] #fills in upper triangle
+    }
   }
   
- if (split == T){
-    return(combined)
-  } else {
-    return(dist)
+  if(input=='square'){ #reads in square matrix
+    m<-read.table(file, skip=1, row.names=1)
+    colnames(m) <- rownames(m)
   }
-  
-  
+  return(m)
 }
 
 

@@ -8,7 +8,7 @@ source('code/functions.R')
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 
 #Read data needed
-paired_table <- read.csv("results/tables/OTU_paired_wilcoxson_test.csv", header = T, stringsAsFactors = F)
+paired_table <- read.csv("data/process/tables/OTU_paired_wilcoxson_test.csv", header = T, stringsAsFactors = F)
 
 label_names <- c("Lesion", "Adenoma Only", "CRC Only")
 names(label_names) <- c("ALL", "adn", "crc")

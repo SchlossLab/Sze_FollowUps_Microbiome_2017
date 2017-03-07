@@ -17,11 +17,11 @@ colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
 tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
 rm(tax)
 
-if_model_imp_vars <- read.csv("results/tables/IF_rf_wCV_imp_vars_summary.csv", 
+if_model_imp_vars <- read.csv("data/process/tables/IF_rf_wCV_imp_vars_summary.csv", 
                            header = T, stringsAsFactors = F) %>% 
   filter(Variable != "fit_result")
 
-model_imp_vars <- read.csv("results/tables/rf_wCV_imp_vars_summary.csv", 
+model_imp_vars <- read.csv("data/process/tables/rf_wCV_imp_vars_summary.csv", 
                               header = T, stringsAsFactors = F) %>% 
   filter(Variable != "fit_result")
 
@@ -33,8 +33,8 @@ if_tax_model <- tax_df[if_model_imp_vars$Variable, ]
 
 
 # Write out the data
-write.csv(tax_model, "results/tables/rf_otu_tax.csv")
-write.csv(if_tax_model, "results/tables/if_rf_otu_tax.csv")
+write.csv(tax_model, "data/process/tables/rf_otu_tax.csv")
+write.csv(if_tax_model, "data/process/tables/if_rf_otu_tax.csv")
 
 
 

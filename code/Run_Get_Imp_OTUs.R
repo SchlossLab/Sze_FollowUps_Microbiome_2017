@@ -12,7 +12,7 @@ loadLibs(c("randomForest", "dplyr", "ggplot2", "reshape2",
 
 # Read in data tables
 good_metaf <- read.csv(
-  "results/tables/mod_metadata/good_metaf_final.csv", 
+  "data/process/mod_metadata/good_metaf_final.csv", 
   stringsAsFactors = F, header = T) %>% 
   mutate(lesion_follow = ifelse(Disease_Free == "n", 1, 0))
 
@@ -121,7 +121,7 @@ test_data$lesion <- factor(test_data$lesion,
 
 #write out table for future use
 
-write.csv(test_data, "results/tables/follow_up_prediction_table.csv", 
+write.csv(test_data, "data/process/tables/follow_up_prediction_table.csv", 
   row.names = F)
 
 #################################################################################
@@ -150,40 +150,6 @@ for(i in 1:length(colnames(eighty_twenty_splits))){
 #               Model Training and Parameter Tuning                             #
 #                                                                               #
 #################################################################################
-
-### Create a custom RF list to train and tune both mtry and ntree
-
-#Create the initial list with baseline parameters
-customRF <- list(type = "Classification", library = "randomForest", 
-  loop = NULL)
-# Create parameters for algorithm to be used
-customRF$parameters <- data.frame(parameter = c("mtry", "ntree"), 
-                                  class = rep("numeric", 2), 
-                                  label = c("mtry", "ntree"))
-# Function to look for the tunegrid data frame
-customRF$grid <- function(x, y, len = NULL, search = "grid") {}
-# Function used to execute the random forest algorithm
-customRF$fit <- function(x, y, wts, param, lev, last, weights, classProbs, ...) {
-  randomForest(x, y, mtry = param$mtry, ntree=param$ntree, ...)
-}
-# Function used to generate the prediction on the seperated data
-customRF$predict <- function(modelFit, newdata, preProc = NULL, 
-  submodels = NULL)
-  predict(modelFit, newdata)
-# Function used to generate the probabilities from the seperated data
-customRF$prob <- function(modelFit, newdata, preProc = NULL, 
-  submodels = NULL)
-  predict(modelFit, newdata, type = "prob")
-# Used to order by mtry
-customRF$sort <- function(x) x[order(x[,1]),]
-# Used to pull out variables optimized
-customRF$levels <- function(x) x$classes
-
-
-# Create the tune grid to be used
-tunegrid <- expand.grid(.mtry=c(1:441), 
-  .ntree=c(250, 500, 1000, 1500, 2000))
-
 
 #Create Overall specifications for model tuning
 # number controls fold of cross validation

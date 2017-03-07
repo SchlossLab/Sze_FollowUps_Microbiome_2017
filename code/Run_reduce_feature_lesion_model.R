@@ -9,8 +9,8 @@ source('code/functions.R')
 loadLibs(c("dplyr", "scales", "caret"))
 
 #Load needed data
-test_data <- read.csv("results/tables/full_test_data.csv", header = TRUE, row.names = 1)
-lesion_imp_vars <- read.csv("results/tables/rf_wCV_imp_vars_summary.csv", header = T, stringsAsFactors = F)
+test_data <- read.csv("data/process/tables/full_test_data.csv", header = TRUE, row.names = 1)
+lesion_imp_vars <- read.csv("data/process/tables/rf_wCV_imp_vars_summary.csv", header = T, stringsAsFactors = F)
 
 
 #Create data table with only reduced features (impvars only)

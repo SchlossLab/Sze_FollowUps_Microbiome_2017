@@ -9,7 +9,7 @@ source('code/functions.R')
 loadLibs("dplyr")
 
 # Load in needed data
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
+good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
 alpha_summary <- read.delim("data/process/final.groups.ave-std.summary", stringsAsFactors = F)
 
 # Create data set to be tested on
@@ -40,6 +40,6 @@ rownames(alpha_table_summary) <- c("lesion_sobs", "lesion_shannon", "lesion_even
                                    "adn_sobs", "adn_shannon", "adn_evenness", 
                                    "crc_sobs", "crc_shannon", "crc_evenness")
 
-write.csv(alpha_table_summary, "results/tables/alpha_table_summary.csv")
+write.csv(alpha_table_summary, "data/process/tables/alpha_table_summary.csv")
 
 

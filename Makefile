@@ -1,7 +1,7 @@
 # Set local variables
 REFS = data/references
 FIGS = results/figures
-TABLES = results/tables
+TABLES = data/process/tables
 PROC = data/process
 FINAL = submission
 CODE = code
@@ -100,7 +100,7 @@ code/make_metadata_tables.R
 # This analyzes and compares all alpha diversity metrics for lesion, adenoma, 
 # and carcinoma for initial and follow up samples.
 
-$(TABLES)/alpha_table_summary.csv : $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/alpha_table_summary.csv : $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
@@ -108,7 +108,7 @@ $(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 # adenoma and carcinoma with respect to FIT and thetayc distances.
 
 $(TABLES)/difference_table.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
-$(TABLES)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
+$(PROC)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 	R -e "source('code/Run_change_theta_Fit.R')"
 
 # This code creates the NMDS needed and also runs the PERMANOVA
@@ -116,7 +116,7 @@ $(TABLES)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 # carcinoma.
 
 $(TABLES)/thetayc_% : $(PROC)/final.thetayc.0.03.lt.ave.dist\
-$(TABLES)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
+$(PROC)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
 # This code grabs the previously CRC associated bacteria and runs
@@ -124,7 +124,7 @@ $(TABLES)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 # carcinoma.  
 
 $(TABLES)/adn_crc_maybe_pvalue_summary.csv : $(PROC)/final.taxonomy\
-$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.shared\
+$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.shared\
 code/Run_potential_cancer_specific_OTUs.R
 	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
 
@@ -132,8 +132,8 @@ code/Run_potential_cancer_specific_OTUs.R
 # initial and follow up samples for adenoma or carcinoma.
 
 $(TABLES)/time_pvalues.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
-$(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/metaF_final.csv\
-$(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
+$(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/metaF_final.csv\
+$(PROC)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
 
 # This code creates 100 different 80/20 splits of the data to optimize
@@ -141,7 +141,7 @@ $(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 # Each seperate run is stored as an .RData file in the exploratory directory.
 
 exploratory/RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
-$(TABLES)/mod_metadata/metaI_final.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 code/reference_run_RF.R code/RF_reference.pbs code/setup_RF_test.R\
 $(CODE)/createDuplicates.sh $(CODE)/create_pbs.sh $(CODE)/qsubmission.sh
 	mkdir $(CODE)/full
@@ -176,7 +176,7 @@ $(CODE)/qsubmission_reducedVars.sh
 # This code runs the full initial model 100 80/20 splits.  All the runs
 # are stored as an .RData file to be used by other components.
 
-exploratory/RF_model_Imp_OTU.RData : $(TABLES)/mod_metadata/good_metaf_final.csv\
+exploratory/RF_model_Imp_OTU.RData : $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_Get_Imp_OTUs.R
 	R -e "source('code/Run_Get_Imp_OTUs.R')"
 
@@ -192,7 +192,7 @@ code/Run_combine_IF_aggregate_model.R
 
 $(TABLES)/IF_follow_up_probability_summary.csv : $(TABLES)/IF_test_tune_data.csv\
 $(TABLES)/IF_ROC_model_summary.csv $(TABLES)/IF_test_data_roc.csv\
-$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
+$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
 code/Run_IF_best_model.R
 	R -e "source('code/Run_IF_best_model.R')"
 
@@ -214,7 +214,7 @@ code/Run_combine_reduced_IF_aggregate_model.R
 
 $(TABLES)/reduced_IF_follow_up_probability_summary.csv : $(TABLES)/reduced_IF_test_tune_data.csv\
 $(TABLES)/reduced_IF_ROC_model_summary.csv $(TABLES)/reduced_IF_test_data_roc.csv\
-$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
+$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
 code/Run_IF_reduced_best_model.R
 	R -e "source('code/Run_IF_reduced_best_model.R')"
 
@@ -230,7 +230,7 @@ $(TABLES)/reduced_lesion_model_top_vars_MDA_Summary.csv : code/Run_combine_aggre
 
 $(TABLES)/roc_pvalue_summary.csv : exploratory/rocs.RData\
 $(TABLES)/full_test_data.csv $(TABLES)/ROC_model_summary.csv $(TABLES)/test_data_roc.csv\
-$(TABLES)/auc_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared $(TABLES)/follow_up_prediction_table.csv\
 code/Run_Create_Use_Best_Model.R
 	#Generates complete model built on all data and updates tables
@@ -241,7 +241,7 @@ code/Run_Create_Use_Best_Model.R
 
 $(TABLES)/reduced_follow_up_probability_summary.csv : $(TABLES)/reduced_test_tune_data.csv\
 $(TABLES)/Reduced_ROC_model_summary.csv $(TABLES)/reduced_test_data_roc.csv\
-$(TABLES)/reduced_auc_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_reduced_best_model.R
 	R -e "source('code/Run_reduced_best_model.R')"
 
@@ -250,7 +250,7 @@ $(PROC)/final.0.03.subsample.shared code/Run_reduced_best_model.R
 
 $(TABLES)/all_models_wilcox_paired_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
 $(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 code/Run_probs_comparison.R
 	R -e "source('code/Run_probs_comparison.R')"
 
@@ -258,7 +258,7 @@ code/Run_probs_comparison.R
 # lesion, adenoma only, and carcinoma only.
 
 $(TABLES)/OTU_paired_wilcoxson_test.csv : $(TABLES)/full_test_data.csv\
-$(PROC)/final.0.03.subsample.shared $(TABLES)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/good_metaf_final.csv\
 code/Run_wilcoxson_all.R
 	R -e "source('code/Run_wilcoxson_all.R')"
 
@@ -268,7 +268,7 @@ code/Run_wilcoxson_all.R
 $(TABLES)/probs_chemo_rad_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
 $(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
 $(TABLES)/reduced_IF_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
-$(TABLES)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
+$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
 code/Run_Test_Chemo_Rad.R
 	R -e "source('code/Run_Test_Chemo_Rad.R')"
 
@@ -285,7 +285,7 @@ $(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
 
 $(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : $(TABLES)/rf_otu_tax.csv\
 $(TABLES)/if_rf_otu_tax.csv $(PROC)/final.0.03.subsample.shared\
-$(TABLES)/mod_metadata/good_metaf_final.csv code/Run_Compare_models.R
+$(PROC)/mod_metadata/good_metaf_final.csv code/Run_Compare_models.R
 	R -e "source('code/Run_Compare_models.R')"
 
 
