@@ -9,19 +9,18 @@ source('code/functions.R')
 loadLibs(c("dplyr","reshape2", "scales"))
 
 # Read in data tables
-rf_otu_tax <- read.csv("results/tables/rf_otu_tax.csv", 
+rf_otu_tax <- read.csv("data/process/tables/rf_otu_tax.csv", 
                        header = T, stringsAsFactors = F) %>% rename(otu = X)
-if_rf_otu_tax <- read.csv("results/tables/if_rf_otu_tax.csv", 
+if_rf_otu_tax <- read.csv("data/process/tables/if_rf_otu_tax.csv", 
                           header = T, stringsAsFactors = F) %>% rename(otu = X)
 
 shared <- read.delim('data/process/final.0.03.subsample.shared', 
   header=T, sep='\t') %>% select(-label, -numOtus)
 
 good_metaf <- read.csv(
-  "results/tables/mod_metadata/good_metaf_final.csv", 
+  "data/process/mod_metadata/good_metaf_final.csv", 
   stringsAsFactors = F, header = T) %>% 
-  mutate(lesion_follow = ifelse(Disease_Free == "n", 1, 0)) %>% 
-  filter(!is.na(fit_followUp))
+  mutate(lesion_follow = ifelse(Disease_Free == "n", 1, 0))
 
 # Make Relative Abundance
 subsample <- rowSums(select(shared, -Group))
@@ -58,4 +57,4 @@ pvalue_table <- cbind(
   Pvalue = otu_pvalue, 
   BH_corr = p.adjust(otu_pvalue, method = "BH"))
 
-write.csv(pvalue_table, "results/tables/pvalue_IF_lesion_common_imp_vars.csv")
+write.csv(pvalue_table, "data/process/tables/pvalue_IF_lesion_common_imp_vars.csv")

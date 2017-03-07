@@ -9,7 +9,7 @@ source('code/functions.R')
 loadLibs(c("dplyr", "ggplot2", "gridExtra", "scales", "wesanderson"))
 
 # Load needed data
-graph_data <- read.csv("results/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
+graph_data <- read.csv("data/process/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
 
 # Add column to jitter values and italicize names
 graph_data <- mutate(graph_data, 
