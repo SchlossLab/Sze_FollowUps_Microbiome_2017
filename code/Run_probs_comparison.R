@@ -12,23 +12,23 @@ loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2",
 
 # Load lesion model data
 follow_up_probability <- read.csv(
-  "results/tables/follow_up_probability_summary.csv", 
+  "data/process/tables/follow_up_probability_summary.csv", 
   header = T, stringsAsFactors = F)
 
-red_follow_up_probability <- read.csv("results/tables/reduced_follow_up_probability_summary.csv", 
+red_follow_up_probability <- read.csv("data/process/tables/reduced_follow_up_probability_summary.csv", 
                                       stringsAsFactors = F, header = T)
 
 # Load IF model data
 IF_follow_up_probability <- read.csv(
-  "results/tables/IF_follow_up_probability_summary.csv", 
+  "data/process/tables/IF_follow_up_probability_summary.csv", 
   header = T, stringsAsFactors = F)
 
-IF_red_follow_up_probability <- read.csv("results/tables/reduced_IF_follow_up_probability_summary.csv", 
+IF_red_follow_up_probability <- read.csv("data/process/tables/reduced_IF_follow_up_probability_summary.csv", 
                                       stringsAsFactors = F, header = T)
 
 
 # Read in meta data tables
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
+good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", 
                        stringsAsFactors = F, header = T)
 
 
@@ -96,12 +96,12 @@ confusion_counts_summary <- as.data.frame(confusion_counts_summary) %>%
 
 #Write out data tables for other use
 write.csv(all_wilcox_summary, 
-          "results/tables/all_models_wilcox_paired_pvalue_summary.csv", row.names = F)
+          "data/process/tables/all_models_wilcox_paired_pvalue_summary.csv", row.names = F)
 
 write.csv(model_summary_info, 
-          "results/tables/all_models_summary_info.csv", row.names = F)
+          "data/process/tables/all_models_summary_info.csv", row.names = F)
 
-write.csv(confusion_counts_summary, "results/tables/all_models_confusion_summary.csv", row.names = F)
+write.csv(confusion_counts_summary, "data/process/tables/all_models_confusion_summary.csv", row.names = F)
 
 
 
