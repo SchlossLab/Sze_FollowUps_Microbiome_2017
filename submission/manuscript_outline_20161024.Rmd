@@ -3,7 +3,6 @@ title: ''
 csl: microbiome.csl
 fontsize: 12pt
 output:
-  word_document: default
   pdf_document:
     includes:
       in_header: header.tex
@@ -30,43 +29,43 @@ opts_chunk$set("message" = FALSE)
 
 ```{r rdata_tables}
 # Extra data and meta data needed
-good_metaf <- read.csv('../results/tables/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
-metaI <- read.csv('../results/tables/mod_metadata/metaI_final.csv', header = T, stringsAsFactors = F)
+good_metaf <- read.csv('../data/process/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
+metaI <- read.csv('../data/process/mod_metadata/metaI_final.csv', header = T, stringsAsFactors = F)
 total_sub_Seqs <- read.delim('../data/process/final.0.03.subsample.shared', header = T) %>% 
   select(contains("Otu0")) %>% rowSums()
 
 # initial microbiome and FIT description data 
-change_summary <- read.csv('../results/tables/change_theta_fit_summary.csv', header = T, row.names = 1)
-alpha_summary <- read.csv('../results/tables/alpha_table_summary.csv', header = T, row.names = 1)
-beta_summary <- read.csv('../results/tables/beta_diver_summary.csv', header = T, row.names = 1)
-time_pvalues <- read.csv("../results/tables/time_pvalues.csv", header = T, row.names = 1)
-time_summary <- read.csv("../results/tables/time_summary_data.csv", header = T, row.names = 1)
-all_OTU_pair_wilcox <- read.csv("../results/tables/OTU_paired_wilcoxson_test.csv", header = T)
+change_summary <- read.csv('../data/process/tables/change_theta_fit_summary.csv', header = T, row.names = 1)
+alpha_summary <- read.csv('../data/process/tables/alpha_table_summary.csv', header = T, row.names = 1)
+beta_summary <- read.csv('../data/process/tables/beta_diver_summary.csv', header = T, row.names = 1)
+time_pvalues <- read.csv("../data/process/tables/time_pvalues.csv", header = T, row.names = 1)
+time_summary <- read.csv("../data/process/tables/time_summary_data.csv", header = T, row.names = 1)
+all_OTU_pair_wilcox <- read.csv("../data/process/tables/OTU_paired_wilcoxson_test.csv", header = T)
 
 # Main CRC bacteria differences between Adenoma and Carcinoma
-main_crc_bugs_summary <- read.csv('../results/tables/adn_crc_maybe_pvalue_summary.csv', header = T, row.names = 1)
-crc_bug_info <- read.csv("../results/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
+main_crc_bugs_summary <- read.csv('../data/process/tables/adn_crc_maybe_pvalue_summary.csv', header = T, row.names = 1)
+crc_bug_info <- read.csv("../data/process/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
 
 # Lesion Model 
-lesion_top10_varsMDA <- read.csv('../results/tables/reduced_lesion_model_top_vars_MDA_Summary.csv', header = T)
-lesion_imp_vars <- read.csv('../results/tables/rf_otu_tax.csv', header = T, row.names = 1)
-lesion_AUC_run_summary <- read.csv('../results/tables/Reduced_ROC_model_summary.csv', header = T)
+lesion_top10_varsMDA <- read.csv('../data/process/tables/reduced_lesion_model_top_vars_MDA_Summary.csv', header = T)
+lesion_imp_vars <- read.csv('../data/process/tables/rf_otu_tax.csv', header = T, row.names = 1)
+lesion_AUC_run_summary <- read.csv('../data/process/tables/Reduced_ROC_model_summary.csv', header = T)
 
 # IF Model
-IF_top10_varsMDA <- read.csv('../results/tables/reduced_IF_model_top_vars_MDA_Summary.csv', header = T)
-IF_imp_vars <- read.csv('../results/tables/if_rf_otu_tax.csv', header = T, row.names = 1)
-IF_AUC_run_summary <- read.csv('../results/tables/reduced_IF_ROC_model_summary.csv', header = T)
+IF_top10_varsMDA <- read.csv('../data/process/tables/reduced_IF_model_top_vars_MDA_Summary.csv', header = T)
+IF_imp_vars <- read.csv('../data/process/tables/if_rf_otu_tax.csv', header = T, row.names = 1)
+IF_AUC_run_summary <- read.csv('../data/process/tables/reduced_IF_ROC_model_summary.csv', header = T)
 
 # All model information
-all_probs_paired_wilcox <- read.csv('../results/tables/all_models_wilcox_paired_pvalue_summary.csv', header = T, stringsAsFactors = F)
-all_pred_stat_summary <- read.csv('../results/tables/all_models_summary_info.csv', header = T, stringsAsFactors = F)
-all_confu_matrix <- read.csv('../results/tables/all_models_confusion_summary.csv', header = T, stringsAsFactors = F)
+all_probs_paired_wilcox <- read.csv('../data/process/tables/all_models_wilcox_paired_pvalue_summary.csv', header = T, stringsAsFactors = F)
+all_pred_stat_summary <- read.csv('../data/process/tables/all_models_summary_info.csv', header = T, stringsAsFactors = F)
+all_confu_matrix <- read.csv('../data/process/tables/all_models_confusion_summary.csv', header = T, stringsAsFactors = F)
 
 # Common Variable Info
-common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
+common_vars_summary <- read.csv('../data/process/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
 #Therapy Info
-chemo_rad_summary <- read.csv('../results/tables/probs_chemo_rad_pvalue_summary.csv', header = T, row.names = 1)
+chemo_rad_summary <- read.csv('../data/process/tables/probs_chemo_rad_pvalue_summary.csv', header = T, row.names = 1)
 
 ```
 \vspace{25mm} 
