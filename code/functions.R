@@ -161,6 +161,57 @@ createTaxaLabeller <- function(taxaTable){
   return(tempCall)
 }
 
+# Creates names for the get_tax_level_shared function
+get_tax_substring <- function(tax, tax_level){
+  substring <- unlist(strsplit(tax, ";"))[tax_level]
+  paste(substring, collapse='.')
+}
+get_tax_name <- function(tax_file, tax_level){
+  
+  
+  tax_data <- read.table(file=tax_file, header=T, stringsAsFactors=F)
+  taxonomy <- tax_data$Taxonomy
+  taxonomy <- gsub("\\(\\d*\\)", "", taxonomy)
+  taxonomy <- gsub('"', '', taxonomy)
+  
+  tax_substring <- sapply(taxonomy, get_tax_substring, tax_level)
+  
+  names(tax_substring) <- tax_data$OTU
+  
+  tax_substring
+}
+
+# Get the total number based on shared file and tax file.
+get_tax_level_shared <- function(shared_file, tax_file, tax_level){
+  
+  shared_otus <- read.delim(file=shared_file, header=T, stringsAsFactors=F, row.names=2)[,-c(1,2)]
+  is_present <- apply(shared_otus, 2, sum) > 0
+  shared <- shared_otus[,is_present]
+  
+  taxonomy <- get_tax_name(tax_file, tax_level)
+  taxonomy <- taxonomy[colnames(shared)]
+  unique_taxa <- levels(as.factor(taxonomy))
+  
+  shared_tax_level <- NULL
+  
+  for(ut in unique_taxa){
+    otus <- names(taxonomy[taxonomy %in% ut])
+    sub_shared <- shared_otus[,colnames(shared_otus) %in% otus]
+    
+    if(is.null(dim(sub_shared))){
+      shared_tax_level <- cbind(shared_tax_level, sub_shared)
+    } else {
+      tax_level_count <- apply(sub_shared, 1, sum)
+      shared_tax_level <- cbind(shared_tax_level, tax_level_count)
+    }
+  }
+  colnames(shared_tax_level) <- unique_taxa
+  rownames(shared_tax_level) <- rownames(shared)
+  return(shared_tax_level)
+}
+
+
+
 
 # Create function to obtain confusion summary data
 # Of importance is the Mcnemar P-value for comparison of actual versus predicted similarity
