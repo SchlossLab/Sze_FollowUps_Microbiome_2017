@@ -12,12 +12,15 @@ thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
 
 metaF <- read.csv("data/process/mod_metadata/metaF_final.csv", 
   stringsAsFactors = F, header = T)
+good_metaf <- read.csv("data/process/mod_metadata/good_metaF_final.csv", stringsAsFactors = F, header = T)
 
 # Crate distance table with only initial and follow ups
 difference_table_treatment <- pickDistanceValues(
   as.character(metaF$initial), as.character(metaF$followUp), 
   thetaCompTotal, metaF, c("fit_result", "fit_followUp", "Dx_Bin", "dx")) %>% 
-  mutate(fit_difference = fit_result - fit_followUp)
+  mutate(fit_difference = fit_result - fit_followUp, 
+         chemo = good_metaf$chemo_received, 
+         rads = good_metaf$radiation_received)
 
 # Create table to store mean, sd, and pvalue from test
 change_theta_fit_summary <- as.data.frame(matrix(nrow = 2, ncol = 7, 

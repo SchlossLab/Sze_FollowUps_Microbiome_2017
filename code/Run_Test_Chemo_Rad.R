@@ -11,20 +11,16 @@ loadLibs(c("dplyr", "tidyr"))
 # Read in data tables
 
 data_list <- list(
-  lesion_probs = read.csv("data/process/tables/follow_up_probability_summary.csv", header = T, stringsAsFactors = F), 
   red_lesion_probs = read.csv("data/process/tables/reduced_follow_up_probability_summary.csv", 
                               header = T, stringsAsFactors = F), 
-  IF_probs = read.csv("data/process/tables/IF_follow_up_probability_summary.csv", 
-                      header = T, stringsAsFactors = F), 
   red_IF_probs = read.csv("data/process/tables/reduced_IF_follow_up_probability_summary.csv", 
                           header = T, stringsAsFactors = F)
 )
 
 
 # Test for differences in positive probability changes
-pvalue_table <- as.data.frame(matrix(nrow = 16, ncol = 2, dimnames = list(
-  rown = c("chemo_les", "chemo_red_les", "chemo_IF", "chemo_red_IF", 
-           "rad_les", "rad_red_les", "rad_IF", "rad_red_IF", "chemo_b", "rad_b", 
+pvalue_table <- as.data.frame(matrix(nrow = 12, ncol = 2, dimnames = list(
+  rown = c("chemo_red_les", "chemo_red_IF", "rad_red_les", "rad_red_IF", "chemo_b", "rad_b", 
            "chemo_sobs", "chemo_shannon", "chemo_shannoneven", 
            "rads_sobs", "rads_shannon", "rads_shannoneven"), coln = c("pvalue", "bh"))))
 
@@ -36,7 +32,7 @@ for(i in 1:length(data_list)){
               filter(data_list[[i]], sampleType == "initial", chemo == "no")[, "Yes"] - 
                 filter(data_list[[i]], sampleType == "followup", chemo == "no")[, "Yes"])$p.value
   
-  pvalue_table[i+4, "pvalue"] <- wilcox.test(
+  pvalue_table[i+2, "pvalue"] <- wilcox.test(
     filter(data_list[[i]], sampleType == "initial", rads == "yes")[, "Yes"] - 
                 filter(data_list[[i]], sampleType == "followup", rads == "yes")[, "Yes"], 
               filter(data_list[[i]], sampleType == "initial", rads == "no")[, "Yes"] - 
@@ -47,9 +43,7 @@ for(i in 1:length(data_list)){
 # Test thetayc value differences between treatment type
 
 difference_table_treatment <- read.csv("data/process/tables/difference_table.csv", 
-                                       header = T, stringsAsFactors = F) %>% 
-  mutate(chemo = data_list[["lesion_probs"]][1:67, "chemo"], 
-         rads = data_list[["lesion_probs"]][1:67, "rads"])
+                                       header = T, stringsAsFactors = F)
 
 pvalue_table["chemo_b", "pvalue"] <- wilcox.test(
   filter(difference_table_treatment, chemo == "yes")[, "distance"], 
@@ -84,13 +78,13 @@ alpha_to_test <- c("sobs", "shannon", "shannoneven")
 
 for(i in 1:length(alpha_to_test)){
  
-  pvalue_table[10+i, "pvalue"] <- wilcox.test(
+  pvalue_table[6+i, "pvalue"] <- wilcox.test(
     filter(alpha_data, sampleType == "initial", chemo == "yes")[, alpha_to_test[i]] - 
       filter(alpha_data, sampleType == "followups", chemo == "yes")[, alpha_to_test[i]], 
     filter(alpha_data, sampleType == "initial", chemo == "no")[, alpha_to_test[i]] - 
       filter(alpha_data, sampleType == "followups", chemo == "no")[, alpha_to_test[i]])$p.value
   
-  pvalue_table[13+i, "pvalue"] <- wilcox.test(
+  pvalue_table[9+i, "pvalue"] <- wilcox.test(
     filter(alpha_data, sampleType == "initial", rads == "yes")[, alpha_to_test[i]] - 
       filter(alpha_data, sampleType == "followups", rads == "yes")[, alpha_to_test[i]], 
     filter(alpha_data, sampleType == "initial", rads == "no")[, alpha_to_test[i]] - 
