@@ -11,60 +11,19 @@ loadLibs(c("dplyr", "tidyr"))
 # Read in data tables
 
 data_list <- list(
-  lesion_probs = read.csv("data/process/tables/follow_up_probability_summary.csv", header = T, stringsAsFactors = F), 
   red_lesion_probs = read.csv("data/process/tables/reduced_follow_up_probability_summary.csv", 
                               header = T, stringsAsFactors = F), 
-  IF_probs = read.csv("data/process/tables/IF_follow_up_probability_summary.csv", 
-                      header = T, stringsAsFactors = F), 
   red_IF_probs = read.csv("data/process/tables/reduced_IF_follow_up_probability_summary.csv", 
                           header = T, stringsAsFactors = F)
 )
 
-
-# Test for differences in positive probability changes
-pvalue_table <- as.data.frame(matrix(nrow = 16, ncol = 2, dimnames = list(
-  rown = c("chemo_les", "chemo_red_les", "chemo_IF", "chemo_red_IF", 
-           "rad_les", "rad_red_les", "rad_IF", "rad_red_IF", "chemo_b", "rad_b", 
-           "chemo_sobs", "chemo_shannon", "chemo_shannoneven", 
-           "rads_sobs", "rads_shannon", "rads_shannoneven"), coln = c("pvalue", "bh"))))
-
-for(i in 1:length(data_list)){
-  
-  pvalue_table[i, "pvalue"] <- wilcox.test(
-    filter(data_list[[i]], sampleType == "initial", chemo == "yes")[, "Yes"] - 
-                filter(data_list[[i]], sampleType == "followup", chemo == "yes")[, "Yes"], 
-              filter(data_list[[i]], sampleType == "initial", chemo == "no")[, "Yes"] - 
-                filter(data_list[[i]], sampleType == "followup", chemo == "no")[, "Yes"])$p.value
-  
-  pvalue_table[i+4, "pvalue"] <- wilcox.test(
-    filter(data_list[[i]], sampleType == "initial", rads == "yes")[, "Yes"] - 
-                filter(data_list[[i]], sampleType == "followup", rads == "yes")[, "Yes"], 
-              filter(data_list[[i]], sampleType == "initial", rads == "no")[, "Yes"] - 
-                filter(data_list[[i]], sampleType == "followup", rads == "no")[, "Yes"])$p.value
-}
-
-
-# Test thetayc value differences between treatment type
-
 difference_table_treatment <- read.csv("data/process/tables/difference_table.csv", 
-                                       header = T, stringsAsFactors = F) %>% 
-  mutate(chemo = data_list[["lesion_probs"]][1:67, "chemo"], 
-         rads = data_list[["lesion_probs"]][1:67, "rads"])
+                                       header = T, stringsAsFactors = F)
 
-pvalue_table["chemo_b", "pvalue"] <- wilcox.test(
-  filter(difference_table_treatment, chemo == "yes")[, "distance"], 
-  filter(difference_table_treatment, chemo == "no")[, "distance"])$p.value
-
-pvalue_table["rad_b", "pvalue"] <- wilcox.test(
-  filter(difference_table_treatment, rads == "yes")[, "distance"], 
-  filter(difference_table_treatment, rads == "no")[, "distance"])$p.value
-
-
-# Test alpha diversity metrics by treatment type
 good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
 alpha_summary <- read.delim("data/process/final.groups.ave-std.summary", stringsAsFactors = F)
 
-# Create data set to be tested on
+# Create data set more amenable to changes
 alpha_data <- alpha_summary[match(c(good_metaf$initial, good_metaf$followUp), alpha_summary$group), ]
 
 # Add custom columns from metaf and select only ones to be used for testing
@@ -79,28 +38,64 @@ alpha_data <- mutate(alpha_data,
                      rads = rep(good_metaf$radiation_received, 2)) %>% 
   select(group, sobs, shannon, shannoneven, sampleType, diagnosis, chemo, rads)
 
+# Create common data table to generate mean, sd, and testing on
+test <- (filter(alpha_data, sampleType == "initial")[, c("sobs", "shannon", "shannoneven")] - 
+  filter(alpha_data, sampleType == "followups")[, c("sobs", "shannon", "shannoneven")]) %>% 
+  mutate(distance = difference_table_treatment$distance, 
+         red_lesion = (filter(data_list[["red_lesion_probs"]], sampleType == "initial")[, "Yes"] - 
+           filter(data_list[["red_lesion_probs"]], sampleType == "followup")[, "Yes"]), 
+         red_IF = (filter(data_list[["red_IF_probs"]], sampleType == "initial")[, "Yes"] - 
+                         filter(data_list[["red_IF_probs"]], sampleType == "followup")[, "Yes"]), 
+         chemo = good_metaf$chemo_received, 
+         rads = good_metaf$radiation_received, 
+         Dx_Bin = good_metaf$Dx_Bin)
 
-alpha_to_test <- c("sobs", "shannon", "shannoneven")
+# Create variables for actual analysis to be automated
+tests <- c("sobs", "sobs", "shannon", "shannon", "shannoneven", "shannoneven", 
+           "distance", "distance", "red_lesion", "red_lesion", "red_IF", "red_IF")
 
-for(i in 1:length(alpha_to_test)){
- 
-  pvalue_table[10+i, "pvalue"] <- wilcox.test(
-    filter(alpha_data, sampleType == "initial", chemo == "yes")[, alpha_to_test[i]] - 
-      filter(alpha_data, sampleType == "followups", chemo == "yes")[, alpha_to_test[i]], 
-    filter(alpha_data, sampleType == "initial", chemo == "no")[, alpha_to_test[i]] - 
-      filter(alpha_data, sampleType == "followups", chemo == "no")[, alpha_to_test[i]])$p.value
-  
-  pvalue_table[13+i, "pvalue"] <- wilcox.test(
-    filter(alpha_data, sampleType == "initial", rads == "yes")[, alpha_to_test[i]] - 
-      filter(alpha_data, sampleType == "followups", rads == "yes")[, alpha_to_test[i]], 
-    filter(alpha_data, sampleType == "initial", rads == "no")[, alpha_to_test[i]] - 
-      filter(alpha_data, sampleType == "followups", rads == "no")[, alpha_to_test[i]])$p.value
-  
+mean_table <- as.data.frame(matrix(nrow = 12, ncol = 6, dimnames = list(
+  rown = c("chemo_sobs", "rads_sobs", "chemo_shannon", "rads_shannon", "chem_even", "rads_even", 
+           "chemo_dist", "rads_dist", "chemo_les", "rad_les", "chemo_IF", "rad_IF"), 
+  coln = c("chemo_rad_mean", "removal_only_mean", "cr_sd", "ro_sd", "pvalue", "bh"))))
+
+# Run automated tests
+for(i in 1:length(tests)){
+  if(i %% 2 != 0){
+    
+    mean_table[i, "chemo_rad_mean"] <- mean(filter(test, chemo == "yes")[, tests[i]])
+    mean_table[i, "removal_only_mean"] <- mean(filter(test, chemo == "no")[, tests[i]])
+    mean_table[i, "cr_sd"] <- sd(filter(test, chemo == "yes")[, tests[i]])
+    mean_table[i, "ro_sd"] <- sd(filter(test, chemo == "no")[, tests[i]])
+    
+    mean_table[i, "pvalue"] <- wilcox.test(filter(test, chemo == "yes")[, tests[i]], 
+                                          filter(test, chemo == "no")[, tests[i]])$p.value
+    
+  } else{
+    
+    mean_table[i, "chemo_rad_mean"] <- mean(filter(test, rads == "yes")[, tests[i]])
+    mean_table[i, "removal_only_mean"] <- mean(filter(test, rads == "no")[, tests[i]])
+    mean_table[i, "cr_sd"] <- sd(filter(test, rads == "yes")[, tests[i]])
+    mean_table[i, "ro_sd"] <- sd(filter(test, rads == "no")[, tests[i]])
+    
+    mean_table[i, "pvalue"] <- wilcox.test(filter(test, chemo == "yes")[, tests[i]], 
+                                           filter(test, chemo == "no")[, tests[i]])$p.value
+  }
+
 }
 
 # Implement P-value correction
-pvalue_table$bh <- p.adjust(pvalue_table$pvalue, method = "BH")
+mean_table$bh <- p.adjust(mean_table$pvalue, method = "BH")
 
-write.csv(pvalue_table, "data/process/tables/probs_chemo_rad_pvalue_summary.csv")
+# Write out final table
+write.csv(mean_table, "data/process/tables/probs_chemo_rad_pvalue_summary.csv")
+
+
+
+
+
+
+
+
 
 

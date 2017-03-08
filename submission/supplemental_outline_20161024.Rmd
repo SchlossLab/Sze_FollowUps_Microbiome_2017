@@ -82,8 +82,10 @@ kable(st2, format = "markdown", align = 'c', padding = 2)
 
 
 \newpage
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
 
-
+\blandscape
 
 **Table S3: Summary of Comparisons based on Chemotherapy or Radiation Received**
 
@@ -92,13 +94,12 @@ kable(st2, format = "markdown", align = 'c', padding = 2)
 chemo_rad_summary <- read.csv('../data/process/tables/probs_chemo_rad_pvalue_summary.csv', 
                               header = T, stringsAsFactors = F)
 
-variable <- c(rep("Positive Probability", 8), rep("Thetayc", 2), rep(c("Sobs", "Shannon", "Evenness"), 2))
-comparison <- c(rep("Chemotherapy", 4), rep("Radiation", 4), "Chemotherapy", "Radiation", 
-                rep("Chemotherapy", 3), rep("Radiation", 3))
+variable <- c(rep("sobs", 2), rep("Shannon", 2), rep("Evenness", 2), rep("Thetayc", 2), rep("Positive Probability", 4))
+comparison <- rep(c("Chemotherapy", "Radiation"), 6)
 
-st3 <- cbind(variable, comparison, format(chemo_rad_summary$pvalue, digits = 4), format(chemo_rad_summary$bh, digits = 4))
+st3 <- cbind(variable, comparison, format(chemo_rad_summary$chemo_rad_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$removal_only_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$cr_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$ro_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$pvalue, scientific = TRUE, digits = 2), format(chemo_rad_summary$bh, scientific = TRUE, digits = 2))
 
-colnames(st3) <- c("Variable Tested", "Treatment", "P-value", "BH Corrected P-value")
+colnames(st3) <- c("Variable", "Additive Treatment", "Additive Treatment Mean", "Removal Mean", "Additive Treatment SD", "Removal SD", "P-value", "BH Corrected")
 
 kable(st3, format = "markdown", align = 'c', padding = 2)
 
@@ -111,7 +112,7 @@ kable(st3, format = "markdown", align = 'c', padding = 2)
 
 
 
-
+\elandscape
 
 
 
