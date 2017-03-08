@@ -94,6 +94,7 @@
 
 \usepackage{pdfpages}
 \usepackage{comment}
+\usepackage{lscape}
 
 \begin{document}
 
@@ -181,37 +182,243 @@ Otu000167 & Dorea & 2.372671 & 0.6050109\tabularnewline
 
 \newpage
 
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+
+\blandscape
+
 \textbf{Table S3: Summary of Comparisons based on Chemotherapy or
 Radiation Received}
 
-\begin{longtable}[]{@{}cccc@{}}
+\begin{longtable}[]{@{}cccccccc@{}}
 \toprule
-Variable Tested & Treatment & P-value & BH Corrected
-P-value\tabularnewline
+\begin{minipage}[b]{0.12\columnwidth}\centering\strut
+Variable\strut
+\end{minipage} & \begin{minipage}[b]{0.11\columnwidth}\centering\strut
+Additive Treatment\strut
+\end{minipage} & \begin{minipage}[b]{0.13\columnwidth}\centering\strut
+Additive Treatment Mean\strut
+\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering\strut
+Removal Mean\strut
+\end{minipage} & \begin{minipage}[b]{0.13\columnwidth}\centering\strut
+Additive Treatment SD\strut
+\end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\centering\strut
+Removal SD\strut
+\end{minipage} & \begin{minipage}[b]{0.06\columnwidth}\centering\strut
+P-value\strut
+\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering\strut
+BH Corrected\strut
+\end{minipage}\tabularnewline
 \midrule
 \endhead
-Positive Probability & Chemotherapy & 0.0091511 &
-0.036604\tabularnewline
-Positive Probability & Chemotherapy & 0.0333166 &
-0.088844\tabularnewline
-Positive Probability & Chemotherapy & 0.0006355 &
-0.005084\tabularnewline
-Positive Probability & Chemotherapy & 0.0001309 &
-0.002095\tabularnewline
-Positive Probability & Radiation & 0.0815484 & 0.163097\tabularnewline
-Positive Probability & Radiation & 0.0754788 & 0.163097\tabularnewline
-Positive Probability & Radiation & 0.0089848 & 0.036604\tabularnewline
-Positive Probability & Radiation & 0.0213082 & 0.068186\tabularnewline
-Thetayc & Chemotherapy & 0.8471374 & 0.903613\tabularnewline
-Thetayc & Radiation & 0.6079708 & 0.694824\tabularnewline
-Sobs & Chemotherapy & 0.5946906 & 0.694824\tabularnewline
-Shannon & Chemotherapy & 0.1822094 & 0.291535\tabularnewline
-Evenness & Chemotherapy & 0.1628138 & 0.289447\tabularnewline
-Sobs & Radiation & 0.9334483 & 0.933448\tabularnewline
-Shannon & Radiation & 0.3838308 & 0.558299\tabularnewline
-Evenness & Radiation & 0.4965131 & 0.662017\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+sobs\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Chemotherapy\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+-5.15\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+-12.29\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+93.58\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+1e+02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+5.9e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+7.1e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+sobs\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Radiation\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+-14.22\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+-10.52\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+36.51\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+1e+02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+5.9e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+7.1e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Shannon\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Chemotherapy\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.23\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.06\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.55\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+6e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+1.8e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+2.7e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Shannon\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Radiation\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.17\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.09\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.26\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+6e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+1.8e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+2.7e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Evenness\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Chemotherapy\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.04\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.02\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.08\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+8e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+1.6e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+2.7e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Evenness\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Radiation\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.03\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.02\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.05\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+8e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+1.6e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+2.7e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Thetayc\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Chemotherapy\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.69\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.66\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.20\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+2e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+8.5e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+8.5e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Thetayc\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Radiation\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.71\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.67\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.26\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+2e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+8.5e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+8.5e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Positive Probability\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Chemotherapy\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.09\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.01\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.11\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+9e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+3.3e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+1.0e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Positive Probability\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Radiation\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.12\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.02\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.15\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+9e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+3.3e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+1.0e-01\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Positive Probability\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Chemotherapy\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.71\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.65\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.04\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+5e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+1.3e-04\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+7.9e-04\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+Positive Probability\strut
+\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+Radiation\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.72\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.66\strut
+\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+0.04\strut
+\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
+6e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
+1.3e-04\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+7.9e-04\strut
+\end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
+
+\elandscape
 
 
 \end{document}
