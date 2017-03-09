@@ -89,6 +89,7 @@ mean_table$bh <- p.adjust(mean_table$pvalue, method = "BH")
 
 # Write out final table
 write.csv(mean_table, "data/process/tables/probs_chemo_rad_pvalue_summary.csv")
+write.csv(test, "data/process/tables/chemo_rad_summary.csv")
 
 
 
