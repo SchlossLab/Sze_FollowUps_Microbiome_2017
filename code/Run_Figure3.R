@@ -74,7 +74,7 @@ Lesion_plot <- grid.arrange(
                               log10(value))) + 
     geom_point(aes(color = variable)) + stat_summary(fun.y = "median", colour = "black", geom = "point", size = 2.5) + 
     coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
-    scale_x_discrete(labels = rev(c("FIT", test2))) + 
+    scale_x_discrete(labels = rev(test2)) + 
     theme(plot.title = element_text(face = "bold"), 
           legend.position = "none", 
           axis.title = element_text(face = "bold"), 
