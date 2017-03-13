@@ -99,6 +99,10 @@ write.csv(test_roc_data,
           "data/process/tables/reduced_IF_test_data_roc.csv", row.names = F)
 
 
+
+
+
+
 # Collect the mean and SD for the MDA of the most important variables
 top_vars_MDA <- lapply(imp_vars_list, function(x) 
   x[order(x[, "Variable"]), ])
@@ -133,7 +137,3 @@ lesion_model_top_vars_MDA_full_data <-
 
 write.csv(lesion_model_top_vars_MDA_full_data, 
           "data/process/tables/reduced_IF_model_top_vars_MDA.csv", row.names = F)
-
-
-
-

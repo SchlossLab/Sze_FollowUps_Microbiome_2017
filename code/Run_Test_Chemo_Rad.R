@@ -87,16 +87,14 @@ for(i in 1:length(tests)){
 # Implement P-value correction
 mean_table$bh <- p.adjust(mean_table$pvalue, method = "BH")
 
+# Test whether radiation is significantly different then chemo in IF proability reduction
+mean_table <- rbind(mean_table, 
+                    chemo_v_rads_IF = c(NA, NA, NA, NA, 
+                                        wilcox.test(filter(test, chemo == "yes" & rads == "no")[, "red_IF"], 
+                                                  filter(test, rads == "yes")[, "red_IF"])$p.value, NA))
+
 # Write out final table
 write.csv(mean_table, "data/process/tables/probs_chemo_rad_pvalue_summary.csv")
 write.csv(test, "data/process/tables/chemo_rad_summary.csv")
-
-
-
-
-
-
-
-
 
 
