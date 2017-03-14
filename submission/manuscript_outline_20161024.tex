@@ -138,25 +138,27 @@ were different before and after removal of lesion (adenoma or
 carcinoma).
 
 \textbf{Results:} There was a larger change in the bacterial community
-in response to lesion removal for carcinoma versus adenoma cases
-(P-value \textless{} 0.05). Yet no difference was found in the relative
-abundance of any OTU before and after treatment for adenoma or carcinoma
-groups (P-value \textgreater{} 0.05). A lesion model had an AUC range of
-0.692 - 0.761 and follow up samples decreased in the positive
+in response to treatment for carcinoma versus adenoma cases (P-value
+\textless{} 0.05). Yet no difference was found in the relative abundance
+of any OTU before and after treatment for adenoma or carcinoma groups
+(P-value \textgreater{} 0.05). A lesion model had an AUC range of 0.692
+- 0.761 and follow up samples had no difference in the positive
 probability of lesion versus initial samples (P-value \textgreater{}
-0.05); suggesting a movement towards a normal bacterial community. An
-initial sample model had an AUC range of 0.657 - 0.796 and had a
+0.05); suggesting that the lesion associated community persists after
+treatment. A treatment model had an AUC range of 0.657 - 0.796 and had a
 decrease positive probability for the follow up samples to be an initial
-sample (P-value \textless{} 0.05). The lesion model used a total of 54
-variables while the initial sample model used a total of 70 variables. A
-total of 32 OTUs were common to both models with the majority of these
+sample (P-value \textless{} 0.05); suggesting that there are members
+within the community that repond to treatment. The lesion model used a
+total of 54 variables while the initial sample model used a total of 70
+variables. A total of 32 OTUs were common to both models with many
 classifying to commensal bacteria (e.g. \emph{Lachnospiraceae},
-\emph{Ruminococcaceae}, \emph{Bacteroides}, and \emph{Ruminococcus}).
+\emph{Bacteroides}, \emph{Roseburia}, \emph{Blautia}, and
+\emph{Ruminococcus}).
 
-\textbf{Conclusions:} Our data supports the hypothesis that the
-bacterial community changes after treatment. Individuals with carcinoma
-have more drastic differences to the overall community then those with
-adenoma. Commensal bacteria were crucial for accurate model
+\textbf{Conclusions:} Our data partially supports the hypothesis that
+the bacterial community changes after treatment. Individuals with
+carcinoma have more drastic differences to the overall community then
+those with adenoma. Commensal bacteria were crucial for accurate model
 classification, suggesting that these bacteria may be important to
 initial polyp formation and transition to carcinoma.
 
@@ -189,30 +191,31 @@ developed. Indeed, builidng models using 16S rRNA gene sequencing along
 with clinical tests such as Fecal Immunoglobulin Test (FIT) result in
 good predictions of CRC {[}7,8{]}. Although these studies show how our
 gut bacteria can impact CRC progression via a changed community or
-invations by more inflammatory bacteria {[}9{]}. They provide very
-little information as to whether these changed communities rebound after
+invasion by more inflammatory bacteria {[}9{]}. They provide very little
+information as to whether these changed communities rebound after
 successful treatment of lesion (adenoma or carcinoma).
 
-In this study we tested the hypothesis that there are detectable changes
-to the bacterial community between pre- (initial) and post- (follow up)
-treatment of lesion. We analyzed changes in alpha and beta diversity as
-well as the relative abundance of specific Operational Taxonomic Units
-(OTUs). We then investigated several important genera from oral microbes
-that have been suggested to be important in CRC pathogenesis {[}9{]}. We
-next utilized Random Forest to build two models: The first was built to
-classify lesion versus non-lesion (normal) while the second was built to
-classify initial versus follow up samples. Subsequent observations on
-how these models and OTUs within them performed before and after
-treatment helped inform us as to whether initial and follow up samples
-were changing and whether it was towards a normal community. We also
-investigated the two models for similar important OTUs to identify the
-crucial OTUs involved with both classifying lesion or normal and initial
-versus follow up samples. Finally, since treatment also included
-chemotherapy and radiation therapy along with lesion removal, we tested
-if these additionaly treatments significantly lowered any of the metrics
-examined versus those who received only lesion removal. This study will
-provide evidence as to whether treatment can influence the community and
-if the CRC microbiome, identified in previous studies, persists.
+In this study, we tested the hypothesis that there are detectable
+changes to the bacterial community between pre- (initial) and post-
+(follow up) treatment of lesion. We analyzed changes in alpha and beta
+diversity as well as the relative abundance of specific Operational
+Taxonomic Units (OTUs). We then investigated several important genera
+from oral microbes that have been suggested to be important in CRC
+pathogenesis {[}9{]}. We next utilized Random Forest to build two
+models: The first was built to classify lesion versus non-lesion
+(normal) while the second was built to classify initial versus follow up
+treatment samples. Subsequent observations on how these models and OTUs
+within them performed before and after treatment helped inform us as to
+whether they were changing after treatment and whether it was towards a
+normal community. We also investigated the two models for similar
+important OTUs to identify which were important for classifying both
+lesion versus normal and initial versus follow up treatment samples.
+Finally, since treatment also included chemotherapy and radiation
+therapy along with lesion removal, we tested if these additionally
+treatments significantly lowered any of the metrics examined versus
+those who received only lesion removal. This study helps to provide
+evidence as to whether treatment can influence the community and if the
+CRC microbiome, identified in previous studies, persists.
 
 \newpage
 
@@ -249,27 +252,28 @@ differences, only a small percentage of those with adenoma or carcinoma
 were positive for any of these specific genera {[}Figure S2{]}.
 
 \textbf{\emph{The Lesion Model:}} We tested whether follow up samples
-were more normal than initial samples by building a model that
-classified lesion versus normal. This model had an AUC range of 0.692 -
-0.761 after 100 iterations of 20 repeated 10-fold corss validations. The
-ROC curve for the final lesion model used was within the observed range
-of the 100-different test set AUC iterations {[}Figure 2A{]}. There was
-a total of 54 OTUs that were used in this model {[}Figure 2B{]}.
-\emph{Lachnospiraceae} (Otu000015) resulted in the largest decrease in
-MDA {[}FIgure 2B{]}. Heavily represented genera within the model
-included OTUs from \emph{Lachnospiraceae}, \emph{Bacteroides},
-\emph{Roseburia}, \emph{Blautia}, and \emph{Ruminococcus}.
+were more normal than initial samples by building a model based solely
+on OTUs alone that classified lesion versus normal. This model had an
+AUC range of 0.692 - 0.761 after 100 iterations of 20 repeated 10-fold
+cross validations. The ROC curve for the final lesion model used was
+within the observed range of the 100-different test set AUC iterations
+{[}Figure 2A{]}. There was a total of 54 OTUs that were used in this
+model {[}Figure 2B{]}. \emph{Lachnospiraceae} (Otu000015) resulted in
+the largest decrease in MDA {[}Figure 2B{]}. Heavily represented genera
+within the model included OTUs from \emph{Lachnospiraceae},
+\emph{Bacteroides}, \emph{Roseburia}, \emph{Blautia}, and
+\emph{Ruminococcus}.
 
 If there was movement towards a more normal community after treatment of
 lesion, we would expect to find a decrease in the positive probability
 of the follow up sample to be a lesion. We observed no such decrease in
 positive probability for either those with adenoma or carcinoma
-{[}FIgure 2C \& 2D{]} (P-value \textgreater{} 0.05). We also observed a
+{[}Figure 2C \& 2D{]} (P-value \textgreater{} 0.05). We also observed a
 significant difference between the predicted and actual calls (P-value
-\textless{} 0.05). This model correctly classified the one individual
-who still had carcinoma on follow up and this individual's positive
-probability of lesion increased between their initial and follow up
-sample {[}Figure 2C{]}.
+\textless{} 0.05). However, this model correctly classified the one
+individual who still had carcinoma on follow up and this individual's
+positive probability of lesion increased between their initial and
+follow up sample {[}Figure 2C{]}.
 
 \textbf{\emph{The Treatment Model:}} To test if there were differences
 that could be used to classify initial and follow up treatment samples
@@ -281,23 +285,23 @@ in the ROC curve for the final model used when compared to the 100 test
 set AUC iterations {[}Figure 3A{]}. There was a total of 70 OTUs that
 were used for this model {[}Figure 3B{]}. The variable that resulted in
 the largest MDA was \emph{Ruminococcaceae} (Otu000278) {[}Figure 3B{]}.
-Similarly, to the lesion model heavily represented genera included OTUs
+Similar to the lesion model, heavily represented genera included OTUs
 from \emph{Lachnospiraceae}, \emph{Bacteroides}, \emph{Roseburia},
 \emph{Blautia}, and \emph{Ruminococcus}.
 
-If there were changes between intial and follow up samples we would
+If there were changes between initial and follow up samples we would
 expect the positive probability of being an initial sample to be
 decreased in the follow up. The is what we observed for the treatment
 model (P-value \textless{} 0.001). When we separated lesion into adenoma
-and carcinoma there was a decrease in positive arobability for both the
+and carcinoma there was a decrease in positive probability for both the
 carcinoma {[}Figure 3C{]} (P-value \textless{} 0.001) and adenoma group
-{[}FIgure 3D{]} \textless{} 0.001). For this model, there was no
+{[}Figure 3D{]} \textless{} 0.001). For this model, there was no
 difference between the predicted and actual classifications (P-value
 \textgreater{} 0.05).
 
 \textbf{\emph{Common OTUs to both Models:}} We next wanted to know what
 predictors within the lesion model were also in the initial sample
-model. The main purpose was to identify which TOUs could be important in
+model. The main purpose was to identify which OTUs could be important in
 lesion formation and were impacted by treatment. When we compared the
 two different models with each other there were a total of 32 common
 OTUs. Some of the most common taxonomic identifications belonged to
@@ -312,15 +316,18 @@ these changes due to treatment we assessed whether chemotherapy or
 radiation impacted the observed results. Only the treatment model had a
 significant change in positive probability for those treated with
 chemotherapy or radiation versus those who received neither {[}Figure 4A
-\& Table S3{]} (P-value \textless{} 0.05). Using the 32 common OTUs we
-tested how chemotherapy or radiation affects important members of the
-community. FOr both chemotherapy or radiation, the directionaly of
-change of these OTUs were similar {[}Figure 4B \& 4C{]}. After multiple
-comparison correction, only \emph{Blautia} (Otu000006) remained
-significantly different between those who did and did not receive
-chemotherapy. This data suggests that follow up samples from those
-treated with either chemotherapy or radiation may have had a larger
-change from initial sample due to affects on the bacterial community.
+\& Table S3{]} (P-value \textless{} 0.05). Additionally, there was no
+difference between the change in positive probability for chemotherapy
+and radiation therapy (Uncorrected P-value \textgreater{} 0.05). Using
+the 32 common OTUs we tested how chemotherapy or radiation affects
+important members of the community. For both chemotherapy and radiation,
+the directionality of change of these OTUs were similar {[}Figure 4B \&
+4C{]}. After multiple comparison correction, only \emph{Blautia}
+(Otu000006) remained significantly different between those who did and
+did not receive chemotherapy. This data suggests that follow up samples
+from those treated with either chemotherapy or radiation may have had a
+larger change from initial sample due to effects on the bacterial
+community.
 
 \newpage
 
@@ -333,10 +340,10 @@ without CRC differ and how it might be used as an early screening tool
 after treatment and which OTUs may be most important to lesion
 classification. Interestingly, many of the most important OTUs for both
 treatment and lesion classification had taxonomic identification for
-resident gut microbes which could suggest that members within the
-commensal community may be the first that change during pathogenesis of
-disease. Further, these changes could be the first step in allowing more
-inflammatory bacterium to gain a foothold within the colon {[}9{]}.
+resident gut microbes. This suggest that members within the commensal
+community may be the first that change during CRC pathogenesis. These
+changes, in turn, could be the first step in allowing more inflammatory
+bacteria to gain a foothold within the colon {[}9{]}.
 
 Unlike previous studies on the microbiome and CRC, ours focuses on
 identifying commonalities within both adenoma and carcinoma groups
@@ -355,23 +362,22 @@ predictive within our models. There are several reasons why this may
 have occurred. First, is that they were not present in enough
 individuals to be able to classify those with and without disease with a
 high degree of accuracy. Second, is that our Random Forest models were
-able to gather the same information from other OTUs. Third, it is also
-possible that changes in commensal bacteria are the common differences
-across adenoma and carcinoma. Finally, it is also possible that all
-these explanations could have played a role. Our observations though,
-would suggest that an individual's resident bacteria have a large role
-to play in disease initiation and could change in a way that allows
-predictive models to lower the positive probability of wither lesion or
-initial sample before treatment {[}Figure 2 \& 3{]}. It should be noted
-that our study does not argue against the importance of these CRC
-associated bacteria in the pathogenesis of disease but rather that they
-are not the main bacteria changing after treatment. It is possible that
-these CRC associated bacteria are important in the transition from
-adenoma to carcinoma and would be one explanation as to why in our data
-we not only see high initial relative abundances in carcinoma and not
-adenoma individuals but also large decreases in relative abundance in
-some of those with carcinoma but not in those with adenoma after lesion
-removal {[}Figure S2{]}.
+able to gather the same information from other OTUs. Third, is that
+changes in commensal bacteria are the common differences across adenoma
+and carcinoma. Finally, it is also possible that all these explanations
+could have played a role. Our observations though, would suggest that an
+individual's resident bacteria have a large role to play in polyp
+formation and could change in a way that allows predictive models to
+lower the positive probability of lesion or initial sample before
+treatment {[}Figure 2 \& 3{]}. It should be noted that our study does
+not argue against the importance of these CRC associated bacteria in the
+pathogenesis of disease but rather that they are not the main bacteria
+changing after treatment. It is possible that these CRC associated
+bacteria are important in the transition from adenoma to carcinoma and
+would be one explanation as to why in our data we not only see high
+initial relative abundances in carcinoma and not adenoma individuals but
+also large decreases in relative abundance in some of those with
+carcinoma but not in those with adenoma after treatment {[}Figure S2{]}.
 
 Many of the common OTUs that we identified taxnomically classified to
 potential butyrate producers {[}Table S2{]}. Another batch of OTUs
