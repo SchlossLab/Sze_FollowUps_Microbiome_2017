@@ -53,6 +53,7 @@ fitControl <- trainControl(## 10-fold CV
   repeats = 20, 
   p = 0.8, 
   classProbs = TRUE, 
+  savePredictions = TRUE, 
   summaryFunction = twoClassSummary)
 
 
