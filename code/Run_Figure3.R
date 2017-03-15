@@ -9,14 +9,14 @@ loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2",
            "gridExtra", "scales", "wesanderson"))
 
 ### Load in needed data tables
-reduced_lesion_model_roc <- read.csv("results/tables/reduced_test_data_roc.csv", header = T)
-lesion_MDA_data_summary <- read.csv("results/tables/reduced_lesion_model_top_vars_MDA_Summary.csv", 
+reduced_lesion_model_roc <- read.csv("data/process/tables/reduced_test_data_roc.csv", header = T)
+lesion_MDA_data_summary <- read.csv("data/process/tables/reduced_lesion_model_top_vars_MDA_Summary.csv", 
                                     header = T, stringsAsFactors = F)
 
-lesion_MDA_full <- read.csv("results/tables/reduced_lesion_model_top_vars_MDA.csv", 
+lesion_MDA_full <- read.csv("data/process/tables/reduced_lesion_model_top_vars_MDA.csv", 
                             header = T, stringsAsFactors = F)
 
-red_follow_up_probability <- read.csv("results/tables/reduced_follow_up_probability_summary.csv", 
+red_follow_up_probability <- read.csv("data/process/tables/reduced_follow_up_probability_summary.csv", 
                                       stringsAsFactors = F, header = T)
 
 tax <- read.delim('data/process/final.taxonomy', sep='\t', header=T, row.names=1)
@@ -39,7 +39,7 @@ select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
 
 # create labels for factor values with low taxonomy
-graph_labels <- c("FIT", paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = ""))
+graph_labels <- paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = "")
 OTU_names <- names(low_tax_ID)
 
 test <- c()
@@ -74,7 +74,7 @@ Lesion_plot <- grid.arrange(
                               log10(value))) + 
     geom_point(aes(color = variable)) + stat_summary(fun.y = "median", colour = "black", geom = "point", size = 2.5) + 
     coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
-    scale_x_discrete(labels = rev(c("FIT", test2))) + 
+    scale_x_discrete(labels = rev(test2)) + 
     theme(plot.title = element_text(face = "bold"), 
           legend.position = "none", 
           axis.title = element_text(face = "bold"), 
@@ -93,15 +93,14 @@ Lesion_plot <- grid.arrange(
                        values = wes_palette("GrandBudapest")) + 
     scale_x_discrete(breaks = c("initial", "followup"), 
                      labels = c("Initial", "Follow Up")) + 
-    coord_cartesian(ylim = c(0, 1)) + 
+    coord_cartesian(ylim = c(0, 0.75)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
     ggtitle("C") + ylab("Lesion Postive Probability") + 
     xlab("") + theme_bw() + theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
       legend.position = c(0.25, 0.20), 
-      plot.title = element_text(face="bold", hjust = 0)) + 
-    annotate("text", label = paste("Carcinoma"), x = 1.5, y = 1.02, size = 2.5), 
+      plot.title = element_text(face="bold", hjust = 0)), 
   
     # Graph the lesion adenoma data only
   filter(red_follow_up_probability, diagnosis == "adenoma") %>%
@@ -115,17 +114,14 @@ Lesion_plot <- grid.arrange(
     scale_x_discrete(
       breaks = c("initial", "followup"), 
       labels = c("Initial", "Follow Up")) + 
-    coord_cartesian(ylim = c(0, 1)) + 
+    coord_cartesian(ylim = c(0, 0.75)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
     ggtitle("D") + ylab("Lesion Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
       legend.position = c(0.20, 0.12), 
-      plot.title = element_text(face="bold", hjust = 0)) + 
-    annotate("text", label = paste("Adenoma"), x = 1.5, y = 1.02, size = 2.5)
-  
-)
+      plot.title = element_text(face="bold", hjust = 0)))
 
 
 # Save figures and write necessary tables

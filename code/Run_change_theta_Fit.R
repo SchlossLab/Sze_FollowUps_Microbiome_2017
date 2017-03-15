@@ -8,16 +8,19 @@ source('code/functions.R')
 loadLibs("dplyr")
 
 # Load needed data
-thetaCompTotal <- dissplit('data/process/final.thetayc.0.03.lt.ave.dist',
-  split=F, meta = F)
-metaF <- read.csv("results/tables/mod_metadata/metaF_final.csv", 
+thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
+
+metaF <- read.csv("data/process/mod_metadata/metaF_final.csv", 
   stringsAsFactors = F, header = T)
+good_metaf <- read.csv("data/process/mod_metadata/good_metaF_final.csv", stringsAsFactors = F, header = T)
 
 # Crate distance table with only initial and follow ups
 difference_table_treatment <- pickDistanceValues(
   as.character(metaF$initial), as.character(metaF$followUp), 
   thetaCompTotal, metaF, c("fit_result", "fit_followUp", "Dx_Bin", "dx")) %>% 
-  mutate(fit_difference = fit_result - fit_followUp)
+  mutate(fit_difference = fit_result - fit_followUp, 
+         chemo = good_metaf$chemo_received, 
+         rads = good_metaf$radiation_received)
 
 # Create table to store mean, sd, and pvalue from test
 change_theta_fit_summary <- as.data.frame(matrix(nrow = 2, ncol = 7, 
@@ -53,8 +56,8 @@ change_theta_fit_summary['fit', ] <- c(
 
 # Save table for later use
 write.csv(change_theta_fit_summary, 
-  "results/tables/change_theta_fit_summary.csv")
+  "data/process/tables/change_theta_fit_summary.csv")
 
 #Write out difference table
-write.csv(difference_table_treatment, "results/tables/difference_table.csv", row.names = F)
+write.csv(difference_table_treatment, "data/process/tables/difference_table.csv", row.names = F)
 

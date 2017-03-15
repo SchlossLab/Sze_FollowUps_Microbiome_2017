@@ -11,10 +11,10 @@ loadLibs(c("dplyr", "caret","scales", "wesanderson", "randomForest", "pROC"))
 
 # Read in necessary data frames
 load("exploratory/rocs.RData")
-test_data <- read.csv("results/tables/full_test_data.csv", header = TRUE, row.names = 1)
-split_data_results <- read.csv("results/tables/ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
-test_data_roc <- read.csv("results/tables/test_data_roc.csv", header = TRUE, stringsAsFactors = F)
-auc_data_table <- read.csv("results/tables/auc_summary.csv", header = TRUE, row.names = 1)
+test_data <- read.csv("data/process/tables/full_test_data.csv", header = TRUE, row.names = 1)
+split_data_results <- read.csv("data/process/tables/ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
+test_data_roc <- read.csv("data/process/tables/test_data_roc.csv", header = TRUE, stringsAsFactors = F)
+auc_data_table <- read.csv("data/process/tables/auc_summary.csv", header = TRUE, row.names = 1)
 
 # Get best mtry to use
 mtry_table <- table(split_data_results$best_mtry)
@@ -32,9 +32,9 @@ full_model_roc <- roc(test_data$lesion ~ full_model_probs_predictions[, "Yes"])
 # Add to needed data tables and write them back out
 
 auc_data_table <- rbind(auc_data_table, full = c(full_model_roc$auc, NA, NA, NA))
-write.csv(auc_data_table, "results/tables/auc_summary.csv")
+write.csv(auc_data_table, "data/process/tables/auc_summary.csv")
 write.csv(cbind(lesion = as.character(test_data$lesion), full_model_probs_predictions), 
-          "results/tables/lesion_test_data_probs_summary.csv")
+          "data/process/tables/lesion_test_data_probs_summary.csv")
 
 test_data_roc <- rbind(test_data_roc, 
                        cbind(sensitivities = full_model_roc$sensitivities, 
@@ -42,10 +42,10 @@ test_data_roc <- rbind(test_data_roc,
                              run = rep("full_roc", length(full_model_roc$sensitivities))))
 
 write.csv(test_data_roc, 
-          "results/tables/test_data_roc.csv", row.names = F)
+          "data/process/tables/test_data_roc.csv", row.names = F)
 
 #load in metadata to get IDs to select shared file by
-good_metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", 
+good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", 
                        stringsAsFactors = F, header = T)
 
 #create vector in correct order
@@ -64,7 +64,7 @@ shared <- select(shared, Group, one_of(OTUs_to_keep))
 
 
 # Load in test data set
-follow_up_data <- read.csv("results/tables/follow_up_prediction_table.csv")
+follow_up_data <- read.csv("data/process/tables/follow_up_prediction_table.csv")
 
 test_follow_up_data <- cbind(select(follow_up_data, -contains("Otu0")), 
                    select(shared, -Group))
@@ -96,7 +96,7 @@ probability_data_table <- cbind(
   EDRN = rep(good_metaf$EDRN, 2))
 
 write.csv(probability_data_table, 
-          "results/tables/follow_up_probability_summary.csv", row.names = F)
+          "data/process/tables/follow_up_probability_summary.csv", row.names = F)
 
 # Create data table for significance ROC testing
 
@@ -123,8 +123,8 @@ for(i in 1:length(roc_data_list)){
   }
 }
 
-write.csv(BH_pvalues_summary, "results/tables/roc_pvalue_summary.csv")
-write.csv(p_values_summary, "results/tables/roc_nonBH_pvalue_summary.csv")
+write.csv(BH_pvalues_summary, "data/process/tables/roc_pvalue_summary.csv")
+write.csv(p_values_summary, "data/process/tables/roc_nonBH_pvalue_summary.csv")
 
 
 

@@ -40,7 +40,7 @@ loadLibs(c("tidyr", "dplyr", "scales", "knitr", "rmarkdown"))
 
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
 
-alpha_table <- read.csv("../results/tables/alpha_table_summary.csv", header = T, stringsAsFactors = F)
+alpha_table <- read.csv("../data/process/tables/alpha_table_summary.csv", header = T, stringsAsFactors = F)
 supplemental_table1 <- separate(alpha_table, X, c("comparison", "alpha_metric"), sep="_") 
 
 colnames(supplemental_table1) <- c("Comparison", "Alpha Metric", "P-value", "BH Adjusted P-value")
@@ -56,10 +56,10 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
-common_vars_summary <- read.csv('../results/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
+common_vars_summary <- read.csv('../data/process/tables/pvalue_IF_lesion_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
-lesion_top10_varsMDA <- read.csv('../results/tables/reduced_lesion_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
-IF_top10_varsMDA <- read.csv('../results/tables/reduced_IF_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
+lesion_top10_varsMDA <- read.csv('../data/process/tables/reduced_lesion_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
+IF_top10_varsMDA <- read.csv('../data/process/tables/reduced_IF_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
 
 # Create selection vector
 common_vars <- common_vars_summary$otu
@@ -82,23 +82,24 @@ kable(st2, format = "markdown", align = 'c', padding = 2)
 
 
 \newpage
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
 
-
+\blandscape
 
 **Table S3: Summary of Comparisons based on Chemotherapy or Radiation Received**
 
 ```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
-chemo_rad_summary <- read.csv('../results/tables/probs_chemo_rad_pvalue_summary.csv', 
+chemo_rad_summary <- read.csv('../data/process/tables/probs_chemo_rad_pvalue_summary.csv', 
                               header = T, stringsAsFactors = F)
 
-variable <- c(rep("Positive Probability", 8), rep("Thetayc", 2), rep(c("Sobs", "Shannon", "Evenness"), 2))
-comparison <- c(rep("Chemotherapy", 4), rep("Radiation", 4), "Chemotherapy", "Radiation", 
-                rep("Chemotherapy", 3), rep("Radiation", 3))
+variable <- c(rep("sobs", 2), rep("Shannon", 2), rep("Evenness", 2), rep("Thetayc", 2), rep("Positive Probability", 4))
+comparison <- rep(c("Chemotherapy", "Radiation"), 6)
 
-st3 <- cbind(variable, comparison, format(chemo_rad_summary$pvalue, digits = 4), format(chemo_rad_summary$bh, digits = 4))
+st3 <- cbind(variable, comparison, format(chemo_rad_summary$chemo_rad_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$removal_only_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$cr_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$ro_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$pvalue, scientific = TRUE, digits = 2), format(chemo_rad_summary$bh, scientific = TRUE, digits = 2))
 
-colnames(st3) <- c("Variable Tested", "Treatment", "P-value", "BH Corrected P-value")
+colnames(st3) <- c("Variable", "Additive Treatment", "Additive Treatment Mean", "Removal Mean", "Additive Treatment SD", "Removal SD", "P-value", "BH Corrected")
 
 kable(st3, format = "markdown", align = 'c', padding = 2)
 
@@ -111,7 +112,7 @@ kable(st3, format = "markdown", align = 'c', padding = 2)
 
 
 
-
+\elandscape
 
 
 

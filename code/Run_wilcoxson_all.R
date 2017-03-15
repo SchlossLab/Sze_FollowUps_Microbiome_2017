@@ -10,11 +10,11 @@ source('code/functions.R')
 loadLibs(c("dplyr", "scales", "wesanderson", "ggplot2"))
 
 #Load needed data sets
-lesion_data <- read.csv("results/tables/full_test_data.csv", header = T, row.names = 1)
+lesion_data <- read.csv("data/process/tables/full_test_data.csv", header = T, row.names = 1)
 shared <- read.delim('data/process/final.0.03.subsample.shared', 
                      header=T, sep='\t') %>% select(Group, contains("Otu0"))
 
-metaf <- read.csv("results/tables/mod_metadata/good_metaf_final.csv", header = T, stringsAsFactors = F)
+metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", header = T, stringsAsFactors = F)
 
 #set row names for shared file
 rownames(shared) <- shared$Group
@@ -66,7 +66,7 @@ final_data <- rbind(
 colnames(final_data) <- c("p_value", "BH_corrected", "analysis")
 
 #Write out data table for future use
-write.csv(final_data, "results/tables/OTU_paired_wilcoxson_test.csv", row.names = F)
+write.csv(final_data, "data/process/tables/OTU_paired_wilcoxson_test.csv", row.names = F)
 
 
 

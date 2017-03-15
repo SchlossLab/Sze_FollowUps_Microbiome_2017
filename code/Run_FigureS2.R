@@ -8,7 +8,7 @@ source('code/functions.R')
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 
 #Read data needed
-diff_table_time <- read.csv("results/tables/time_datatable.csv", header = T)
+diff_table_time <- read.csv("data/process/tables/time_datatable.csv", header = T)
 
 # Plot the change in distance versus time
 time_graph <- ggplot(diff_table_time, aes(x = time, y = distance)) + 

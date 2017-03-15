@@ -10,8 +10,8 @@ loadLibs(c("randomForest", "dplyr", "ggplot2", "reshape2",
            "gridExtra", "scales", "wesanderson", "caret", "doMC"))
 
 #Load needed data
-test_data <- read.csv("results/tables/IF_test_tune_data.csv", header = TRUE)
-lesion_imp_vars <- read.csv("results/tables/IF_rf_wCV_imp_vars_summary.csv", header = T, stringsAsFactors = F)
+test_data <- read.csv("data/process/tables/IF_test_tune_data.csv", header = TRUE)
+lesion_imp_vars <- read.csv("data/process/tables/IF_rf_wCV_imp_vars_summary.csv", header = T, stringsAsFactors = F)
 
 #Create data table with only reduced features (impvars only)
 vars_to_keep <- lesion_imp_vars$Variable
@@ -53,6 +53,7 @@ fitControl <- trainControl(## 10-fold CV
   repeats = 20, 
   p = 0.8, 
   classProbs = TRUE, 
+  savePredictions = TRUE, 
   summaryFunction = twoClassSummary)
 
 
