@@ -28,7 +28,8 @@ metaI <- filter(metaI, !(sample %in% good_metaf$initial))
 #################################################################################
 
 # Remove follow up samples and join metadata with microbiome data
-test_data <- inner_join(metaI, shared, by = c("sample" = "Group"))
+test_data <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
+  filter(dx == "normal" | dx == "adenoma")
 rm(shared)
 
 # Filter and use only specific data
@@ -41,8 +42,7 @@ test_data <- test_data %>%
 test_data <- test_data[complete.cases(test_data), ]
 
 #Reduce MetaI to match the test_data
-metaI <- filter(
-  metaI, as.character(sample) %in% as.character(test_data$sample))
+metaI <- filter(metaI, dx == "normal" | dx == "adenoma")
 
 rownames(test_data) <- test_data$sample
 test_data <- select(test_data, -sample)
@@ -64,7 +64,7 @@ test_data <- cbind(lesion = factor(metaI$lesion,
   levels = c(0, 1), labels = c("No", "Yes")), test_data)
 
 # Write data table for future use
-write.csv(test_data, "data/process/tables/full_test_data.csv")
+write.csv(test_data, "data/process/tables/adn_full_test_data.csv")
 
 
 #################################################################################
@@ -101,4 +101,4 @@ fitControl <- trainControl(## 10-fold CV
   summaryFunction = twoClassSummary)
 
 # Save image with data and relevant parameters
-save.image("exploratory/RF_model_setup.RData")
+save.image("exploratory/adn_RF_model_setup.RData")
