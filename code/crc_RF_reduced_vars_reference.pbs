@@ -1,6 +1,6 @@
 #!/bin/sh
 #PBS -l nodes=1:ppn=4,mem=10gb
-#PBS -l walltime=48:00:00
+#PBS -l walltime=24:00:00
 #PBS -j oe
 #PBS -m a
 #PBS -V
@@ -15,7 +15,7 @@ cd $PBS_O_WORKDIR
 
 NCPUS=`wc -l $PBS_NODEFILE | awk '{print $1}'`
 
-R -e "source('code/crc/crc_run_1_RF.R')"
+R -e "source('code/reduced_crc/crc_reduced_run_1_RF.R')"
 
 
 

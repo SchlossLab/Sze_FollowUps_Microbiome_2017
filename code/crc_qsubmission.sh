@@ -28,9 +28,9 @@ for s in ${submission}
 do
 	if [ $(( $x % 2)) -eq 0 ]; then
 		
-		qsub -W depend=afterok:$run_job code/full/$s
+		qsub -W depend=afterok:$run_job code/crc/$s
 	else
-		run_job=`qsub code/full/$s`
+		run_job=`qsub code/crc/$s`
 	fi
 	
 	x=`expr $x + 1`
