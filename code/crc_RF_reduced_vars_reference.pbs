@@ -15,7 +15,7 @@ cd $PBS_O_WORKDIR
 
 NCPUS=`wc -l $PBS_NODEFILE | awk '{print $1}'`
 
-R -e "source('code/reduced/reduced_run_1_RF.R')"
+R -e "source('code/reduced_crc/crc_reduced_run_1_RF.R')"
 
 
 
