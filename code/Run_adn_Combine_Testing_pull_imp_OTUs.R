@@ -31,7 +31,7 @@ best_model_data <- as.data.frame(matrix(nrow = 100, ncol = 6))
 
 for(i in 1:n){
   
-  load(paste("exploratory/crc_RF_model_", i, ".RData", sep=""))
+  load(paste("exploratory/adn_RF_model_", i, ".RData", sep=""))
   
   if(i == 1){
     write.csv(eighty_twenty_splits, "data/process/tables/adn_test_data_splits.csv", 
