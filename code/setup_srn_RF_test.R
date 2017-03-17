@@ -30,7 +30,7 @@ metaI <- filter(metaI, !(sample %in% good_metaf$initial)) %>%
 
 # Remove follow up samples and join metadata with microbiome data
 test_data <- inner_join(metaI, shared, by = c("sample" = "Group")) %>% 
-  filter((dx == "normal" | dx == "adenoma") & Dx_Bin != "adv_adenoma")
+  filter(dx == "normal" | Dx_Bin == "adv_adenoma")
 rm(shared)
 
 # Filter and use only specific data
@@ -43,7 +43,7 @@ test_data <- test_data %>%
 test_data <- test_data[complete.cases(test_data), ]
 
 #Reduce MetaI to match the test_data
-metaI <- filter(metaI, (dx == "normal" | dx == "adenoma") & Dx_Bin != "adv_adenoma")
+metaI <- filter(metaI, dx == "normal" | Dx_Bin == "adv_adenoma")
 
 rownames(test_data) <- test_data$sample
 test_data <- select(test_data, -sample)

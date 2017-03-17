@@ -94,19 +94,14 @@ confusion_counts_summary <- c()
            model = c(rep("adn", 8), rep("crc", 4)))
 
 
-
-# Add final column to confusion counts table on model type
-confusion_counts_summary <- as.data.frame(confusion_counts_summary) %>% 
-  mutate(model_type = c(rep("red_lesion", 4), rep("red_IF", 4)))
-
 #Write out data tables for other use
 write.csv(all_wilcox_summary, 
-          "data/process/tables/all_models_wilcox_paired_pvalue_summary.csv", row.names = F)
+          "data/process/tables/all_crc_adn_models_wilcox_paired_pvalue_summary.csv", row.names = F)
 
 write.csv(model_summary_info, 
-          "data/process/tables/all_models_summary_info.csv", row.names = F)
+          "data/process/tables/all_crc_adn_models_summary_info.csv", row.names = F)
 
-write.csv(confusion_counts_summary, "data/process/tables/all_models_confusion_summary.csv", row.names = F)
+write.csv(confusion_counts_summary, "data/process/tables/all_crc_adn_models_confusion_summary.csv", row.names = F)
 
 
 
