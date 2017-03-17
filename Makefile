@@ -323,9 +323,25 @@ $(CODE)/crc_qsubmission_reducedVars.sh
 	bash $(CODE)/crc_qsubmission_reducedVars.sh
 
 
+# This code gathers all the data together from the 100 different reduced lesion model runs.
+# It also stores the MDA infomration for the OTUs used in this reduced model.
+
+$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_crc_model.R
+	#Collects the needed data to generate figure 3
+	R -e "source('code/Run_combine_aggregate_reduced_crc_model.R')"
+
+# This code uses the entire 423-person cohort to generate the best model for the 
+# reduced lesion model.
+
+$(TABLES)/reduced_crc_follow_up_probability_summary.csv : $(TABLES)/crc_reduced_test_tune_data.csv\
+$(TABLES)/crc_Reduced_ROC_model_summary.csv $(TABLES)/crc_reduced_test_data_roc.csv\
+$(TABLES)/crc_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Run_crc_reduced_best_model.R
+	R -e "source('code/Run_crc_reduced_best_model.R')"
+
 
 ########## Model building for normal versus adenoma
-exploratory/crc_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
+exploratory/adn_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 code/adn_reference_run_RF.R code/adn_RF_reference.pbs code/setup_adn_RF_test.R\
 $(CODE)/adn_createDuplicates.sh $(CODE)/adn_create_pbs.sh $(CODE)/adn_qsubmission.sh
@@ -340,23 +356,40 @@ $(CODE)/adn_createDuplicates.sh $(CODE)/adn_create_pbs.sh $(CODE)/adn_qsubmissio
 # It also grabs the most important OTUs based on MDA and 
 # frequency they've occured in the 100 different runs.
 
-exploratory/crc_rocs.RData : code/Run_Combine_Testing_pull_imp_OTUs.R
-	R -e "source('code/Run_crc_Combine_Testing_pull_imp_OTUs.R')"
+exploratory/adn_rocs.RData : code/Run_Combine_Testing_pull_imp_OTUs.R
+	R -e "source('code/Run_adn_Combine_Testing_pull_imp_OTUs.R')"
 
 # This code creates a 100 different 80/20 splits but with only the most
 # important OTUs.  Each of the reduced lesion models are stored as .RData
 # files in the exploratory directory.
 
-exploratory/crc_Reducedfeatures_RF_model_100.RData : $(TABLES)/crc_full_test_data.csv\
-$(TABLES)/crc_rf_wCV_imp_vars_summary.csv code/crc_RF_reduced_vars_reference.pbs\
-code/crc_reference_run_reduced_feature_RF.R code/Run_crc_reduce_feature_lesion_model.R\
-$(CODE)/crc_createDuplicates_reducedVars.sh $(CODE)/crc_create_reducedVars_pbs.sh\
-$(CODE)/crc_qsubmission_reducedVars.sh
-	mkdir $(CODE)/reduced_crc
-	R -e "source('code/Run_crc_reduce_feature_lesion_model.R')"
-	bash $(CODE)/crc_createDuplicates_reducedVars.sh
-	bash $(CODE)/crc_create_reducedVars_pbs.sh
-	bash $(CODE)/crc_qsubmission_reducedVars.sh
+exploratory/adn_Reducedfeatures_RF_model_100.RData : $(TABLES)/adn_full_test_data.csv\
+$(TABLES)/adn_rf_wCV_imp_vars_summary.csv code/adn_RF_reduced_vars_reference.pbs\
+code/adn_reference_run_reduced_feature_RF.R code/Run_adn_reduce_feature_lesion_model.R\
+$(CODE)/adn_createDuplicates_reducedVars.sh $(CODE)/adn_create_reducedVars_pbs.sh\
+$(CODE)/adn_qsubmission_reducedVars.sh
+	mkdir $(CODE)/reduced_adn
+	R -e "source('code/Run_adn_reduce_feature_lesion_model.R')"
+	bash $(CODE)/adn_createDuplicates_reducedVars.sh
+	bash $(CODE)/adn_create_reducedVars_pbs.sh
+	bash $(CODE)/adn_qsubmission_reducedVars.sh
+
+
+# This code gathers all the data together from the 100 different reduced lesion model runs.
+# It also stores the MDA infomration for the OTUs used in this reduced model.
+
+$(TABLES)/reduced_adn_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_adn_model.R
+	#Collects the needed data to generate figure 3
+	R -e "source('code/Run_combine_aggregate_reduced_adn_model.R')"
+
+# This code uses the entire 423-person cohort to generate the best model for the 
+# reduced lesion model.
+
+$(TABLES)/reduced_adn_follow_up_probability_summary.csv : $(TABLES)/adn_reduced_test_tune_data.csv\
+$(TABLES)/adn_Reduced_ROC_model_summary.csv $(TABLES)/adn_reduced_test_data_roc.csv\
+$(TABLES)/adn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Run_adn_reduced_best_model.R
+	R -e "source('code/Run_adn_reduced_best_model.R')"
 
 
 
