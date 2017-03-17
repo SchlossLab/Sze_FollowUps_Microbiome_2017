@@ -104,29 +104,29 @@ pickDistanceValues <- function(vec1, vec2, distanceTable, metadata, group, withM
 getProb_PairedWilcox <- function(dataTable, 
                                  rown = c("lesion", "all_adenoma", "carcinoma_only", "SRN_only"), 
                                  # next two variables are used to set up filtering criteria
-                                 lesion_group = c("all", "cancer", "adenoma", "cancer"), 
+                                 not_group = c("all", "cancer", "adenoma", "cancer"), 
                                  extra_specifics = c("none", "none", "adv_adenoma", "adenoma")){
   
   # create table to hold wilcoxson paired tests pvalues
   
   wilcox_pvalue_summary <- as.data.frame(matrix(
-    nrow = 4, ncol = 1, dimnames = list(
+    nrow = length(rown), ncol = 1, dimnames = list(
       rows = rown, 
       cols = "Pvalue")))
   
   # Set up variable vector
-  lesion_type <- lesion_group
+  lesion_type <- not_group
   filter_diagnosis <- extra_specifics
   
-  for(i in 1:length(lesion_type)){
+  for(i in 1:length(rown)){
     
     wilcox_pvalue_summary[i, "Pvalue"] <- wilcox.test(
       filter(dataTable, sampleType == "initial" & 
                Dx_Bin != paste(lesion_type[i]) & 
-               Dx_Bin != paste(filter_diagnosis[i]))[, "Yes"], 
+               Dx_Bin == paste(filter_diagnosis[i]))[, "Yes"], 
       filter(dataTable, sampleType == "followup" & 
                Dx_Bin != paste(lesion_type[i]) & 
-               Dx_Bin != paste(filter_diagnosis[i]))[, "Yes"], 
+               Dx_Bin == paste(filter_diagnosis[i]))[, "Yes"], 
       paired = TRUE)$p.value
     
   }
@@ -217,16 +217,34 @@ get_tax_level_shared <- function(shared_file, tax_file, tax_level){
 # Of importance is the Mcnemar P-value for comparison of actual versus predicted similarity
 # needs caret to work properly and needs a meta data table with a column called Disease_Free
 # Disease_Free needs to be in a "y"/"n" format
-get_confusion_data <- function(dataTable, metaData){
+get_confusion_data <- function(dataTable, metaData, 
+                               to_filter1 = "cancer", to_filter2 = "cancer", columns = "Dx_Bin", DF_data = "No"){
   
   loadLibs(c("caret", "dplyr"))
+  
+  tempMetaData <- metaData[metaData[, columns] != to_filter1 & metaData[, columns] != to_filter2, ]
+  dataTable <- dataTable[dataTable[, columns] != to_filter1 & dataTable[, columns] != to_filter2, ]
+  n <- length(rownames(tempMetaData))
+  
+ 
   #add needed columns for the testing
-  dataTable <- mutate(
-    dataTable, 
-    predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
-    mutate(
-      initial_call = factor(c(rep("Yes", length(rownames(metaData))), 
-                              ifelse(metaData$Disease_Free == "n", "Yes", "No"))))
+  if(DF_data == "No"){
+    
+    dataTable <- mutate(
+      dataTable, 
+      predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
+      mutate(
+        initial_call = factor(c(rep("Yes", n), rep("No", n))))
+  } else{
+    
+    dataTable <- mutate(
+      dataTable, 
+      predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
+      mutate(
+        initial_call = factor(c(rep("Yes", n), 
+                                ifelse(tempMetaData$Disease_Free == "n", "Yes", "No"))))
+  }
+  
   
   #run testing on all the data
   confusion_all <- confusionMatrix(dataTable$predict_call, dataTable$initial_call, 
@@ -234,15 +252,15 @@ get_confusion_data <- function(dataTable, metaData){
   
   #run testing based on initial only
   confusion_initial <- confusionMatrix(
-    dataTable$predict_call[1:length(rownames(metaData))], 
-    dataTable$initial_call[1:length(rownames(metaData))], 
+    dataTable$predict_call[1:length(rownames(tempMetaData))], 
+    dataTable$initial_call[1:length(rownames(tempMetaData))], 
     positive = "Yes")
   
   #run testing based on follow up only
   confusion_follow <- confusionMatrix(
-    dataTable$predict_call[(length(rownames(metaData))+1):
+    dataTable$predict_call[(length(rownames(tempMetaData))+1):
                                          length(rownames(dataTable))], 
-    dataTable$initial_call[(length(rownames(metaData))+1):
+    dataTable$initial_call[(length(rownames(tempMetaData))+1):
                                          length(rownames(dataTable))], positive = "Yes")
   
   #aggregate all the tests together into a single summary file to be read out
@@ -256,19 +274,38 @@ get_confusion_data <- function(dataTable, metaData){
 # This function creates a confusion table
 # Needs to have a metadata data with the column "Disease_Free"
 # This column needs to be in the format of "n"/"y"
-make_confusionTable <- function(dataTable, metaData, n = 1, m = 66){
+make_confusionTable <- function(dataTable, metaData, 
+                                column = "Dx_Bin", to_filter1 = "cancer", 
+                                to_filter2 = "cancer", DF_data = "No", sampling = "sampleType", samples = "initial"){
+  
+  
+  tempMetaData <- metaData[metaData[, "Dx_Bin"] != to_filter1 & metaData[, "Dx_Bin"] != to_filter2, ]
+  dataTable <- dataTable[dataTable[, column] != to_filter1 & dataTable[, column] != to_filter2 & 
+                           dataTable[, sampling] == samples, ]
+  n <- length(rownames(tempMetaData))
   
   #add needed columns for the testing
-  dataTable <- mutate(
-    dataTable, 
-    predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
-    mutate(
-      initial_call = factor(c(rep("Yes", length(rownames(good_metaf))), 
-                              ifelse(metaData$Disease_Free == "n", "Yes", "No"))))
+  if(DF_data == "No"){
+    
+    dataTable <- mutate(
+      dataTable, 
+      predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
+      mutate(
+        initial_call = factor(ifelse(dataTable[, sampling] == "initial", "Yes", "No"), levels = c("No", "Yes")))
+  } else{
+    
+    dataTable <- mutate(
+      dataTable, 
+      predict_call = factor(ifelse(Yes > 0.5, "Yes", "No"))) %>% 
+      mutate(
+        initial_call = factor(c(rep("Yes", n), 
+                                ifelse(tempMetaData$Disease_Free == "n", "Yes", "No"))))
+  }
   
-  temp_list <- confusionMatrix(
-    dataTable$predict_call[n:m], 
-    dataTable$initial_call[n:m], 
+  
+   temp_list <- confusionMatrix(
+    dataTable$predict_call, 
+    dataTable$initial_call, 
     positive = "Yes")
   
   c_table <- matrix(temp_list$table, nrow = 2, ncol = 2, 
