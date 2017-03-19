@@ -136,157 +136,7 @@ $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/metaF_final.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
 
-# This code creates 100 different 80/20 splits of the data to optimize
-# the mtry hyperparameter using AUC for the lesion model.  It uses the entire OTU data set. 
-# Each seperate run is stored as an .RData file in the exploratory directory.
 
-exploratory/RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
-$(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-code/reference_run_RF.R code/RF_reference.pbs code/setup_RF_test.R\
-$(CODE)/createDuplicates.sh $(CODE)/create_pbs.sh $(CODE)/qsubmission.sh
-	mkdir $(CODE)/full
-	R -e "source('code/setup_RF_test.R')"
-	bash $(CODE)/createDuplicates.sh
-	bash $(CODE)/create_pbs.sh
-	bash $(CODE)/qsubmission.sh
-
-# This code combines all the runs from the lesion models and aggregates them
-# together.  I also collects relevant information (e.g. AUCs).  
-# It also grabs the most important OTUs based on MDA and 
-# frequency they've occured in the 100 different runs.
-
-exploratory/rocs.RData : code/Run_Combine_Testing_pull_imp_OTUs.R
-	R -e "source('code/Run_Combine_Testing_pull_imp_OTUs.R')"
-
-# This code creates a 100 different 80/20 splits but with only the most
-# important OTUs.  Each of the reduced lesion models are stored as .RData
-# files in the exploratory directory.
-
-exploratory/Reducedfeatures_RF_model_100.RData : $(TABLES)/full_test_data.csv\
-$(TABLES)/rf_wCV_imp_vars_summary.csv code/RF_reduced_vars_reference.pbs\
-code/reference_run_reduced_feature_RF.R code/Run_reduce_feature_lesion_model.R\
-$(CODE)/createDuplicates_reducedVars.sh $(CODE)/create_reducedVars_pbs.sh\
-$(CODE)/qsubmission_reducedVars.sh
-	mkdir $(CODE)/reduced
-	R -e "source('code/Run_reduce_feature_lesion_model.R')"
-	bash $(CODE)/createDuplicates_reducedVars.sh
-	bash $(CODE)/create_reducedVars_pbs.sh
-	bash $(CODE)/qsubmission_reducedVars.sh
-
-# This code runs the full initial model 100 80/20 splits.  All the runs
-# are stored as an .RData file to be used by other components.
-
-exploratory/RF_model_Imp_OTU.RData : $(PROC)/mod_metadata/good_metaf_final.csv\
-$(PROC)/final.0.03.subsample.shared code/Run_Get_Imp_OTUs.R
-	R -e "source('code/Run_Get_Imp_OTUs.R')"
-
-# This code aggregates and collects relevant data (e.g. AUCs) for use by other
-# components.  It also generates the most important OTUs for use to select 
-# which OTUs will be kept for the reduced initial model.
-
-$(TABLES)/IF_model_top_vars_MDA_Summary.csv : exploratory/RF_model_Imp_OTU.RData\
-code/Run_combine_IF_aggregate_model.R
-	R -e "source('code/Run_combine_IF_aggregate_model.R')"
-
-# Use full 67-cohort data set to generate the AUC ROC for the full model.
-
-$(TABLES)/IF_follow_up_probability_summary.csv : $(TABLES)/IF_test_tune_data.csv\
-$(TABLES)/IF_ROC_model_summary.csv $(TABLES)/IF_test_data_roc.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
-code/Run_IF_best_model.R
-	R -e "source('code/Run_IF_best_model.R')"
-
-# Gather the most important OTUs and re run 100 80/20 splits for the 
-# reduced initial model with only these specific OTUs.  The runs are stored 
-# as an aggregated .RData file.  
-exploratory/IF_reduced_RF_model_Imp_OTU.RData : $(TABLES)/IF_test_tune_data.csv\
-$(TABLES)/IF_rf_wCV_imp_vars_summary.csv code/Run_reduce_feature_IF_model.R
-	R -e "source('code/Run_reduce_feature_IF_model.R')"
-
-# This code gathers information on the MDA for all the runs for the OTUs used in the
-# reduced initial model.
-
-$(TABLES)/reduced_IF_model_top_vars_MDA_Summary.csv : exploratory/IF_reduced_RF_model_Imp_OTU.RData\
-code/Run_combine_reduced_IF_aggregate_model.R
-	R -e "source('code/Run_combine_reduced_IF_aggregate_model.R')"
-
-# Use the entire 67-person cohort to generate the AUC ROC for the reduced initial model.
-
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv : $(TABLES)/reduced_IF_test_tune_data.csv\
-$(TABLES)/reduced_IF_ROC_model_summary.csv $(TABLES)/reduced_IF_test_data_roc.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.0.03.subsample.shared\
-code/Run_IF_reduced_best_model.R
-	R -e "source('code/Run_IF_reduced_best_model.R')"
-
-# This code gathers all the data together from the 100 different reduced lesion model runs.
-# It also stores the MDA infomration for the OTUs used in this reduced model.
-
-$(TABLES)/reduced_lesion_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_model.R
-	#Collects the needed data to generate figure 3
-	R -e "source('code/Run_combine_aggregate_reduced_model.R')"
-
-# This code uses the entire 423-person cohort to generate the best model for the 
-# lesion model.
-
-$(TABLES)/roc_pvalue_summary.csv : exploratory/rocs.RData\
-$(TABLES)/full_test_data.csv $(TABLES)/ROC_model_summary.csv $(TABLES)/test_data_roc.csv\
-$(TABLES)/auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-$(PROC)/final.0.03.subsample.shared $(TABLES)/follow_up_prediction_table.csv\
-code/Run_Create_Use_Best_Model.R
-	#Generates complete model built on all data and updates tables
-	R -e "source('code/Run_Create_Use_Best_Model.R')"
-
-# This code uses the entire 423-person cohort to generate the best model for the 
-# reduced lesion model.
-
-$(TABLES)/reduced_follow_up_probability_summary.csv : $(TABLES)/reduced_test_tune_data.csv\
-$(TABLES)/Reduced_ROC_model_summary.csv $(TABLES)/reduced_test_data_roc.csv\
-$(TABLES)/reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-$(PROC)/final.0.03.subsample.shared code/Run_reduced_best_model.R
-	R -e "source('code/Run_reduced_best_model.R')"
-
-# This code runs comparisons on the positive probability for initial versus follow up samples
-# for both the reduced lesion and initial sample models.
-
-$(TABLES)/all_models_wilcox_paired_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
-$(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-code/Run_probs_comparison.R
-	R -e "source('code/Run_probs_comparison.R')"
-
-# This code runs comparisons for initial versus follow up differences for
-# lesion, adenoma only, and carcinoma only.
-
-$(TABLES)/OTU_paired_wilcoxson_test.csv : $(TABLES)/full_test_data.csv\
-$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/good_metaf_final.csv\
-code/Run_wilcoxson_all.R
-	R -e "source('code/Run_wilcoxson_all.R')"
-
-# The comparisons for differences in initial and follow up samples based on whether
-# radiation or chemotherapy was used was completed with the below R script.
-
-$(TABLES)/probs_chemo_rad_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
-$(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
-code/Run_Test_Chemo_Rad.R
-	R -e "source('code/Run_Test_Chemo_Rad.R')"
-
-# The generation and storage of the taxonomies for the OTUs used in either the 
-# reduced lesion or reduced initial sample model.
-
-$(TABLES)/rf_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
-$(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
-	R -e "source('code/Run_ID_imp_OTUs.R')"
-
-# This code IDs the common OTUs between the two different models and
-# also runs a comparison for differences between initial and follow up 
-# samples.
-
-$(TABLES)/pvalue_IF_lesion_common_imp_vars.csv : $(TABLES)/rf_otu_tax.csv\
-$(TABLES)/if_rf_otu_tax.csv $(PROC)/final.0.03.subsample.shared\
-$(PROC)/mod_metadata/good_metaf_final.csv code/Run_Compare_models.R
-	R -e "source('code/Run_Compare_models.R')"
 
 ########## Model building for normal versus carcinoma ##########################
 exploratory/crc_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
@@ -356,7 +206,7 @@ $(CODE)/adn_createDuplicates.sh $(CODE)/adn_create_pbs.sh $(CODE)/adn_qsubmissio
 # It also grabs the most important OTUs based on MDA and 
 # frequency they've occured in the 100 different runs.
 
-exploratory/adn_rocs.RData : code/Run_Combine_Testing_pull_imp_OTUs.R
+exploratory/adn_rocs.RData : code/Run_adn_Combine_Testing_pull_imp_OTUs.R
 	R -e "source('code/Run_adn_Combine_Testing_pull_imp_OTUs.R')"
 
 # This code creates a 100 different 80/20 splits but with only the most
@@ -374,7 +224,6 @@ $(CODE)/adn_qsubmission_reducedVars.sh
 	bash $(CODE)/adn_create_reducedVars_pbs.sh
 	bash $(CODE)/adn_qsubmission_reducedVars.sh
 
-
 # This code gathers all the data together from the 100 different reduced lesion model runs.
 # It also stores the MDA infomration for the OTUs used in this reduced model.
 
@@ -390,6 +239,116 @@ $(TABLES)/adn_Reduced_ROC_model_summary.csv $(TABLES)/adn_reduced_test_data_roc.
 $(TABLES)/adn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_adn_reduced_best_model.R
 	R -e "source('code/Run_adn_reduced_best_model.R')"
+
+########## Model building for normal versus SRN
+exploratory/srn_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
+$(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
+code/srn_reference_run_RF.R code/srn_RF_reference.pbs code/setup_srn_RF_test.R\
+$(CODE)/srn_createDuplicates.sh $(CODE)/srn_create_pbs.sh $(CODE)/srn_qsubmission.sh
+	mkdir $(CODE)/srn
+	R -e "source('code/setup_srn_RF_test.R')"
+	bash $(CODE)/srn_createDuplicates.sh
+	bash $(CODE)/srn_create_pbs.sh
+	bash $(CODE)/srn_qsubmission.sh
+
+# This code combines all the runs from the lesion models and aggregates them
+# together.  I also collects relevant information (e.g. AUCs).  
+# It also grabs the most important OTUs based on MDA and 
+# frequency they've occured in the 100 different runs.
+
+exploratory/srn_rocs.RData : code/Run_srn_Combine_Testing_pull_imp_OTUs.R
+	R -e "source('code/Run_srn_Combine_Testing_pull_imp_OTUs.R')"
+
+# This code creates a 100 different 80/20 splits but with only the most
+# important OTUs.  Each of the reduced lesion models are stored as .RData
+# files in the exploratory directory.
+
+exploratory/srn_Reducedfeatures_RF_model_100.RData : $(TABLES)/srn_full_test_data.csv\
+$(TABLES)/srn_rf_wCV_imp_vars_summary.csv code/srn_RF_reduced_vars_reference.pbs\
+code/srn_reference_run_reduced_feature_RF.R code/Run_srn_reduce_feature_lesion_model.R\
+$(CODE)/srn_createDuplicates_reducedVars.sh $(CODE)/srn_create_reducedVars_pbs.sh\
+$(CODE)/srn_qsubmission_reducedVars.sh
+	mkdir $(CODE)/reduced_srn
+	R -e "source('code/Run_srn_reduce_feature_lesion_model.R')"
+	bash $(CODE)/srn_createDuplicates_reducedVars.sh
+	bash $(CODE)/srn_create_reducedVars_pbs.sh
+	bash $(CODE)/srn_qsubmission_reducedVars.sh
+
+# This code gathers all the data together from the 100 different reduced lesion model runs.
+# It also stores the MDA infomration for the OTUs used in this reduced model.
+
+$(TABLES)/reduced_srn_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_srn_model.R
+	#Collects the needed data to generate figure 3
+	R -e "source('code/Run_combine_aggregate_reduced_srn_model.R')"
+
+# This code uses the entire 423-person cohort to generate the best model for the 
+# reduced lesion model.
+
+$(TABLES)/reduced_srn_follow_up_probability_summary.csv : $(TABLES)/srn_reduced_test_tune_data.csv\
+$(TABLES)/srn_Reduced_ROC_model_summary.csv $(TABLES)/srn_reduced_test_data_roc.csv\
+$(TABLES)/srn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
+	R -e "source('code/Run_srn_reduced_best_model.R')"
+
+
+
+###### Need to edit this part to be specific with each specific component ######
+
+# This code runs comparisons for initial versus follow up differences for
+# lesion, adenoma only, and carcinoma only.
+
+$(TABLES)/OTU_paired_wilcoxson_test.csv : $(TABLES)/full_test_data.csv\
+$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/good_metaf_final.csv\
+code/Run_wilcoxson_all.R
+	R -e "source('code/Run_wilcoxson_all.R')"
+
+
+
+# This code runs comparisons on the positive probability for initial versus follow up samples
+# for both the reduced lesion and initial sample models.
+
+adn.crc.model.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
+$(PROC)/mod_metadata/good_metaf_final.csv\ code/Run_adn_crc_probs_comparison.R
+	R -e "source('code/Run_adn_crc_probs_comparison.R')"
+
+
+# The generation and storage of the taxonomies for the OTUs used in either the 
+# reduced lesion or reduced initial sample model.
+
+get.model.imp.taxa : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
+$(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
+	R -e "source('code/Run_ID_imp_OTUs.R')"
+
+
+# This code IDs the common OTUs between the two different models and
+# also runs a comparison for differences between initial and follow up 
+# samples.
+
+get.common.otus : $(TABLES)/adn_rf_otu_tax.csv\
+$(TABLES)/crc_rf_otu_tax.csv $(PROC)/final.0.03.subsample.shared\
+$(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_crc_Compare_models.R
+	R -e "source('code/Run_adn_crc_Compare_models.R')"
+
+
+# The comparisons for differences in initial and follow up samples based on whether
+# radiation or chemotherapy was used was completed with the below R script.
+
+adn.crc.chemo.rads.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/crc_reduced_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
+$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
+code/Run_adn_crc_Test_Chemo_Rad.R
+	R -e "source('code/Run_adn_crc_Test_Chemo_Rad.R')"
+
+
+# This code runs comparisons on the positive probability for initial versus follow up samples
+# for both the reduced lesion and initial sample models.
+
+$(TABLES)/all_models_wilcox_paired_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
+$(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
+$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
+code/Run_probs_comparison.R
+	R -e "source('code/Run_probs_comparison.R')"
 
 
 
