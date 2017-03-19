@@ -11,6 +11,10 @@ loadLibs(c("dplyr","reshape2", "scales"))
 # Read in data tables
 adn_rf_otu_tax <- read.csv("data/process/tables/adn_rf_otu_tax.csv", 
                        header = T, stringsAsFactors = F) %>% rename(otu = X)
+
+srn_rf_otu_tax <- read.csv("data/process/tables/srn_rf_otu_tax.csv", 
+                           header = T, stringsAsFactors = F) %>% rename(otu = X)
+
 crc_rf_otu_tax <- read.csv("data/process/tables/crc_rf_otu_tax.csv", 
                           header = T, stringsAsFactors = F) %>% rename(otu = X)
 
@@ -29,8 +33,10 @@ shared <- as.data.frame(apply(select(shared, -Group), 2,
 
 # Find common OTUs
 adn_model_variables <- adn_rf_otu_tax$otu
+srn_model_variables <- srn_rf_otu_tax$otu
 crc_model_variables <- crc_rf_otu_tax$otu
-common_variables <- adn_model_variables[adn_model_variables %in% crc_model_variables]
+adn_srn_common_vars <- adn_model_variables[adn_model_variables %in% srn_model_variables]
+common_variables <- crc_model_variables[crc_model_variables %in% adn_srn_common_vars]
 
 # Filter taxonomy for only common OTUs
 common_taxa <- filter(adn_rf_otu_tax, otu %in% common_variables)
@@ -57,4 +63,4 @@ pvalue_table <- cbind(
   Pvalue = otu_pvalue, 
   BH_corr = p.adjust(otu_pvalue, method = "BH"))
 
-write.csv(pvalue_table, "data/process/tables/pvalue_adn_crc_common_imp_vars.csv")
+write.csv(pvalue_table, "data/process/tables/pvalue_adn_srn_crc_common_imp_vars.csv")

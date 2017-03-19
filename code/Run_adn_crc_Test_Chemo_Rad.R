@@ -13,6 +13,8 @@ loadLibs(c("dplyr", "tidyr"))
 data_list <- list(
   red_adn_probs = read.csv("data/process/tables/adn_reduced_follow_up_probability_summary.csv", 
                               header = T, stringsAsFactors = F), 
+  red_srn_probs = read.csv("data/process/tables/srn_reduced_follow_up_probability_summary.csv", 
+                           header = T, stringsAsFactors = F), 
   red_crc_probs = read.csv("data/process/tables/crc_reduced_follow_up_probability_summary.csv", 
                           header = T, stringsAsFactors = F)
 )
@@ -35,30 +37,31 @@ alpha_data <- mutate(alpha_data,
                                 alpha_data$group %in% filter(good_metaf, Diagnosis != "adenoma")[, "followUp"], 
                               "adenocarcinoma", "adenoma"), 
                      chemo = rep(good_metaf$chemo_received, 2), 
-                     rads = rep(good_metaf$radiation_received, 2)) %>% 
-  select(group, sobs, shannon, shannoneven, sampleType, diagnosis, chemo, rads)
+                     rads = rep(good_metaf$radiation_received, 2), 
+                     Dx_Bin = rep(good_metaf$Dx_Bin, 2)) %>% 
+  select(group, sobs, shannon, shannoneven, sampleType, diagnosis, chemo, rads, Dx_Bin)
 
 # Create common data table to generate mean, sd, and testing on for adn and crc
-adn_test <- (filter(alpha_data, sampleType == "initial" & diagnosis == "adenoma")[, c("sobs", "shannon", "shannoneven")] - 
-  filter(alpha_data, sampleType == "followups" & diagnosis == "adenoma")[, c("sobs", "shannon", "shannoneven")]) %>% 
-  mutate(distance = filter(difference_table_treatment, dx == "adenoma")[, "distance"], 
-         red_adn = (filter(data_list[["red_adn_probs"]], sampleType == "initial")[, "Yes"] - 
-           filter(data_list[["red_adn_probs"]], sampleType == "followup")[, "Yes"]), 
-         chemo = filter(good_metaf, dx == "adenoma")[, "chemo_received"], 
-         rads = filter(good_metaf, dx == "adenoma")[, "radiation_received"], 
-         surgery = filter(good_metaf, dx =="adenoma")[, "Surgery"], 
-         Dx_Bin = filter(good_metaf, dx == "adenoma")[, "Dx_Bin"])
+adn_test <- (filter(alpha_data, sampleType == "initial" & Dx_Bin != "cancer")[, c("sobs", "shannon", "shannoneven")] - 
+  filter(alpha_data, sampleType == "followups" & Dx_Bin != "cancer")[, c("sobs", "shannon", "shannoneven")]) %>% 
+  mutate(distance = filter(difference_table_treatment, Dx_Bin != "cancer")[, "distance"], 
+         red_adn = (filter(data_list[["red_adn_probs"]], sampleType == "initial" & Dx_Bin != "cancer")[, "Yes"] - 
+           filter(data_list[["red_adn_probs"]], sampleType == "followup" & Dx_Bin != "cancer")[, "Yes"]), 
+         chemo = filter(good_metaf, Dx_Bin != "cancer")[, "chemo_received"], 
+         rads = filter(good_metaf, Dx_Bin != "cancer")[, "radiation_received"], 
+         surgery = filter(good_metaf, Dx_Bin !="cancer")[, "Surgery"], 
+         Dx_Bin = filter(good_metaf, Dx_Bin != "cancer")[, "Dx_Bin"])
 
 
-crc_test <- (filter(alpha_data, sampleType == "initial" & diagnosis != "adenoma")[, c("sobs", "shannon", "shannoneven")] - 
-               filter(alpha_data, sampleType == "followups" & diagnosis != "adenoma")[, c("sobs", "shannon", "shannoneven")]) %>% 
-  mutate(distance = filter(difference_table_treatment, dx != "adenoma")[, "distance"], 
+crc_test <- (filter(alpha_data, sampleType == "initial" & Dx_Bin == "cancer")[, c("sobs", "shannon", "shannoneven")] - 
+               filter(alpha_data, sampleType == "followups" & Dx_Bin == "cancer")[, c("sobs", "shannon", "shannoneven")]) %>% 
+  mutate(distance = filter(difference_table_treatment, Dx_Bin == "cancer")[, "distance"], 
          red_crc = (filter(data_list[["red_crc_probs"]], sampleType == "initial")[, "Yes"] - 
                       filter(data_list[["red_crc_probs"]], sampleType == "followup")[, "Yes"]), 
-         chemo = filter(good_metaf, dx != "adenoma")[, "chemo_received"], 
-         rads = filter(good_metaf, dx != "adenoma")[, "radiation_received"], 
-         surgery = filter(good_metaf, dx !="adenoma")[, "Surgery"], 
-         Dx_Bin = filter(good_metaf, dx != "adenoma")[, "Dx_Bin"])
+         chemo = filter(good_metaf, Dx_Bin == "cancer")[, "chemo_received"], 
+         rads = filter(good_metaf, Dx_Bin == "cancer")[, "radiation_received"], 
+         surgery = filter(good_metaf, Dx_Bin =="cancer")[, "Surgery"], 
+         Dx_Bin = filter(good_metaf, Dx_Bin == "cancer")[, "Dx_Bin"])
 
 
 # Create variables for actual analysis to be automated
@@ -126,10 +129,26 @@ crc_mean_table <- rbind(crc_mean_table,
                                         wilcox.test(filter(crc_test, chemo == "yes" & rads == "no")[, "red_crc"], 
                                                   filter(crc_test, rads == "yes")[, "red_crc"])$p.value, NA))
 
+
+# Run fisher exact test on surgery proportions for adn and srn
+test_data <- matrix(nrow = 2, ncol = 2, dimnames = list(rown = c("adn", "srn"), coln = c("surg_Y", "surg_N")))
+
+test_data[, "surg_Y"] <- c(length(rownames(filter(good_metaf, Dx_Bin == "adenoma" & Surgery == "Y"))), 
+                           length(rownames(filter(good_metaf, Dx_Bin == "adv_adenoma" & Surgery == "Y"))))
+
+test_data[, "surg_N"] <- c(length(rownames(filter(good_metaf, Dx_Bin == "adenoma" & Surgery == "N"))), 
+                           length(rownames(filter(good_metaf, Dx_Bin == "adv_adenoma" & Surgery == "N"))))
+
+adn_mean_table <- rbind(adn_mean_table, 
+                        prop_surg_adn_srn = c(NA, NA, NA, NA, 
+                                              fisher.test(test_data)$p.value, NA))
+
+
+
 # Write out final table
 write.csv(crc_mean_table, "data/process/tables/crc_probs_chemo_rad_pvalue_summary.csv")
-write.csv(adn_mean_table, "data/process/tables/adn_probs_surgery_pvalue_summary.csv")
+write.csv(adn_mean_table, "data/process/tables/adn_combined_probs_surgery_pvalue_summary.csv")
 write.csv(crc_test, "data/process/tables/crc_chemo_rad_summary.csv")
-write.csv(adn_test, "data/process/tables/adn_surgery_summary.csv")
+write.csv(adn_test, "data/process/tables/adn_combined_surgery_summary.csv")
 
 
