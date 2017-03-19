@@ -102,4 +102,4 @@ fitControl <- trainControl(## 10-fold CV
   summaryFunction = twoClassSummary)
 
 # Save image with data and relevant parameters
-save.image("exploratory/adn_RF_model_setup.RData")
+save.image("exploratory/srn_RF_model_setup.RData")
