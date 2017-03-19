@@ -1,0 +1,4 @@
+"Pvalue","BH_correction","model_type","comparison"
+0.987047795057722,0.987047795057722,"red_adn","adenoma"
+0.515277862548828,0.772916793823242,"red_srn","SRN"
+0.0052078167643339,0.0156234502930017,"red_crc","carcinoma"
