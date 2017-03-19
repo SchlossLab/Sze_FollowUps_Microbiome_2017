@@ -291,9 +291,6 @@ $(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
 	R -e "source('code/Run_srn_reduced_best_model.R')"
 
 
-
-###### Need to edit this part to be specific with each specific component ######
-
 # This code runs comparisons for initial versus follow up differences for
 # lesion, adenoma only, and carcinoma only.
 
@@ -307,10 +304,11 @@ code/Run_wilcoxson_all.R
 # This code runs comparisons on the positive probability for initial versus follow up samples
 # for both the reduced lesion and initial sample models.
 
-adn.crc.model.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+adn.srn.crc.model.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
 $(TABLES)/crc_reduced_follow_up_probability_summary.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv\ code/Run_adn_crc_probs_comparison.R
-	R -e "source('code/Run_adn_crc_probs_comparison.R')"
+$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
+$(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_srn_crc_probs_comparison.R
+	R -e "source('code/Run_adn_srn_crc_probs_comparison.R')"
 
 
 # The generation and storage of the taxonomies for the OTUs used in either the 
