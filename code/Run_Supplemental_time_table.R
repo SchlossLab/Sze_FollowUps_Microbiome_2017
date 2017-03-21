@@ -24,23 +24,36 @@ difference_table_treatment <- pickDistanceValues(
 
 # Create a summary table 
 summary_statistics <- bind_rows(
-  c(filter(difference_table_treatment, dx == "adenoma") %>% 
+  c(filter(difference_table_treatment, Dx_Bin == "adenoma") %>% 
       select(distance, time) %>% summarise_each(funs(mean, sd))), 
-  c(filter(difference_table_treatment, dx == "cancer") %>% 
+  c(filter(difference_table_treatment, Dx_Bin == "adv_adenoma") %>% 
+      select(distance, time) %>% summarise_each(funs(mean, sd))), 
+  c(filter(difference_table_treatment, Dx_Bin == "cancer") %>% 
       select(distance, time) %>% summarize_each(funs(mean, sd)))) 
 
 colnames(summary_statistics) <- c(
   "mean_thetayc_change", "mean_days", "sd_thetayc_change", "sd_days")
 
-rownames(summary_statistics) <- c("adenoma", "carcinoma")
+rownames(summary_statistics) <- c("adenoma", "srn", "carcinoma")
 
-pvalues_summary <- rbind(
-  c("thetayc_change", wilcox.test(distance ~ dx, 
-    data = difference_table_treatment)$p.value), 
-  c("time", wilcox.test(time ~ dx, 
-    data = difference_table_treatment)$p.value))
 
-colnames(pvalues_summary) <- c("test_values", "uncorrected_p_value")
+pvalues_summary <- as.data.frame(
+  matrix(nrow = 3, ncol = 3, 
+         dimnames = list(rown = c(), coln = c("comparison", "pvalue", "bh")))) %>% 
+  mutate(
+    comparison = c("adnVsrn", "adnVcrc", "srnVcrc"), 
+    pvalue = c(
+    wilcox.test(
+      filter(difference_table_treatment, Dx_Bin == "adenoma")[, "time"], 
+      filter(difference_table_treatment, Dx_Bin == "adv_adenoma")[, "time"])$p.value, 
+    wilcox.test(
+      filter(difference_table_treatment, Dx_Bin == "adenoma")[, "time"], 
+      filter(difference_table_treatment, Dx_Bin == "cancer")[, "time"])$p.value, 
+    wilcox.test(
+      filter(difference_table_treatment, Dx_Bin == "adv_adenoma")[, "time"], 
+      filter(difference_table_treatment, Dx_Bin == "cancer")[, "time"])$p.value), 
+    bh = p.adjust(pvalue, method = "BH"))
+
 
 write.csv(pvalues_summary, "data/process/tables/time_pvalues.csv", row.names = F)
 write.csv(summary_statistics, "data/process/tables/time_summary_data.csv")

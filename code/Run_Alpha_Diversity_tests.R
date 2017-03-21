@@ -22,22 +22,23 @@ alpha_data <- mutate(alpha_data,
                      diagnosis = 
                        ifelse(alpha_data$group %in% filter(good_metaf, Diagnosis != "adenoma")[, "initial"] | 
                          alpha_data$group %in% filter(good_metaf, Diagnosis != "adenoma")[, "followUp"], 
-                         "adenocarcinoma", "adenoma")) %>% 
-              select(group, sobs, shannon, shannoneven, sampleType, diagnosis)
+                         "adenocarcinoma", "adenoma"), 
+                     Dx_Bin = rep(good_metaf$Dx_Bin, 2)) %>% 
+              select(group, sobs, shannon, shannoneven, sampleType, diagnosis, Dx_Bin)
 
 # Select out specific columns for significance testing with a paired wilcoxson test
 alpha_table_summary <- rbind(
-  #All follow ups
-  get_alpha_pvalues(alpha_data), 
   #Adenoma follow ups
-  get_alpha_pvalues(filter(alpha_data, diagnosis == "adenoma")), 
+  get_alpha_pvalues(filter(alpha_data, Dx_Bin == "adenoma")), 
+  #SRN follow ups
+  get_alpha_pvalues(filter(alpha_data, Dx_Bin == "adv_adenoma")), 
   #CRC follow ups
-  get_alpha_pvalues(filter(alpha_data, diagnosis != "adenoma"))) %>% 
+  get_alpha_pvalues(filter(alpha_data, Dx_Bin == "cancer"))) %>% 
   # Adjust for multiple comparisons
   mutate(BH_adj_pvalue = p.adjust(pvalue, method = "BH"))
 
-rownames(alpha_table_summary) <- c("lesion_sobs", "lesion_shannon", "lesion_evenness", 
-                                   "adn_sobs", "adn_shannon", "adn_evenness", 
+rownames(alpha_table_summary) <- c("adn_sobs", "adn_shannon", "adn_evenness", 
+                                   "srn_sobs", "srn_shannon", "srn_evenness", 
                                    "crc_sobs", "crc_shannon", "crc_evenness")
 
 write.csv(alpha_table_summary, "data/process/tables/alpha_table_summary.csv")

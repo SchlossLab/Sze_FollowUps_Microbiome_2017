@@ -11,7 +11,7 @@ loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2",
            "gridExtra", "scales", "wesanderson", "caret"))
 
 # Load lesion model data
-red_follow_up_probability <- read.csv("data/process/tables/reduced_follow_up_probability_summary.csv", 
+adn_follow_up_probability <- read.csv("data/process/tables/adn_reduced_follow_up_probability_summary.csv", 
                                       stringsAsFactors = F, header = T)
 
 # Load IF model data

@@ -17,26 +17,30 @@ colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
 tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
 rm(tax)
 
-if_model_imp_vars <- read.csv("data/process/tables/IF_rf_wCV_imp_vars_summary.csv", 
+adn_model_imp_vars <- read.csv("data/process/tables/adn_rf_wCV_imp_vars_summary.csv", 
                            header = T, stringsAsFactors = F) %>% 
   filter(Variable != "fit_result")
 
-model_imp_vars <- read.csv("data/process/tables/rf_wCV_imp_vars_summary.csv", 
+srn_model_imp_vars <- read.csv("data/process/tables/srn_rf_wCV_imp_vars_summary.csv", 
                               header = T, stringsAsFactors = F) %>% 
+  filter(Variable != "fit_result")
+
+crc_model_imp_vars <- read.csv("data/process/tables/crc_rf_wCV_imp_vars_summary.csv", 
+                               header = T, stringsAsFactors = F) %>% 
   filter(Variable != "fit_result")
 
 # Create taxonomy tables based on OTUs ID'd as important
 
-tax_model <- tax_df[model_imp_vars$Variable, ]
+adn_tax_model <- tax_df[adn_model_imp_vars$Variable, ]
 
-if_tax_model <- tax_df[if_model_imp_vars$Variable, ]
+srn_tax_model <- tax_df[srn_model_imp_vars$Variable, ]
 
+crc_tax_model <- tax_df[crc_model_imp_vars$Variable, ]
 
 # Write out the data
-write.csv(tax_model, "data/process/tables/rf_otu_tax.csv")
-write.csv(if_tax_model, "data/process/tables/if_rf_otu_tax.csv")
-
-
+write.csv(adn_tax_model, "data/process/tables/adn_rf_otu_tax.csv")
+write.csv(srn_tax_model, "data/process/tables/srn_rf_otu_tax.csv")
+write.csv(crc_tax_model, "data/process/tables/crc_rf_otu_tax.csv")
 
 
 

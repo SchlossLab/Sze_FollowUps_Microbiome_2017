@@ -92,12 +92,13 @@ kable(st2, format = "markdown", align = 'c', padding = 2)
 ```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
 chemo_rad_summary <- read.csv('../data/process/tables/probs_chemo_rad_pvalue_summary.csv', 
-                              header = T, stringsAsFactors = F)
+                              header = T, stringsAsFactors = F) %>% filter(X != "chemo_v_rads_IF") %>% 
+  separate(X, c("comparison", "variable"), sep = "_") %>% 
+  mutate(comparison = ifelse(comparison == "rads" | comparison == "rad", invisible("Radiation"), invisible("Chemotherapy")), 
+         variable = c(rep("sobs", 2), rep("Shannon", 2), rep("Evenness", 2), rep("Thetayc", 2), rep("Positive Probability", 4)))
 
-variable <- c(rep("sobs", 2), rep("Shannon", 2), rep("Evenness", 2), rep("Thetayc", 2), rep("Positive Probability", 4))
-comparison <- rep(c("Chemotherapy", "Radiation"), 6)
 
-st3 <- cbind(variable, comparison, format(chemo_rad_summary$chemo_rad_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$removal_only_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$cr_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$ro_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$pvalue, scientific = TRUE, digits = 2), format(chemo_rad_summary$bh, scientific = TRUE, digits = 2))
+st3 <- cbind(chemo_rad_summary$variable, chemo_rad_summary$comparison, format(chemo_rad_summary$chemo_rad_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$removal_only_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$cr_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$ro_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$pvalue, scientific = TRUE, digits = 2), format(chemo_rad_summary$bh, scientific = TRUE, digits = 2))
 
 colnames(st3) <- c("Variable", "Additive Treatment", "Additive Treatment Mean", "Removal Mean", "Additive Treatment SD", "Removal SD", "P-value", "BH Corrected")
 
@@ -109,7 +110,6 @@ kable(st3, format = "markdown", align = 'c', padding = 2)
 
 
 ```
-
 
 
 \elandscape
