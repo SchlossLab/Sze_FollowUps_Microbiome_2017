@@ -1,7 +1,6 @@
-### Create Figure 4
-### Graph for the Initial Sample Model
+### Create Figure 3 graph
+### Show results for initial and follow up samples based on testing
 ## Marc Sze
-
 
 ###Load needed Libraries and functions
 source('code/functions.R')

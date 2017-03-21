@@ -81,18 +81,15 @@ $(PROC)/unmatched.% :
 $(PROC)/final.% : 
 	bash $(CODE)/mothurCluster.batch
 
-################################################################################
-#
-# Part 3: Run Analysis
-#
-#	Run scripts to generate tables needed for figures, tables, and manuscript
-#
-################################################################################
+
+###############################################################
+########## Metadata Processing and General Analysis ###########
+###############################################################
 
 # This modifies the meta data files by adding necessary categories (e.g. lesion)
 # for files that will be used for all downstream analysis.
 
-$(TABLES)/mod_metadata/good_metaf_final.csv : $(METADATA)/followUps_metadata.txt\
+modify.metadata : $(METADATA)/followUps_metadata.txt\
 $(METADATA)/initials_metadata.tsv $(METADATA)/followUp_outcome_data.csv\
 code/make_metadata_tables.R 
 	R -e "source('code/make_metadata_tables.R')"
@@ -100,14 +97,14 @@ code/make_metadata_tables.R
 # This analyzes and compares all alpha diversity metrics for lesion, adenoma, 
 # and carcinoma for initial and follow up samples.
 
-$(TABLES)/alpha_table_summary.csv : $(PROC)/mod_metadata/good_metaf_final.csv\
+get.alpha.comparisons : $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
 # This code runs the comparison of initial and follow up for the 
 # adenoma and carcinoma with respect to FIT and thetayc distances.
 
-$(TABLES)/difference_table.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+get.theta.diffs : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(PROC)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 	R -e "source('code/Run_change_theta_Fit.R')"
 
@@ -115,30 +112,24 @@ $(PROC)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 # analysis for initial and follow up for either adenoma or 
 # carcinoma.
 
-$(TABLES)/thetayc_% : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+get.nmds.data : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(PROC)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
-# This code grabs the previously CRC associated bacteria and runs
-# a comparison for initial and follow up for either adenoma or
-# carcinoma.  
-
-$(TABLES)/adn_crc_maybe_pvalue_summary.csv : $(PROC)/final.taxonomy\
-$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.shared\
-code/Run_potential_cancer_specific_OTUs.R
-	R -e "source('code/Run_potential_cancer_specific_OTUs.R')"
 
 # This code runs comparisons checking for differences in time between
 # initial and follow up samples for adenoma or carcinoma.
 
-$(TABLES)/time_pvalues.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+time.diffs.assessment : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/metaF_final.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
 
 
+###############################################################
+###################### Model building  ########################
+###############################################################
 
-########## Model building for normal versus carcinoma ##########################
 exploratory/crc_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 code/crc_reference_run_RF.R code/crc_RF_reference.pbs code/setup_crc_RF_test.R\
@@ -337,16 +328,6 @@ $(TABLES)/crc_reduced_follow_up_probability_summary.csv $(TABLES)/difference_tab
 $(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
 code/Run_adn_crc_Test_Chemo_Rad.R
 	R -e "source('code/Run_adn_crc_Test_Chemo_Rad.R')"
-
-
-# This code runs comparisons on the positive probability for initial versus follow up samples
-# for both the reduced lesion and initial sample models.
-
-$(TABLES)/all_models_wilcox_paired_pvalue_summary.csv : $(TABLES)/follow_up_probability_summary.csv\
-$(TABLES)/reduced_follow_up_probability_summary.csv $(TABLES)/IF_follow_up_probability_summary.csv\
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-code/Run_probs_comparison.R
-	R -e "source('code/Run_probs_comparison.R')"
 
 
 

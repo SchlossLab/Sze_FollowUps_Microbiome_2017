@@ -1,5 +1,5 @@
-### Figure S5
-### Distribution of P-values from Paired Wilcoxson Analysis
+### Figure S2
+### ROC Curves summary for three models used
 ## Marc Sze
 
 #Load needed code and packages
@@ -8,15 +8,53 @@ source('code/functions.R')
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 
 #Read data needed
-diff_table_time <- read.csv("data/process/tables/time_datatable.csv", header = T)
+adn_model_roc <- read.csv("data/process/tables/adn_reduced_test_data_roc.csv", header = T)
+srn_model_roc <- read.csv("data/process/tables/srn_reduced_test_data_roc.csv", header = T)
+crc_model_roc <- read.csv("data/process/tables/crc_reduced_test_data_roc.csv", header = T)
 
-# Plot the change in distance versus time
-time_graph <- ggplot(diff_table_time, aes(x = time, y = distance)) + 
-  geom_point(aes(color = dx), size = 4) + theme_bw() + 
-  scale_color_manual(name = "Lesion Type", values = wes_palette("GrandBudapest"), 
-                     breaks = c("adenoma", "cancer"), labels = c("Adenoma", "Cancer")) + 
-  coord_cartesian(ylim = c(0, 1)) + ylab("Thetayc Distance") + xlab("Time from Initial (Days)") + 
-  theme(axis.title = element_text(face="bold"), legend.title = element_text(face="bold"))
 
-ggsave(file = "results/figures/FigureS2.pdf", time_graph, 
+# Create the graph
+
+rocs_graph <- grid.arrange(
+  # Adenoma ROC curve information
+  filter(adn_model_roc, run != "middle_roc" & run != "full_roc") %>% 
+    ggplot(aes(x = sensitivities, y = specificities)) + 
+    geom_polygon(data = filter(adn_model_roc, run != "full_roc"), alpha = 0.5, fill = '#76EE00') + 
+    geom_line(data = filter(adn_model_roc, run != "full_roc"), 
+              aes(group = run), size = 1.25, color = '#76EE00') + 
+    geom_line(data = filter(adn_model_roc, run == "full_roc"), 
+              size = 1.5, color = '#006400') + 
+    scale_x_continuous(trans = "reverse") + theme_bw() + 
+    ggtitle("A") + xlab("Sensitivity") + ylab("Specificity") + 
+    theme(plot.title = element_text(face= "bold"), 
+          axis.title = element_text(face = "bold")), 
+  
+  # SRN ROC curve information
+  filter(srn_model_roc, run != "middle_roc" & run != "full_roc") %>% 
+    ggplot(aes(x = sensitivities, y = specificities)) + 
+    geom_polygon(data = filter(srn_model_roc, run != "full_roc"), alpha = 0.5, fill = '#F0E68C') + 
+    geom_line(data = filter(srn_model_roc, run != "full_roc"), 
+              aes(group = run), size = 1.25, color = '#F0E68C') + 
+    geom_line(data = filter(srn_model_roc, run == "full_roc"), 
+              size = 1.5, color = '#EEC900') + 
+    scale_x_continuous(trans = "reverse") + theme_bw() +  
+    ggtitle("B") + xlab("Sensitivity") + ylab("Specificity") + 
+    theme(plot.title = element_text(face= "bold"), 
+          axis.title = element_text(face = "bold")), 
+  
+  # CRC ROC curve information
+  filter(crc_model_roc, run != "middle_roc" & run != "full_roc") %>% 
+    ggplot(aes(x = sensitivities, y = specificities)) + 
+    geom_polygon(data = filter(crc_model_roc, run != "full_roc"), alpha = 0.5, fill = '#FFB6C1') + 
+    geom_line(data = filter(crc_model_roc, run != "full_roc"), 
+              aes(group = run), size = 1.25, color = '#FFB6C1') + 
+    geom_line(data = filter(crc_model_roc, run == "full_roc"), 
+              size = 1.5, color = '#DC143C') + 
+    scale_x_continuous(trans = "reverse") + theme_bw() +  
+    ggtitle("C") + xlab("Sensitivity") + ylab("Specificity") + 
+    theme(plot.title = element_text(face= "bold"), 
+          axis.title = element_text(face = "bold")))
+
+
+ggsave(file = "results/figures/FigureS2.tiff", rocs_graph, 
        width=6, height = 8, dpi = 300)

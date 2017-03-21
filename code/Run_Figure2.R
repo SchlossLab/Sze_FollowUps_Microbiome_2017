@@ -1,74 +1,82 @@
-### Create Figure 6 graph
-### Show that CRC specific OTUs may be the difference between Adenoma and CRC
+### Create Figure 2 graph
+### Show results for initial and follow up samples based on testing
 ## Marc Sze
 
-# Load needed functions
+###Load needed Libraries and functions
 source('code/functions.R')
 
-# Load needed packages
-loadLibs(c("dplyr", "ggplot2", "gridExtra", "scales", "wesanderson"))
+loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", 
+           "gridExtra", "scales", "wesanderson"))
 
-# Load needed data
-graph_data <- read.csv("data/process/tables/adn_crc_maybe_diff.csv", header = T, stringsAsFactors = F)
-
-# Add column to jitter values and italicize names
-graph_data <- mutate(graph_data, 
-    j_values = jitter(rel.abund, 3))
+### Load in needed data tables
 
 
-# Create the figure
+adn_red_follow_up_probability <- read.csv("data/process/tables/adn_reduced_follow_up_probability_summary.csv", 
+                                      stringsAsFactors = F, header = T)
+srn_red_follow_up_probability <- read.csv("data/process/tables/srn_reduced_follow_up_probability_summary.csv", 
+                                         stringsAsFactors = F, header = T)
+crc_red_follow_up_probability <- read.csv("data/process/tables/crc_reduced_follow_up_probability_summary.csv", 
+                                          stringsAsFactors = F, header = T) %>% 
+  mutate(followup_crc = ifelse(disease_free == "n", "Yes", "No"))
 
-crc_specific <- grid.arrange(  
-  # Cancer OTUs graph
-  filter(graph_data, Dx_Bin == "cancer") %>% 
-    ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
-               j_values*100, group = factor(EDRN))) + 
-    geom_line(aes(color = factor(Disease_free, levels = c("n", "y", "unknown")))) + 
-    geom_point(aes(color = factor(Disease_free, levels = c("n", "y", "unknown")))) + 
-    facet_wrap(~Genus, scales = "free_y") + 
-    theme_bw() + ylab("% Relative Abundance") + xlab("") + ggtitle("A") +  
-    scale_colour_manual(name = "Cancer Free\n on Follow Up", 
-                        label = c("No", "Yes", "Unknown"),  
-                        values = wes_palette("GrandBudapest")) + 
-    scale_x_discrete(
-      breaks = c("initial", "followup"), 
-      labels = c("Initial", "Follow Up")) + 
-    theme(legend.title = element_text(face="bold", size = 8), 
-          legend.text = element_text(size = 6), 
-          legend.position = c(0.38, 0.82), 
-          plot.margin = unit(c(1, 1, 1, 1), "lines"), 
-          plot.title = element_text(size=20, face="bold"), 
-          strip.text.x = element_text(face = "italic", size = 8)), 
+# Create Figure
+Lesion_plot <- grid.arrange(
   
-  # Adenoma OTUs graph
-  filter(graph_data, Dx_Bin != "cancer") %>% 
-    ggplot(aes(factor(sampleType, levels = c("initial", "followup")), 
-               j_values*100, group = factor(EDRN))) + 
-    geom_line(aes(color = factor(Dx_Bin))) + geom_point(aes(color = factor(Dx_Bin))) +  
-    facet_wrap(~Genus, scales = "free_y") + 
-    theme_bw() + ylab("% Relative Abundance") + xlab("") + ggtitle("B") + 
-    scale_colour_manual(name = "Polyp Type", values = c("cyan", "blue"), 
-                        breaks = c("adenoma", "adv_adenoma"), 
-                        labels = c("Adenoma", "SRN")) +  
-    scale_x_discrete(
-      breaks = c("initial", "followup"), 
-      labels = c("Initial", "Follow Up")) + 
-    theme(legend.title = element_text(face="bold", size = 8), 
-          legend.text = element_text(size = 6), 
-          legend.position = c(0.1, 0.85), 
-          plot.margin = unit(c(1, 1, 1, 1), "lines"), 
-          plot.title = element_text(size=20, face="bold"), 
-          strip.text.x = element_text(face = "italic", size = 8))
+  # Graph the adenoma data only
+  ggplot(adn_red_follow_up_probability, 
+         aes(factor(sampleType, 
+                    levels = c("initial", "followup"), labels = c("Pre", "Post")), 
+             Yes, group = factor(EDRN))) + 
+    geom_point(color = '#006400', size = 2) + 
+    geom_line(color = '#66CD00') + 
+    coord_cartesian(ylim = c(0, 0.75)) + 
+    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
+    ggtitle("A") + ylab("Adenoma Postive Probability") + xlab("") + theme_bw() + 
+    theme(
+      axis.title = element_text(face="bold"), 
+      plot.title = element_text(face="bold", hjust = 0)), 
+  
+  # Graph the SRN data only
+  ggplot(srn_red_follow_up_probability, 
+         aes(factor(sampleType, 
+                    levels = c("initial", "followup"), labels = c("Pre", "Post")), 
+             Yes, group = factor(EDRN))) + 
+    geom_point(color = '#8B7500', size = 2) + 
+    geom_line(color = '#FFD700') + 
+    coord_cartesian(ylim = c(0, 0.75)) + 
+    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
+    ggtitle("B") + ylab("SRN Postive Probability") + xlab("") + theme_bw() + 
+    theme(
+      axis.title = element_text(face="bold"), 
+      plot.title = element_text(face="bold", hjust = 0)), 
+  
+  # Graph the CRC data only
+  ggplot(crc_red_follow_up_probability, 
+         aes(factor(sampleType, 
+                    levels = c("initial", "followup"), labels = c("Pre", "Post")), 
+             Yes, group = factor(EDRN))) + 
+    geom_line(color = '#CD1076') + 
+    geom_point(aes(color=factor(followup_crc, 
+                                levels = c("No", "Yes"))), size = 2) + 
+    scale_color_manual(name = "Cancer on\nFollow Up", 
+                       label = c("No", "Yes"),  
+                       values = c('#B0171F', '#FF0000')) + 
+    coord_cartesian(ylim = c(0, 0.75)) + 
+    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
+    ggtitle("C") + ylab("Carcinoma Postive Probability") + xlab("") + theme_bw() + 
+    theme(
+      axis.title = element_text(face="bold"), 
+      legend.title = element_text(face="bold"), 
+      legend.position = "none", 
+      plot.title = element_text(face="bold", hjust = 0)), nrow = 1)
+  
+# Save figures and write necessary tables
+ggsave(file = "results/figures/Figure2.pdf", Lesion_plot, 
+       width=13, height = 10, dpi = 300)
 
-  )
 
 
-ggsave(file = "results/figures/Figure2.pdf", crc_specific, 
-       width=8.5, height = 11, dpi = 300)
 
-
-# If wanting to use a log scale instead
-# scale_y_log10(breaks = c(10, 1, 0.01, 0.001, 0.0001, 0.00001, 0.000001, 0.0000001), na.value = 0.00000001)
 
 
 
