@@ -1,7 +1,9 @@
 ---
 title: ""
 output: pdf_document
+
 ---
+
 
 
 ```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
@@ -79,4 +81,3 @@ test <- test[-1, ]
 kable(test, format = "markdown", align = 'c', padding = 2)
 
 ```
-
