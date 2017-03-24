@@ -323,11 +323,12 @@ $(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_crc_Compare_models.R
 # The comparisons for differences in initial and follow up samples based on whether
 # radiation or chemotherapy was used was completed with the below R script.
 
-adn.crc.chemo.rads.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+chemo.rads.surg.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
 $(TABLES)/crc_reduced_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
 code/Run_adn_crc_Test_Chemo_Rad.R
 	R -e "source('code/Run_adn_crc_Test_Chemo_Rad.R')"
+	R -e "source('code/Run_treatment_common_otus.R')"
 
 
 
