@@ -50,7 +50,10 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 
 
 \newpage
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
 
+\blandscape
 
 **Table S2: Summary of OTUs in Adenoma, SRN, and Carcinoma Models**
 
@@ -85,10 +88,7 @@ kable(st2, format = "markdown", align = 'c', padding = 2)
 
 
 \newpage
-\newcommand{\blandscape}{\begin{landscape}}
-\newcommand{\elandscape}{\end{landscape}}
 
-\blandscape
 
 **Table S3: Summary of Comparisons based on Chemotherapy or Radiation Received**
 
@@ -108,18 +108,33 @@ colnames(st3) <- c("Variable", "Additive Treatment", "Additive Treatment Mean", 
 kable(st3, format = "markdown", align = 'c', padding = 2)
 
 
-
-
-
-
 ```
 
 
 \elandscape
 
+\newpage
+
+**Table S4: Summary of Adenoma based on Surgery Received**
+
+```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+adn_surg_summary <- read.csv('../data/process/tables/adn_combined_probs_surgery_pvalue_summary.csv', 
+                              header = T, stringsAsFactors = F) %>% 
+  filter(X != "prop_surg_adn_srn") %>% 
+  mutate(variable = c("sobs", "Shannon", "Evenness", "Thetayc", "Adenoma Only\nPositive Probability", "SRN Only\nPositive Probablity"))
 
 
 
+st4 <- cbind(adn_surg_summary$variable, format(adn_surg_summary$surg_mean, digits = 1, nsmall = 1), format(adn_surg_summary$no_surg_mean, digits = 1, nsmall = 1), format(adn_surg_summary$surg_sd, digits = 1, nsmall = 1), format(adn_surg_summary$no_surg_sd, digits = 1, nsmall = 1), format(adn_surg_summary$pvalue, scientific = TRUE, digits = 2), format(adn_surg_summary$bh, scientific = TRUE, digits = 2))
+
+colnames(st4) <- c("Variable", "Surgery Mean", "No Surgery Mean", "Surgery SD", "No Surgery SD", "P-value", "BH Corrected")
+
+kable(st4, format = "markdown", align = 'c', padding = 2)
+
+
+```
 
 
 

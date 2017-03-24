@@ -1,4 +1,4 @@
-"info","all","initial","followup","samples_tested","model_type"
+"","all","initial","followup","samples_tested","model_type"
 "Accuracy","0.522727272727273","0.272727272727273","0.772727272727273","adn","red_adn"
 "Kappa","0.0454545454545454","0","0","adn","red_adn"
 "AccuracyLower","0.366897516592835","0.107289248370397","0.546296376337878","adn","red_adn"

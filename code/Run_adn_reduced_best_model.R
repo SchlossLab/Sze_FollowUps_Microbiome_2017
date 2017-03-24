@@ -65,6 +65,7 @@ good_metaf$followup_call[good_metaf$Disease_Free == "n"] <- "Yes"
 good_metaf$followup_call[good_metaf$Disease_Free != "n"] <- "No"
 test_follow_up_data <- cbind(lesion = c(rep("Yes", length(good_metaf$lesion)), good_metaf$followup_call), 
                              dx = good_metaf$dx, 
+                             Dx_Bin = good_metaf$Dx_Bin, 
                              sampleType = c(rep("initial", length(good_metaf$lesion)), 
                                             rep("followup", length(good_metaf$lesion))), 
                              select(shared, -Group))
@@ -73,12 +74,12 @@ test_follow_up_data <- cbind(lesion = c(rep("Yes", length(good_metaf$lesion)), g
 # Make predictions on samples with follow up
 initial_predictions <- predict(full_model, 
                                newdata = (filter(test_follow_up_data, 
-                                                 sampleType == "initial" & dx != "cancer") %>% 
+                                                 sampleType == "initial" & Dx_Bin == "adenoma") %>% 
                                             select(-dx, -sampleType)), type='prob')
 
 followup_predictions <- predict(full_model, 
                                 newdata = (filter(test_follow_up_data, 
-                                                 sampleType == "followup" & dx != "cancer") %>% 
+                                                 sampleType == "followup" & Dx_Bin == "adenoma") %>% 
                                             select(-dx, -sampleType)), type='prob')
 
 
@@ -89,12 +90,12 @@ probability_data_table <- cbind(
   Yes = c(initial_predictions[, "Yes"], followup_predictions[, "Yes"]), 
   sampleType = c(rep("initial", length(rownames(initial_predictions))), 
                  rep("followup", length(rownames(followup_predictions)))), 
-  disease_free = rep(filter(good_metaf, dx != "cancer")[, "Disease_Free"], 2), 
-  diagnosis = rep(filter(good_metaf, dx != "cancer")[, "Diagnosis"], 2), 
-  Dx_Bin = rep(filter(good_metaf, dx != "cancer")[, "Dx_Bin"], 2), 
-  chemo = rep(filter(good_metaf, dx != "cancer")[, "chemo_received"], 2), 
-  rads = rep(filter(good_metaf, dx != "cancer")[, "radiation_received"], 2), 
-  EDRN = rep(filter(good_metaf, dx != "cancer")[, "EDRN"], 2))
+  disease_free = rep(filter(good_metaf, Dx_Bin == "adenoma")[, "Disease_Free"], 2), 
+  diagnosis = rep(filter(good_metaf, Dx_Bin == "adenoma")[, "Diagnosis"], 2), 
+  Dx_Bin = rep(filter(good_metaf, Dx_Bin == "adenoma")[, "Dx_Bin"], 2), 
+  chemo = rep(filter(good_metaf, Dx_Bin == "adenoma")[, "chemo_received"], 2), 
+  rads = rep(filter(good_metaf, Dx_Bin == "adenoma")[, "radiation_received"], 2), 
+  EDRN = rep(filter(good_metaf, Dx_Bin == "adenoma")[, "EDRN"], 2))
 
 write.csv(probability_data_table, 
           "data/process/tables/adn_reduced_follow_up_probability_summary.csv", row.names = F)
