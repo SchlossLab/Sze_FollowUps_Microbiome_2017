@@ -109,7 +109,7 @@ write.csv(all_wilcox_summary,
           "data/process/tables/all_crc_srn_adn_models_wilcox_paired_pvalue_summary.csv", row.names = F)
 
 write.csv(model_summary_info, 
-          "data/process/tables/all_crc_srn_adn_models_summary_info.csv", row.names = F)
+          "data/process/tables/all_crc_srn_adn_models_summary_info.csv")
 
 write.csv(confusion_counts_summary, "data/process/tables/all_crc_srn_adn_models_confusion_summary.csv", row.names = F)
 
