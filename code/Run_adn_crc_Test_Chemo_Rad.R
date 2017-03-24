@@ -45,8 +45,6 @@ alpha_data <- mutate(alpha_data,
 adn_test <- (filter(alpha_data, sampleType == "initial" & Dx_Bin != "cancer")[, c("sobs", "shannon", "shannoneven")] - 
   filter(alpha_data, sampleType == "followups" & Dx_Bin != "cancer")[, c("sobs", "shannon", "shannoneven")]) %>% 
   mutate(distance = filter(difference_table_treatment, Dx_Bin != "cancer")[, "distance"], 
-         red_adn = (filter(data_list[["red_adn_probs"]], sampleType == "initial" & Dx_Bin != "cancer")[, "Yes"] - 
-           filter(data_list[["red_adn_probs"]], sampleType == "followup" & Dx_Bin != "cancer")[, "Yes"]), 
          chemo = filter(good_metaf, Dx_Bin != "cancer")[, "chemo_received"], 
          rads = filter(good_metaf, Dx_Bin != "cancer")[, "radiation_received"], 
          surgery = filter(good_metaf, Dx_Bin !="cancer")[, "Surgery"], 
@@ -65,13 +63,13 @@ crc_test <- (filter(alpha_data, sampleType == "initial" & Dx_Bin == "cancer")[, 
 
 
 # Create variables for actual analysis to be automated
-adn_tests <- c("sobs", "shannon", "shannoneven", "distance", "red_adn")
+adn_tests <- c("sobs", "shannon", "shannoneven", "distance", "red_adn", "red_srn")
 
 crc_tests <- c("sobs", "sobs", "shannon", "shannon", "shannoneven", "shannoneven", 
                "distance", "distance", "red_crc", "red_crc")
 
-adn_mean_table <- as.data.frame(matrix(nrow = 5, ncol = 6, dimnames = list(
-  rown = c("sobs", "shannon", "even", "dist", "red_adn"), 
+adn_mean_table <- as.data.frame(matrix(nrow = 6, ncol = 6, dimnames = list(
+  rown = c("sobs", "shannon", "even", "dist", "red_adn", "red_srn"), 
   coln = c("surg_mean", "no_surg_mean", "surg_sd", "no_surg_sd", "pvalue", "bh"))))
 
 crc_mean_table <- as.data.frame(matrix(nrow = 10, ncol = 6, dimnames = list(
@@ -82,13 +80,49 @@ crc_mean_table <- as.data.frame(matrix(nrow = 10, ncol = 6, dimnames = list(
 # Run automated tests for adn
 for(i in 1:length(adn_tests)){
   
-  adn_mean_table[i, "surg_mean"] <- mean(filter(adn_test, surgery == "Y")[, adn_tests[i]])
-  adn_mean_table[i, "no_surg_mean"] <- mean(filter(adn_test, surgery == "N")[, adn_tests[i]])
-  adn_mean_table[i, "surg_sd"] <- sd(filter(adn_test, surgery == "Y")[, adn_tests[i]])
-  adn_mean_table[i, "no_surg_sd"] <- sd(filter(adn_test, surgery == "N")[, adn_tests[i]])
+  if(i <= 4){
+    
+    adn_mean_table[i, "surg_mean"] <- mean(filter(adn_test, surgery == "Y")[, adn_tests[i]])
+    adn_mean_table[i, "no_surg_mean"] <- mean(filter(adn_test, surgery == "N")[, adn_tests[i]])
+    adn_mean_table[i, "surg_sd"] <- sd(filter(adn_test, surgery == "Y")[, adn_tests[i]])
+    adn_mean_table[i, "no_surg_sd"] <- sd(filter(adn_test, surgery == "N")[, adn_tests[i]])
+    
+    adn_mean_table[i, "pvalue"] <- wilcox.test(filter(adn_test, surgery == "Y")[, adn_tests[i]], 
+                                               filter(adn_test, surgery == "N")[, adn_tests[i]])$p.value
+  }
+
+  else if(i == 5){
+    
+    temp_adn <- filter(good_metaf, Dx_Bin == "adenoma") %>% 
+      mutate(red_adn = (filter(data_list[["red_adn_probs"]], sampleType == "initial" & Dx_Bin == "adenoma")[, "Yes"] - 
+                 filter(data_list[["red_adn_probs"]], sampleType == "followup" & Dx_Bin == "adenoma")[, "Yes"])) 
+    
+    adn_mean_table[i, "surg_mean"] <- mean(filter(temp_adn, Surgery == "Y")[, adn_tests[i]])
+    adn_mean_table[i, "no_surg_mean"] <- mean(filter(temp_adn, Surgery == "N")[, adn_tests[i]])
+    adn_mean_table[i, "surg_sd"] <- sd(filter(temp_adn, Surgery == "Y")[, adn_tests[i]])
+    adn_mean_table[i, "no_surg_sd"] <- sd(filter(temp_adn, Surgery == "N")[, adn_tests[i]])
+    
+    adn_mean_table[i, "pvalue"] <- wilcox.test(filter(temp_adn, Surgery == "Y")[, adn_tests[i]], 
+                                               filter(temp_adn, Surgery == "N")[, adn_tests[i]])$p.value
+
+  }
   
-  adn_mean_table[i, "pvalue"] <- wilcox.test(filter(adn_test, surgery == "Y")[, adn_tests[i]], 
-                                         filter(adn_test, surgery == "N")[, adn_tests[i]])$p.value
+  else if(i == 6){
+    
+    temp_srn <- filter(good_metaf, Dx_Bin == "adv_adenoma") %>% 
+      mutate(red_srn = (filter(data_list[["red_srn_probs"]], 
+                               sampleType == "initial" & Dx_Bin == "adv_adenoma")[, "Yes"] - 
+                          filter(data_list[["red_srn_probs"]], 
+                                 sampleType == "followup" & Dx_Bin == "adv_adenoma")[, "Yes"])) 
+    
+    adn_mean_table[i, "surg_mean"] <- mean(filter(temp_srn, Surgery == "Y")[, adn_tests[i]])
+    adn_mean_table[i, "no_surg_mean"] <- mean(filter(temp_srn, Surgery == "N")[, adn_tests[i]])
+    adn_mean_table[i, "surg_sd"] <- sd(filter(temp_srn, Surgery == "Y")[, adn_tests[i]])
+    adn_mean_table[i, "no_surg_sd"] <- sd(filter(temp_srn, Surgery == "N")[, adn_tests[i]])
+    
+    adn_mean_table[i, "pvalue"] <- wilcox.test(filter(temp_srn, Surgery == "Y")[, adn_tests[i]], 
+                                               filter(temp_srn, Surgery == "N")[, adn_tests[i]])$p.value
+  }
 }
 
 # Implement P-value correction

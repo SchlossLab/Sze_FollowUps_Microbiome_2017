@@ -36,7 +36,7 @@ adn_wilcox_pvalue_summary <- getProb_PairedWilcox(
   extra_specifics = "adenoma")
 
 srn_wilcox_pvalue_summary <- getProb_PairedWilcox(
-  adn_follow_up_probability, 
+  srn_follow_up_probability, 
   rown = "adv_adenoma", 
   not_group = c("cancer", "adenoma"), 
   extra_specifics = "adv_adenoma")
@@ -69,9 +69,7 @@ tempList <- list(
 model_summary_info <- as.data.frame(c())
 
 model_summary_info <- 
-  cbind(info = rownames(get_confusion_data(tempList[[1]], good_metaf, to_filter1 = "cancer", 
-                                                 to_filter2 = "cancer")), 
-              rbind(
+  cbind(rbind(
                 get_confusion_data(tempList[["red_adn"]], good_metaf, to_filter1 = "cancer", 
                                    to_filter2 = "adv_adenoma"), 
                 get_confusion_data(tempList[["red_srn"]], good_metaf, to_filter1 = "cancer", 
