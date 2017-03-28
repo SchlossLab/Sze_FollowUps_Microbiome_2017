@@ -62,8 +62,6 @@ ttemptable <- as.data.frame(t(t2)) %>% mutate(Age = paste(format(Age, digits = 2
 ft1 <- cbind(Group = c("Adenoma", "SRN", "Carcinoma"), ttemptable$Dx_Bin, ttemptable$Age, ttemptable$Gender_f, 
              ttemptable$BMI, ttemptable$White)
 
-ft1 <- cbind(Group = c("Normal", "Adenoma", "SRN", "Carcinoma"), ttemptable$Dx_Bin, ttemptable$Age, ttemptable$Gender_f, 
-             ttemptable$BMI, ttemptable$White)
 
 age_label <- paste("Age (Mean ", label = "\u00B1", " SD)", sep = "")
 bmi_label <- paste("BMI (Mean ", label = "\u00B1", " SD)", sep = "")
