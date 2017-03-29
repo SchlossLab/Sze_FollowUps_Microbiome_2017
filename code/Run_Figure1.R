@@ -25,14 +25,14 @@ differences_graph <- grid.arrange(
   # Difference from bacterial community structure between adenoma and cancer
   ggplot(difference_table_treatment, 
          aes(factor(Dx_Bin, levels = c("adenoma", "adv_adenoma", "cancer"), 
-                    labels = c("Adenoma", "SRN", "Carcinoma")), distance, group = 1)) + 
+                    labels = c("Adenoma", "Advanced\nAdenoma", "Carcinoma")), distance, group = 1)) + 
     geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
     stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
     stat_summary(fun.y = mean, colour = "black", geom = "line") + 
     scale_color_manual(name = "Lesion Type", 
                        values = c('#228B22', '#FFD700', '#DC143C'), 
                        breaks = c("adenoma", "adv_adenoma", "cancer"), 
-                       labels = c("Adenoma", "SRN", "Carcinoma")) + 
+                       labels = c("Adenoma", "Advanced\nAdenoma", "Carcinoma")) + 
     coord_cartesian(ylim = c(0, 1)) + ylab(expression(paste(theta[YC], " Distance"))) + 
     xlab("") + theme_bw() + ggtitle("A") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 

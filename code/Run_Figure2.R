@@ -45,7 +45,7 @@ Lesion_plot <- grid.arrange(
     geom_line(color = '#FFD700') + 
     coord_cartesian(ylim = c(0, 0.75)) + 
     geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("B") + ylab("SRN Postive Probability") + xlab("") + theme_bw() + 
+    ggtitle("B") + ylab("Advanced Adenoma Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
       plot.title = element_text(face="bold", hjust = 0)), 

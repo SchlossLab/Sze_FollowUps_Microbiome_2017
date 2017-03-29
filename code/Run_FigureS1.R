@@ -10,7 +10,7 @@ loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesa
 #Read data needed
 paired_table <- read.csv("data/process/tables/OTU_paired_wilcoxson_test.csv", header = T, stringsAsFactors = F)
 
-label_names <- c("Adenoma", "SRN", "Carcinoma")
+label_names <- c("Adenoma", "Advanced Adenoma", "Carcinoma")
 names(label_names) <- c("adn", "srn", "crc")
 
 pvalue_distribution_paired <- ggplot(paired_table, aes(x=BH_corrected)) + geom_histogram() + 
