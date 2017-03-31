@@ -157,7 +157,7 @@ to all three models with many classifying to commensal bacteria (e.g.
 \emph{Lachnospiraceae}, \emph{Bacteroides}, \emph{Anaerostipes},
 \emph{Blautia}, and \emph{Dorea}). Both chemotherapy and radiation did
 not provide any additional changes to the bacterial community in those
-treated for carcinoma (Pvalue \textgreater{} 0.05).
+treated for carcinoma (P-value \textgreater{} 0.05).
 
 \textbf{Conclusions:} Our data partially supports the hypothesis that
 the microbiome changes after treatment towards a normal community.
@@ -216,20 +216,20 @@ provide little additional information for important events, such as
 recurrence {[}12{]}.
 
 Using pre- (initial) and post- (follow up) treatment samples we tested
-the hypothesis that treatment causes detectable changes to the
+the hypothesis that treatment causes detectable changes towards a normal
 microbiome in those with adenoma, advanced adenoma, and carincoma.
 First, we assessed differences between samples pre- and post-treatment
 in adenoma, advanced adenoma, or carcinoma using alpha or beta diversity
 metrics. Second, we explored whether models built to classify adenoma,
 advanced adenoma, or carcinoma versus normal were able to identify
-specific community members that differed between initial and follow up.
-We also used these models to assess whether changes in the community
-were toward a more normal microbiome. Finally, we assessed both whether
-surgery for adenomas and SRN provided larger community changes or
-whether chemotherapy or radiation provided additive changes to the
-microbiome over surgical resection. This study aims to provide evidence
-as to whether the altered CRC microbiome persists or shifts back towards
-normal after such interventions.
+specific community members that differed between pre- and post-treatment
+samples. We also used these models to assess whether changes in the
+community were toward a more normal microbiome. Finally, we assessed
+both whether surgery for adenomas and advanced adenomas provided larger
+community changes and whether chemotherapy or radiation provided
+additional changes to the microbiome over surgical resection. This study
+aims to provide evidence as to whether the altered CRC microbiome
+persists or shifts back towards normal after such interventions.
 
 \newpage
 
@@ -238,15 +238,15 @@ normal after such interventions.
 \textbf{\emph{The Bacterial Community:}} Within our 67-person cohort we
 tested whether the microbiome in patients with adenoma (n = 22),
 advanced adenoma (n = 19), or carcinoma (n = 26) had any broad
-differences between pre- or post-treatment. We found that carcinoma
-patients had a more dissimilar bacterial community between their initial
-and follow up sample than those with adenoma (P-value \textless{} 0.001)
+differences between pre- and post-treatment samples. We found that
+carcinoma patients had a more dissimilar bacterial community between
+these samples than those with adenoma (P-value \textless{} 0.001)
 {[}Figure 1A{]}. Although no significant differences were observed
 between advanced adenoma and carcinoma there was an increase in the
-dissimilarity of the samples pre- and post-treatment from adenoma (0.55
-± 0.21 (mean ± SD)) to advanced adenoma (0.65 ± 0.25) to carcinoma (0.78
-± 0.15) {[}Figure 1A{]}. The bacterial community structure before and
-after surgery was visualized using NMDS for adenoma {[}Figure 1B{]}
+dissimilarity of pre- and post-treatment samples from adenoma (0.55 ±
+0.21 (mean ± SD)) to advanced adenoma (0.65 ± 0.25) to carcinoma (0.78 ±
+0.15) {[}Figure 1A{]}. The bacterial community structure pre-
+post-treatment was visualized using NMDS for adenoma {[}Figure 1B{]}
 (PERMANOVA \textgreater{} 0.05), advanced adenoma {[}Figure 1C{]}
 (PERMANOVA \textgreater{} 0.05), and carcinoma {[}Figure 1D{]}
 (PERMANOVA \textless{} 0.05). Interestingly, when pre- and
@@ -256,10 +256,10 @@ beta diversity (PERMANOVA \textgreater{} 0.05). There was no difference
 between pre- and post-treatment samples when investigating alpha
 diversity metrics for adenoma, advanced adenoma, or carcinoma {[}Table
 S1{]}. Additionally, there was also no difference in the relative
-abundance of any specific OTU between pre- and post-treatment samples
-for adenoma, advanced adenoma, or carcinoma only {[}Figure S1{]}.
+abundance of any specific OTU between these samples for adenoma,
+advanced adenoma, or carcinoma only {[}Figure S1{]}.
 
-\textbf{\emph{Adenoma Model:}} Using normal and adenoma individauls from
+\textbf{\emph{Adenoma Model:}} Using normal and adenoma individuals from
 a separate cohort we created an adenoma model to help assess whether
 those with adenoma in this cohort changed towards normal. The range of
 model AUC's from 100 runs of 20 repeated 10-fold cross-validation was
@@ -276,7 +276,7 @@ probability of adenoma between pre- and post-treatment samples (P-value
 adenoma individuals from a separate cohort we created an advanced
 adenoma model to help assess whether those with advanced adenoma in this
 cohort changed towards normal. The range of model AUC's from 100 runs of
-20 repeated 10 fold cross-validation was 0.68 - 0.77 with the AUC of the
+20 repeated 10-fold cross-validation was 0.68 - 0.77 with the AUC of the
 model used for classification having an AUC of 0.73 {[}Figure S2B{]}.
 There was a total of 61 OTUs in the advanced adenoma model {[}Figure
 S3B{]}. Similar to the adenoma model the vast majority of OTUs
@@ -290,15 +290,15 @@ adenoma between pre- and post-treatment samples (P-value \textgreater{}
 \textbf{\emph{Carcinoma Model:}} Using normal and carcinoma individuals
 from a separate cohort we created a carcinoma model to help assess
 whether those with carcinoma in this cohort changed towards normal. The
-range of model AUC's from 100 runs of 20 repeated 10 fold
+range of model AUC's from 100 runs of 20 repeated 10-fold
 cross-validation was 0.84 - 0.9 with the AUC of the model used for
 classification being 0.88 {[}Figure S2C{]}. Interestingly, the AUCs
 improved from adenoma to advanced adenoma to carcinoma {[}Figure 2{]}.
 There was a total of 59 OTUs in the carcinoma model {[}Figure S3C{]}.
-Similar to the adenoma and SRN models the vast majority of OTUs
-classified to bacteria typically thought of as commensal but OTUs that
-also classified to \emph{Fusobacterium}, \emph{Porphyromonas}, and
-\emph{Parvimonas} are also important for carcinoma classification
+Similar to the adenoma and advanced adenoma models the vast majority of
+OTUs classified to bacteria typically thought of as commensal but OTUs
+that also classified to \emph{Fusobacterium}, \emph{Porphyromonas}, and
+\emph{Parvimonas} were also important for carcinoma classification
 {[}Figure S3C{]}. Also, like the adenoma and advanced adenoma models
 there was a significant difference between the actual and predicted
 disease classification (P-value \textless{} 0.05). There was a
@@ -310,16 +310,22 @@ individual still positive for carcinoma after treatment had an increase
 in carcinoma positive proability between their pre- and post-treatment
 sample {[}Figure 2C{]}.
 
-\textbf{\emph{Adenoma, Advanced Adenoma, and Carcinoma Common OTUs:}}
-Next, to identify which OTUs are important at all stages of disease, we
-identified common predictive OTUs within the adenoma, advanced adenoma,
-and carcinoma models. When we compared the three different models with
-each other there were a total of 26 common OTUs. Some of the most common
-taxonomic identifications belonged to \emph{Bacteroides},
-\emph{Blautia}, \emph{Anaerostipes}, \emph{Lachnospiraceae}, and
-\emph{Dorea}. The vast majority of the OTUs that were common between
-these models had classifications to bacteria typically thought of as
-commensal {[}Table S2{]}.
+\textbf{\emph{Common OTUs:}} Next, to identify which OTUs were important
+at all stages of disease, we identified common predictive OTUs within
+the adenoma, advanced adenoma, and carcinoma models. When we compared
+the three different models with each other there were a total of 26
+common OTUs. Some of the most common taxonomic identifications belonged
+to \emph{Bacteroides}, \emph{Blautia}, \emph{Anaerostipes},
+\emph{Lachnospiraceae}, and \emph{Dorea}. The vast majority of the OTUs
+that were common between these models had classifications to bacteria
+typically thought of as commensal {[}Table S2{]}. The rank of these
+OTUs, based on median mean decrease in accuracy (MDA), varied higly
+depending on whether they were in the adenoma, advanced adenoma, or
+carcinoma model {[}Figure 3{]}. As an example, \emph{Bacteroides}
+(OTU85) was ranked 14\textsuperscript{th} in the carcinoma model but in
+both the adenoma and advanced adenoma model ranked
+35\textsuperscript{th} and 41\textsuperscript{st} respectively {[}Figure
+3{]}.
 
 \textbf{\emph{Treatment Affects on Community:}} After observing these
 changes from treatment we assessed the possible confounding impact of
@@ -348,12 +354,12 @@ considered both how the bacterial community between those with and
 without CRC differs and how it might be used as an early screening tool
 {[}9,10,13--15{]}. Here we show that the microbiome changes towards
 normal after treatment for carcinoma and that chemotherapy and radiation
-did not provide an additive change. Although some of the important OTUs
-classified to genera from bacteria considered the ``usual suspects''"
-(e.g. \emph{Fusobacterium}, \emph{Porphyromonas}, and \emph{Parvimonas})
-many did not. The majority of important OTUs had taxonomic
-classifications for resident gut microbes and were common for the
-adenoma, advanced adenoma, and carcinoma models. This suggests that
+did not provide any additional change. Although some of the important
+OTUs classified to genera from bacteria considered the ``usual
+suspects'' (e.g. \emph{Fusobacterium}, \emph{Porphyromonas}, and
+\emph{Parvimonas}) many did not. The majority of important OTUs had
+taxonomic classifications for resident gut microbes and were common for
+the adenoma, advanced adenoma, and carcinoma models. This suggests that
 members within the commensal community may be the first that change
 during CRC pathogenesis. These subtle changes, in turn, could be the
 first step in allowing more inflammatory bacteria to gain a foothold
@@ -363,13 +369,13 @@ Unlike previous studies on the microbiome and CRC, ours focuses on
 comparing the microbiome during recovery from treatment in adenoma,
 advanced adenoma, and carcinoma groups. Although there were differences
 for genera associated with specific bacterium linked with CRC {[}Figure
-S3{]}, the majority of important OTUs taxonmically classified to
-commensal bacteria {[}Figure S3{]}. Although these changes may be
-subtle, due to the lack of significant differences in the bacterial
-community pre- and post-treatment in adenoma and advanced adenoma
-{[}Figure 1{]}; they support the hypothesis that the first members of
-the community to change and potentially stay changed even after
-treatment are those that are commensal bacteria.
+S3{]}, most of the important OTUs taxonomically classified to commensal
+bacteria {[}Figure S3{]}. Although these changes may be subtle, due to
+the lack of significant differences in the bacterial community pre- and
+post-treatment in adenoma and advanced adenoma {[}Figure 1{]}; they
+support the hypothesis that the first members of the community to change
+and potentially stay changed even after treatment are those that are
+commensal bacteria.
 
 Many of the common OTUs that we identified taxonomically classified to
 potential butyrate producers (e.g. \emph{Clostridiales},
@@ -392,8 +398,8 @@ and disease progression. Within this context the commensal community may
 be an important modifiable risk factor for monitoring and preventing CRC
 recurrence after treatment.
 
-A limitation, in our study, was that there was a significant difference
-in the time elapsed in the collection of the follow up sample between
+A limitation in our study was that there was a significant difference in
+the time elapsed in the collection of the post-treatment sample between
 adenoma or advanced adenoma versus carcinoma (P-value \textless{} 0.05),
 with time passed being less for adenoma (255 ± 42 days) and advanced
 adenoma (250 ± 41) than carcinoma (351 ± 102). These results would
@@ -521,18 +527,7 @@ ideal mtry was found the entire sample set specific to normal versus
 adenoma, normal versus advanced adenoma, or normal versus carcinoma was
 used to create the final Random Forest model on which classifications on
 the 67-person cohort was completed. For all three models the final
-optimized mtry was
-\texttt{r}ifelse(as.data.frame(count(adn\_AUC\_run\_summary, best\_mtry)
-\%\textgreater{}\% slice(which.max(n))){[}, ``best\_mtry''{]} ==
-as.data.frame(count(srn\_AUC\_run\_summary, best\_mtry)
-\%\textgreater{}\% slice(which.max(n))){[}, ``best\_mtry''{]} \&
-as.data.frame(count(adn\_AUC\_run\_summary, best\_mtry)
-\%\textgreater{}\% slice(which.max(n))){[}, ``best\_mtry''{]} ==
-as.data.frame(count(crc\_AUC\_run\_summary, best\_mtry)
-\%\textgreater{}\% slice(which.max(n))){[}, ``best\_mtry''{]},
-as.data.frame(count(adn\_AUC\_run\_summary, best\_mtry)
-\%\textgreater{}\% slice(which.max(n))){[}, ``best\_mtry''{]}, ``not the
-same'')`
+optimized mtry was 2
 
 The default cutoff of 0.5 was used as the threshold to classify
 individuals as positive or negative for lesion. The hyper-parameter,
@@ -549,7 +544,9 @@ Wilcoxson ranked sum test. Where multiple comparison testing was
 appropriate, a Benjamini-Hochberg (BH) correction was applied {[}24{]}
 and a corrected P-value of less than 0.05 was considered significant.
 Unless otherwise stated the P-values reported are those that were BH
-corrected.
+corrected. Model rank importance was determined by obtining the median
+MDA from the 100 20 repeated 10-fold cross validation and then ranking
+from largest to smallest MDA.
 
 \textbf{\emph{Analysis Overview:}} We first tested whether there were
 any differences between pre- and post-treatment samples in alpha and
@@ -586,6 +583,10 @@ follow up sample in those with adenoma. B) Positive probability change
 from initial to follow up sample in those with SRN. C) Positive
 probability change from initial to follow up sample in those with
 carcinoma..
+
+\textbf{Figure 3: Common OTUs Model Rank Based on Median MDA.} For each
+common OTU the lowest taxonomic identification and importance rank for
+each model run is shown.
 
 \newpage
 

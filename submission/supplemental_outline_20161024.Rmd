@@ -55,13 +55,13 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 
 \blandscape
 
-**Table S2: Summary of OTUs in Adenoma, SRN, and Carcinoma Models**
+**Table S2: Summary of OTUs in Adenoma, Advanced Adenoma, and Carcinoma Models**
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
 common_vars_summary <- read.csv('../data/process/tables/pvalue_adn_srn_crc_common_imp_vars.csv', header = T, row.names = 1, stringsAsFactors = F)
 
-adn_varsMDA <- read.csv('../data/process/tables/adn_reduced_crc_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
+adn_varsMDA <- read.csv('../data/process/tables/adn_reduced_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
 
 srn_varsMDA <- read.csv('../data/process/tables/srn_reduced_model_top_vars_MDA_Summary.csv', header = T, stringsAsFactors = F)
 
@@ -71,13 +71,13 @@ crc_varsMDA <- read.csv('../data/process/tables/reduced_crc_model_top_vars_MDA_S
 common_vars <- common_vars_summary$otu
 
 # Create MDA vectors
-adn_MDA <- filter(adn_varsMDA, variable %in% common_vars) %>% slice(match(common_vars, variable)) %>% select(mean_MDA)
-srn_MDA <- filter(srn_varsMDA, variable %in% common_vars) %>% slice(match(common_vars, variable)) %>% select(mean_MDA)
-crc_MDA <- filter(crc_varsMDA, variable %in% common_vars) %>% slice(match(common_vars, variable)) %>% select(mean_MDA)
+adn_MDA <- filter(adn_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)) %>% select(median_MDA)
+srn_MDA <- filter(srn_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)) %>% select(median_MDA)
+crc_MDA <- filter(crc_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)) %>% select(median_MDA)
 
 st2 <- select(common_vars_summary, otu) %>% 
   mutate(Tax = gsub("_unclassified", "", common_vars_summary$lowest_ID)) %>% 
-  mutate(adn_MDA = adn_MDA$mean_MDA, srn_MDA = srn_MDA$mean_MDA, crc_MDA = crc_MDA$mean_MDA) %>% 
+  mutate(adn_MDA = adn_MDA$median_MDA, srn_MDA = srn_MDA$median_MDA, crc_MDA = crc_MDA$median_MDA) %>% 
   arrange(desc(adn_MDA), desc(srn_MDA), desc(crc_MDA))
 
 colnames(st2) <- c("OTU", "Lowest Taxonomic ID", "Adenoma Model MDA", "SRN Model MDA", "Carcinoma Model MDA")

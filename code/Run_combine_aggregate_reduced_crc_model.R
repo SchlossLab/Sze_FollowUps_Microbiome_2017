@@ -5,7 +5,7 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", 
+loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", 
            "wesanderson", "caret", "pROC"))
 
 
@@ -157,13 +157,15 @@ for(i in 1:length(top_vars_MDA_by_run)){
   rm(tempData)
 }
 
-# "1" pulls the value of mean or sd from the data frame
-MDA_vars_summary <- cbind(
-  mean_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
-  sd_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
-  variable = rownames(top_vars_MDA_by_run))
+# Generate Median and IQR for the data
+MDA_vars_summary <- as.data.frame(t(top_vars_MDA_by_run)) %>% summarise_each(funs(median, IQR)) %>% 
+  gather(key = tempName) %>% separate(tempName, c("otu", "measurement")) %>% 
+  spread(key = measurement, value = value) %>% rename(median_MDA = median, median_IQR = IQR) %>% 
+  arrange(desc(median_MDA)) %>% 
+  mutate(rank = seq(1:length(rownames(top_vars_MDA_by_run))))
 
-write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
+  
+write.csv(MDA_vars_summary, 
           "data/process/tables/reduced_crc_model_top_vars_MDA_Summary.csv", row.names = F)
 
 crc_model_top_vars_MDA_full_data <- 
