@@ -8,7 +8,7 @@ source('code/functions.R')
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 
 #Read data needed
-adn_MDA_data_summary <- read.csv("data/process/tables/adn_reduced_crc_model_top_vars_MDA_Summary.csv", 
+adn_MDA_data_summary <- read.csv("data/process/tables/adn_reduced_model_top_vars_MDA_Summary.csv", 
                                     header = T, stringsAsFactors = F)
 
 adn_MDA_full <- read.csv("data/process/tables/adn_reduced_lesion_model_top_vars_MDA.csv", 
@@ -40,10 +40,10 @@ rm(tax)
 # Generate the files needed for the MDA graph (ADN)
 
 # Order the data file from most to least important based on mean MDA
-adn_MDA_data_summary <- adn_MDA_data_summary[order(adn_MDA_data_summary$mean_MDA, decreasing = TRUE), ]
+adn_MDA_data_summary <- adn_MDA_data_summary[order(adn_MDA_data_summary$median_MDA, decreasing = TRUE), ]
 
 # Pull OTUs that are only in the MDA data
-OTU_IDs <- unique(filter(adn_MDA_data_summary, variable != "fit_result")[, "variable"])
+OTU_IDs <- unique(filter(adn_MDA_data_summary, otu != "fit_result")[, "otu"])
 select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
 
@@ -63,10 +63,10 @@ adn_labels <- do.call(expression, test)
 # Generate the files needed for the MDA graph (SRN)
 
 # Order the data file from most to least important based on mean MDA
-srn_MDA_data_summary <- srn_MDA_data_summary[order(srn_MDA_data_summary$mean_MDA, decreasing = TRUE), ]
+srn_MDA_data_summary <- srn_MDA_data_summary[order(srn_MDA_data_summary$median_MDA, decreasing = TRUE), ]
 
 # Pull OTUs that are only in the MDA data
-OTU_IDs <- unique(filter(srn_MDA_data_summary, variable != "fit_result")[, "variable"])
+OTU_IDs <- unique(filter(srn_MDA_data_summary, otu != "fit_result")[, "otu"])
 select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
 
@@ -85,10 +85,10 @@ srn_labels <- do.call(expression, test)
 # Generate the files needed for the MDA graph (CRC)
 
 # Order the data file from most to least important based on mean MDA
-crc_MDA_data_summary <- crc_MDA_data_summary[order(crc_MDA_data_summary$mean_MDA, decreasing = TRUE), ]
+crc_MDA_data_summary <- crc_MDA_data_summary[order(crc_MDA_data_summary$median_MDA, decreasing = TRUE), ]
 
 # Pull OTUs that are only in the MDA data
-OTU_IDs <- unique(filter(crc_MDA_data_summary, variable != "fit_result")[, "variable"])
+OTU_IDs <- unique(filter(crc_MDA_data_summary, otu != "fit_result")[, "otu"])
 select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
 
