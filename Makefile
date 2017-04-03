@@ -18,14 +18,14 @@ METADATA = data/raw/metadata
 print-%:
 	@echo '$*=$($*)'
 
-################################################################################
-#
-# Part 1: Get the references
-#
-# We will need several reference files to complete the analyses including the
-# SILVA reference alignment and RDP reference taxonomy.
-#
-################################################################################
+#################################################################################
+#																				#
+# Part 1: Get the references 													#
+#																				#
+# We will need several reference files to complete the analyses including the   #
+# SILVA reference alignment and RDP reference taxonomy.                         #
+#																				#
+#################################################################################
 
 # We want the latest greatest reference alignment and the SILVA reference
 # alignment is the best reference alignment on the market. This version is from
@@ -56,14 +56,14 @@ $(REFS)/trainset14_032015.% :
 	rmdir trainset14_032015.pds
 	rm Trainset14_032015.pds.tgz
 
-################################################################################
-#
-# Part 2: Run data through mothur
-#
-#	Process fastq data through the generation of files that will be used in the
-# overall analysis.
-#
-################################################################################
+##################################################################################
+#																				 #
+# Part 2: Run data through mothur 												 #
+#																				 #
+#	Process fastq data through the generation of files that will be used in the  #
+# overall analysis.																 #
+#																				 #
+##################################################################################
 
 # This runs the download of needed fastq files and runs sequence processing
 # using the mothur program.  It runs up to the cluster.split step.  The
@@ -82,9 +82,12 @@ $(PROC)/final.% :
 	bash $(CODE)/mothurCluster.batch
 
 
-###############################################################
-########## Metadata Processing and General Analysis ###########
-###############################################################
+#################################################################################
+#																				#
+# Metadata Processing and General Analysis 										#
+#																				#
+#																				#
+#################################################################################
 
 # This modifies the meta data files by adding necessary categories (e.g. lesion)
 # for files that will be used for all downstream analysis.
@@ -126,9 +129,12 @@ $(PROC)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
 
 
-###############################################################
-###################### Model building  CRC ####################
-###############################################################
+###################################################################################
+#																			 	  #
+# Model building  CRC 														 	  #
+#																			 	  #
+#																			 	  #
+###################################################################################	
 
 exploratory/crc_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
@@ -181,9 +187,12 @@ $(PROC)/final.0.03.subsample.shared code/Run_crc_reduced_best_model.R
 	R -e "source('code/Run_crc_reduced_best_model.R')"
 
 
-###############################################################
-################## Model building  Adenoma ####################
-###############################################################
+####################################################################################
+#																				   #
+# Model building  Adenoma 														   #
+#																				   #
+#																				   #
+####################################################################################
 
 exploratory/adn_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
@@ -234,9 +243,12 @@ $(TABLES)/adn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_adn_reduced_best_model.R
 	R -e "source('code/Run_adn_reduced_best_model.R')"
 
-###############################################################
-###################### Model building  SRN ####################
-###############################################################
+######################################################################################
+#																					 #
+# Model building  SRN 																 #
+#																					 #
+#																					 #
+######################################################################################
 
 exploratory/srn_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
@@ -289,9 +301,12 @@ $(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
 
 
 
-###############################################################
-######### Generalized Analysis & Common Comparisons ###########
-###############################################################
+########################################################################################
+#																					   #
+# Generalized Analysis & Common Comparisons 										   #
+#																					   #
+#																					   #
+########################################################################################
 
 
 # This code runs comparisons for initial versus follow up differences for
@@ -344,13 +359,13 @@ code/Run_adn_crc_Test_Chemo_Rad.R
 
 
 
-################################################################################
-#
-# Part 4: Run Figures
-#
-#	Run scripts to generate figures
-#
-################################################################################
+###################################################################################
+#																				  #
+# Part 4: Run Figures                                                             #
+#																				  #
+#	Run scripts to generate figures 											  #
+#																				  #
+###################################################################################
 
 # This figure looks at difference between initial and follow based on 
 # whether the individual had an adenoma, advanced adenoma, or carcinoma.
@@ -414,13 +429,13 @@ $(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
 	R -e "source('code/Run_FigureS3.R')"
 
 
-################################################################################
-#
-# Part 5: Pull it all together
-#
-# Render the manuscript
-#
-################################################################################
+#####################################################################################
+#																					#
+# Part 5: Pull it all together 														#
+#																					#
+# Render the manuscript 															#
+#																					#
+#####################################################################################
 
 
 write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
