@@ -345,41 +345,30 @@ code/Run_adn_crc_Test_Chemo_Rad.R
 
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
-$(TABLES)/thetayc_crc_IF.csv $(TABLES)/beta_diver_summary.csv\
-code/Run_Figure1.R
+$(TABLES)/thetayc_crc_IF.csv $(TABLES)/thetayc_srn_IF.csv\
+$(TABLES)/beta_diver_summary.csv code/Run_Figure1.R
 	R -e "source('code/Run_Figure1.R')"
 
 # This figure looks specifically at 4 commonly CRC associated bacteria
 # and whether there are diferences in initial versus follow ups based on
 # adenoma or carcinoma.
 
-$(FIGS)/Figure2.pdf : $(TABLES)/adn_crc_maybe_diff.csv code/Run_Figure2.R
+$(FIGS)/Figure2.pdf : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
+code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
 # This figure explores the reduced lesion model.  Overall model
 # performance, MDA of OTUs in it, and how it performs in adenoma 
 # and carcinoma for initial and follow up samples.
 
-$(FIGS)/Figure3.pdf : $(TABLES)/reduced_test_data_roc.csv\
-$(TABLES)/reduced_lesion_model_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_lesion_model_top_vars_MDA.csv\
-$(TABLES)/reduced_follow_up_probability_summary.csv $(PROC)/final.taxonomy code/Run_Figure3.R
-	#Creates the actual Figure 3
-	R -e "source('code/Run_Figure3.R')"
-	tiff2pdf -z -o results/figures/Figure3.pdf results/figures/Figure3.tiff
-	rm results/figures/Figure3.tiff
+$(FIGS)/Figure3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
+$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
+$(TABLES)/crc_reduced_model_top_vars_MDA_Summary.csv\
+code/common_otu_graph.R
+	R -e "source('code/common_otu_graph.R')"
 
-# This figure explores the reduced initial sample model.  Overall model
-# performance, MDA of OTUs in it, and how it performs in adenoma 
-# and carcinoma for initial and follow up samples.
-
-$(FIGS)/Figure4.pdf : $(TABLES)/reduced_IF_test_data_roc.csv\
-$(TABLES)/reduced_IF_model_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_IF_model_top_vars_MDA.csv\
-$(TABLES)/reduced_IF_follow_up_probability_summary.csv $(PROC)/final.taxonomy code/Run_Figure4.R
-	R -e "source('code/Run_Figure4.R')"
-	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/Figure4.tiff
-	rm results/figures/Figure4.tiff
 
 # This figure summarizes the p-values found for all OTUs in comparing
 # initial versus follow up for lesion, adenoma only, and carcinoma only.
@@ -388,23 +377,30 @@ $(FIGS)/FigureS1.pdf : $(TABLES)/OTU_paired_wilcoxson_test.csv\
 code/Run_FigureS1.R
 	R -e "source('code/Run_FigureS1.R')"
 
+
 # This graph highlights how the thetayc's don't vary that much even
 # though there is a marked difference in time of collection of follow up 
 # sample based on adenoma or carcinoma.
 
-$(FIGS)/FigureS2.pdf : $(TABLES)/time_datatable.csv\
-code/Run_FigureS2.R
+$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
+$(TABLES)/srn_reduced_test_data_roc.csv\
+$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS2.R
 	R -e "source('code/Run_FigureS2.R')"
 
 
+# This figure explores the reduced initial sample model.  Overall model
+# performance, MDA of OTUs in it, and how it performs in adenoma 
+# and carcinoma for initial and follow up samples.
 
-#exploratory/CommonFeatures_RF_model_100.RData : 
-#	mkdir $(CODE)/common
-#	R -e "source('code/Run_common_feature_model.R')"
-#	bash $(CODE)/createDuplicates_commonVars.sh
-#	bash $(CODE)/create_commonVars_pbs.sh
-#	bash $(CODE)/qsubmission_commonVars.sh
-
+$(FIGS)/FigureS3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
+$(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
+$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
+$(TABLES)/srn_reduced_model_top_vars_MDA.csv\
+$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
+$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
+	R -e "source('code/Run_FigureS3.R')"
+	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/FigureS3.tiff
+	rm results/figures/FigureS3.tiff
 
 
 
@@ -418,13 +414,12 @@ code/Run_FigureS2.R
 
 
 write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
+		$(FINAL)/supplemental_outline_20161024.Rmd\
+		results/tables/Table1.Rmd results/tables/Table2.Rmd\
 		$(TABLES)/mod_metadata/good_metaf_final.csv\
-		$(TABLES)/alpha_table_summary.csv\
-		$(TABLES)/time_pvalues.csv\ 
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
-		$(FIGS)/Figure3.pdf $(FIGS)/Figure4.pdf\
-		$(FIGS)/FigureS1.pdf $(FIGS)/FigureS2.pdf\
-		$(FIGS)/FigureS3.pdf $(FIGS)/FigureS4.pdf\
-		$(FIGS)/FigureS5.pdf
+		$(FIGS)/Figure3.pdf $(FIGS)/FigureS1.pdf\
+		$(FIGS)/FigureS2.pdf $(FIGS)/FigureS3.pdf\
+		code/Run_render_paper.R
 	R -e "source('code/Run_render_paper.R')"
 
