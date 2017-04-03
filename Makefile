@@ -92,29 +92,26 @@ $(PROC)/final.% :
 # This modifies the meta data files by adding necessary categories (e.g. lesion)
 # for files that will be used for all downstream analysis.
 
-modified.metadata : $(PROC)/mod_metadata/metaI_final.csv\
-$(PROC)/mod_metadata/metaF_final.csv $(PROC)/mod_metadata/good_metaf_final.csv
-
 $(PROC)/mod_metadata/metaI_final.csv\
 $(PROC)/mod_metadata/metaF_final.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv : $(METADATA)/followUps_metadata.txt\
 $(METADATA)/initials_metadata.tsv $(METADATA)/followUp_outcome_data.csv\
-modified.metadata code/make_metadata_tables.R 
+code/make_metadata_tables.R 
 	R -e "source('code/make_metadata_tables.R')"
-
 
 
 # This analyzes and compares all alpha diversity metrics for lesion, adenoma, 
 # and carcinoma for initial and follow up samples.
 
-get.alpha.comparisons : $(PROC)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/alpha_table_summary.csv : $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
 # This code runs the comparison of initial and follow up for the 
 # adenoma and carcinoma with respect to FIT and thetayc distances.
 
-get.theta.diffs : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/change_theta_fit_summary.csv\
+$(TABLES)/difference_table.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(PROC)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 	R -e "source('code/Run_change_theta_Fit.R')"
 
@@ -122,7 +119,10 @@ $(PROC)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 # analysis for initial and follow up for either adenoma or 
 # carcinoma.
 
-get.nmds.data : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/beta_diver_summary.csv\
+$(TABLES)/thetayc_adn_IF.csv\
+$(TABLES)/thetayc_srn_IF.csv\
+$(TABLES)/thetayc_crc_IF.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(PROC)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 	R -e "source('code/Run_Beta_Diversity_tests.R')"
 
@@ -130,7 +130,9 @@ $(PROC)/mod_metadata/metaF_final.csv code/Run_Beta_Diversity_tests.R
 # This code runs comparisons checking for differences in time between
 # initial and follow up samples for adenoma or carcinoma.
 
-time.diffs.assessment : $(PROC)/final.thetayc.0.03.lt.ave.dist\
+$(TABLES)/time_pvalues.csv\
+$(TABLES)/time_summary_data.csv\
+$(TABLES)/time_datatable.csv : $(PROC)/final.thetayc.0.03.lt.ave.dist\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/metaF_final.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 	R -e "source('code/Run_Supplemental_time_table.R')"
@@ -188,14 +190,20 @@ $(CODE)/adn_qsubmission_reducedVars.sh
 # This code gathers all the data together from the 100 different reduced lesion model runs.
 # It also stores the MDA infomration for the OTUs used in this reduced model.
 
-$(TABLES)/reduced_adn_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_adn_model.R
-	#Collects the needed data to generate figure 3
+$(TABLES)/adn_reduced_test_data_splits.csv\
+$(TABLES)/adn_reduced_test_tune_data.csv\
+$(TABLES)/adn_Reduced_ROC_model_summary.csv\
+$(TABLES)/adn_reduced_test_data_roc.csv\
+$(TABLES)/adn_reduced_auc_summary.csv\
+$(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
+$(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_adn_model.R
 	R -e "source('code/Run_combine_aggregate_reduced_adn_model.R')"
 
 # This code uses the entire 423-person cohort to generate the best model for the 
 # reduced lesion model.
 
-$(TABLES)/reduced_adn_follow_up_probability_summary.csv : $(TABLES)/adn_reduced_test_tune_data.csv\
+$(TABLES)/adn_reduced_test_data_roc.csv\
+$(TABLES)/adn_reduced_follow_up_probability_summary.csv : $(TABLES)/adn_reduced_test_tune_data.csv\
 $(TABLES)/adn_Reduced_ROC_model_summary.csv $(TABLES)/adn_reduced_test_data_roc.csv\
 $(TABLES)/adn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_adn_reduced_best_model.R
@@ -253,14 +261,21 @@ $(CODE)/srn_qsubmission_reducedVars.sh
 # This code gathers all the data together from the 100 different reduced lesion model runs.
 # It also stores the MDA infomration for the OTUs used in this reduced model.
 
-$(TABLES)/reduced_srn_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_srn_model.R
+$(TABLES)/srn_reduced_test_data_splits.csv\
+$(TABLES)/srn_reduced_test_tune_data.csv\
+$(TABLES)/srn_Reduced_ROC_model_summary.csv\
+$(TABLES)/srn_reduced_test_data_roc.csv\
+$(TABLES)/srn_reduced_auc_summary.csv\
+$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
+$(TABLES)/srn_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_srn_model.R
 	#Collects the needed data to generate figure 3
 	R -e "source('code/Run_combine_aggregate_reduced_srn_model.R')"
 
 # This code uses the entire 423-person cohort to generate the best model for the 
 # reduced lesion model.
 
-$(TABLES)/reduced_srn_follow_up_probability_summary.csv : $(TABLES)/srn_reduced_test_tune_data.csv\
+$(TABLES)/srn_reduced_test_data_roc.csv\
+$(TABLES)/srn_reduced_follow_up_probability_summary.csv : $(TABLES)/srn_reduced_test_tune_data.csv\
 $(TABLES)/srn_Reduced_ROC_model_summary.csv $(TABLES)/srn_reduced_test_data_roc.csv\
 $(TABLES)/srn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
@@ -319,14 +334,20 @@ $(CODE)/crc_qsubmission_reducedVars.sh
 # This code gathers all the data together from the 100 different reduced lesion model runs.
 # It also stores the MDA infomration for the OTUs used in this reduced model.
 
-$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv : code/Run_combine_aggregate_reduced_crc_model.R
-	#Collects the needed data to generate figure 3
+$(TABLES)/crc_reduced_test_data_splits.csv\
+$(TABLES)/crc_reduced_test_tune_data.csv\
+$(TABLES)/crc_Reduced_ROC_model_summary.csv\
+$(TABLES)/crc_reduced_test_data_roc.csv\
+$(TABLES)/crc_reduced_auc_summary.csv\
+$(TABLES)/crc_reduced_model_top_vars_MDA_Summary.csv\
+$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_crc_model.R
 	R -e "source('code/Run_combine_aggregate_reduced_crc_model.R')"
 
 # This code uses the entire 423-person cohort to generate the best model for the 
 # reduced lesion model.
 
-$(TABLES)/reduced_crc_follow_up_probability_summary.csv : $(TABLES)/crc_reduced_test_tune_data.csv\
+$(TABLES)/crc_reduced_test_data_roc.csv\
+$(TABLES)/crc_reduced_follow_up_probability_summary.csv : $(TABLES)/crc_reduced_test_tune_data.csv\
 $(TABLES)/crc_Reduced_ROC_model_summary.csv $(TABLES)/crc_reduced_test_data_roc.csv\
 $(TABLES)/crc_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_crc_reduced_best_model.R
@@ -355,7 +376,9 @@ code/Run_wilcoxson_all.R $(PROC)/mod_metadata/metaI_final.csv\
 # This code runs comparisons on the positive probability for initial versus follow up samples
 # for both the reduced lesion and initial sample models.
 
-adn.srn.crc.probs.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/all_crc_srn_adn_models_wilcox_paired_pvalue_summary.csv\
+$(TABLES)/all_crc_srn_adn_models_confusion_summary.csv\
+$(TABLES)/all_crc_srn_adn_models_summary_info.csv : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
 $(TABLES)/crc_reduced_follow_up_probability_summary.csv\
 $(TABLES)/srn_reduced_follow_up_probability_summary.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_srn_crc_probs_comparison.R
@@ -365,7 +388,9 @@ $(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_srn_crc_probs_comparison.
 # The generation and storage of the taxonomies for the OTUs used in either the 
 # reduced lesion or reduced initial sample model.
 
-get.model.imp.taxa : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
+$(TABLES)/adn_rf_otu_tax.csv\
+$(TABLES)/srn_rf_otu_tax.csv\
+$(TABLES)/crc_rf_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
 $(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
 	R -e "source('code/Run_ID_imp_OTUs.R')"
 
@@ -374,20 +399,31 @@ $(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
 # also runs a comparison for differences between initial and follow up 
 # samples.
 
-get.common.otus : $(TABLES)/adn_rf_otu_tax.csv\
-$(TABLES)/crc_rf_otu_tax.csv $(PROC)/final.0.03.subsample.shared\
-$(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_crc_Compare_models.R
+$(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv : $(TABLES)/adn_rf_otu_tax.csv\
+$(TABLES)/srn_rf_otu_tax.csv $(TABLES)/crc_rf_otu_tax.csv\
+$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/good_metaf_final.csv\
+code/Run_adn_crc_Compare_models.R
 	R -e "source('code/Run_adn_crc_Compare_models.R')"
 
 
 # The comparisons for differences in initial and follow up samples based on whether
 # radiation or chemotherapy was used was completed with the below R script.
 
-chemo.rads.surg.comparison : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/crc_probs_chemo_rad_pvalue_summary.csv\
+$(TABLES)/adn_combined_probs_surgery_pvalue_summary.csv\
+$(TABLES)/crc_chemo_rad_summary.csv\
+$(TABLES)/adn_combined_surgery_summary.csv : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
 $(TABLES)/crc_reduced_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
 code/Run_adn_crc_Test_Chemo_Rad.R
 	R -e "source('code/Run_adn_crc_Test_Chemo_Rad.R')"
+	
+
+$(TABLES)/chemo_rads_treatment_pvalue_summary.csv\
+$(TABLES)/all_adn_surg_pvalue_summary.csv : $(TABLES)/crc_probs_chemo_rad_pvalue_summary.csv\
+$(PROC)/mod_metadata/good_metaf_final.csv $(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv\
+$(TABLES)/crc_chemo_rad_summary.csv $(PROC)/final.shared code/Run_treatment_common_otus.R
 	R -e "source('code/Run_treatment_common_otus.R')"
 
 
