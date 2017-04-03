@@ -127,7 +127,7 @@ $(PROC)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 
 
 ###############################################################
-###################### Model building  ########################
+###################### Model building  CRC ####################
 ###############################################################
 
 exploratory/crc_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
@@ -181,7 +181,10 @@ $(PROC)/final.0.03.subsample.shared code/Run_crc_reduced_best_model.R
 	R -e "source('code/Run_crc_reduced_best_model.R')"
 
 
-########## Model building for normal versus adenoma
+###############################################################
+################## Model building  Adenoma ####################
+###############################################################
+
 exploratory/adn_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 code/adn_reference_run_RF.R code/adn_RF_reference.pbs code/setup_adn_RF_test.R\
@@ -231,7 +234,10 @@ $(TABLES)/adn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_adn_reduced_best_model.R
 	R -e "source('code/Run_adn_reduced_best_model.R')"
 
-########## Model building for normal versus SRN
+###############################################################
+###################### Model building  SRN ####################
+###############################################################
+
 exploratory/srn_RF_model_100.RData : $(PROC)/final.0.03.subsample.shared\
 $(PROC)/mod_metadata/metaI_final.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 code/srn_reference_run_RF.R code/srn_RF_reference.pbs code/setup_srn_RF_test.R\
@@ -280,6 +286,12 @@ $(TABLES)/srn_Reduced_ROC_model_summary.csv $(TABLES)/srn_reduced_test_data_roc.
 $(TABLES)/srn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
 	R -e "source('code/Run_srn_reduced_best_model.R')"
+
+
+
+###############################################################
+######### Generalized Analysis & Common Comparisons ###########
+###############################################################
 
 
 # This code runs comparisons for initial versus follow up differences for
@@ -341,7 +353,7 @@ code/Run_adn_crc_Test_Chemo_Rad.R
 ################################################################################
 
 # This figure looks at difference between initial and follow based on 
-# whether the individual had an adenoma or carcinoma.
+# whether the individual had an adenoma, advanced adenoma, or carcinoma.
 
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
 $(TABLES)/change_theta_fit_summary.csv $(TABLES)/thetayc_adn_IF.csv\
@@ -349,9 +361,9 @@ $(TABLES)/thetayc_crc_IF.csv $(TABLES)/thetayc_srn_IF.csv\
 $(TABLES)/beta_diver_summary.csv code/Run_Figure1.R
 	R -e "source('code/Run_Figure1.R')"
 
-# This figure looks specifically at 4 commonly CRC associated bacteria
-# and whether there are diferences in initial versus follow ups based on
-# adenoma or carcinoma.
+
+# This figure looks at classification of intial and follow up samples
+# based on adenoma, advanced adenoma, or carcinoma.
 
 $(FIGS)/Figure2.pdf : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
 $(TABLES)/srn_reduced_follow_up_probability_summary.csv\
@@ -359,9 +371,9 @@ $(TABLES)/crc_reduced_follow_up_probability_summary.csv\
 code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
-# This figure explores the reduced lesion model.  Overall model
-# performance, MDA of OTUs in it, and how it performs in adenoma 
-# and carcinoma for initial and follow up samples.
+
+# This figure explores how the rank importance of common OTUs between the adenoma, 
+# advanced adenoma, and carincoma models change depending on the model. 
 
 $(FIGS)/Figure3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
@@ -371,26 +383,27 @@ code/common_otu_graph.R
 
 
 # This figure summarizes the p-values found for all OTUs in comparing
-# initial versus follow up for lesion, adenoma only, and carcinoma only.
+# initial versus follow up for adenoma, advanced adenoma, and carcinoma.
 
 $(FIGS)/FigureS1.pdf : $(TABLES)/OTU_paired_wilcoxson_test.csv\
 code/Run_FigureS1.R
 	R -e "source('code/Run_FigureS1.R')"
 
 
-# This graph highlights how the thetayc's don't vary that much even
-# though there is a marked difference in time of collection of follow up 
-# sample based on adenoma or carcinoma.
+# This graph highlights the ROC curve for each of the models used.  This
+# visualizes the models normal vs adenoma, normal vs advanced adenoma, and
+# normal vs carcinoma.
 
 $(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
 $(TABLES)/srn_reduced_test_data_roc.csv\
 $(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS2.R
 	R -e "source('code/Run_FigureS2.R')"
+	tiff2pdf -z -o results/figures/FigureS2.pdf results/figures/FigureS2.tiff
+	rm results/figures/FigureS2.tiff
 
 
-# This figure explores the reduced initial sample model.  Overall model
-# performance, MDA of OTUs in it, and how it performs in adenoma 
-# and carcinoma for initial and follow up samples.
+# This figure explores the most important OTUs for each model and displays
+# them by median MDA.
 
 $(FIGS)/FigureS3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
@@ -399,9 +412,6 @@ $(TABLES)/srn_reduced_model_top_vars_MDA.csv\
 $(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
 $(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
 	R -e "source('code/Run_FigureS3.R')"
-	tiff2pdf -z -o results/figures/Figure4.pdf results/figures/FigureS3.tiff
-	rm results/figures/FigureS3.tiff
-
 
 
 ################################################################################
