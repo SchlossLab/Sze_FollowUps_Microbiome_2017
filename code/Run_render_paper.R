@@ -11,3 +11,8 @@ loadLibs(c("knitr", "rmarkdown"))
 render('submission/manuscript_outline_20161024.Rmd', clean = FALSE)
 
 render('submission/supplemental_outline_20161024.Rmd', clean=FALSE)
+
+render('results/tables/Table1.Rmd', clean=FALSE)
+
+render('results/tables/Table2.Rmd', clean=FALSE)
+
