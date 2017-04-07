@@ -1,6 +1,4 @@
-### Try to identify the important OTUs 
-### Specifically try and identify which OTUs are involved
-### with the decrease in positive probability between intial and follow up
+### CRC treatment model
 ## Marc Sze
 
 
