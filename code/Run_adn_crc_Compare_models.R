@@ -56,11 +56,16 @@ otu_pvalue <- apply(select(test_data, -lesion, -EDRN, -sampleType), 2,
           x[test_data$sampleType == "initial"], x[test_data$sampleType == "followup"], 
           paired = TRUE)$p.value})
 
+
+
+
 # Create P-value table for later use
-pvalue_table <- cbind(
-  otu = common_variables, 
-  lowest_ID = gsub("_unclassified", "", createTaxaLabeller(common_taxa)), 
-  Pvalue = otu_pvalue, 
-  BH_corr = p.adjust(otu_pvalue, method = "BH"))
+pvalue_table <- common_taxa %>% slice(match(common_variables, common_taxa$otu)) %>% 
+  select(Genus) %>% mutate(Genus = gsub("_unclassified", "", Genus)) %>% 
+  mutate(otu = common_variables, 
+         Pvalue = otu_pvalue, 
+         BH_corr = p.adjust(otu_pvalue, method = "BH")) %>% 
+  rename(lowest_ID = Genus)
+
 
 write.csv(pvalue_table, "data/process/tables/pvalue_adn_srn_crc_common_imp_vars.csv")
