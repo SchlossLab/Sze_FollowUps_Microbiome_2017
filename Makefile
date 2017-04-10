@@ -70,15 +70,15 @@ $(REFS)/trainset14_032015.% :
 # majority of the processing can be found on www.mothur.org under the MiSeq
 # SOP.
 
-$(PROC)/unmatched.% : 
+$(PROC)/unmatched.% :
 	bash $(CODE)/mothur.batch
 
-# This runs the final clustering and generation of OTUs.  A de novo clustering 
+# This runs the final clustering and generation of OTUs.  A de novo clustering
 # using the average neighbor algorithm was used to create OTUs.  The alpha and
-# beta diversity was calculated as well. A subsampling fo the shared file is 
-# also performed within this call.  
+# beta diversity was calculated as well. A subsampling fo the shared file is
+# also performed within this call.
 
-$(PROC)/final.% : 
+$(PROC)/final.% :
 	bash $(CODE)/mothurCluster.batch
 
 
@@ -96,18 +96,18 @@ $(PROC)/mod_metadata/metaI_final.csv\
 $(PROC)/mod_metadata/metaF_final.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv : $(METADATA)/followUps_metadata.txt\
 $(METADATA)/initials_metadata.tsv $(METADATA)/followUp_outcome_data.csv\
-code/make_metadata_tables.R 
+code/make_metadata_tables.R
 	R -e "source('code/make_metadata_tables.R')"
 
 
-# This analyzes and compares all alpha diversity metrics for lesion, adenoma, 
+# This analyzes and compares all alpha diversity metrics for lesion, adenoma,
 # and carcinoma for initial and follow up samples.
 
 $(TABLES)/alpha_table_summary.csv : $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.groups.ave-std.summary code/Run_Alpha_Diversity_tests.R
 	R -e "source('code/Run_Alpha_Diversity_tests.R')"
 
-# This code runs the comparison of initial and follow up for the 
+# This code runs the comparison of initial and follow up for the
 # adenoma and carcinoma with respect to FIT and thetayc distances.
 
 $(TABLES)/change_theta_fit_summary.csv\
@@ -116,7 +116,7 @@ $(PROC)/mod_metadata/metaF_final.csv code/Run_change_theta_Fit.R
 	R -e "source('code/Run_change_theta_Fit.R')"
 
 # This code creates the NMDS needed and also runs the PERMANOVA
-# analysis for initial and follow up for either adenoma or 
+# analysis for initial and follow up for either adenoma or
 # carcinoma.
 
 $(TABLES)/beta_diver_summary.csv\
@@ -161,8 +161,8 @@ $(CODE)/adn_createDuplicates.sh $(CODE)/adn_create_pbs.sh $(CODE)/adn_qsubmissio
 	bash $(CODE)/adn_qsubmission.sh
 
 # This code combines all the runs from the adenoma models and aggregates them
-# together.  I also collects relevant information (e.g. AUCs).  
-# It also grabs the most important OTUs based on MDA and 
+# together.  I also collects relevant information (e.g. AUCs).
+# It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
 exploratory/adn_rocs.RData : code/Run_adn_Combine_Testing_pull_imp_OTUs.R
@@ -199,7 +199,7 @@ $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_adn_model.R
 	R -e "source('code/Run_combine_aggregate_reduced_adn_model.R')"
 
-# This code uses the entire normal vs adenoma cohort to generate the best model for the 
+# This code uses the entire normal vs adenoma cohort to generate the best model for the
 # reduced ladenoma model.
 
 $(TABLES)/adn_reduced_test_data_roc.csv\
@@ -232,8 +232,8 @@ $(CODE)/srn_createDuplicates.sh $(CODE)/srn_create_pbs.sh $(CODE)/srn_qsubmissio
 	bash $(CODE)/srn_qsubmission.sh
 
 # This code combines all the runs from the advanced adenoma models and aggregates them
-# together.  I also collects relevant information (e.g. AUCs).  
-# It also grabs the most important OTUs based on MDA and 
+# together.  I also collects relevant information (e.g. AUCs).
+# It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
 exploratory/srn_rocs.RData : code/Run_srn_Combine_Testing_pull_imp_OTUs.R
@@ -258,7 +258,7 @@ $(CODE)/srn_qsubmission_reducedVars.sh
 	bash $(CODE)/srn_create_reducedVars_pbs.sh
 	bash $(CODE)/srn_qsubmission_reducedVars.sh
 
-# This code gathers all the data together from the 100 different reduced advanced adenoma 
+# This code gathers all the data together from the 100 different reduced advanced adenoma
 # model runs.  It also stores the MDA infomration for the OTUs used in this reduced model.
 
 $(TABLES)/srn_reduced_test_data_splits.csv\
@@ -271,7 +271,7 @@ $(TABLES)/srn_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate
 	#Collects the needed data to generate figure 3
 	R -e "source('code/Run_combine_aggregate_reduced_srn_model.R')"
 
-# This code uses the entire normal vs advanced adenoma cohort to generate the best model 
+# This code uses the entire normal vs advanced adenoma cohort to generate the best model
 # for the reduced advanced adenoma model.
 
 $(TABLES)/srn_reduced_test_data_roc.csv\
@@ -287,7 +287,7 @@ $(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
 # Model building  CRC 														 	  #
 #																			 	  #
 #																			 	  #
-###################################################################################	
+###################################################################################
 
 # Sets up the target file names
 CRC_TITLE=$(addprefix exploratory/crc_RF_model_,$(MODEL_NUMBER))
@@ -304,8 +304,8 @@ $(CODE)/crc_createDuplicates.sh $(CODE)/crc_create_pbs.sh $(CODE)/crc_qsubmissio
 	bash $(CODE)/crc_qsubmission.sh
 
 # This code combines all the runs from the carcinoma models and aggregates them
-# together.  I also collects relevant information (e.g. AUCs).  
-# It also grabs the most important OTUs based on MDA and 
+# together.  I also collects relevant information (e.g. AUCs).
+# It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
 exploratory/crc_rocs.RData : code/Run_Combine_Testing_pull_imp_OTUs.R
@@ -331,7 +331,7 @@ $(CODE)/crc_qsubmission_reducedVars.sh
 	bash $(CODE)/crc_qsubmission_reducedVars.sh
 
 
-# This code gathers all the data together from the 100 different reduced carcinoma 
+# This code gathers all the data together from the 100 different reduced carcinoma
 # model runs. It also stores the MDA infomration for the OTUs used in this reduced model.
 
 $(TABLES)/crc_reduced_test_data_splits.csv\
@@ -343,7 +343,7 @@ $(TABLES)/crc_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_crc_model.R
 	R -e "source('code/Run_combine_aggregate_reduced_crc_model.R')"
 
-# This code uses the entire normal vs carcinoma cohort to generate the best model for the 
+# This code uses the entire normal vs carcinoma cohort to generate the best model for the
 # reduced carcinoma model.
 
 $(TABLES)/crc_reduced_test_data_roc.csv\
@@ -373,7 +373,7 @@ code/Run_wilcoxson_all.R $(PROC)/mod_metadata/metaI_final.csv\
 
 
 
-# This code runs comparisons on the positive probability for initial versus follow up 
+# This code runs comparisons on the positive probability for initial versus follow up
 # samples for all reduced final models.
 
 $(TABLES)/all_crc_srn_adn_models_wilcox_paired_pvalue_summary.csv\
@@ -385,7 +385,7 @@ $(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_srn_crc_probs_comparison.
 	R -e "source('code/Run_adn_srn_crc_probs_comparison.R')"
 
 
-# The generation and storage of the taxonomies for the OTUs used in the 
+# The generation and storage of the taxonomies for the OTUs used in the
 # reduced adenoma, advanced adenoma, and carcinoma models.
 
 $(TABLES)/adn_rf_otu_tax.csv\
@@ -396,7 +396,7 @@ $(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
 
 
 # This code IDs the common OTUs between the three different models and
-# also runs a comparison for differences between initial and follow up 
+# also runs a comparison for differences between initial and follow up
 # samples.
 
 $(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv : $(TABLES)/adn_rf_otu_tax.csv\
@@ -408,7 +408,7 @@ code/Run_adn_crc_Compare_models.R
 
 # The comparisons for differences in initial and follow up samples based on whether
 # radiation or chemotherapy fro caricnoma and whether surgery was used for the adneoma
-# group. 
+# group.
 
 $(TABLES)/crc_probs_chemo_rad_pvalue_summary.csv\
 $(TABLES)/adn_combined_probs_surgery_pvalue_summary.csv\
@@ -419,7 +419,7 @@ $(TABLES)/crc_reduced_follow_up_probability_summary.csv $(TABLES)/difference_tab
 $(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
 code/Run_adn_crc_Test_Chemo_Rad.R
 	R -e "source('code/Run_adn_crc_Test_Chemo_Rad.R')"
-	
+
 # The comparisons for differences in initial and follow up samples based on whether
 # radiation or chemotherapy fro caricnoma and whether surgery was used for the adneoma
 # group. Main diffference from above is that it looks at common OTUs only.
@@ -440,7 +440,7 @@ $(TABLES)/crc_chemo_rad_summary.csv $(PROC)/final.shared code/Run_treatment_comm
 #																				  #
 ###################################################################################
 
-# This figure looks at difference between initial and follow based on 
+# This figure looks at difference between initial and follow based on
 # whether the individual had an adenoma, advanced adenoma, or carcinoma.
 
 $(FIGS)/Figure1.pdf : $(TABLES)/difference_table.csv\
@@ -460,8 +460,8 @@ code/Run_Figure2.R
 	R -e "source('code/Run_Figure2.R')"
 
 
-# This figure explores how the rank importance of common OTUs between the adenoma, 
-# advanced adenoma, and carincoma models change depending on the model. 
+# This figure explores how the rank importance of common OTUs between the adenoma,
+# advanced adenoma, and carincoma models change depending on the model.
 
 $(FIGS)/Figure3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
@@ -511,8 +511,8 @@ $(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
 #####################################################################################
 
 
-write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
-		$(FINAL)/supplemental_outline_20161024.Rmd\
+write.paper : $(FINAL)/manuscript.Rmd\
+		$(FINAL)/supplement.Rmd\
 		results/tables/Table1.Rmd results/tables/Table2.Rmd\
 		$(TABLES)/mod_metadata/good_metaf_final.csv\
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
@@ -520,4 +520,3 @@ write.paper : $(FINAL)/manuscript_outline_20161024.Rmd\
 		$(FIGS)/FigureS2.pdf $(FIGS)/FigureS3.pdf\
 		code/Run_render_paper.R
 	R -e "source('code/Run_render_paper.R')"
-
