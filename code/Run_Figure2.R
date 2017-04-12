@@ -5,8 +5,7 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", 
-           "gridExtra", "scales", "wesanderson"))
+loadLibs(c("dplyr", "tidyr", "ggplot2", "gridExtra", "scales", "wesanderson"))
 
 ### Load in needed data tables
 
@@ -30,11 +29,12 @@ Lesion_plot <- grid.arrange(
     geom_point(color = '#006400', size = 2) + 
     geom_line(color = '#66CD00') + 
     coord_cartesian(ylim = c(0, 0.75)) + 
-    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("A") + ylab("Adenoma Postive Probability") + xlab("") + theme_bw() + 
+    ggtitle("A") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
-      plot.title = element_text(face="bold", hjust = 0)), 
+      plot.title = element_text(face="bold", hjust = 0)) + 
+    annotate("text", 
+             label = paste("Adenoma"),x = 1.5, y = 0.77, size = 4), 
   
   # Graph the SRN data only
   ggplot(srn_red_follow_up_probability, 
@@ -44,11 +44,12 @@ Lesion_plot <- grid.arrange(
     geom_point(color = '#8B7500', size = 2) + 
     geom_line(color = '#FFD700') + 
     coord_cartesian(ylim = c(0, 0.75)) + 
-    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("B") + ylab("Advanced Adenoma Postive Probability") + xlab("") + theme_bw() + 
+    ggtitle("B") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
-      plot.title = element_text(face="bold", hjust = 0)), 
+      plot.title = element_text(face="bold", hjust = 0)) + 
+    annotate("text", 
+             label = paste("Advanced Adenoma"),x = 1.5, y = 0.77, size = 4), 
   
   # Graph the CRC data only
   ggplot(crc_red_follow_up_probability, 
@@ -62,13 +63,14 @@ Lesion_plot <- grid.arrange(
                        label = c("No", "Yes"),  
                        values = c('#B0171F', '#FF0000')) + 
     coord_cartesian(ylim = c(0, 0.75)) + 
-    geom_hline(aes(yintercept = 0.5), linetype = 2) + 
-    ggtitle("C") + ylab("Carcinoma Postive Probability") + xlab("") + theme_bw() + 
+    ggtitle("C") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
       legend.position = "none", 
-      plot.title = element_text(face="bold", hjust = 0)), nrow = 1)
+      plot.title = element_text(face="bold", hjust = 0)) + 
+    annotate("text", 
+             label = paste("Carcinoma"),x = 1.5, y = 0.77, size = 4), nrow = 1)
   
 # Save figures and write necessary tables
 ggsave(file = "results/figures/Figure2.pdf", Lesion_plot, 
