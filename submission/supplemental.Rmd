@@ -50,12 +50,14 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 
 
 \newpage
+
 \newcommand{\blandscape}{\begin{landscape}}
 \newcommand{\elandscape}{\end{landscape}}
 
 \blandscape
 
-**Table S2: Summary of OTUs in Adenoma, Advanced Adenoma, and Carcinoma Models**
+
+**Table S2: Summary of Common OTUs for All Diagnosis Groups**
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -69,6 +71,7 @@ crc_varsMDA <- read.csv('../data/process/tables/reduced_crc_model_top_vars_MDA_S
 
 # Create selection vector
 common_vars <- common_vars_summary$otu
+common_num <- as.numeric(gsub("Otu", "", common_vars_summary$otu))
 
 # Create MDA vectors
 adn_MDA <- filter(adn_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)) %>% select(median_MDA)
@@ -77,12 +80,13 @@ crc_MDA <- filter(crc_varsMDA, otu %in% common_vars) %>% slice(match(common_vars
 
 st2 <- select(common_vars_summary, otu) %>% 
   mutate(Tax = gsub("_unclassified", "", common_vars_summary$lowest_ID)) %>% 
-  mutate(adn_MDA = adn_MDA$median_MDA, srn_MDA = srn_MDA$median_MDA, crc_MDA = crc_MDA$median_MDA) %>% 
+  mutate(otu = paste("OTU", common_num, sep = "")) %>% 
+  mutate(adn_MDA = round(adn_MDA$median_MDA, digits = 2), srn_MDA = round(srn_MDA$median_MDA, digits = 2), crc_MDA = round(crc_MDA$median_MDA, digits = 2)) %>% 
   arrange(desc(adn_MDA), desc(srn_MDA), desc(crc_MDA))
 
-colnames(st2) <- c("OTU", "Lowest Taxonomic ID", "Adenoma Model MDA", "SRN Model MDA", "Carcinoma Model MDA")
+colnames(st2) <- c("OTU", "Lowest Taxonomic ID", "Adenoma Median MDA", "Advanced Adenoma Median MDA", "Carcinoma Median MDA")
 
-kable(st2, format = "markdown", align = 'c', padding = 2)
+kable(st2, format = "markdown", align = 'c', padding = 0)
 
 ```
 
