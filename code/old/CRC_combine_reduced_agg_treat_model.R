@@ -6,7 +6,7 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("dplyr", "scales", "caret", "pROC", "reshape2"))
+loadLibs(c("dplyr", "scales", "caret", "pROC", "tidyr"))
 
 
 # Load needed data
@@ -125,18 +125,19 @@ for(i in 1:length(top_vars_MDA_by_run)){
 }
 
 # "1" pulls the value of mean or sd from the data frame
-MDA_vars_summary <- as.data.frame(cbind(
-  mean_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
-  sd_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1])) %>% 
-  mutate(variable = rownames(top_vars_MDA_by_run)) %>% 
-  mutate(tax_id = as.character(tax_df[variable, "Genus"]))
+MDA_vars_summary <- as.data.frame(t(top_vars_MDA_by_run)) %>% summarise_each(funs(median, IQR)) %>% 
+  gather(key = tempName) %>% separate(tempName, c("otu", "measurement")) %>% 
+  spread(key = measurement, value = value) %>% rename(median_MDA = median, median_IQR = IQR) %>% 
+  mutate(tax_id = as.character(tax_df[otu, "Genus"])) %>% 
+  arrange(desc(median_MDA)) %>% 
+  mutate(rank = seq(1:length(rownames(top_vars_MDA_by_run))))
 
-write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
+write.csv(MDA_vars_summary, 
           "data/process/tables/reduced_crc_treatment_top_vars_MDA_Summary.csv", row.names = F)
 
-crc_model_top_vars_MDA_full_data <- 
-  mutate(top_vars_MDA_by_run, variables = rownames(top_vars_MDA_by_run)) %>% 
-  melt(id = c("variables"))
+crc_model_top_vars_MDA_full_data <- mutate(top_vars_MDA_by_run, otu = rownames(top_vars_MDA_by_run)) %>% 
+  slice(match(MDA_vars_summary$otu, otu)) %>% 
+  gather(key = variable, value = value, -otu)
 
 write.csv(crc_model_top_vars_MDA_full_data, 
           "data/process/tables/reduced_crc_treatment_top_vars_MDA_full_data.csv", row.names = F)
