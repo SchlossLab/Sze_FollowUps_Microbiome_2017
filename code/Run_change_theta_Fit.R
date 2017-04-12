@@ -5,7 +5,7 @@
 # Load needed functions and libraries
 source('code/functions.R')
 
-loadLibs("dplyr")
+loadLibs(c("dplyr", "aod"))
 
 # Load needed data
 thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
@@ -75,6 +75,12 @@ change_theta_fit_summary['fit', ] <- c(
   Pvalue_srnVcrc = wilcox.test(
     filter(difference_table_treatment, Dx_Bin == "adv_adenoma")[, "fit_difference"], 
     filter(difference_table_treatment, Dx_Bin == "cancer")[, "fit_difference"])$p.value)
+
+
+# Perform a trend test 
+
+
+
 
 # Save table for later use
 write.csv(change_theta_fit_summary, 
