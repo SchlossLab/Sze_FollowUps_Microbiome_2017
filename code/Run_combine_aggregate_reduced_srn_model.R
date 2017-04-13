@@ -5,8 +5,7 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", 
-           "wesanderson", "caret", "pROC"))
+loadLibs(c("dplyr", "tidyr", "scales", "caret", "pROC"))
 
 
 # Set up relevent environment variables
@@ -167,11 +166,11 @@ MDA_vars_summary <- as.data.frame(t(top_vars_MDA_by_run)) %>% summarise_each(fun
 write.csv(MDA_vars_summary, 
           "data/process/tables/srn_reduced_model_top_vars_MDA_Summary.csv", row.names = F)
 
-adn_model_top_vars_MDA_full_data <- 
-  mutate(top_vars_MDA_by_run, variables = rownames(top_vars_MDA_by_run)) %>% 
-  melt(id = c("variables"))
+srn_model_top_vars_MDA_full_data <- mutate(top_vars_MDA_by_run, otu = rownames(top_vars_MDA_by_run)) %>% 
+  slice(match(MDA_vars_summary$otu, otu)) %>% 
+  gather(key = variable, value = value, -otu)
 
-write.csv(adn_model_top_vars_MDA_full_data, 
+write.csv(srn_model_top_vars_MDA_full_data, 
           "data/process/tables/srn_reduced_model_top_vars_MDA.csv", row.names = F)
 
 

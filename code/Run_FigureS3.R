@@ -46,15 +46,16 @@ adn_MDA_data_summary <- adn_MDA_data_summary[order(adn_MDA_data_summary$median_M
 OTU_IDs <- unique(filter(adn_MDA_data_summary, otu != "fit_result")[, "otu"])
 select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
+otu_num <- as.numeric(gsub("Otu", "", OTU_IDs))
 
 # create labels for factor values with low taxonomy
-adn_graph_labels <- paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = "")
-OTU_names <- names(low_tax_ID)
+adn_graph_labels <- paste(gsub("2", "", low_tax_ID), " (OTU", otu_num, ")", sep = "")
 
 test <- c()
 for(i in 1:length(low_tax_ID)){
   
-  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(", .(OTU_names[i]), ")", sep = "")))
+  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
+  
 }
 
 adn_labels <- do.call(expression, test)
@@ -69,15 +70,15 @@ srn_MDA_data_summary <- srn_MDA_data_summary[order(srn_MDA_data_summary$median_M
 OTU_IDs <- unique(filter(srn_MDA_data_summary, otu != "fit_result")[, "otu"])
 select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
+otu_num <- as.numeric(gsub("Otu", "", OTU_IDs))
 
 # create labels for factor values with low taxonomy
-srn_graph_labels <- paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = "")
-OTU_names <- names(low_tax_ID)
+srn_graph_labels <- paste(gsub("2", "", low_tax_ID), " (OTU", otu_num, ")", sep = "")
 
 test <- c()
 for(i in 1:length(low_tax_ID)){
   
-  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(", .(OTU_names[i]), ")", sep = "")))
+  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
 }
 
 srn_labels <- do.call(expression, test)
@@ -91,15 +92,15 @@ crc_MDA_data_summary <- crc_MDA_data_summary[order(crc_MDA_data_summary$median_M
 OTU_IDs <- unique(filter(crc_MDA_data_summary, otu != "fit_result")[, "otu"])
 select_tax_df <- tax_df[OTU_IDs, ]
 low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
+otu_num <- as.numeric(gsub("Otu", "", OTU_IDs))
 
 # create labels for factor values with low taxonomy
-crc_graph_labels <- paste(gsub("2", "", low_tax_ID), " (", names(low_tax_ID), ")", sep = "")
-OTU_names <- names(low_tax_ID)
+crc_graph_labels <- paste(gsub("2", "", low_tax_ID), " (OTU", otu_num, ")", sep = "")
 
 test <- c()
 for(i in 1:length(low_tax_ID)){
   
-  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(", .(OTU_names[i]), ")", sep = "")))
+  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
 }
 
 crc_labels <- do.call(expression, test)
@@ -111,8 +112,8 @@ fmt_dcimals <- function(decimals=0){
 
 
 # MDA Graph
-adn_MDA_graph <- ggplot(adn_MDA_full, aes(factor(variables, 
-                                   levels = rev(unique(adn_MDA_full$variables)), 
+adn_MDA_graph <- ggplot(adn_MDA_full, aes(factor(otu, 
+                                   levels = rev(unique(adn_MDA_full$otu)), 
                                    labels = rev(adn_graph_labels)), 
                             log10(value))) + 
   geom_point(color = '#76EE00') + stat_summary(fun.y = "median", colour = '#006400', geom = "point", size = 2.5) + 
@@ -124,8 +125,8 @@ adn_MDA_graph <- ggplot(adn_MDA_full, aes(factor(variables,
         axis.text.y = element_text(size = 6))
 
 
-srn_MDA_graph <- ggplot(srn_MDA_full, aes(factor(variables, 
-                                                 levels = rev(unique(srn_MDA_full$variables)), 
+srn_MDA_graph <- ggplot(srn_MDA_full, aes(factor(otu, 
+                                                 levels = rev(unique(srn_MDA_full$otu)), 
                                                  labels = rev(srn_graph_labels)), 
                                           log10(value))) + 
   geom_point(color = '#F0E68C') + stat_summary(fun.y = "median", colour = '#EEC900', geom = "point", size = 2.5) + 
@@ -136,8 +137,8 @@ srn_MDA_graph <- ggplot(srn_MDA_full, aes(factor(variables,
         axis.title = element_text(face = "bold"), 
         axis.text.y = element_text(size = 6))
 
-crc_MDA_graph <- ggplot(crc_MDA_full, aes(factor(variables, 
-                                                 levels = rev(unique(crc_MDA_full$variables)), 
+crc_MDA_graph <- ggplot(crc_MDA_full, aes(factor(otu, 
+                                                 levels = rev(unique(crc_MDA_full$otu)), 
                                                  labels = rev(crc_graph_labels)), 
                                           log10(value))) + 
   geom_point(color = '#FFB6C1') + stat_summary(fun.y = "median", colour = '#DC143C', geom = "point", size = 2.5) + 

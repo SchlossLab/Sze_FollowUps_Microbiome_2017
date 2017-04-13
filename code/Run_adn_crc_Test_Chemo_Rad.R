@@ -65,16 +65,14 @@ crc_test <- (filter(alpha_data, sampleType == "initial" & Dx_Bin == "cancer")[, 
 # Create variables for actual analysis to be automated
 adn_tests <- c("sobs", "shannon", "shannoneven", "distance", "red_adn", "red_srn")
 
-crc_tests <- c("sobs", "sobs", "shannon", "shannon", "shannoneven", "shannoneven", 
-               "distance", "distance", "red_crc", "red_crc")
+crc_tests <- c("sobs", "shannon", "shannoneven", "distance", "red_crc")
 
 adn_mean_table <- as.data.frame(matrix(nrow = 6, ncol = 6, dimnames = list(
   rown = c("sobs", "shannon", "even", "dist", "red_adn", "red_srn"), 
   coln = c("surg_mean", "no_surg_mean", "surg_sd", "no_surg_sd", "pvalue", "bh"))))
 
-crc_mean_table <- as.data.frame(matrix(nrow = 10, ncol = 6, dimnames = list(
-  rown = c("chemo_sobs", "rads_sobs", "chemo_shannon", "rads_shannon", "chem_even", "rads_even", 
-           "chemo_dist", "rads_dist", "chemo_red_crc", "rad_red_crc"), 
+crc_mean_table <- as.data.frame(matrix(nrow = 5, ncol = 6, dimnames = list(
+  rown = c("sobs", "shannon", "even", "dist", "red_crc"), 
   coln = c("chemo_rad_mean", "removal_only_mean", "cr_sd", "ro_sd", "pvalue", "bh"))))
 
 # Run automated tests for adn
@@ -131,27 +129,14 @@ adn_mean_table$bh <- p.adjust(adn_mean_table$pvalue, method = "BH")
 
 # Run automated tests for crc
 for(i in 1:length(crc_tests)){
-  if(i %% 2 != 0){
-    
-    crc_mean_table[i, "chemo_rad_mean"] <- mean(filter(crc_test, chemo == "yes")[, crc_tests[i]])
-    crc_mean_table[i, "removal_only_mean"] <- mean(filter(crc_test, chemo == "no")[, crc_tests[i]])
-    crc_mean_table[i, "cr_sd"] <- sd(filter(crc_test, chemo == "yes")[, crc_tests[i]])
-    crc_mean_table[i, "ro_sd"] <- sd(filter(crc_test, chemo == "no")[, crc_tests[i]])
-    
-    crc_mean_table[i, "pvalue"] <- wilcox.test(filter(crc_test, chemo == "yes")[, crc_tests[i]], 
-                                          filter(crc_test, chemo == "no")[, crc_tests[i]])$p.value
-    
-  } else{
-    
-    crc_mean_table[i, "chemo_rad_mean"] <- mean(filter(crc_test, rads == "yes")[, crc_tests[i]])
-    crc_mean_table[i, "removal_only_mean"] <- mean(filter(crc_test, rads == "no")[, crc_tests[i]])
-    crc_mean_table[i, "cr_sd"] <- sd(filter(crc_test, rads == "yes")[, crc_tests[i]])
-    crc_mean_table[i, "ro_sd"] <- sd(filter(crc_test, rads == "no")[, crc_tests[i]])
-    
-    crc_mean_table[i, "pvalue"] <- wilcox.test(filter(crc_test, chemo == "yes")[, crc_tests[i]], 
-                                           filter(crc_test, chemo == "no")[, crc_tests[i]])$p.value
-  }
-
+  
+  crc_mean_table[i, "chemo_rad_mean"] <- mean(filter(crc_test, chemo == "yes")[, crc_tests[i]])
+  crc_mean_table[i, "removal_only_mean"] <- mean(filter(crc_test, chemo == "no")[, crc_tests[i]])
+  crc_mean_table[i, "cr_sd"] <- sd(filter(crc_test, chemo == "yes")[, crc_tests[i]])
+  crc_mean_table[i, "ro_sd"] <- sd(filter(crc_test, chemo == "no")[, crc_tests[i]])
+  
+  crc_mean_table[i, "pvalue"] <- wilcox.test(filter(crc_test, chemo == "yes")[, crc_tests[i]], 
+                                             filter(crc_test, chemo == "no")[, crc_tests[i]])$p.value
 }
 
 # Implement P-value correction

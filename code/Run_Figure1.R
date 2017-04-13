@@ -27,16 +27,17 @@ differences_graph <- grid.arrange(
          aes(factor(Dx_Bin, levels = c("adenoma", "adv_adenoma", "cancer"), 
                     labels = c("Adenoma", "Advanced\nAdenoma", "Carcinoma")), distance, group = 1)) + 
     geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
-    stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
-    stat_summary(fun.y = mean, colour = "black", geom = "line") + 
+    stat_summary(fun.y = median, colour = "black", geom = "point", size = 4.5) + 
+    stat_summary(fun.y = median, colour = "black", geom = "line", size = 1) + 
     scale_color_manual(name = "Lesion Type", 
                        values = c('#228B22', '#FFD700', '#DC143C'), 
                        breaks = c("adenoma", "adv_adenoma", "cancer"), 
                        labels = c("Adenoma", "Advanced\nAdenoma", "Carcinoma")) + 
     coord_cartesian(ylim = c(0, 1)) + ylab(expression(paste(theta[YC], " Distance"))) + 
+    scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1.0), 
+                       labels = c("0.00", "0.25", "0.50", "0.75", "1.00"),limits = c(-0.06, 1.06)) + 
     xlab("") + theme_bw() + ggtitle("A") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
-          plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "lines"), 
           legend.title = element_text(face="bold"), 
           legend.position = "none", 
           title = element_text(face="bold", hjust = 0), 
@@ -47,11 +48,11 @@ differences_graph <- grid.arrange(
   mutate(thetayc_adn_IF, samples = factor(samples, 
                                           levels = c("initial", "follow_up"), 
                                           labels = c("Pre", "Post"))) %>% 
-  ggplot(aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + 
+  ggplot(aes(x=NMDS1, y=NMDS2)) + 
+    geom_point(aes(color=samples, shape = samples), size = 3) + 
     theme_bw() + coord_equal() + ggtitle("B") + ylim(-0.7, 0.7) + xlim(-0.7, 0.7) + 
-    stat_ellipse(aes(group = samples, color = samples, fill = samples), 
-                 alpha = 0.25, geom = "polygon", show.legend = FALSE) + 
-    scale_color_manual(values = c('#00EE76', '#228B22')) + scale_fill_manual(values = c('#00EE76', '#228B22')) +
+    scale_color_manual(values = c('#00EE76', '#228B22')) + scale_fill_manual(values = c('#00EE76', '#228B22')) + 
+    scale_shape_manual(values = c(16, 1)) + 
     theme(plot.title = element_text(face = "bold", hjust = 0), 
           legend.position = c(0.15, 0.11), 
           legend.title = element_blank(), 
@@ -65,11 +66,11 @@ differences_graph <- grid.arrange(
   mutate(thetayc_srn_IF, samples = factor(samples, 
                                           levels = c( "initial", "follow_up"), 
                                           labels = c("Pre", "Post"))) %>% 
-    ggplot(aes(x=NMDS1, y=NMDS2)) + geom_point(aes(color=samples)) + 
+    ggplot(aes(x=NMDS1, y=NMDS2)) + 
+    geom_point(aes(color=samples, shape = samples), size = 3) + 
     theme_bw() + coord_equal() + ggtitle("C") + ylim(-0.7, 0.7) + xlim(-0.7, 0.7) + 
-    stat_ellipse(aes(group = samples, color = samples, fill = samples), 
-                 alpha = 0.25, geom = "polygon", show.legend = FALSE) + 
-    scale_color_manual(values = c('#CDAD00', '#8B7500')) + scale_fill_manual(values = c('#CDAD00', '#8B7500')) +
+    scale_color_manual(values = c('#CDAD00', '#8B7500')) + scale_fill_manual(values = c('#CDAD00', '#8B7500')) + 
+    scale_shape_manual(values = c(16, 1)) + 
     theme(plot.title = element_text(face = "bold", hjust = 0), 
           legend.position = c(0.15, 0.11), 
           legend.title = element_blank(), 
@@ -85,11 +86,10 @@ differences_graph <- grid.arrange(
                           levels = c("initial", "follow_up"), 
                           labels = c("Pre", "Post"))) %>%
   ggplot(aes(x=NMDS1, y=NMDS2)) + 
-    geom_point(aes(color=samples)) + theme_bw() + 
+    geom_point(aes(color=samples, shape = samples), size = 3) + theme_bw() + 
     coord_equal() + ggtitle("D") + ylim(-0.7, 0.7) + xlim(-0.7, 0.7) +
-    stat_ellipse(aes(group = samples, color = samples, fill = samples), 
-                 alpha = 0.25, geom = "polygon", show.legend = FALSE) + 
     scale_color_manual(values = c('#EEA2AD', '#DC143C')) + scale_fill_manual(values = c('#EEA2AD', '#DC143C')) + 
+    scale_shape_manual(values = c(16, 1)) + 
     theme(plot.title = element_text(face = "bold", hjust = 0), 
           legend.position = c(0.15, 0.11), 
           legend.title = element_blank(), 

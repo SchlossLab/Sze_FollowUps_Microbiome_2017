@@ -214,10 +214,7 @@ A detailed and reproducible description of how the data were processed and analy
 \newpage
 
 
-**Figure 1: General Differences between Adenoma, Advanced Adenoma, and Carcinoma Groups After Treatment.*. A) A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`). B) NMDS of the pre- and post-treatment samples for the adenoma group. C) NMDS of the pre- and post-treatment samples for the advanced adenoma group. D) NMDS of the pre- and post-treatment samples for the carcinoma group.
-
-A: Convert mean to median w/ IQR. Add 0.00 to y-labels
-
+**Figure 1: General Differences between Adenoma, Advanced Adenoma, and Carcinoma Groups After Treatment.*. A) A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`). Solid black points represent the median value for each diagnosis group. B) NMDS of the pre- and post-treatment samples for the adenoma group. C) NMDS of the pre- and post-treatment samples for the advanced adenoma group. D) NMDS of the pre- and post-treatment samples for the carcinoma group.
 
 
 

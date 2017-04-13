@@ -61,5 +61,5 @@ test_graph <- ggplot(combined_table,
         panel.grid.major.y = element_line(color = "gray"))
 
 
-ggsave(file = "results/figures/Figure3.pdf", test_graph, 
+ggsave(file = "results/figures/Figure4.pdf", test_graph, 
        width=8, height = 6, dpi = 300)
