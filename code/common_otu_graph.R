@@ -3,8 +3,9 @@
 ### Marc Sze
 
 source('code/functions.R')
+source('code/old/common_all_models.R')
 
-loadLibs(c("tidyr", "dplyr", "scales", "ggplot2"))
+loadLibs("gridExtra")
 
 # Load needed data
 common_vars_summary <- read.csv('data/process/tables/pvalue_adn_srn_crc_common_imp_vars.csv', 
@@ -53,13 +54,18 @@ test_graph <- ggplot(combined_table,
   scale_y_continuous(trans = "reverse", breaks = c(1, 10, 20, 30, 40, 50, 60, 70)) + 
   scale_x_discrete(labels = common_labels) + 
   scale_color_manual(name = "Model", values = c('#228B22', '#FFD700', '#DC143C')) + 
-  theme_bw() +  coord_flip(ylim = c(1, 70)) + xlab("OTU") + ylab("Importance Rank in Model") + 
+  theme_bw() +  coord_flip(ylim = c(1, 70)) + 
+  xlab("OTU") + ylab("Importance Rank in Model") + ggtitle("B") + 
   theme(legend.title = element_text(face = "bold"), 
         axis.title = element_text(face = "bold"), 
+        title = element_text(face = "bold"),
         panel.grid.major.x = element_blank(), 
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.y = element_line(color = "gray"))
 
 
-ggsave(file = "results/figures/Figure4.pdf", test_graph, 
-       width=8, height = 6, dpi = 300)
+combined_graph <- grid.arrange(venn_graph, test_graph)
+
+
+ggsave(file = "results/figures/Figure4.pdf", combined_graph, 
+       width=6, height = 9, dpi = 300)

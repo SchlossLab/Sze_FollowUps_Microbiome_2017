@@ -27,42 +27,43 @@ test <- calculate.overlap(list(adn_OTUs, srn_OTUs, crc_data))
 test2 <- as.data.frame.list(lapply(test, function(x) length(x)))
 
 
-venn_graph <- as.data.frame(cbind(g1 = c(4.5, 5.4, 6.2), g2 = c(7, 5.5, 7))) %>% 
+venn_graph <- as.data.frame(cbind(g1 = c(4.5, 5.4, 6.2), g2 = c(6.5, 5.6, 6.5))) %>% 
   mutate(group = c("adn", "srn", "crc")) %>% 
   ggplot(aes(x = g1, y = g2)) + 
-  geom_point(aes(color = group), size = 105, alpha = 0.5) + 
+  geom_point(aes(color = group), size = 70, alpha = 0.5) + 
   scale_color_manual(values = c('#228B22', '#FFD700', '#DC143C')) + 
-  coord_cartesian(xlim = c(1:10), ylim = c(1:10)) + xlab("") + ylab("") + 
-  theme_bw() + 
+  coord_cartesian(xlim = c(1:10), ylim = c(4:8.5)) + xlab("") + ylab("") + 
+  theme_bw() + ggtitle("A") + 
   theme(legend.position = "none", 
+        title = element_text(face = "bold"), 
         axis.text = element_blank(), 
         panel.grid = element_blank(), 
         panel.border = element_blank(), 
         axis.ticks = element_blank()) + 
   annotate("text", 
-           label = 'atop(bold("Adenoma"))', x = 2.5, y = 8.7, size = 4, parse = TRUE) + 
+           label = 'atop(bold("Adenoma"))', x = 2.5, y = 7.8, size = 4, parse = TRUE) + 
   annotate("text", 
-           label = 'atop(bold("Advanced Adenoma"))', x = 8, y = 8.7, size = 4, parse = TRUE) + 
+           label = 'atop(bold("Advanced Adenoma"))', x = 8, y = 7.8, size = 4, parse = TRUE) + 
   annotate("text", 
-           label = 'atop(bold("Carcinoma"))', x = 5.5, y = 3.4, size = 4, parse = TRUE) + 
+           label = 'atop(bold("Carcinoma"))', x = 5.5, y = 4, size = 4, parse = TRUE) + 
   annotate("text", 
-           label = test2$a1, x = 3, y = 7.2, size = 14, parse = TRUE) + 
+           label = test2$a1, x = 3.4, y = 7, size = 8, parse = TRUE) + 
   annotate("text", 
-           label = test2$a2, x = 5.4, y = 7.7, size = 14, parse = TRUE) + 
+           label = test2$a2, x = 5.4, y = 7.2, size = 8, parse = TRUE) + 
   annotate("text", 
-           label = test2$a3, x = 7.6, y = 7.2, size = 14, parse = TRUE) + 
+           label = test2$a3, x = 7.2, y = 7, size = 8, parse = TRUE) + 
   annotate("text", 
-           label = test2$a4, x = 4, y = 5.8, size = 14, parse = TRUE) + 
+           label = test2$a4, x = 4.1, y = 5.9, size = 8, parse = TRUE) + 
   annotate("text", 
-           label = test2$a5, x = 5.4, y = 6.3, size = 14, parse = TRUE) + 
+           label = test2$a5, x = 5.4, y = 6.3, size = 16, parse = TRUE) + 
   annotate("text", 
-           label = test2$a6, x = 7, y = 5.8, size = 14, parse = TRUE) + 
+           label = test2$a6, x = 6.6, y = 5.9, size = 8, parse = TRUE) + 
   annotate("text", 
-           label = test2$a7, x = 5.4, y = 4.8, size = 14, parse = TRUE)
+           label = test2$a7, x = 5.4, y = 5, size = 8, parse = TRUE)
 
 
-ggsave(file = "results/figures/venn.tiff", venn_graph, 
-       width=7, height = 9, dpi = 300)
+#ggsave(file = "results/figures/venn.tiff", venn_graph, 
+#       width=7, height = 9, dpi = 300)
 
 
 ## Extra venn stuff
