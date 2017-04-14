@@ -116,9 +116,9 @@ $\dagger$ To whom correspondence should be addressed: pschloss@umich.edu
 
 $1$ Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI
 
-$2$ Department of Internal Medicine, University of Michigan, Ann Arbor, MI   
+$2$ Department of Internal Medicine, University of Michigan, Ann Arbor, M.
 
-$3$ Department of Family Medicine and Community Medicine, Penn State Hershey Medical Center, Hershey, PA    
+$3$ Department of Family Medicine and Community Medicine, Penn State Hershey Medical Center, Hershey, P.
 
 
 \end{center}
@@ -129,221 +129,232 @@ $3$ Department of Family Medicine and Community Medicine, Penn State Hershey Med
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background:} Colorectal cancer (CRC) is a worldwide health
-problem and research suggests a correlation between the fecal bacterial
-microbiome and CRC. Despite this, very little is known about what
-happens to the microbiome after treatment for an adenoma or carcinoma.
-This study tested the hypothesis that treatment for adenoma or carcinoma
-results in changes towards a normal bacterial community. Specifically,
-we tried to identify components within the community that were different
-before and after treatment of adenoma, advanced adenoma, and carcinoma.
+\textbf{Background.} Colorectal cancer (CRC) is a worldwide health
+problem. Despite growing evidence that members of the gut microbiota can
+drive tumorigenesis, little is known about what happens to the
+microbiome after treatment for an adenoma or carcinoma. This study
+tested the hypothesis that treatment for adenoma or carcinoma alters the
+abundance of bacterial populations associated with with disease to those
+associated with a normal colon. We tested this hypothesis by sequencing
+the 16S rRNA genes in the feces of 67 individuals before and after
+treatment for adenoma (N=22), advanced adenoma (N=19), and carcinoma
+(N=26).
 
-\textbf{Results:} There was a larger change in the bacterial community
-in response to treatment for carcinoma versus adenoma (P-value
-\textless{} 0.05) but not carcinoma versus advanced adenoma (P-value
-\textgreater{} 0.05). There was a trend for increasingly less community
-similarity, between samples pre- and post-treatment from adenoma to
-advanced adenoma to carcinoma. Despite this, no difference was found in
-the relative abundance of any specific OTU before and after treatment
-for adenoma, advanced adenoma, or carcinoma groups (P-value
-\textgreater{} 0.05). Using Random Forest models to assess whether
-changes in post-treatment samples were towards a normal community, only
-those with carcinoma had a significant decrease in positive probability
-(P-value \textless{} 0.05); providing further evidence that treatment
-has the greatest effect in those with carcinoma. The adenoma model used
-a total of 62 OTUs, the SRN model used a total of 61 OTUs, and the
-carcinoma model used a total of 59 OTUs. A total of 26 OTUs were common
-to all three models with many classifying to commensal bacteria (e.g.
-\emph{Lachnospiraceae}, \emph{Bacteroides}, \emph{Anaerostipes},
-\emph{Blautia}, and \emph{Dorea}). Both chemotherapy and radiation did
-not provide any additional changes to the bacterial community in those
-treated for carcinoma (P-value \textgreater{} 0.05).
+\textbf{Results.} There were large changes the the bacterial communities
+associated with treatment across the three groups. The communities from
+patients with carcinomas changed significantly more than those with
+adenoma following treatment (P-value=5.4e-05); however, there was not a
+significant difference between those with advanced adenoma and those
+with adenoma or carcinoma (P-value\textgreater{}0.05). Although
+treatment brought about large intrapersonal changes, the change in the
+abundance of individual OTUs to treatment was not consistent within
+diagnosis groups (P-value \textgreater{} 0.05). Because the distribution
+of OTUs across patients and diagnosis groups was patchy, we used the
+Random Forest machine learning algorithm to identify groups of OTUs that
+allowed us to successfully distinguish between pre- and post-treatment
+samples for each of the diagnosis groups. However, across the three
+models, there was little overlap between the OTUs that were indicative
+of treatment. Next, we used a larger cohort that contained individuals
+with normal colons and those with adenomas, advanced adenomas, and
+carcinomas to determine whether individuals who underwent a treatment
+were more likely to have OTUs associated with normal colons. We again
+built Random Forest models and measured the change in the positive
+probability of having one of the three diagnoses. Although we could
+clearly differentiate pre- and post-treatment communities from the three
+diagnosis groups, only those patients that initially had carcinomas
+experienced a significant decrease in positive probability of having a
+carcinoma (P-value \textless{} 0.05). Finally, tested whether the type
+of treatment impacted the microbiota of those diagnosed with carcinomas
+and were unable to detect any significant differences in characteristics
+of these communities between individuals treated with chemotherapy and
+those treated with chemotherapy and radiation (P-value \textgreater{}
+0.05).
 
-\textbf{Conclusions:} Our data partially supports the hypothesis that
-the microbiome changes after treatment towards a normal community.
-Individuals with carcinoma had more drastic differences to the overall
-community than those with adenoma. Common OTUs to all models were
-overwhelmingly from commensal bacteria, suggesting that these bacteria
-may be important in initial polyp formation, development of advanced
-adenoma, and transition to carcinoma.
+\textbf{Conclusions.} Further exploration of the relationship between
+diagnosis, treatment, and the impact on the microbiome will yield
+improvements in disease management.
 
 \newpage
 
 \subsubsection{Keywords}\label{keywords}
 
 bacterial microbiome; colorectal cancer; polyps; FIT; post-surgery; risk
-factors
+factor.
 
 \newpage
 
+\linenumbers
+
 \subsection{Background}\label{background}
 
-Colorectal cancer (CRC) is currently the third most common cause of
-cancer deaths {[}1,2{]}. The rate of disease mortality has seen a
-significant decrease, thanks mainly to improvements in screening
-{[}1{]}. However, despite this improvement there are still approximately
-50,000 deaths from the disease per year {[}2{]}. Some of these deaths
-are due to disease recurrence, with current estimates that 20-30\% of
-those undergoing resection having a CRC recurrence {[}3{]}. This is
-important since approximately 30-50\% of those who have a recurrence
-will die of CRC {[}4{]}. To reduce the burden on the healthcare system,
-finding ways to better stratify those at highest risk of recurrence is
-of great importance.
+Colorectal cancer (CRC) is the third most common cause of cancer deaths
+in the United States {[}1,2{]}. Disease mortality has significantly
+decreased, thanks to improvements in screening {[}1{]}. Despite this
+improvement, there are still approximately 50,000 deaths from the
+disease per year {[}2{]}. Current estimates indicate that 20-30\% of
+those who undergo treatment will experience recurrence and 30-50\% of
+those patients will die {[}3,4{]}. Identification of methods to assess
+patients' risk of recurrence is of great importance to reduce mortality
+and healthcare costs.
 
-Recent studies in humans and mouse models have shown that altered
-membership and structure of the gut microbiome correlate with CRC
-pathogenesis {[}5--7{]}. Further, bacterial communities on the mucosa
-are altered between normal and tumor tissue {[}8{]}. Collectively, these
-studies provide a tantalizing link between our gut bacteria and CRC and
-suggest the possibility of using biomarkers to diagnose disease. Indeed,
-models created with microbiome data and clinical tests, such as Fecal
-Immunoglobulin Test (FIT), result in good predictions of CRC {[}9,10{]}.
-While these studies show how changed microbial communities or invasion
-by inflammatory species can impact CRC progression {[}11{]}, they
-provide very little information as to whether these communities change
-and rebound towards normal after successful treatment of adenoma,
-advanced adenoma, or carcinoma.
+There is growing evidence that the gut microbiota is involved in the
+progression of CRC. Mouse-based studies have identified populations of
+\emph{Bacteroides fragilis}, \emph{Escherichia coli}, and
+\emph{Fusobacterium nucleatum} that alter disease progression
+{[}5--9{]}. Furthermore, studies that alter the structure of the
+microbiota through the use of antibiotics or inoculation of germ free
+mice with human feces has shown that varying community compositions can
+result in varied tumor burden {[}10--12{]}. Collectively, these studies
+hypothesize that the microbiota is altering the amount of inflammation
+in the colon and with it the rate of tumorigenesis {[}13{]}.
 
-Providing an answer to this question is important because it has far
-reaching implications on both how the bacterial community causes the
-formation of more polyps {[}5,6{]} and the ability to use the microbiome
-as a predictive screening tool {[}9,10{]}. Understanding polyp formation
-and transition to advanced adenoma and then carcinoma is crucial to
-being able to understand how to prevent CRC occurrence. Response of the
-community to treatment is also equally important to predictive models
-designed for screening purposes since an unresponsive community would
-provide little additional information for important events, such as
-recurrence {[}12{]}.
+Building on this evidence, several human-based studies have identified
+unique signatures of colonic lesions {[}14--19{]}. One line of research
+has identified community-level differences between those bacteria that
+are found on and adjacent to colonic lesions and have supported a role
+for \emph{Bacteroides fragilis}, \emph{Escherichia coli}, and
+\emph{Fusobacterium nucleatum} in tumorigenesis {[}20--22{]}. Others
+have proposed feces-based biomarkers that could be used to diagnose the
+presence of colonic adenomas and carcinomas {[}23--25{]}. These studies
+have associated \emph{Fusobacterium nucleatum} and other oral pathogens
+with lesions. They have also noted that the loss of bacteria generally
+thought to produce short chain fatty acids, which can suppress
+inflammation, is associated with colonic lesions. Gut bacteria have a
+role in tumorigenesis and there is promise that these populations may be
+useful biomarkers for aiding in the early detection of disease.
 
-Using pre- (initial) and post- (follow up) treatment samples we tested
-the hypothesis that treatment causes detectable changes towards a normal
-microbiome in those with adenoma, advanced adenoma, and carincoma.
-First, we assessed differences between samples pre- and post-treatment
-in adenoma, advanced adenoma, or carcinoma using alpha or beta diversity
-metrics. Second, we explored whether models built to classify adenoma,
-advanced adenoma, or carcinoma versus normal were able to identify
-specific community members that differed between pre- and post-treatment
-samples. We also used these models to assess whether changes in the
-community were toward a more normal microbiome. Finally, we assessed
-both whether surgery for adenomas and advanced adenomas provided larger
-community changes and whether chemotherapy or radiation provided
-additional changes to the microbiome over surgical resection. This study
-aims to provide evidence as to whether the altered CRC microbiome
-persists or shifts back towards normal after such interventions.
+Despite advances in understanding the role between the gut microbiota
+and colonic tumorigenesis, we still do not understand how treatments
+including resection, chemotherapy, and/or radiation affect the
+composition of the gut microbiota. If the community drives tumorigenesis
+then one would hypothesize that treatment to remove a lesion would
+affect the microbiota and risk of recurrence. To test this hypothesis,
+we addressed two related questions: Does treatment affect the colonic
+microbiota in a predictable manner? If so, does the treatment alter the
+community to more closely resemble that of individuals with normal
+colons?
+
+We answered these questions by sequencing the V4 region of 16S rRNA
+genes amplified from fecal samples of individuals with adenoma, advanced
+adenoma, and carcinomas pre- and post-treatment. We used both classical
+community analysis to compare the alpha and beta-diversity of
+communities pre- and post treatment. Next, we generated Random Forest
+models to identify bacterial populations that were indicative of
+treatment for each diagnosis group. Finally, we measured the predictive
+probability of diagnosis models to determine whether treatment would
+alter the probability of being diagnosed as having a normal colon or the
+colon of the original diagnosis group. Ultimately, we found that
+treatment alters the composition of the gut microbiota; however, we only
+observed a shift from diseased to normal colon for those initially
+diagnosed with carcinomas. Understanding how the community responds to
+these treatments could be a valuable tool for identifying biomarkers to
+quantify the risk of recurrence.
 
 \newpage
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{The Bacterial Community:}} Within our 67-person cohort we
-tested whether the microbiome in patients with adenoma (n = 22),
-advanced adenoma (n = 19), or carcinoma (n = 26) had any broad
-differences between pre- and post-treatment samples. We found that
-carcinoma patients had a more dissimilar bacterial community between
-these samples than those with adenoma (P-value \textless{} 0.001)
-{[}Figure 1A{]}. Although no significant differences were observed
-between advanced adenoma and carcinoma there was an increase in the
-dissimilarity of pre- and post-treatment samples from adenoma (0.55 ±
-0.21 (mean ± SD)) to advanced adenoma (0.65 ± 0.25) to carcinoma (0.78 ±
-0.15) {[}Figure 1A{]}. The bacterial community structure pre-
-post-treatment was visualized using NMDS for adenoma {[}Figure 1B{]}
-(PERMANOVA \textgreater{} 0.05), advanced adenoma {[}Figure 1C{]}
-(PERMANOVA \textgreater{} 0.05), and carcinoma {[}Figure 1D{]}
-(PERMANOVA \textless{} 0.05). Interestingly, when pre- and
-post-treatment samples were compared, regardless of whether they were
-adenoma or carcinoma, there was no significant overall difference in
-beta diversity (PERMANOVA \textgreater{} 0.05). There was no difference
-between pre- and post-treatment samples when investigating alpha
-diversity metrics for adenoma, advanced adenoma, or carcinoma {[}Table
-S1{]}. Additionally, there was also no difference in the relative
-abundance of any specific OTU between these samples for adenoma,
-advanced adenoma, or carcinoma only {[}Figure S1{]}.
+\textbf{\emph{Treatment alters the bacterial community structure of
+patients diagnosed with colonic lesions.}} Within our 67-person cohort
+we tested whether the microbiome of patients with adenoma (N=22),
+advanced adenoma (N=19), or carcinoma (N=26) had any broad differences
+between pre- and post-treatment samples (Table 1). The structure of the
+microbial communities of the pre- and post-treatment samples differed
+{[}Figure 1A{]}. We found that the communities obtained pre- and
+post-treament among the patients with carcinomas changed significantly
+more than those patients with adenoma (P-value \textless{} 0.001). There
+were no significant differences in the amount of change observed between
+the patients with adenoma and advanced adenoma or between the patients
+with advanced adenoma and carcinoma (P\textgreater{}0.05). Next, we
+tested whether there was a consistent direction in the change in the
+community structure between the pre and post-treatment samples for each
+of the diagnosis groups {[}Figure 1BCD{]}. We only observed a consistent
+shift in community structure for the patients with carcinoma when using
+a PERMANOVA test (adenoma P-value0.999, advanced adenoma P-value0.945,
+and carcinoma P-value0.005). Finally, we measured the number of observed
+OTUs, Shannon evenness, and Shannon diversity in the pre and
+post-treatment samples and did not observe a significant change for any
+of the diagnosis groups (P-value\textgreater{}0.05) {[}Table S1{]}.
 
-\textbf{\emph{Adenoma Model:}} Using normal and adenoma individuals from
-a separate cohort we created an adenoma model to help assess whether
-those with adenoma in this cohort changed towards normal. The range of
-model AUC's from 100 runs of 20 repeated 10-fold cross-validation was
-0.62 - 0.72 with the AUC of the model used for classification having an
-AUC of 0.65 {[}Figure S2A{]}. There was a total of 62 OTUs in this model
-with the vast majority classifying to bacteria typically thought of as
-commensal {[}Figure S3A{]}. There was a significant difference between
-the actual and predicted disease classification (P-value \textless{}
-0.05). There was also no significant decrease in the positive
-probability of adenoma between pre- and post-treatment samples (P-value
-\textgreater{} 0.05) {[}Figure 2A{]}.
+\textbf{\emph{The effects of treatment are not consistent across
+treatment groups.}} We used two approaches to identify those bacterial
+populations that change between the two samples for each diagnosis
+group. First, we sought to identify individual OTUs that could account
+for the change in overall community structure. However, using a paired
+Wilcoxon test we were unable to identify any OTUs that were
+significantly different in the pre and post-treatment groups {[}Figure
+S1{]}. It is likely that high inter-individual variation and the patchy
+distribution of OTUs across individuals limited the statistical power of
+the test. To overcome these problems we developed Random Forest models
+to identify collections of OTUs that would allow us to differentiate
+between pre and post-treatment samples from each of the diagnosis
+groups. Because of the relatively small number of subject in each group,
+we restricted our models to only incorporate 10 OTUs. Despite this
+restriction, the models performed well (adenoma AUC=0.69 - 0.92,
+advanced adenoma AUC=0.8 - 1, carcinoma AUC=0.82 - 0.98). Interestingly,
+the 10 OTUs that were used for each model had little overlap with each
+other {[}Figure 2{]}. These results support the earlier community-wide
+analysis where we observed that the treatment had an impact on the
+overall community structure; however, the effect of treatment was not
+consistent across patients and diagnosis groups.
 
-\textbf{\emph{Advanced Adenoma Model:}} Using normal and advanced
-adenoma individuals from a separate cohort we created an advanced
-adenoma model to help assess whether those with advanced adenoma in this
-cohort changed towards normal. The range of model AUC's from 100 runs of
-20 repeated 10-fold cross-validation was 0.68 - 0.77 with the AUC of the
-model used for classification having an AUC of 0.73 {[}Figure S2B{]}.
-There was a total of 61 OTUs in the advanced adenoma model {[}Figure
-S3B{]}. Similar to the adenoma model the vast majority of OTUs
-classified to bacteria typically thought of as commensal. Also similar
-to the adenoma model there was a significant difference between the
-actual and predicted disease classification (P-value \textless{} 0.05)
-and no significant decrease in the positive probability of advanced
-adenoma between pre- and post-treatment samples (P-value \textgreater{}
-0.05) {[}Figure 2B{]}.
+\textbf{\emph{Post-treatment samples from patients with carcinoma
+share}} Next, we determined whether treatment changed the microbiota in
+a way that the post-treatment communities resembled that of patients
+with normal colons. To test this, we used an expanded cohort of 423
+individuals that were diagnosed under the same protocol as having normal
+colons or colons with adenoma, advanced adenoma, or carcinoma (Table 2).
+We then constructed Random Forest models to classify the pre and
+post-treatment samples as having their original diagnosis or having a
+normal colon. The models performed well (adenoma AUC=0.62 - 0.72,
+advanced adenoma AUC=0.68 - 0.77, carcinoma AUC=0.84 - 0.9; Figure S2).
+The OTUs that were most important in the models for differentiating
+between patients with normal colons and those with adenomas or advanced
+adenomas were dominated by populations commonly considered as commensals
+(e.g. \emph{Faecalibacterium}, \emph{Lachnospiraceae},
+\emph{Bacteroides}, \emph{Dorea}, \emph{Anaerostipes}, and
+\emph{Roseburia}) {[}Figure S3{]}. Although many of these OTUs were also
+included in the model differentiating between patients with normal
+colons and those with carcinoma, this model also included OTUs
+affiliated with populations that have previously been associated with
+carcinoma (\emph{Fusobacterium}, \emph{Porphyromonas},
+\emph{Parvimonas}) {[}Figure S3{]}. Finally, we applied these three
+models to the pre and post-treatment samples for each diagnosis group
+and quantified the change in the positive probability of the model. A
+decrease in the positive probability would indicate that the colon more
+closely resembled that of a patient with a normal colon. There was not a
+significant change in the positive probability for the adenoma or
+advanced adenoma groups {[}Figure 3{]}. The positive probability for the
+pre and post-treatment samples from patients diagnosed with carcinoma
+significantly decreased. In fact, only 6 of the 26 patients (23.08\%)
+that were initially diagnosed with a carcinoma had a higher positive
+probability after treatment. One of those was re-diagnosed with
+carcinoma on the follow up visit. These results indicate that although
+there are changes in the microbiota associated with treatment, those
+experienced by the patients in the carcinoma group were the only ones
+where the change was directed towards what would be found in a normal
+colon
 
-\textbf{\emph{Carcinoma Model:}} Using normal and carcinoma individuals
-from a separate cohort we created a carcinoma model to help assess
-whether those with carcinoma in this cohort changed towards normal. The
-range of model AUC's from 100 runs of 20 repeated 10-fold
-cross-validation was 0.84 - 0.9 with the AUC of the model used for
-classification being 0.88 {[}Figure S2C{]}. Interestingly, the AUCs
-improved from adenoma to advanced adenoma to carcinoma {[}Figure 2{]}.
-There was a total of 59 OTUs in the carcinoma model {[}Figure S3C{]}.
-Similar to the adenoma and advanced adenoma models the vast majority of
-OTUs classified to bacteria typically thought of as commensal but OTUs
-that also classified to \emph{Fusobacterium}, \emph{Porphyromonas}, and
-\emph{Parvimonas} were also important for carcinoma classification
-{[}Figure S3C{]}. Also, like the adenoma and advanced adenoma models
-there was a significant difference between the actual and predicted
-disease classification (P-value \textless{} 0.05). There was a
-significant decrease in the positive probability of carcinoma between
-pre- and post-treatment samples (P-value \textless{} 0.05) {[}Figure
-2C{]}; suggesting that the carcinoma samples changed towards normal
-after treatment, unlike either adenoma or advanced adenoma. The one
-individual still positive for carcinoma after treatment had an increase
-in carcinoma positive proability between their pre- and post-treatment
-sample {[}Figure 2C{]}.
-
-\textbf{\emph{Common OTUs:}} Next, to identify which OTUs were important
-at all stages of disease, we identified common predictive OTUs within
-the adenoma, advanced adenoma, and carcinoma models. When we compared
-the three different models with each other there were a total of 26
-common OTUs. Some of the most common taxonomic identifications belonged
-to \emph{Bacteroides}, \emph{Blautia}, \emph{Anaerostipes},
-\emph{Lachnospiraceae}, and \emph{Dorea}. The vast majority of the OTUs
-that were common between these models had classifications to bacteria
-typically thought of as commensal {[}Table S2{]}. The rank of these
-OTUs, based on median mean decrease in accuracy (MDA), varied higly
-depending on whether they were in the adenoma, advanced adenoma, or
-carcinoma model {[}Figure 3{]}. As an example, \emph{Bacteroides}
-(OTU85) was ranked 14\textsuperscript{th} in the carcinoma model but in
-both the adenoma and advanced adenoma model ranked
-35\textsuperscript{th} and 41\textsuperscript{st} respectively {[}Figure
-3{]}.
-
-\textbf{\emph{Treatment Affects on Community:}} After observing these
-changes from treatment we assessed the possible confounding impact of
-chemotherapy or radiation, in the carcinoma group, and surgical
-resection, in the adenoma group, on the observed results. In the
-carcinoma group neither chemotherapy nor radiation provided any
-additional change from initial sample over surgery alone (P-value
-\textgreater{} 0.05) {[}Table S3{]}. For the adenoma group there was a
-single difference in observed OTUs (sobs) between those that received
-surgerical resection and those that had regular polyp removal (P-value
-\textless{} 0.05) {[}Table S4{]}. For the surgical resection comparison,
-adenoma and advanced adenoma were combined due to the low number of
-resection occurances in these two groups. Using a fisher exact test
-there was no difference in the proportion of those receiving surgerical
-resection between the adenoma and advanced adenoma groups (P-value
-\textgreater{} 0.05). This data suggests that the microbiome changes
-observed in the carcinoma group were mostly a result from surgerical
-resection and not from chemotherapy or radiation.
+\textbf{\emph{Difficult to identify effects of specific treatments on
+the change in the microbiota.}} The type of treatment that the patients
+received varied across diagnosis groups. Those with adenomas and
+advanced adenomas received surgical resection (adenoma, N=4; advanced
+adenoma, N=4) or polyp removal during colonoscopy (adenoma, N=18;
+advanced adenoma, N=15) and those with carcinomas received surgical
+resection (N=12), surgical resection with chemotherapy (N=9), and
+surgical resection with chemotherapy and radiation (N=5). We focused on
+the patients with carcinoma and pooled those patients that received
+chemotherapy with those that received chemotherapy and radiation to
+improve our statistical power. We did not observe a significant
+difference in the effect of these treatments on the number of observed
+OTUs, Shannon diversity, or Shannon evenness (P-value \textgreater{}
+0.05). Furthermore, there was not a significant difference in the effect
+of the treatments on the amount of change in the community structure (P=
+1). Finally, the change in the positive probability was not
+significantly different between the two treatment groups (P=1). Due to
+the relatively small number of samples in each treatment group, it is
+difficult to make a definitive statement regarding the specific type of
+treatment on the amount of change in the structure of the microbiota
 
 \newpage
 
@@ -352,18 +363,18 @@ resection and not from chemotherapy or radiation.
 This study builds upon previous work from numerous labs that have
 considered both how the bacterial community between those with and
 without CRC differs and how it might be used as an early screening tool
-{[}9,10,13--15{]}. Here we show that the microbiome changes towards
-normal after treatment for carcinoma and that chemotherapy and radiation
-did not provide any additional change. Although some of the important
-OTUs classified to genera from bacteria considered the ``usual
-suspects'' (e.g. \emph{Fusobacterium}, \emph{Porphyromonas}, and
-\emph{Parvimonas}) many did not. The majority of important OTUs had
-taxonomic classifications for resident gut microbes and were common for
-the adenoma, advanced adenoma, and carcinoma models. This suggests that
+{[}23--27{]}. Here we show that the microbiome changes towards normal
+after treatment for carcinoma and that chemotherapy and radiation did
+not provide any additional change. Although some of the important OTUs
+classified to genera from bacteria considered the ``usual suspects''
+(e.g. \emph{Fusobacterium}, \emph{Porphyromonas}, and \emph{Parvimonas})
+many did not. The majority of important OTUs had taxonomic
+classifications for resident gut microbes and were common for the
+adenoma, advanced adenoma, and carcinoma models. This suggests that
 members within the commensal community may be the first that change
 during CRC pathogenesis. These subtle changes, in turn, could be the
 first step in allowing more inflammatory bacteria to gain a foothold
-within the colon {[}11{]}.
+within the colon {[}13{]}.
 
 Unlike previous studies on the microbiome and CRC, ours focuses on
 comparing the microbiome during recovery from treatment in adenoma,
@@ -379,19 +390,19 @@ commensal bacteria.
 
 Many of the common OTUs that we identified taxonomically classified to
 potential butyrate producers (e.g. \emph{Clostridiales},
-\emph{Roseburia}, and \emph{Anaerostipes}) {[}Table S2{]}. Other OTUs
+\emph{Roseburia}. and \emph{Anaerostipes}) {[}Table S2{]}. Other OTUs
 classified to bacteria that are inhibited by polyphenols (e.g.
 \emph{Bacteroides}). Both butyrate and polyphenols are thought to be
-protective against cancer, in part by reducing inflammation {[}16{]}.
+protective against cancer, in part by reducing inflammation {[}28{]}.
 These protective compounds are derived from the breakdown of fiber,
 fruits, and vegetables by resident gut microbes. One example of this
 potential diet-microbiome-inflammation-polyp axis is that
 \emph{Bacteroides}, which was highly prevalent in our models, are known
 to be increased in those with high non-meat based protein consumption
-{[}17{]}. High protein consumption in general has been linked with an
-increased CRC risk {[}18{]}. Conversely, \emph{Bacteroides} are
+{[}29{]}. High protein consumption in general has been linked with an
+increased CRC risk {[}30{]}. Conversely, \emph{Bacteroides} are
 inhibited by polyphenols which are derived from fruits and vegetables
-{[}19{]}. Our data fits with the hypothesis that the microbial
+{[}31{]}. Our data fits with the hypothesis that the microbial
 metabolites from breakdown products within our own diet could not only
 help to shape the existing community but also have an effect on CRC risk
 and disease progression. Within this context the commensal community may
@@ -433,7 +444,7 @@ though at follow up they were diagnosed as no longer having carcinoma.
 It would also provide additional evidence that the microbiome could be
 used as a risk stratification tool in monitoring recurrence risk and
 whether different interventions could potentially change this community
-and lower the probability of future reccurence.
+and lower the probability of future recurrence.
 
 Despite the stated shortcomings our findings add to the existing
 scientific knowledge on CRC and the microbiome: That there is a
@@ -452,7 +463,7 @@ recovery of the microbiome in CRC following treatment.
 \subsection{Methods}\label{methods}
 
 \textbf{\emph{Study Design and Patient Sampling:}} Sampling and design
-have been previously reported in Baxter, et al {[}9{]}. Briefly, study
+have been previously reported in Baxter, et al {[}23{]}. Briefly, study
 exclusion involved those who had already undergone surgery, radiation,
 or chemotherapy, had colorectal cancer before a baseline fecal sample
 could be obtained, had IBD, a known hereditary non-polyposis colorectal
@@ -460,7 +471,7 @@ cancer, or familial adenomatous polyposis. Samples used to build the
 models for prediction were collected either prior to a colonoscopy or
 between 1 - 2 weeks after. The bacterial community has been shown to
 normalize back to a pre-colonoscopy community within this time period
-{[}20{]}. Our training cohort consisted of a total of 423 individuals
+{[}32{]}. Our training cohort consisted of a total of 423 individuals
 {[}Table 1{]}. Our study cohort consisted of 67 individuals with an
 initial sample as described and a follow up sample obtained between 188
 - 546 days after treatment of lesion {[}Table 2{]}. This study was
@@ -469,7 +480,7 @@ study participants provided informed consent and the study itself
 conformed to the guidelines set out by the Helsinki Declaration.
 
 \textbf{\emph{16S rRNA Gene Sequencing:}} Sequencing was completed as
-described by Kozich, et al. {[}21{]}. DNA extraction used the 96-well
+described by Kozich, et al. {[}33{]}. DNA extraction used the 96-well
 Soil DNA isolation kit (MO BIO Laboratories) and an epMotion 5075
 automated pipetting system (Eppendorf). The V4 variable region was
 amplified and the resulting product was split between three sequencing
@@ -480,7 +491,7 @@ on the same run.
 
 \textbf{\emph{Sequence Processing:}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences and has been
-previously described {[}21{]}. The general workflow using mothur was:
+previously described {[}33{]}. The general workflow using mothur was:
 Paired-end reads were first merged into contigs, quality filtered,
 aligned to the SILVA database, screened for chimeras, classified with a
 naive Bayesian classifier using the Ribosomal Database Project (RDP),
@@ -489,7 +500,7 @@ similarity cutoff with an average neighbor clustering algorithm. The
 number of sequences for each sample was rarefied to 10523 to minimize
 uneven sampling.
 
-\textbf{\emph{Model Building:}} The Random Forest {[}22{]} algorithm was
+\textbf{\emph{Model Building:}} The Random Forest {[}34{]} algorithm was
 used to create the model used to create the three models used. The
 adenoma model classified normal versus adenoma, advanced adenoma was
 normal versus advanced adenoma, and carcinoma was normal versus
@@ -537,11 +548,11 @@ model.
 
 \textbf{\emph{Statistical Analysis:}} The R software package (v3.3.2)
 was used for all statistical analysis. Comparisons between bacterial
-community structure utilized PERMANOVA {[}23{]} in the vegan package
+community structure utilized PERMANOVA {[}35{]} in the vegan package
 (v2.4.1). Comparisons between probabilities as well as overall OTU
 differences between pre- and post-treatment samples utilized a paired
 Wilcoxson ranked sum test. Where multiple comparison testing was
-appropriate, a Benjamini-Hochberg (BH) correction was applied {[}24{]}
+appropriate, a Benjamini-Hochberg (BH) correction was applied {[}36{]}
 and a corrected P-value of less than 0.05 was considered significant.
 Unless otherwise stated the P-values reported are those that were BH
 corrected. Model rank importance was determined by obtining the median
@@ -569,10 +580,11 @@ respective SRA study accession.
 
 \newpage
 
-\textbf{Figure 1: General Differences between Adenoma, Advanced Adenoma,
-and Carcinoma Groups After Treatment.} A) A significant difference was
+**Figure 1: General Differences between Adenoma, Advanced Adenoma, and
+Carcinoma Groups After Treatment.*. A) A significant difference was
 found between the adenoma and carcinoma group for thetayc (P-value =
-NULL). B) NMDS of the pre- and post-treatment samples for the adenoma
+NULL). Solid black points represent the median value for each diagnosis
+group. B) NMDS of the pre- and post-treatment samples for the adenoma
 group. C) NMDS of the pre- and post-treatment samples for the advanced
 adenoma group. D) NMDS of the pre- and post-treatment samples for the
 carcinoma group.
@@ -599,30 +611,29 @@ each model run is shown.
 \textbf{Figure S1: Distribution of P-values from Paired Wilcoxson
 Analysis of All OTUs Before and After Treatment}
 
-\textbf{Figure S2: ROC Curves of the Adenoma, Advanced Adenoma, and
-Carcinoma Models.} A) Adenoma ROC curve: The light green shaded areas
-represent the range of values of a 100 different 80/20 splits of the
-test set data and the dark green line represents the model using 100\%
-of the data set and what was used for subsequent classification. B)
-Advanced Adenoma ROC curve: The light yellow shaded areas represent the
-range of values of a 100 different 80/20 splits of the test set data and
-the dark yellow line represents the model using 100\% of the data set
-and what was used for subsequent classification. C) Carcinoma ROC curve:
-The light red shaded areas represent the range of values of a 100
-different 80/20 splits of the test set data and the dark red line
+**Figure S2: ROC Curves of the Adenoma, Advanced Adenoma, and Carcinoma
+Models.*. A) Adenoma ROC curve: The light green shaded areas represent
+the range of values of a 100 different 80/20 splits of the test set data
+and the dark green line represents the model using 100\% of the data set
+and what was used for subsequent classification. B) Advanced Adenoma ROC
+curve: The light yellow shaded areas represent the range of values of a
+100 different 80/20 splits of the test set data and the dark yellow line
 represents the model using 100\% of the data set and what was used for
-subsequent classification.
+subsequent classification. C) Carcinoma ROC curve: The light red shaded
+areas represent the range of values of a 100 different 80/20 splits of
+the test set data and the dark red line represents the model using 100\%
+of the data set and what was used for subsequent classification.
 
-\textbf{Figure S3: Summary of Important Variables for the Adenoma,
-Advanced Adenoma, and Carcinoma Models.} A) MDA of the most important
-variables in the adenoma model. The dark green point represents the mean
-and the lighter green points are the value of each of the 100 different
-runs. B) Summary of Important Variables in the advanced adenoma model.
-MDA of the most important variables in the SRN model. The dark yellow
-point represents the mean and the lighter yellow points are the value of
-each of the 100 different runs. C) MDA of the most important variables
-in the carcinoma model. The dark red point represents the mean and the
-lighter red points are the value of each of the 100 different runs.
+**Figure S3: Summary of Important Variables for the Adenoma, Advanced
+Adenoma, and Carcinoma Models.*. A) MDA of the most important variables
+in the adenoma model. The dark green point represents the mean and the
+lighter green points are the value of each of the 100 different runs. B)
+Summary of Important Variables in the advanced adenoma model. MDA of the
+most important variables in the SRN model. The dark yellow point
+represents the mean and the lighter yellow points are the value of each
+of the 100 different runs. C) MDA of the most important variables in the
+carcinoma model. The dark red point represents the mean and the lighter
+red points are the value of each of the 100 different runs.
 
 \newpage
 
@@ -702,109 +713,174 @@ Predictive factors and the prognosis of recurrence of colorectal cancer
 within 2 years after curative resection. Annals of Surgical Treatment
 and Research. 2014;86:143--51.
 
-\hypertarget{ref-zackular_manipulation_2016}{}
-5. Zackular JP, Baxter NT, Chen GY, Schloss PD. Manipulation of the Gut
-Microbiota Reveals Role in Colon Tumorigenesis. mSphere. 2016;1.
+\hypertarget{ref-goodwin_polyamine_2011}{}
+5. Goodwin AC, Destefano Shields CE, Wu S, Huso DL, Wu X, Murray-Stewart
+TR, et al. Polyamine catabolism contributes to enterotoxigenic
+Bacteroides fragilis-induced colon tumorigenesis. Proceedings of the
+National Academy of Sciences of the United States of America.
+2011;108:15354--9.
+
+\hypertarget{ref-abed_fap2_2016}{}
+6. Abed J, Emgård JEM, Zamir G, Faroja M, Almogy G, Grenov A, et al.
+Fap2 Mediates Fusobacterium nucleatum Colorectal Adenocarcinoma
+Enrichment by Binding to Tumor-Expressed Gal-GalNAc. Cell Host \&
+Microbe. 2016;20:215--25.
 
 \hypertarget{ref-arthur_microbial_2014}{}
-6. Arthur JC, Gharaibeh RZ, Mühlbauer M, Perez-Chanona E, Uronis JM,
+7. Arthur JC, Gharaibeh RZ, Mühlbauer M, Perez-Chanona E, Uronis JM,
 McCafferty J, et al. Microbial genomic analysis reveals the essential
 role of inflammation in bacteria-induced colorectal cancer. Nature
 Communications. 2014;5:4724.
 
+\hypertarget{ref-kostic_fusobacterium_2013}{}
+8. Kostic AD, Chun E, Robertson L, Glickman JN, Gallini CA, Michaud M,
+et al. Fusobacterium nucleatum potentiates intestinal tumorigenesis and
+modulates the tumor-immune microenvironment. Cell Host \& Microbe.
+2013;14:207--15.
+
+\hypertarget{ref-wu_human_2009}{}
+9. Wu S, Rhee K-J, Albesiano E, Rabizadeh S, Wu X, Yen H-R, et al. A
+human colonic commensal promotes colon tumorigenesis via activation of T
+helper type 17 T cell responses. Nature Medicine. 2009;15:1016--22.
+
+\hypertarget{ref-zackular_manipulation_2016}{}
+10. Zackular JP, Baxter NT, Chen GY, Schloss PD. Manipulation of the Gut
+Microbiota Reveals Role in Colon Tumorigenesis. mSphere. 2016;1.
+
 \hypertarget{ref-zackular_gut_2013}{}
-7. Zackular JP, Baxter NT, Iverson KD, Sadler WD, Petrosino JF, Chen GY,
-et al. The gut microbiome modulates colon tumorigenesis. mBio.
+11. Zackular JP, Baxter NT, Iverson KD, Sadler WD, Petrosino JF, Chen
+GY, et al. The gut microbiome modulates colon tumorigenesis. mBio.
 2013;4:e00692--00613.
 
+\hypertarget{ref-baxter_structure_2014}{}
+12. Baxter NT, Zackular JP, Chen GY, Schloss PD. Structure of the gut
+microbiome following colonization with human feces determines colonic
+tumor burden. Microbiome. 2014;2:20.
+
+\hypertarget{ref-flynn_metabolic_2016}{}
+13. Flynn KJ, Baxter NT, Schloss PD. Metabolic and Community Synergy of
+Oral Bacteria in Colorectal Cancer. mSphere. 2016;1.
+
+\hypertarget{ref-wang_structural_2012}{}
+14. Wang T, Cai G, Qiu Y, Fei N, Zhang M, Pang X, et al. Structural
+segregation of gut microbiota between colorectal cancer patients and
+healthy volunteers. The ISME journal. 2012;6:320--9.
+
+\hypertarget{ref-chen_decreased_2013}{}
+15. Chen H-M, Yu Y-N, Wang J-L, Lin Y-W, Kong X, Yang C-Q, et al.
+Decreased dietary fiber intake and structural alteration of gut
+microbiota in patients with advanced colorectal adenoma. The American
+Journal of Clinical Nutrition. 2013;97:1044--52.
+
+\hypertarget{ref-chen_human_2012}{}
+16. Chen W, Liu F, Ling Z, Tong X, Xiang C. Human intestinal lumen and
+mucosa-associated microbiota in patients with colorectal cancer. PloS
+One. 2012;7:e39743.
+
+\hypertarget{ref-shen_molecular_2010}{}
+17. Shen XJ, Rawls JF, Randall T, Burcal L, Mpande CN, Jenkins N, et al.
+Molecular characterization of mucosal adherent bacteria and associations
+with colorectal adenomas. Gut Microbes. 2010;1:138--47.
+
+\hypertarget{ref-kostic_genomic_2012}{}
+18. Kostic AD, Gevers D, Pedamallu CS, Michaud M, Duke F, Earl AM, et
+al. Genomic analysis identifies association of Fusobacterium with
+colorectal carcinoma. Genome Research. 2012;22:292--8.
+
+\hypertarget{ref-feng_gut_2015}{}
+19. Feng Q, Liang S, Jia H, Stadlmayr A, Tang L, Lan Z, et al. Gut
+microbiome development along the colorectal adenoma-carcinoma sequence.
+Nature Communications. 2015;6:6528.
+
 \hypertarget{ref-dejea_microbiota_2014}{}
-8. Dejea CM, Wick EC, Hechenbleikner EM, White JR, Mark Welch JL,
+20. Dejea CM, Wick EC, Hechenbleikner EM, White JR, Mark Welch JL,
 Rossetti BJ, et al. Microbiota organization is a distinct feature of
 proximal colorectal cancers. Proceedings of the National Academy of
 Sciences of the United States of America. 2014;111:18321--6.
 
+\hypertarget{ref-mima_fusobacterium_2015}{}
+21. Mima K, Sukawa Y, Nishihara R, Qian ZR, Yamauchi M, Inamura K, et
+al. Fusobacterium nucleatum and T Cells in Colorectal Carcinoma. JAMA
+oncology. 2015;1:653--61.
+
+\hypertarget{ref-arthur_intestinal_2012}{}
+22. Arthur JC, Perez-Chanona E, Mühlbauer M, Tomkovich S, Uronis JM, Fan
+T-J, et al. Intestinal inflammation targets cancer-inducing activity of
+the microbiota. Science (New York, N.Y.). 2012;338:120--3.
+
 \hypertarget{ref-baxter_microbiota-based_2016}{}
-9. Baxter NT, Ruffin MT, Rogers MAM, Schloss PD. Microbiota-based model
+23. Baxter NT, Ruffin MT, Rogers MAM, Schloss PD. Microbiota-based model
 improves the sensitivity of fecal immunochemical test for detecting
 colonic lesions. Genome Medicine. 2016;8:37.
 
 \hypertarget{ref-zeller_potential_2014}{}
-10. Zeller G, Tap J, Voigt AY, Sunagawa S, Kultima JR, Costea PI, et al.
+24. Zeller G, Tap J, Voigt AY, Sunagawa S, Kultima JR, Costea PI, et al.
 Potential of fecal microbiota for early-stage detection of colorectal
 cancer. Molecular Systems Biology. 2014;10:766.
 
-\hypertarget{ref-flynn_metabolic_2016}{}
-11. Flynn KJ, Baxter NT, Schloss PD. Metabolic and Community Synergy of
-Oral Bacteria in Colorectal Cancer. mSphere. 2016;1.
-
-\hypertarget{ref-hassan_efficacy_2016}{}
-12. Hassan C, Repici A, Sharma P, Correale L, Zullo A, Bretthauer M, et
-al. Efficacy and safety of endoscopic resection of large colorectal
-polyps: A systematic review and meta-analysis. Gut. 2016;65:806--20.
-
-\hypertarget{ref-yu_metagenomic_2017}{}
-13. Yu J, Feng Q, Wong SH, Zhang D, Liang QY, Qin Y, et al. Metagenomic
-analysis of faecal microbiome as a tool towards targeted non-invasive
-biomarkers for colorectal cancer. Gut. 2017;66:70--8.
-
 \hypertarget{ref-zackular_human_2014}{}
-14. Zackular JP, Rogers MAM, Ruffin MT, Schloss PD. The human gut
+25. Zackular JP, Rogers MAM, Ruffin MT, Schloss PD. The human gut
 microbiome as a screening tool for colorectal cancer. Cancer Prevention
 Research (Philadelphia, Pa.). 2014;7:1112--21.
 
+\hypertarget{ref-yu_metagenomic_2017}{}
+26. Yu J, Feng Q, Wong SH, Zhang D, Liang QY, Qin Y, et al. Metagenomic
+analysis of faecal microbiome as a tool towards targeted non-invasive
+biomarkers for colorectal cancer. Gut. 2017;66:70--8.
+
 \hypertarget{ref-warren_co-occurrence_2013}{}
-15. Warren RL, Freeman DJ, Pleasance S, Watson P, Moore RA, Cochrane K,
+27. Warren RL, Freeman DJ, Pleasance S, Watson P, Moore RA, Cochrane K,
 et al. Co-occurrence of anaerobic bacteria in colorectal carcinomas.
 Microbiome. 2013;1:16.
 
 \hypertarget{ref-louis_gut_2014}{}
-16. Louis P, Hold GL, Flint HJ. The gut microbiota, bacterial
+28. Louis P, Hold GL, Flint HJ. The gut microbiota, bacterial
 metabolites and colorectal cancer. Nature Reviews Microbiology
 {[}Internet{]}. 2014 {[}cited 2017 Feb 14{]};12:661--72. Available from:
 \url{http://www.nature.com/doifinder/10.1038/nrmicro3344}
 
 \hypertarget{ref-zhu_intake_2016}{}
-17. Zhu Y, Lin X, Li H, Li Y, Shi X, Zhao F, et al. Intake of Meat
+29. Zhu Y, Lin X, Li H, Li Y, Shi X, Zhao F, et al. Intake of Meat
 Proteins Substantially Increased the Relative Abundance of Genus
 Lactobacillus in Rat Feces. PloS One. 2016;11:e0152678.
 
 \hypertarget{ref-mu_colonic_2016}{}
-18. Mu C, Yang Y, Luo Z, Guan L, Zhu W. The Colonic Microbiome and
+30. Mu C, Yang Y, Luo Z, Guan L, Zhu W. The Colonic Microbiome and
 Epithelial Transcriptome Are Altered in Rats Fed a High-Protein Diet
 Compared with a Normal-Protein Diet. The Journal of Nutrition.
 2016;146:474--83.
 
 \hypertarget{ref-ozdal_reciprocal_2016}{}
-19. Ozdal T, Sela DA, Xiao J, Boyacioglu D, Chen F, Capanoglu E. The
+31. Ozdal T, Sela DA, Xiao J, Boyacioglu D, Chen F, Capanoglu E. The
 Reciprocal Interactions between Polyphenols and Gut Microbiota and
 Effects on Bioaccessibility. Nutrients {[}Internet{]}. 2016 {[}cited
 2017 Feb 14{]};8:78. Available from:
 \url{http://www.mdpi.com/2072-6643/8/2/78}
 
 \hypertarget{ref-obrien_impact_2013}{}
-20. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
+32. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
 bowel preparation on intestinal microbiota. PloS One. 2013;8:e62815.
 
 \hypertarget{ref-kozich_development_2013}{}
-21. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
+33. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
 Development of a dual-index sequencing strategy and curation pipeline
 for analyzing amplicon sequence data on the MiSeq Illumina sequencing
 platform. Applied and Environmental Microbiology. 2013;79:5112--20.
 
 \hypertarget{ref-breiman_random_2001}{}
-22. Breiman L. Random Forests. Machine Learning {[}Internet{]}. 2001
+34. Breiman L. Random Forests. Machine Learning {[}Internet{]}. 2001
 {[}cited 2013 Feb 7{]};45:5--32. Available from:
 \href{http://link.springer.com/article/10.1023/A\%3A1010933404324\%20http://link.springer.com/article/10.1023\%2FA\%3A1010933404324?LI=true}{http://link.springer.com/article/10.1023/A\%3A1010933404324 http://link.springer.com/article/10.1023\%2FA\%3A1010933404324?LI=true}
 
 \hypertarget{ref-anderson_permanova_2013}{}
-23. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
+35. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
 the face of heterogeneous dispersions: What null hypothesis are you
 testing? Ecological Monographs {[}Internet{]}. 2013 {[}cited 2017 Jan
 5{]};83:557--74. Available from:
 \url{http://doi.wiley.com/10.1890/12-2010.1}
 
 \hypertarget{ref-benjamini_controlling_1995}{}
-24. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
+36. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
 practical and powerful approach to multiple testing. Journal of the
 Royal Statistical Society. Series B (Methodological). 1995;57:289--300.
 

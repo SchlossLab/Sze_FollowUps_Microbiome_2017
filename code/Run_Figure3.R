@@ -25,7 +25,7 @@ Lesion_plot <- grid.arrange(
   ggplot(adn_red_follow_up_probability, 
          aes(factor(sampleType, 
                     levels = c("initial", "followup"), labels = c("Pre", "Post")), 
-             Yes, group = factor(EDRN))) + 
+             Yes, group = EDRN)) + 
     geom_point(color = '#006400', size = 2) + 
     geom_line(color = '#66CD00') + 
     coord_cartesian(ylim = c(0, 0.75)) + 
