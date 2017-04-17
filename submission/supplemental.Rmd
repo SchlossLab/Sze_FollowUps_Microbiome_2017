@@ -2,7 +2,7 @@
 title: ""
 bibliography:
 csl: microbiome.csl
-output: 
+output:
   pdf_document:
     keep_tex: true
     includes:
@@ -41,7 +41,7 @@ loadLibs(c("tidyr", "dplyr", "scales", "knitr", "rmarkdown"))
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
 
 alpha_table <- read.csv("../data/process/tables/alpha_table_summary.csv", header = T, stringsAsFactors = F)
-supplemental_table1 <- separate(alpha_table, X, c("comparison", "alpha_metric"), sep="_") 
+supplemental_table1 <- separate(alpha_table, X, c("comparison", "alpha_metric"), sep="_")
 
 colnames(supplemental_table1) <- c("Comparison", "Alpha Metric", "P-value", "BH Adjusted P-value")
 
@@ -54,10 +54,9 @@ kable(supplemental_table1, format = "markdown", align = 'c', padding = 2)
 \newcommand{\blandscape}{\begin{landscape}}
 \newcommand{\elandscape}{\end{landscape}}
 
-\blandscape
-
-
 **Table S2: Summary of Common OTUs for All Diagnosis Groups**
+
+\footnotesize
 
 ```{r supplemental_table2, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -78,31 +77,29 @@ adn_MDA <- filter(adn_varsMDA, otu %in% common_vars) %>% slice(match(common_vars
 srn_MDA <- filter(srn_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)) %>% select(median_MDA)
 crc_MDA <- filter(crc_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)) %>% select(median_MDA)
 
-st2 <- select(common_vars_summary, otu) %>% 
-  mutate(Tax = gsub("_unclassified", "", common_vars_summary$lowest_ID)) %>% 
-  mutate(otu = paste("OTU", common_num, sep = "")) %>% 
-  mutate(adn_MDA = round(adn_MDA$median_MDA, digits = 2), srn_MDA = round(srn_MDA$median_MDA, digits = 2), crc_MDA = round(crc_MDA$median_MDA, digits = 2)) %>% 
+st2 <- select(common_vars_summary, otu) %>%
+  mutate(Tax = gsub("_unclassified", "", common_vars_summary$lowest_ID)) %>%
+  mutate(otu = paste("OTU", common_num, sep = "")) %>%
+  mutate(adn_MDA = round(adn_MDA$median_MDA, digits = 2), srn_MDA = round(srn_MDA$median_MDA, digits = 2), crc_MDA = round(crc_MDA$median_MDA, digits = 2)) %>%
   arrange(desc(adn_MDA), desc(srn_MDA), desc(crc_MDA))
 
 colnames(st2) <- c("OTU", "Lowest Taxonomic ID", "Adenoma Median MDA", "Advanced Adenoma Median MDA", "Carcinoma Median MDA")
 
 kable(st2, format = "markdown", align = 'c', padding = 0)
-
 ```
-
-
+\normalsize
 \newpage
 
 
 **Table S3: Summary of Comparisons based on Chemotherapy or Radiation Received**
-
+\footnotesize
 ```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
-chemo_rad_summary <- read.csv('../data/process/tables/probs_chemo_rad_pvalue_summary.csv', 
-                              header = T, stringsAsFactors = F) %>% filter(X != "chemo_v_rads_IF") %>% 
-  separate(X, c("comparison", "variable"), sep = "_") %>% 
-  mutate(comparison = ifelse(comparison == "rads" | comparison == "rad", invisible("Radiation"), invisible("Chemotherapy")), 
-         variable = c(rep("sobs", 2), rep("Shannon", 2), rep("Evenness", 2), rep("Thetayc", 2), rep("Positive Probability", 4)))
+chemo_rad_summary <- read.csv('../data/process/tables/probs_chemo_rad_pvalue_summary.csv',
+                              header = T, stringsAsFactors = F) %>% filter(X != "chemo_v_rads_IF") %>%
+  separate(X, c("comparison", "variable"), sep = "_") %>%
+  mutate(comparison = ifelse(comparison == "rads" | comparison == "rad", invisible("Radiation"), invisible("Chemotherapy")),
+         variable = c(rep("Richness", 2), rep("Shannon", 2), rep("Evenness", 2), rep("Thetayc", 2), rep("Positive Probability", 4)))
 
 
 st3 <- cbind(chemo_rad_summary$variable, chemo_rad_summary$comparison, format(chemo_rad_summary$chemo_rad_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$removal_only_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$cr_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$ro_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$pvalue, scientific = TRUE, digits = 2), format(chemo_rad_summary$bh, scientific = TRUE, digits = 2))
@@ -113,9 +110,9 @@ kable(st3, format = "markdown", align = 'c', padding = 2)
 
 
 ```
+\normalsize
 
 
-\elandscape
 
 \newpage
 
@@ -124,10 +121,10 @@ kable(st3, format = "markdown", align = 'c', padding = 2)
 ```{r supplemental_table4, echo=FALSE, message=FALSE, warning=FALSE}
 
 
-adn_surg_summary <- read.csv('../data/process/tables/adn_combined_probs_surgery_pvalue_summary.csv', 
-                              header = T, stringsAsFactors = F) %>% 
-  filter(X != "prop_surg_adn_srn") %>% 
-  mutate(variable = c("sobs", "Shannon", "Evenness", "Thetayc", "Adenoma Only\nPositive Probability", "SRN Only\nPositive Probablity"))
+adn_surg_summary <- read.csv('../data/process/tables/adn_combined_probs_surgery_pvalue_summary.csv',
+                              header = T, stringsAsFactors = F) %>%
+  filter(X != "prop_surg_adn_srn") %>%
+  mutate(variable = c("Richness", "Shannon", "Evenness", "Thetayc", "Adenoma Only\nPositive Probability", "SRN Only\nPositive Probablity"))
 
 
 
@@ -139,13 +136,3 @@ kable(st4, format = "markdown", align = 'c', padding = 2)
 
 
 ```
-
-
-
-
-
-
-
-
-
-
