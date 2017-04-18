@@ -41,7 +41,9 @@ loadLibs(c("tidyr", "dplyr", "scales", "knitr", "rmarkdown"))
 ```{r supplemental_table1, echo=FALSE, message=FALSE, warning=FALSE}
 
 alpha_table <- read.csv("../data/process/tables/alpha_table_summary.csv", header = T, stringsAsFactors = F)
-supplemental_table1 <- separate(alpha_table, X, c("comparison", "alpha_metric"), sep="_")
+supplemental_table1 <- separate(alpha_table, X, c("comparison", "alpha_metric"), sep="_") %>% 
+  mutate(alpha_metric = gsub("sobs", "richness", alpha_metric), 
+         comparison = c(rep("Adenoma", 3), rep("Advanced Adenoma", 3), rep("Carcinoma", 3)))
 
 colnames(supplemental_table1) <- c("Comparison", "Alpha Metric", "P-value", "BH Adjusted P-value")
 
@@ -91,20 +93,18 @@ kable(st2, format = "markdown", align = 'c', padding = 0)
 \newpage
 
 
-**Table S3: Summary of Comparisons based on Chemotherapy or Radiation Received**
+**Table S3: Summary of Comparisons Based on Additive Treatment Received (Chemotherapy or Chemotherapy and Radiation)**
 \footnotesize
 ```{r supplemental_table3, echo=FALSE, message=FALSE, warning=FALSE}
 
-chemo_rad_summary <- read.csv('../data/process/tables/probs_chemo_rad_pvalue_summary.csv',
-                              header = T, stringsAsFactors = F) %>% filter(X != "chemo_v_rads_IF") %>%
-  separate(X, c("comparison", "variable"), sep = "_") %>%
-  mutate(comparison = ifelse(comparison == "rads" | comparison == "rad", invisible("Radiation"), invisible("Chemotherapy")),
-         variable = c(rep("Richness", 2), rep("Shannon", 2), rep("Evenness", 2), rep("Thetayc", 2), rep("Positive Probability", 4)))
+chemo_rad_summary <- read.csv('../data/process/tables/crc_probs_chemo_rad_pvalue_summary.csv',
+                              header = T, stringsAsFactors = F) %>% filter(X != "chemo_v_rads_red") %>% 
+  separate(X, c("comparison", "variable"), sep = "_") %>% mutate(comparison = c("Richness", "Shannon", "Evenness", "Thetayc", "Positive Probability")) %>% select(-variable)
+  
+  
+st3 <- cbind(chemo_rad_summary$comparison, format(chemo_rad_summary$chemo_rad_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$removal_only_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$cr_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$ro_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$pvalue, scientific = TRUE, digits = 2), format(chemo_rad_summary$bh, scientific = TRUE, digits = 2))
 
-
-st3 <- cbind(chemo_rad_summary$variable, chemo_rad_summary$comparison, format(chemo_rad_summary$chemo_rad_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$removal_only_mean, digits = 1, nsmall = 1), format(chemo_rad_summary$cr_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$ro_sd, digits = 1, nsmall = 1), format(chemo_rad_summary$pvalue, scientific = TRUE, digits = 2), format(chemo_rad_summary$bh, scientific = TRUE, digits = 2))
-
-colnames(st3) <- c("Variable", "Additive Treatment", "Additive Treatment Mean", "Removal Mean", "Additive Treatment SD", "Removal SD", "P-value", "BH Corrected")
+colnames(st3) <- c("Variable", "Additive Treatment Mean", "Removal Mean", "Additive Treatment SD", "Removal SD", "P-value", "BH Corrected")
 
 kable(st3, format = "markdown", align = 'c', padding = 2)
 
@@ -124,7 +124,7 @@ kable(st3, format = "markdown", align = 'c', padding = 2)
 adn_surg_summary <- read.csv('../data/process/tables/adn_combined_probs_surgery_pvalue_summary.csv',
                               header = T, stringsAsFactors = F) %>%
   filter(X != "prop_surg_adn_srn") %>%
-  mutate(variable = c("Richness", "Shannon", "Evenness", "Thetayc", "Adenoma Only\nPositive Probability", "SRN Only\nPositive Probablity"))
+  mutate(variable = c("Richness", "Shannon", "Evenness", "Thetayc", "Adenoma Only\nPositive Probability", "Advanced Adenoma Only\nPositive Probablity"))
 
 
 
