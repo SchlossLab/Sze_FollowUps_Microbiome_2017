@@ -40,7 +40,7 @@ differences_graph <- grid.arrange(
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
           legend.title = element_text(face="bold"), 
           legend.position = "none", 
-          title = element_text(face="bold", hjust = 0), 
+          plot.title = element_text(face="bold", hjust = -0.3, size = 20), 
           panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank()) + coord_fixed(ratio = 1.8), 
   
@@ -53,7 +53,7 @@ differences_graph <- grid.arrange(
     theme_bw() + coord_equal() + ggtitle("B") + ylim(-0.7, 0.7) + xlim(-0.7, 0.7) + 
     scale_color_manual(values = c('#00EE76', '#228B22')) + scale_fill_manual(values = c('#00EE76', '#228B22')) + 
     scale_shape_manual(values = c(16, 1)) + 
-    theme(plot.title = element_text(face = "bold", hjust = 0), 
+    theme(plot.title = element_text(face="bold", hjust = -0.32, size = 20), 
           legend.position = c(0.15, 0.11), 
           legend.title = element_blank(), 
           legend.key = element_blank(), 
@@ -71,7 +71,7 @@ differences_graph <- grid.arrange(
     theme_bw() + coord_equal() + ggtitle("C") + ylim(-0.7, 0.7) + xlim(-0.7, 0.7) + 
     scale_color_manual(values = c('#CDAD00', '#8B7500')) + scale_fill_manual(values = c('#CDAD00', '#8B7500')) + 
     scale_shape_manual(values = c(16, 1)) + 
-    theme(plot.title = element_text(face = "bold", hjust = 0), 
+    theme(plot.title = element_text(face="bold", hjust = -0.32, size = 20), 
           legend.position = c(0.15, 0.11), 
           legend.title = element_blank(), 
           legend.key = element_blank(), 
@@ -90,7 +90,7 @@ differences_graph <- grid.arrange(
     coord_equal() + ggtitle("D") + ylim(-0.7, 0.7) + xlim(-0.7, 0.7) +
     scale_color_manual(values = c('#EEA2AD', '#DC143C')) + scale_fill_manual(values = c('#EEA2AD', '#DC143C')) + 
     scale_shape_manual(values = c(16, 1)) + 
-    theme(plot.title = element_text(face = "bold", hjust = 0), 
+    theme(plot.title = element_text(face="bold", hjust = -0.32, size = 20), 
           legend.position = c(0.15, 0.11), 
           legend.title = element_blank(), 
           legend.background = element_rect(color = "black"), 

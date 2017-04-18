@@ -35,7 +35,7 @@ venn_graph <- as.data.frame(cbind(g1 = c(4.5, 5.4, 6.2), g2 = c(6.5, 5.6, 6.5)))
   coord_cartesian(xlim = c(1:10), ylim = c(4:8.5)) + xlab("") + ylab("") + 
   theme_bw() + ggtitle("A") + 
   theme(legend.position = "none", 
-        title = element_text(face = "bold"), 
+        plot.title = element_text(face = "bold", size = 20), 
         axis.text = element_blank(), 
         panel.grid = element_blank(), 
         panel.border = element_blank(), 
