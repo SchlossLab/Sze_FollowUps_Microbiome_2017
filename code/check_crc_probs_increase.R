@@ -86,5 +86,36 @@ combined_residents <- tbl_df(combined_data$probs_increase) %>% rename(probs_incr
 write.csv(combined_residents, "data/process/tables/inc_probs_crc_oral_residents_data.csv", row.names = F)
 
 
+## Test differences
 
 
+test <- combined_residents %>% group_by(probs_increase, sampleType) %>% 
+  select(-EDRN) %>% summarise_each(funs(median, IQR))
+
+write.csv(test, "data/process/tables/inc_probs_crc_oral_residents_summary.csv", row.names = F)
+
+tbl_df(c(
+  wilcox.test(
+  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "No"))[, "oral_path"], 
+  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "No"))[, "oral_path"], 
+  paired = TRUE)$p.value, 
+  
+  wilcox.test(
+  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "Yes"))[, "oral_path"], 
+  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "Yes"))[, "oral_path"], 
+  paired = TRUE)$p.value, 
+  
+  wilcox.test(
+  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "No"))[, "residents"], 
+  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "No"))[, "residents"], 
+  paired = TRUE)$p.value, 
+  
+  wilcox.test(
+  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "Yes"))[, "residents"], 
+  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "Yes"))[, "residents"], 
+  paired = TRUE)$p.value)) %>% rename(pvalue = value) %>% 
+  mutate(bh = p.adjust(pvalue, method = "BH"), 
+         test = c("ivf_noinc_oralpath", "ivf_yesinc_oralpath", 
+                  "ivf_noinc_resident", "ivf_yesinc_resident"))
+
+write.csv(test, "data/process/tables/inc_probs_crc_oral_residents_pvalue_summary.csv", row.names = F)
