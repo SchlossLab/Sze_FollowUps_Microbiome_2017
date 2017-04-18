@@ -41,6 +41,8 @@ test_data <- (filter(combined_data, sampleType == "followup") %>% select(contain
   gather(key = otu, value = rel.abund, -probs_increase)
 
 # Test if any increase or decrease change is significant
+imp_otus <- rownames(crc_imp_vars)
+
 change_pvalue_summary <- as.data.frame(
   matrix(nrow = length(imp_otus), 
          ncol = 7, 
@@ -48,7 +50,8 @@ change_pvalue_summary <- as.data.frame(
                          coln = c("otu", "pvalue", "bh", "median_Y", "median_N", "IQR_Y", "IQR_N")))) %>% 
   mutate(otu = imp_otus)
 
-summary_test <- group_by(test, probs_increase, otu) %>% summarise_each(funs(median, IQR)) %>% slice(match(change_pvalue_summary$otu, otu))
+summary_test <- group_by(test_data, probs_increase, otu) %>% summarise_each(funs(median, IQR)) %>% 
+  slice(match(change_pvalue_summary$otu, otu))
 
 for(i in 1:length(imp_otus)){
   
@@ -64,6 +67,8 @@ for(i in 1:length(imp_otus)){
 
 change_pvalue_summary <- mutate(change_pvalue_summary, bh = p.adjust(pvalue, method = "BH"))
 
+write.csv(change_pvalue_summary, "data/process/tables/inc_probs_crc_imp_otus_summary.csv", row.names = F)
+
 
 ## Check what the positivity is for the usual suspect OTUs for those with increased probs
 usual_crc <- c("Otu000202", "Otu001273", "Otu000442")
@@ -78,7 +83,7 @@ combined_residents <- tbl_df(combined_data$probs_increase) %>% rename(probs_incr
     oral_path = (select(combined_data, one_of(usual_crc)) %>% rowSums()))
 
 
-
+write.csv(combined_residents, "data/process/tables/inc_probs_crc_oral_residents_data.csv", row.names = F)
 
 
 
