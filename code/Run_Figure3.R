@@ -32,7 +32,7 @@ Lesion_plot <- grid.arrange(
     ggtitle("A") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
-      plot.title = element_text(face="bold", hjust = 0)) + 
+      plot.title = element_text(face="bold", hjust = -0.13, size = 20)) + 
     annotate("text", 
              label = paste("Adenoma"),x = 1.5, y = 0.77, size = 4), 
   
@@ -47,7 +47,7 @@ Lesion_plot <- grid.arrange(
     ggtitle("B") + ylab("Postive Probability") + xlab("") + theme_bw() + 
     theme(
       axis.title = element_text(face="bold"), 
-      plot.title = element_text(face="bold", hjust = 0)) + 
+      plot.title = element_text(face="bold", hjust = -0.13, size = 20)) + 
     annotate("text", 
              label = paste("Advanced Adenoma"),x = 1.5, y = 0.77, size = 4), 
   
@@ -68,7 +68,7 @@ Lesion_plot <- grid.arrange(
       axis.title = element_text(face="bold"), 
       legend.title = element_text(face="bold"), 
       legend.position = "none", 
-      plot.title = element_text(face="bold", hjust = 0)) + 
+      plot.title = element_text(face="bold", hjust = -0.13, size = 20)) + 
     annotate("text", 
              label = paste("Carcinoma"),x = 1.5, y = 0.77, size = 4), nrow = 1)
   

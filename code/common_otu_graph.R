@@ -55,10 +55,10 @@ test_graph <- ggplot(combined_table,
   scale_x_discrete(labels = common_labels) + 
   scale_color_manual(name = "Model", values = c('#228B22', '#FFD700', '#DC143C')) + 
   theme_bw() +  coord_flip(ylim = c(1, 70)) + 
-  xlab("OTU") + ylab("Importance Rank in Model") + ggtitle("B") + 
+  xlab("") + ylab("Importance Rank in Model") + ggtitle("B") + 
   theme(legend.title = element_text(face = "bold"), 
         axis.title = element_text(face = "bold"), 
-        title = element_text(face = "bold"),
+        plot.title = element_text(face = "bold", hjust = -0.63, size = 20),
         panel.grid.major.x = element_blank(), 
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.y = element_line(color = "gray"))

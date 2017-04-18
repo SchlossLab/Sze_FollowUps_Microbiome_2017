@@ -81,9 +81,9 @@ adn_treat_MDA_graph <- ggplot(adn_data, aes(factor(otu,
                                 levels = rev(unique(adn_data$otu)), 
                                 labels = rev(adn_axis)), log10(value))) + 
   geom_point(color = '#76EE00') + stat_summary(fun.y = "median", colour = '#006400', geom = "point", size = 2.5) + 
-  coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
+  coord_flip(ylim = c(-0.3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
   scale_x_discrete(labels = rev(adn_labels)) + scale_y_continuous(labels = fmt_dcimals(0)) + 
-  theme(plot.title = element_text(face = "bold"), 
+  theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
         axis.text.y = element_text(size = 6))
@@ -93,9 +93,9 @@ srn_treat_MDA_graph <- ggplot(srn_data, aes(factor(otu,
                                                  levels = rev(unique(srn_data$otu)), 
                                                  labels = rev(srn_axis)), log10(value))) + 
   geom_point(color = '#F0E68C') + stat_summary(fun.y = "median", colour = '#EEC900', geom = "point", size = 2.5) + 
-  coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
+  coord_flip(ylim = c(-0.3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
   scale_x_discrete(labels = rev(srn_labels)) + 
-  theme(plot.title = element_text(face = "bold"), 
+  theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
         axis.text.y = element_text(size = 6))
@@ -105,9 +105,9 @@ crc_treat_MDA_graph <- ggplot(crc_data, aes(factor(otu,
                                                  levels = rev(unique(crc_data$otu)), 
                                                  labels = rev(crc_axis)), log10(value))) + 
   geom_point(color = '#FFB6C1') + stat_summary(fun.y = "median", colour = '#DC143C', geom = "point", size = 2.5) + 
-  coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
+  coord_flip(ylim = c(-0.3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
   scale_x_discrete(labels = rev(crc_labels)) + 
-  theme(plot.title = element_text(face = "bold"), 
+  theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
         axis.text.y = element_text(size = 6))

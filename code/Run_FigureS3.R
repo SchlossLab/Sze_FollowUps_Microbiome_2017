@@ -117,9 +117,9 @@ adn_MDA_graph <- ggplot(adn_MDA_full, aes(factor(otu,
                                    labels = rev(adn_graph_labels)), 
                             log10(value))) + 
   geom_point(color = '#76EE00') + stat_summary(fun.y = "median", colour = '#006400', geom = "point", size = 2.5) + 
-  coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
+  coord_flip(ylim = c(-0.25, 1)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
   scale_x_discrete(labels = rev(adn_labels)) + scale_y_continuous(labels = fmt_dcimals(0)) + 
-  theme(plot.title = element_text(face = "bold"), 
+  theme(plot.title = element_text(face = "bold", hjust = -0.56, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
         axis.text.y = element_text(size = 6))
@@ -130,9 +130,9 @@ srn_MDA_graph <- ggplot(srn_MDA_full, aes(factor(otu,
                                                  labels = rev(srn_graph_labels)), 
                                           log10(value))) + 
   geom_point(color = '#F0E68C') + stat_summary(fun.y = "median", colour = '#EEC900', geom = "point", size = 2.5) + 
-  coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
+  coord_flip(ylim = c(-0.25, 1)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
   scale_x_discrete(labels = rev(srn_labels)) + 
-  theme(plot.title = element_text(face = "bold"), 
+  theme(plot.title = element_text(face = "bold", hjust = -0.56, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
         axis.text.y = element_text(size = 6))
@@ -142,9 +142,9 @@ crc_MDA_graph <- ggplot(crc_MDA_full, aes(factor(otu,
                                                  labels = rev(crc_graph_labels)), 
                                           log10(value))) + 
   geom_point(color = '#FFB6C1') + stat_summary(fun.y = "median", colour = '#DC143C', geom = "point", size = 2.5) + 
-  coord_flip() + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
+  coord_flip(ylim = c(-0.25, 1)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
   scale_x_discrete(labels = rev(crc_labels)) + 
-  theme(plot.title = element_text(face = "bold"), 
+  theme(plot.title = element_text(face = "bold", hjust = -0.56, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
         axis.text.y = element_text(size = 6))

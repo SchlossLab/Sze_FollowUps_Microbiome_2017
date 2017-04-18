@@ -122,15 +122,15 @@ Samples for Richness, Shannon Diversity, and Evenness.}
 Comparison & Alpha Metric & P-value & BH Adjusted P-value\tabularnewline
 \midrule
 \endhead
-adn & sobs & 0.2615199 & 0.2942099\tabularnewline
-adn & shannon & 0.2221074 & 0.2942099\tabularnewline
-adn & evenness & 0.2347622 & 0.2942099\tabularnewline
-srn & sobs & 0.1231880 & 0.2217384\tabularnewline
-srn & shannon & 0.0204124 & 0.0774651\tabularnewline
-srn & evenness & 0.0258217 & 0.0774651\tabularnewline
-crc & sobs & 0.5822250 & 0.5822250\tabularnewline
-crc & shannon & 0.0890290 & 0.2003153\tabularnewline
-crc & evenness & 0.0072909 & 0.0656181\tabularnewline
+Adenoma & richness & 0.2615199 & 0.2942099\tabularnewline
+Adenoma & shannon & 0.2221074 & 0.2942099\tabularnewline
+Adenoma & evenness & 0.2347622 & 0.2942099\tabularnewline
+Advanced Adenoma & richness & 0.1231880 & 0.2217384\tabularnewline
+Advanced Adenoma & shannon & 0.0204124 & 0.0774651\tabularnewline
+Advanced Adenoma & evenness & 0.0258217 & 0.0774651\tabularnewline
+Carcinoma & richness & 0.5822250 & 0.5822250\tabularnewline
+Carcinoma & shannon & 0.0890290 & 0.2003153\tabularnewline
+Carcinoma & evenness & 0.0072909 & 0.0656181\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -450,233 +450,102 @@ Coprobacillus\strut
 \normalsize
 \newpage
 
-\textbf{Table S3: Summary of Comparisons based on Chemotherapy or
-Radiation Received} \footnotesize
+\textbf{Table S3: Summary of Comparisons Based on Additive Treatment
+Received (Chemotherapy or Chemotherapy and Radiation)} \footnotesize
 
-\begin{longtable}[]{@{}cccccccc@{}}
+\begin{longtable}[]{@{}ccccccc@{}}
 \toprule
-\begin{minipage}[b]{0.12\columnwidth}\centering\strut
+\begin{minipage}[b]{0.14\columnwidth}\centering\strut
 Variable\strut
-\end{minipage} & \begin{minipage}[b]{0.11\columnwidth}\centering\strut
-Additive Treatment\strut
-\end{minipage} & \begin{minipage}[b]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\centering\strut
 Additive Treatment Mean\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
 Removal Mean\strut
-\end{minipage} & \begin{minipage}[b]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[b]{0.15\columnwidth}\centering\strut
 Additive Treatment SD\strut
-\end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\centering\strut
 Removal SD\strut
-\end{minipage} & \begin{minipage}[b]{0.06\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\centering\strut
 P-value\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
 BH Corrected\strut
 \end{minipage}\tabularnewline
 \midrule
 \endhead
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+\begin{minipage}[t]{0.14\columnwidth}\centering\strut
 Richness\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Chemotherapy\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
 -5.15\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
--12.29\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+-32.99\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
 93.58\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
+111.2\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-1e+02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-5.9e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-7.1e-01\strut
+4.9e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
-Richness\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Radiation\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
--14.22\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
--10.52\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-36.51\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-1e+02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-5.9e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-7.1e-01\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+\begin{minipage}[t]{0.14\columnwidth}\centering\strut
 Shannon\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Chemotherapy\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
 0.23\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.06\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+0.26\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
 0.55\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
+0.7\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-6e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-1.8e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-2.7e-01\strut
+7.4e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
-Shannon\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Radiation\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.17\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.09\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.26\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-6e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-1.8e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-2.7e-01\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+\begin{minipage}[t]{0.14\columnwidth}\centering\strut
 Evenness\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Chemotherapy\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
 0.04\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.02\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+0.06\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
 0.08\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
+0.1\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-8e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-1.6e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-2.7e-01\strut
+1.0e+00\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
-Evenness\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Radiation\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.03\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.02\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.05\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-8e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-1.6e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-2.7e-01\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+\begin{minipage}[t]{0.14\columnwidth}\centering\strut
 Thetayc\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Chemotherapy\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.69\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.66\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.20\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
+0.79\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+0.77\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+0.17\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
+0.1\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-2e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-8.5e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-8.5e-01\strut
+5.3e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
-Thetayc\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Radiation\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.71\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.67\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.26\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-2e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-8.5e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-8.5e-01\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
+\begin{minipage}[t]{0.14\columnwidth}\centering\strut
 Positive Probability\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Chemotherapy\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.09\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.01\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.11\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-9e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-3.3e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-1.0e-01\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
-Positive Probability\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Radiation\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.16\columnwidth}\centering\strut
 0.12\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.02\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.15\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+0.10\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+0.21\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
+0.1\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-9e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-3.3e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-1.0e-01\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
-Positive Probability\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Chemotherapy\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.71\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.65\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.04\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-5e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-1.3e-04\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-7.9e-04\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\centering\strut
-Positive Probability\strut
-\end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
-Radiation\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.72\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-0.66\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering\strut
-0.04\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
-6e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\centering\strut
-1.3e-04\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
-7.9e-04\strut
+8.4e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
@@ -689,117 +558,117 @@ Radiation\strut
 
 \begin{longtable}[]{@{}ccccccc@{}}
 \toprule
-\begin{minipage}[b]{0.22\columnwidth}\centering\strut
+\begin{minipage}[b]{0.26\columnwidth}\centering\strut
 Variable\strut
-\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
-Surgery Mean\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering\strut
-No Surgery Mean\strut
 \end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\centering\strut
-Surgery SD\strut
+Surgery Mean\strut
 \end{minipage} & \begin{minipage}[b]{0.11\columnwidth}\centering\strut
+No Surgery Mean\strut
+\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering\strut
+Surgery SD\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
 No Surgery SD\strut
 \end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\centering\strut
 P-value\strut
-\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\centering\strut
 BH Corrected\strut
 \end{minipage}\tabularnewline
 \midrule
 \endhead
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
 Richness\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
-1e+02\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering\strut
--4e+01\strut
 \end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
-138.9\strut
+1e+02\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+-4e+01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+138.9\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
 1e+02\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
 5.6e-03\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
 3.3e-02\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
 Shannon\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
-6e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering\strut
--1e-01\strut
 \end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
-0.9\strut
+6e-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+-1e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.9\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
 4e-01\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
 4.5e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
 1.4e-01\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
 Evenness\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
-6e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering\strut
--9e-03\strut
 \end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
-0.1\strut
+6e-02\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+-9e-03\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.1\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
 5e-02\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
 1.0e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
 2.1e-01\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
 Thetayc\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
-7e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering\strut
-6e-01\strut
 \end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
-0.2\strut
+7e-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+6e-01\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.2\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
 2e-01\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
 4.1e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
 5.6e-01\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
 Adenoma Only\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
 Positive Probability\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
-2e-02\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering\strut
-1e-03\strut
 \end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
-0.2\strut
+2e-02\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+1e-03\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.2\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
 7e-02\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
 9.0e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
 9.0e-01\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
-SRN Only\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
+Advanced Adenoma Only\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.22\columnwidth}\centering\strut
+\begin{minipage}[t]{0.26\columnwidth}\centering\strut
 Positive Probablity\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
--9e-03\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering\strut
-4e-02\strut
 \end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
-0.1\strut
+-9e-03\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\centering\strut
+4e-02\strut
+\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering\strut
+0.1\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
 8e-02\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering\strut
 4.7e-01\strut
-\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering\strut
 5.6e-01\strut
 \end{minipage}\tabularnewline
 \bottomrule

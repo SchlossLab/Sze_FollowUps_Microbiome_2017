@@ -178,8 +178,7 @@ improvements in disease management.
 
 \subsubsection{Keywords}\label{keywords}
 
-bacterial microbiome; colorectal cancer; polyps; FIT; post-surgery; risk
-factor.
+microbiome; colorectal cancer; polyps; treatment; risk factor.
 
 \newpage
 
@@ -289,7 +288,8 @@ the test. To overcome these problems we developed Random Forest models
 to identify collections of OTUs that would allow us to differentiate
 between pre and post-treatment samples from each of the diagnosis
 groups. Because of the relatively small number of subject in each group,
-we restricted our models to only incorporate 10 OTUs. Despite this
+we restricted our models to only incorporate 10 OTUs to limit the
+likelihood that that models would overfit the data. Despite this
 restriction, the models performed well (adenoma AUC=0.69 - 0.92,
 advanced adenoma AUC=0.8 - 1, carcinoma AUC=0.82 - 0.98). Interestingly,
 the 10 OTUs that were used for each model had little overlap with each
@@ -308,21 +308,23 @@ We then constructed Random Forest models to classify the pre and
 post-treatment samples as having their original diagnosis or having a
 normal colon. The models performed well (adenoma AUC=0.62 - 0.72,
 advanced adenoma AUC=0.68 - 0.77, carcinoma AUC=0.84 - 0.9; Figure S2).
-The OTUs that were most important in the models for differentiating
-between patients with normal colons and those with adenomas or advanced
-adenomas were dominated by populations commonly considered as commensals
-(e.g. \emph{Faecalibacterium}, \emph{Lachnospiraceae},
-\emph{Bacteroides}, \emph{Dorea}, \emph{Anaerostipes}, and
-\emph{Roseburia}) {[}Figure S3{]}. Although many of these OTUs were also
-included in the model differentiating between patients with normal
-colons and those with carcinoma, this model also included OTUs
-affiliated with populations that have previously been associated with
-carcinoma (\emph{Fusobacterium}, \emph{Porphyromonas},
-\emph{Parvimonas}) {[}Figure S3{]}. Finally, we applied these three
-models to the pre and post-treatment samples for each diagnosis group
-and quantified the change in the positive probability of the model. A
-decrease in the positive probability would indicate that the colon more
-closely resembled that of a patient with a normal colon. There was not a
+The OTUs that were incorporated into the adenoma and advanced adenoma
+models largely overlapped and those OTUs that were used to classify the
+carcinoma samples were largely distinct from those of the other two
+models {[}Figure 4A{]}. Among the OTUs that were shared across the three
+models were those populations commonly considered as commensals (e.g.
+\emph{Faecalibacterium}, \emph{Lachnospiraceae}, \emph{Bacteroides},
+\emph{Dorea}, \emph{Anaerostipes}, and \emph{Roseburia}) {[}Figures
+4B{]}. Although many of these OTUs were also included in the model
+differentiating between patients with normal colons and those with
+carcinoma, this model also included OTUs affiliated with populations
+that have previously been associated with carcinoma
+(\emph{Fusobacterium}, \emph{Porphyromonas}, \emph{Parvimonas})
+{[}Figure S3{]}. Finally, we applied these three models to the pre and
+post-treatment samples for each diagnosis group and quantified the
+change in the positive probability of the model. A decrease in the
+positive probability would indicate that the colon more closely
+resembled that of a patient with a normal colon. There was not a
 significant change in the positive probability for the adenoma or
 advanced adenoma groups {[}Figure 3{]}. The positive probability for the
 pre and post-treatment samples from patients diagnosed with carcinoma
@@ -360,103 +362,70 @@ treatment on the amount of change in the structure of the microbiota
 
 \subsection{Discussion}\label{discussion}
 
-This study builds upon previous work from numerous labs that have
-considered both how the bacterial community between those with and
-without CRC differs and how it might be used as an early screening tool
-{[}23--27{]}. Here we show that the microbiome changes towards normal
-after treatment for carcinoma and that chemotherapy and radiation did
-not provide any additional change. Although some of the important OTUs
-classified to genera from bacteria considered the ``usual suspects''
-(e.g. \emph{Fusobacterium}, \emph{Porphyromonas}, and \emph{Parvimonas})
-many did not. The majority of important OTUs had taxonomic
-classifications for resident gut microbes and were common for the
-adenoma, advanced adenoma, and carcinoma models. This suggests that
-members within the commensal community may be the first that change
-during CRC pathogenesis. These subtle changes, in turn, could be the
-first step in allowing more inflammatory bacteria to gain a foothold
-within the colon {[}13{]}.
+This study builds upon previous work that demonstrated a role for the
+microbiota in tumorigenesis and that the microbiome contains biomarkers
+to diagnosis colonic lesions {[}5--9,23--27{]}. Our study focused on
+comparing the microbiome of patients diagnosed with adenoma, advanced
+adenoma, and carcinoma before and after treatment. For all three groups
+of patients we observed changes in their microbiota. The microbiota of
+patients diagnosed with carcinoma changed significantly more than the
+other groups. This change resulted in communities that more closely
+resembled those of patients with normal colons.
 
-Unlike previous studies on the microbiome and CRC, ours focuses on
-comparing the microbiome during recovery from treatment in adenoma,
-advanced adenoma, and carcinoma groups. Although there were differences
-for genera associated with specific bacterium linked with CRC {[}Figure
-S3{]}, most of the important OTUs taxonomically classified to commensal
-bacteria {[}Figure S3{]}. Although these changes may be subtle, due to
-the lack of significant differences in the bacterial community pre- and
-post-treatment in adenoma and advanced adenoma {[}Figure 1{]}; they
-support the hypothesis that the first members of the community to change
-and potentially stay changed even after treatment are those that are
-commensal bacteria.
+For the carcinoma group there was a larger change between their initial
+and follow up samples then for either adenoma or advanced adenoma. This
+change was directionaly the same for each individual with carcinoma.
+This observed change has important implications for future research into
+CRC recurrence. Knowing that the community changes towards normal after
+treatment means that it is reasonable to hypothesize that the microbiome
+could be a good biomarker for stratifying individuals between those most
+and least at risk for CRC recurrence. Interestingly, our 23.08\%
+prevalence of increased carcinoma probability fits nicely within the
+range quoted for CRC recurrence (20-30\%) {[}3,4{]}.
 
-Many of the common OTUs that we identified taxonomically classified to
-potential butyrate producers (e.g. \emph{Clostridiales},
-\emph{Roseburia}. and \emph{Anaerostipes}) {[}Table S2{]}. Other OTUs
-classified to bacteria that are inhibited by polyphenols (e.g.
-\emph{Bacteroides}). Both butyrate and polyphenols are thought to be
-protective against cancer, in part by reducing inflammation {[}28{]}.
-These protective compounds are derived from the breakdown of fiber,
-fruits, and vegetables by resident gut microbes. One example of this
-potential diet-microbiome-inflammation-polyp axis is that
-\emph{Bacteroides}, which was highly prevalent in our models, are known
-to be increased in those with high non-meat based protein consumption
-{[}29{]}. High protein consumption in general has been linked with an
-increased CRC risk {[}30{]}. Conversely, \emph{Bacteroides} are
-inhibited by polyphenols which are derived from fruits and vegetables
-{[}31{]}. Our data fits with the hypothesis that the microbial
-metabolites from breakdown products within our own diet could not only
-help to shape the existing community but also have an effect on CRC risk
-and disease progression. Within this context the commensal community may
-be an important modifiable risk factor for monitoring and preventing CRC
-recurrence after treatment.
+A potential limitation, within our study, is that we do not know whether
+individuals who had an increased positive probability for carcinoma on
+follow up eventually had a subsequent CRC recurrence. This information
+would help to strengthen the case for the ability of our model to be
+used as a disease stratification tool for CRC recurrence. This would be
+an exciting area of future research that would be able to link treatment
+changes within the microbiome and CRC recurrence together.
 
-A limitation in our study was that there was a significant difference in
-the time elapsed in the collection of the post-treatment sample between
-adenoma or advanced adenoma versus carcinoma (P-value \textless{} 0.05),
-with time passed being less for adenoma (255 ± 42 days) and advanced
-adenoma (250 ± 41) than carcinoma (351 ± 102). These results would
-indicate that some of the differences observed between the carcinoma and
-adenoma groups could be due to differences in collection time.
-Specifically, it could confound the observation that carcinomas changed
-more than adenomas {[}Figure 1{]}. However, there are two reasons that
-this may not be the case. First, the advanced adenoma group had a higher
-dissimilarity than adenoma but lower dissimilarity then carcinoma and
-the collection time to their follow up samples was less than the adenoma
-group. Second, this confounding would not affect the observations where
-models were used since they were built using a different cohort
-{[}Figures 2 \& S2-S3{]}.
+The microbiome changes associated with carcinoma were found to be
+towards those with normal colons. This would suggest that treatment for
+CRC is not only successful for removing the carcinoma but also at
+removing bacteria associated with them. This is important due to the
+numerous studies that have pointed towards a link between the community
+and tumorgenesis {[}10--12{]}. The importance of the community to this
+process is further highlighted in our data {[}Figure 2, 4, \& S3{]}.
+Interestingly, those who had an increase in their positive probability
+of carcinoma had no change in their median value for oral pathogens
+found within the carcinoma model but had a decrease in non-oral
+pathogens {[}Figure S4{]}. Although this finding was not statistically
+significant, this trend would further highlight the importance of
+community to tumorgenesis. Future studies with larger power may be able
+to confirm these reported observations.
 
-Another limitation of this study was that it drew heavily from those
-with Caucasian ancestry making it possible that the observations may not
-be representative of those with either Asian or African ancestry.
-Although our training and test set are relatively large we still run the
-risk of over-fitting or having a model that may not be representative of
-other populations. We have done our best to safeguard against this by
-not only running 10-fold cross validation but also having over 100
-different 80/20 splits to try and mimic the type of variation that might
-be expected to occur.
+Although we were not able to identify specific OTUs due to the
+heterogeneity of the population. This is a common problem that occurs in
+other fields of microbiome study {[}28{]}. This made it very difficult
+to identify individual OTUs associated with treatment and recovery
+towards a normal colon. To overcome this large individual heterogeneity
+we used RF models that made it easier to identify consortia of
+microbiota that were associated with treatment and recovery. A potential
+future direction would be to study whether specific gene signatures
+associated with these consortia of bacteria have a role to play in the
+recurrence of CRC.
 
-Building off of our results, an area for future research, is that within
-our study we do not know whether individuals who were still classified
-as positive by the carcinoma model eventually had a subsequent CRC
-recurrence. This information would help to strengthen the case for this
-model keeping numerous individuals above the cutoff threshold even
-though at follow up they were diagnosed as no longer having carcinoma.
-It would also provide additional evidence that the microbiome could be
-used as a risk stratification tool in monitoring recurrence risk and
-whether different interventions could potentially change this community
-and lower the probability of future recurrence.
-
-Despite the stated shortcomings our findings add to the existing
-scientific knowledge on CRC and the microbiome: That there is a
-measurable difference in the bacterial community after adenoma, advanced
-adenoma, or carcinoma treatment. Further, the ability for machine
-learning algorithms to take OTU data and successfully lower positive
-probability of carcinoma after treatment provides evidence that there
-are specific signatures, attributable to both inflammatory and resident
-commensal organisms, associated with treatment. Our data provides
-evidence that commensal bacteria may be important in the development of
-polyps, potential transition of advanced adenoma to carcinoma, and
-recovery of the microbiome in CRC following treatment.
+Despite some of these stated shortcomings our findings add to the
+existing scientific knowledge on CRC and the microbiome: That there is a
+measurable change in the bacterial community after adenoma, advanced
+adenoma, or carcinoma treatment. Further, individuals with carcinoma had
+a larger change than adenoma or advanced adenoma indivdiuals and this
+change in community was towards those with normal colons. Our data
+provides additional evidence on the importance of the community on
+recovery of the microbiome after CRC treatment and opens interesting
+avenues of research into how these changes may affect recurrence.
 
 \newpage
 
@@ -471,7 +440,7 @@ cancer, or familial adenomatous polyposis. Samples used to build the
 models for prediction were collected either prior to a colonoscopy or
 between 1 - 2 weeks after. The bacterial community has been shown to
 normalize back to a pre-colonoscopy community within this time period
-{[}32{]}. Our training cohort consisted of a total of 423 individuals
+{[}29{]}. Our training cohort consisted of a total of 423 individuals
 {[}Table 1{]}. Our study cohort consisted of 67 individuals with an
 initial sample as described and a follow up sample obtained between 188
 - 546 days after treatment of lesion {[}Table 2{]}. This study was
@@ -480,7 +449,7 @@ study participants provided informed consent and the study itself
 conformed to the guidelines set out by the Helsinki Declaration.
 
 \textbf{\emph{16S rRNA Gene Sequencing:}} Sequencing was completed as
-described by Kozich, et al. {[}33{]}. DNA extraction used the 96-well
+described by Kozich, et al. {[}30{]}. DNA extraction used the 96-well
 Soil DNA isolation kit (MO BIO Laboratories) and an epMotion 5075
 automated pipetting system (Eppendorf). The V4 variable region was
 amplified and the resulting product was split between three sequencing
@@ -491,7 +460,7 @@ on the same run.
 
 \textbf{\emph{Sequence Processing:}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences and has been
-previously described {[}33{]}. The general workflow using mothur was:
+previously described {[}30{]}. The general workflow using mothur was:
 Paired-end reads were first merged into contigs, quality filtered,
 aligned to the SILVA database, screened for chimeras, classified with a
 naive Bayesian classifier using the Ribosomal Database Project (RDP),
@@ -500,7 +469,7 @@ similarity cutoff with an average neighbor clustering algorithm. The
 number of sequences for each sample was rarefied to 10523 to minimize
 uneven sampling.
 
-\textbf{\emph{Model Building:}} The Random Forest {[}34{]} algorithm was
+\textbf{\emph{Model Building:}} The Random Forest {[}31{]} algorithm was
 used to create the model used to create the three models used. The
 adenoma model classified normal versus adenoma, advanced adenoma was
 normal versus advanced adenoma, and carcinoma was normal versus
@@ -548,11 +517,11 @@ model.
 
 \textbf{\emph{Statistical Analysis:}} The R software package (v3.3.2)
 was used for all statistical analysis. Comparisons between bacterial
-community structure utilized PERMANOVA {[}35{]} in the vegan package
+community structure utilized PERMANOVA {[}32{]} in the vegan package
 (v2.4.1). Comparisons between probabilities as well as overall OTU
 differences between pre- and post-treatment samples utilized a paired
 Wilcoxson ranked sum test. Where multiple comparison testing was
-appropriate, a Benjamini-Hochberg (BH) correction was applied {[}36{]}
+appropriate, a Benjamini-Hochberg (BH) correction was applied {[}33{]}
 and a corrected P-value of less than 0.05 was considered significant.
 Unless otherwise stated the P-values reported are those that were BH
 corrected. Model rank importance was determined by obtining the median
@@ -833,54 +802,34 @@ biomarkers for colorectal cancer. Gut. 2017;66:70--8.
 et al. Co-occurrence of anaerobic bacteria in colorectal carcinomas.
 Microbiome. 2013;1:16.
 
-\hypertarget{ref-louis_gut_2014}{}
-28. Louis P, Hold GL, Flint HJ. The gut microbiota, bacterial
-metabolites and colorectal cancer. Nature Reviews Microbiology
-{[}Internet{]}. 2014 {[}cited 2017 Feb 14{]};12:661--72. Available from:
-\url{http://www.nature.com/doifinder/10.1038/nrmicro3344}
-
-\hypertarget{ref-zhu_intake_2016}{}
-29. Zhu Y, Lin X, Li H, Li Y, Shi X, Zhao F, et al. Intake of Meat
-Proteins Substantially Increased the Relative Abundance of Genus
-Lactobacillus in Rat Feces. PloS One. 2016;11:e0152678.
-
-\hypertarget{ref-mu_colonic_2016}{}
-30. Mu C, Yang Y, Luo Z, Guan L, Zhu W. The Colonic Microbiome and
-Epithelial Transcriptome Are Altered in Rats Fed a High-Protein Diet
-Compared with a Normal-Protein Diet. The Journal of Nutrition.
-2016;146:474--83.
-
-\hypertarget{ref-ozdal_reciprocal_2016}{}
-31. Ozdal T, Sela DA, Xiao J, Boyacioglu D, Chen F, Capanoglu E. The
-Reciprocal Interactions between Polyphenols and Gut Microbiota and
-Effects on Bioaccessibility. Nutrients {[}Internet{]}. 2016 {[}cited
-2017 Feb 14{]};8:78. Available from:
-\url{http://www.mdpi.com/2072-6643/8/2/78}
+\hypertarget{ref-sze_looking_2016}{}
+28. Sze MA, Schloss PD. Looking for a Signal in the Noise: Revisiting
+Obesity and the Microbiome. mBio. 2016;7.
 
 \hypertarget{ref-obrien_impact_2013}{}
-32. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
+29. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
 bowel preparation on intestinal microbiota. PloS One. 2013;8:e62815.
 
 \hypertarget{ref-kozich_development_2013}{}
-33. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
+30. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
 Development of a dual-index sequencing strategy and curation pipeline
 for analyzing amplicon sequence data on the MiSeq Illumina sequencing
 platform. Applied and Environmental Microbiology. 2013;79:5112--20.
 
 \hypertarget{ref-breiman_random_2001}{}
-34. Breiman L. Random Forests. Machine Learning {[}Internet{]}. 2001
+31. Breiman L. Random Forests. Machine Learning {[}Internet{]}. 2001
 {[}cited 2013 Feb 7{]};45:5--32. Available from:
 \href{http://link.springer.com/article/10.1023/A\%3A1010933404324\%20http://link.springer.com/article/10.1023\%2FA\%3A1010933404324?LI=true}{http://link.springer.com/article/10.1023/A\%3A1010933404324 http://link.springer.com/article/10.1023\%2FA\%3A1010933404324?LI=true}
 
 \hypertarget{ref-anderson_permanova_2013}{}
-35. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
+32. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
 the face of heterogeneous dispersions: What null hypothesis are you
 testing? Ecological Monographs {[}Internet{]}. 2013 {[}cited 2017 Jan
 5{]};83:557--74. Available from:
 \url{http://doi.wiley.com/10.1890/12-2010.1}
 
 \hypertarget{ref-benjamini_controlling_1995}{}
-36. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
+33. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
 practical and powerful approach to multiple testing. Journal of the
 Royal Statistical Society. Series B (Methodological). 1995;57:289--300.
 
