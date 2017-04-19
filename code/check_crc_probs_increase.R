@@ -9,6 +9,8 @@ loadLibs(c("dplyr", "tidyr"))
 
 ## Load needed data files
 good_metaf <- read.csv('data/process/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
+metaI <- read.csv('data/process/mod_metadata/metaI_final.csv', header = T, stringsAsFactors = F) %>% 
+  filter(dx == "normal" | dx == "cancer")
 crc_imp_vars <- read.csv('data/process/tables/crc_rf_otu_tax.csv', header = T, row.names = 1)
 crc_probs <- read.csv('data/process/tables/crc_reduced_follow_up_probability_summary.csv', header = T)
 shared <- read.delim('data/process/final.shared', header = T, stringsAsFactors = F) %>% select(-label, -numOtus)
@@ -19,6 +21,9 @@ otu.rel.abund <- shared
 otu.rel.abund[, colnames(select(otu.rel.abund, contains("Otu")))] <- apply(
   select(otu.rel.abund, 
          contains("Otu")), 2, function(x) (x/counts)*100) 
+
+## Get list of normal and cancer samples in training set
+train_samples <- metaI$sample
 
 ## Get only the samples that increase on follow up
 unique_edrn <- unique((crc_probs %>% 
@@ -39,6 +44,40 @@ test_data <- (filter(combined_data, sampleType == "followup") %>% select(contain
   filter(combined_data, sampleType == "initial") %>% select(contains("Otu"))) %>% 
   mutate(probs_increase = (select(combined_data, probs_increase) %>% slice(1:length(sample_ids)))[, "probs_increase"]) %>% 
   gather(key = otu, value = rel.abund, -probs_increase)
+
+
+## shrink shared files down to only those used in the training
+train_data <- shared %>% 
+  slice(match(train_samples, Group)) %>% 
+  select(Group, one_of(rownames(crc_imp_vars))) %>% 
+  inner_join(metaI, by = c("Group" = "sample"))
+
+summary_train <- train_data %>% group_by(dx) %>% select(dx, contains("Otu")) %>% 
+  summarise_each(funs(median)) %>% gather(key = otu, value = median_value, -dx)
+
+# log OTU medians higher in cancer and those higher in normal
+
+test <- as.data.frame(matrix(nrow = length(rownames(crc_imp_vars)), 
+                             ncol = 2, 
+                             dimnames = list(rown = c(), coln = c("otu", "group")))) %>% 
+  mutate(otu = rownames(crc_imp_vars))
+
+for(i in 1:length(test$otu)){
+  
+  test[i, "group"] <- ifelse(
+    filter(summary_train, otu == rownames(crc_imp_vars)[i] & dx == "normal")[, "median_value"] > 
+      filter(summary_train, otu == rownames(crc_imp_vars)[i] & dx == "cancer")[, "median_value"], 
+    invisible("normal"), invisible("cancer"))
+  
+  test[i, "group"] <- ifelse(
+    filter(summary_train, otu == rownames(crc_imp_vars)[i] & dx == "normal")[, "median_value"] == 
+      filter(summary_train, otu == rownames(crc_imp_vars)[i] & dx == "cancer")[, "median_value"], 
+    invisible("neither"), invisible(test[i, "group"]))
+}
+  
+# Store the otus for each specific group
+crc_only_group <- filter(test, group == "cancer")[, "otu"]
+normal_only_group <- filter(test, group == "normal")[, "otu"]
 
 # Test if any increase or decrease change is significant
 imp_otus <- rownames(crc_imp_vars)
@@ -80,7 +119,9 @@ combined_residents <- tbl_df(combined_data$probs_increase) %>% rename(probs_incr
     EDRN = combined_data$EDRN, 
     sampleType = combined_data$sampleType, 
     residents = (select(combined_data, one_of(imp_otus)) %>% select(-one_of(usual_crc)) %>% rowSums()), 
-    oral_path = (select(combined_data, one_of(usual_crc)) %>% rowSums()))
+    oral_path = (select(combined_data, one_of(usual_crc)) %>% rowSums()), 
+    crc_only = (select(combined_data, one_of(crc_only_group)) %>% rowSums()), 
+    normal_only = (select(combined_data, one_of(normal_only_group)) %>% rowSums()))
 
 
 write.csv(combined_residents, "data/process/tables/inc_probs_crc_oral_residents_data.csv", row.names = F)
@@ -94,7 +135,7 @@ test <- combined_residents %>% group_by(probs_increase, sampleType) %>%
 
 write.csv(test, "data/process/tables/inc_probs_crc_oral_residents_summary.csv", row.names = F)
 
-tbl_df(c(
+pvalue_bacteria_groups <- tbl_df(c(
   wilcox.test(
   as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "No"))[, "oral_path"], 
   as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "No"))[, "oral_path"], 
@@ -106,16 +147,27 @@ tbl_df(c(
   paired = TRUE)$p.value, 
   
   wilcox.test(
-  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "No"))[, "residents"], 
-  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "No"))[, "residents"], 
+  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "No"))[, "crc_only"], 
+  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "No"))[, "crc_only"], 
   paired = TRUE)$p.value, 
   
   wilcox.test(
-  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "Yes"))[, "residents"], 
-  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "Yes"))[, "residents"], 
-  paired = TRUE)$p.value)) %>% rename(pvalue = value) %>% 
+  as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "Yes"))[, "crc_only"], 
+  as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "Yes"))[, "crc_only"], 
+  paired = TRUE)$p.value, 
+  
+  wilcox.test(
+    as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "No"))[, "normal_only"], 
+    as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "No"))[, "normal_only"], 
+    paired = TRUE)$p.value, 
+  
+  wilcox.test(
+    as.data.frame(filter(combined_residents, sampleType == "initial" & probs_increase == "Yes"))[, "normal_only"], 
+    as.data.frame(filter(combined_residents, sampleType == "followup" & probs_increase == "Yes"))[, "normal_only"], 
+    paired = TRUE)$p.value)) %>% rename(pvalue = value) %>% 
   mutate(bh = p.adjust(pvalue, method = "BH"), 
          test = c("ivf_noinc_oralpath", "ivf_yesinc_oralpath", 
-                  "ivf_noinc_resident", "ivf_yesinc_resident"))
+                  "ivf_noinc_crcassoc", "ivf_noinc_crcassoc", 
+                  "ivf_noinc_normassoc", "ivf_noinc_normassoc"))
 
-write.csv(test, "data/process/tables/inc_probs_crc_oral_residents_pvalue_summary.csv", row.names = F)
+write.csv(pvalue_bacteria_groups, "data/process/tables/inc_probs_crc_oral_residents_pvalue_summary.csv", row.names = F)
