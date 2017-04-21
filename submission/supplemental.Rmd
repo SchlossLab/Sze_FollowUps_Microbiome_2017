@@ -1,14 +1,15 @@
 ---
-title: ""
-bibliography:
+title: ''
 csl: microbiome.csl
+fontsize: 12pt
 output:
+  word_document: default
   pdf_document:
-    keep_tex: true
     includes:
       in_header: header.tex
-fontsize: 12pt
+    keep_tex: yes
 geometry: margin=1.0in
+bibliography: null
 ---
 
 # The effect of treatment on the microbiota of patients diagnosed with colonic lesions
