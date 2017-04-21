@@ -67,5 +67,5 @@ test_graph <- ggplot(combined_table,
 combined_graph <- grid.arrange(venn_graph, test_graph)
 
 
-ggsave(file = "results/figures/Figure4.pdf", combined_graph, 
+ggsave(file = "results/figures/Figure3.pdf", combined_graph, 
        width=6, height = 9, dpi = 300)
