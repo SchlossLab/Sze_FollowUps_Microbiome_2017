@@ -1,14 +1,15 @@
 ---
-title: ""
-bibliography: reference.bib
-output:
-  pdf_document:
-    keep_tex: true
-    includes:
-      in_header: header.tex
+title: ''
 csl: microbiome.csl
 fontsize: 12pt
+output:
+  pdf_document:
+    includes:
+      in_header: header.tex
+    keep_tex: yes
+  word_document: default
 geometry: margin=1.0in
+bibliography: reference.bib
 ---
 
 ```{r knitr_settings, eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
@@ -220,7 +221,7 @@ A detailed and reproducible description of how the data were processed and analy
 \newpage
 
 
-**Figure 1: General Differences between Adenoma, Advanced Adenoma, and Carcinoma Groups After Treatment.*. A) A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`). Solid black points represent the median value for each diagnosis group. B) NMDS of the pre- and post-treatment samples for the adenoma group. C) NMDS of the pre- and post-treatment samples for the advanced adenoma group. D) NMDS of the pre- and post-treatment samples for the carcinoma group.
+**Figure 1: General Differences between Adenoma, Advanced Adenoma, and Carcinoma Groups After Treatment.** A) A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue'], scientific = FALSE, digits = 3)`). Solid black points represent the median value for each diagnosis group. B) NMDS of the pre- and post-treatment samples for the adenoma group. C) NMDS of the pre- and post-treatment samples for the advanced adenoma group. D) NMDS of the pre- and post-treatment samples for the carcinoma group.
 
 **Figure 2: The 10 OTUs used to classify treatment for Adenoma, Advanced Adenoma, and Carcinoma.** A) Adenoma OTUs. B) Advanced Adenoma OTUs. C) Carcinoma OTUs.
 
