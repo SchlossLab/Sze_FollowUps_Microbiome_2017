@@ -140,10 +140,49 @@ $(PROC)/mod_metadata/good_metaf_final.csv code/Run_Supplemental_time_table.R
 
 ####################################################################################
 #																				   #
-# Model building  Adenoma 														   #
+# Model building  Adenoma Treatment												   #
 #																				   #
 #																				   #
 ####################################################################################
+
+# Set up and run treatment models
+exploratory/adn_treatment_model.RData : $(PROC)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Adns_treatment_model.R
+	R -e "source('code/Adns_treatment_model.R')"
+
+$(TABLES)/adn_treatment_test_tune_data.csv\
+$(TABLES)/adn_treatment_ROC_model_summary.csv\
+$(TABLES)/adn_treatment_test_data_roc.csv\
+$(TABLES)/adn_treatment_imp_vars_summary.csv\
+$(TABLES)/adn_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/adn_treatment_top_vars_MDA_full_data.csv : exploratory/adn_treatment_model.RData\
+source('code/Adns_combine_agg_treat_model.R
+	R -e "source('code/Adns_combine_agg_treat_model.R')"
+
+# Set up and run reduced treatment models
+exploratory/adn_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/adn_treatment_test_tune_data.csv\
+$(TABLES)/adn_treatment_imp_vars_summary.csv\
+$(TABLES)/adn_treatment_top_vars_MDA_Summary.csv adn_treatment_reduce_feature_model.R
+	R -e "source('adn_treatment_reduce_feature_model.R')"
+
+$(TABLES)/red_adn_treatment_test_tune_data.csv\
+$(TABLES)/reduced_adn_treatment_ROC_model_summary.csv\
+$(TABLES)/reduced_adn_treatment_test_data_roc.csv\
+$(TABLES)/reduced_adn_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_adn_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+exploratory/adn_treatment_reduced_RF_model_Imp_OTU.RData\
+Adns_combine_reduced_agg_treat_model.R
+	R -e "source('Adns_combine_reduced_agg_treat_model.R')"
+
+
+
+####################################################################################
+#																				   #
+# Model building  Adenoma Towards Normal										   #
+#																				   #
+#																				   #
+####################################################################################
+
 
 # Sets up the target file names
 MODEL_NUMBER=$(shell seq 1 100)
@@ -210,9 +249,47 @@ $(PROC)/final.0.03.subsample.shared code/Run_adn_reduced_best_model.R
 	R -e "source('code/Run_adn_reduced_best_model.R')"
 
 
+
+####################################################################################
+#																				   #
+# Model building SRN Treatment   												   #
+#																				   #
+#																				   #
+####################################################################################
+
+# Set up and run treatment models
+exploratory/srn_treatment_model.RData : $(PROC)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/SRN_treatment_model.R
+	R -e "source('code/SRN_treatment_model.R')"
+
+$(TABLES)/srn_treatment_test_tune_data.csv\
+$(TABLES)/srn_treatment_ROC_model_summary.csv\
+$(TABLES)/srn_treatment_test_data_roc.csv\
+$(TABLES)/srn_treatment_imp_vars_summary.csv\
+$(TABLES)/srn_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/srn_treatment_top_vars_MDA_full_data.csv : exploratory/srn_treatment_model.RData\
+source('code/SRN_combine_agg_treat_model.R
+	R -e "source('code/SRN_combine_agg_treat_model.R')"
+
+# Set up and run reduced treatment models
+exploratory/srn_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/srn_treatment_test_tune_data.csv\
+$(TABLES)/srn_treatment_imp_vars_summary.csv\
+$(TABLES)/srn_treatment_top_vars_MDA_Summary.csv srn_treatment_reduce_feature_model.R
+	R -e "source('srn_treatment_reduce_feature_model.R')"
+
+$(TABLES)/red_srn_treatment_test_tune_data.csv\
+$(TABLES)/reduced_srn_treatment_ROC_model_summary.csv\
+$(TABLES)/reduced_srn_treatment_test_data_roc.csv\
+$(TABLES)/reduced_srn_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_srn_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+exploratory/srn_treatment_reduced_RF_model_Imp_OTU.RData\
+SRN_combine_reduced_agg_treat_model.R
+	R -e "source('SRN_combine_reduced_agg_treat_model.R')"
+
+
 ######################################################################################
 #																					 #
-# Model building  SRN 																 #
+# Model building  SRN towards normal 												 #
 #																					 #
 #																					 #
 ######################################################################################
@@ -280,6 +357,43 @@ $(TABLES)/srn_Reduced_ROC_model_summary.csv $(TABLES)/srn_reduced_test_data_roc.
 $(TABLES)/srn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
 $(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
 	R -e "source('code/Run_srn_reduced_best_model.R')"
+
+
+####################################################################################
+#																				   #
+# Model building CRC Treatment   												   #
+#																				   #
+#																				   #
+####################################################################################
+
+# Set up and run treatment models
+exploratory/crc_treatment_model.RData : $(PROC)/mod_metadata/good_metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/CRC_treatment_model.R
+	R -e "source('code/CRC_treatment_model.R')"
+
+$(TABLES)/crc_treatment_test_tune_data.csv\
+$(TABLES)/crc_treatment_ROC_model_summary.csv\
+$(TABLES)/crc_treatment_test_data_roc.csv\
+$(TABLES)/crc_treatment_imp_vars_summary.csv\
+$(TABLES)/crc_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/crc_treatment_top_vars_MDA_full_data.csv : exploratory/crc_treatment_model.RData\
+source('code/CRC_combine_agg_treat_model.R
+	R -e "source('code/CRC_combine_agg_treat_model.R')"
+
+# Set up and run reduced treatment models
+exploratory/crc_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/crc_treatment_test_tune_data.csv\
+$(TABLES)/crc_treatment_imp_vars_summary.csv\
+$(TABLES)/crc_treatment_top_vars_MDA_Summary.csv crc_treatment_reduce_feature_model.R
+	R -e "source('crc_treatment_reduce_feature_model.R')"
+
+$(TABLES)/red_crc_treatment_test_tune_data.csv\
+$(TABLES)/reduced_crc_treatment_ROC_model_summary.csv\
+$(TABLES)/reduced_crc_treatment_test_data_roc.csv\
+$(TABLES)/reduced_crc_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_crc_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+exploratory/crc_treatment_reduced_RF_model_Imp_OTU.RData\
+CRC_combine_reduced_agg_treat_model.R
+	R -e "source('CRC_combine_reduced_agg_treat_model.R')"
 
 
 ###################################################################################
@@ -372,7 +486,6 @@ code/Run_wilcoxson_all.R $(PROC)/mod_metadata/metaI_final.csv\
 	R -e "source('code/Run_wilcoxson_all.R')"
 
 
-
 # This code runs comparisons on the positive probability for initial versus follow up
 # samples for all reduced final models.
 
@@ -450,14 +563,16 @@ $(TABLES)/beta_diver_summary.csv code/Run_Figure1.R
 	R -e "source('code/Run_Figure1.R')"
 
 
-# This figure looks at classification of intial and follow up samples
-# based on adenoma, advanced adenoma, or carcinoma.
-
-$(FIGS)/Figure2.pdf : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
-code/Run_Figure2.R
-	R -e "source('code/Run_Figure2.R')"
+# This figure explores the MDA of the 10 OTUs in the  adenoma,
+# advanced adenoma, and carincoma treatment models.
+$(FIGS)/Figure2.pdf : $(TABLES)/reduced_adn_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_srn_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_crc_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_adn_treatment_top_vars_MDA_full_data.csv\
+$(TABLES)/reduced_srn_treatment_top_vars_MDA_full_data.csv\
+$(TABLES)/reduced_crc_treatment_top_vars_MDA_full_data.csv\
+code/treatment_otu_graph.R
+	R -e "source('code/treatment_otu_graph.R')"
 
 
 # This figure explores how the rank importance of common OTUs between the adenoma,
@@ -466,8 +581,18 @@ code/Run_Figure2.R
 $(FIGS)/Figure3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/crc_reduced_model_top_vars_MDA_Summary.csv\
-code/common_otu_graph.R
+code/common_all_models.R code/common_otu_graph.R
 	R -e "source('code/common_otu_graph.R')"
+
+
+# This figure looks at classification of intial and follow up samples
+# based on adenoma, advanced adenoma, or carcinoma.
+
+$(FIGS)/Figure4.pdf : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
+$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
+code/Run_Figure2.R
+	R -e "source('code/Run_Figure4.R')"
 
 
 # This figure summarizes the p-values found for all OTUs in comparing
@@ -516,7 +641,7 @@ write.paper : $(FINAL)/manuscript.Rmd\
 		results/tables/Table1.Rmd results/tables/Table2.Rmd\
 		$(TABLES)/mod_metadata/good_metaf_final.csv\
 		$(FIGS)/Figure1.pdf $(FIGS)/Figure2.pdf\
-		$(FIGS)/Figure3.pdf $(FIGS)/FigureS1.pdf\
-		$(FIGS)/FigureS2.pdf $(FIGS)/FigureS3.pdf\
-		code/Run_render_paper.R
+		$(FIGS)/Figure3.pdf $(FIGS).Figure4.pdf\
+		$(FIGS)/FigureS1.pdf\ $(FIGS)/FigureS2.pdf 
+		$(FIGS)/FigureS3.pdf code/Run_render_paper.R
 	R -e "source('code/Run_render_paper.R')"

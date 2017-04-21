@@ -3,7 +3,7 @@
 ### Marc Sze
 
 source('code/functions.R')
-source('code/old/common_all_models.R')
+source('code/common_all_models.R')
 
 loadLibs("gridExtra")
 
