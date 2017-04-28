@@ -10,17 +10,13 @@ loadLibs(c("dplyr", "aod"))
 # Load needed data
 thetaCompTotal <- read.dist('data/process/final.thetayc.0.03.lt.ave.dist')
 
-metaF <- read.csv("data/process/mod_metadata/metaF_final.csv", 
-  stringsAsFactors = F, header = T)
 good_metaf <- read.csv("data/process/mod_metadata/good_metaF_final.csv", stringsAsFactors = F, header = T)
 
 # Crate distance table with only initial and follow ups
 difference_table_treatment <- pickDistanceValues(
-  as.character(metaF$initial), as.character(metaF$followUp), 
-  thetaCompTotal, metaF, c("fit_result", "fit_followUp", "Dx_Bin", "dx")) %>% 
-  mutate(fit_difference = fit_result - fit_followUp, 
-         chemo = good_metaf$chemo_received, 
-         rads = good_metaf$radiation_received)
+  as.character(good_metaf$initial), as.character(good_metaf$followUp), 
+  thetaCompTotal, good_metaf, c("Dx_Bin", "dx", "chemo_received", "radiation_received", "Surgery")) %>% 
+  rename(chemo = chemo_received, rads = radiation_received, surgery = Surgery)
 
 # Create table to store mean, sd, and pvalue from test
 change_theta_fit_summary <- as.data.frame(matrix(nrow = 2, ncol = 12, 
@@ -50,36 +46,6 @@ change_theta_fit_summary['thetayc', ] <- c(
   Pvalue_srnVcrc = wilcox.test(
     filter(difference_table_treatment, Dx_Bin == "adv_adenoma")[, "distance"], 
     filter(difference_table_treatment, Dx_Bin == "cancer")[, "distance"])$p.value) 
-
-# Add the Fit row of table
-change_theta_fit_summary['fit', ] <- c(
-  #Adds the summary stats for adenoma
-  filter(difference_table_treatment, Dx_Bin == "adenoma") %>% 
-    summarise(adn_mean = -mean(fit_difference, na.rm = TRUE), adn_SD = sd(fit_difference, na.rm = TRUE), 
-              adn_n = length(fit_difference)), 
-  #Adds the summary stats for SRN
-  filter(difference_table_treatment, Dx_Bin == "adv_adenoma") %>% 
-    summarise(adn_mean = -mean(fit_difference, na.rm = TRUE), adn_SD = sd(fit_difference, na.rm = TRUE), 
-              adn_n = length(fit_difference)), 
-  #Adds the summary stats for CRC
-  filter(difference_table_treatment, Dx_Bin == "cancer") %>% 
-    summarise(adn_mean = -mean(fit_difference, na.rm = TRUE), adn_SD = sd(fit_difference, na.rm = TRUE), 
-              adn_n = length(fit_difference)), 
-  #Adds the pvalue comparisons
-  Pvalue_adnVsrn = wilcox.test(
-    filter(difference_table_treatment, Dx_Bin == "adenoma")[, "fit_difference"], 
-    filter(difference_table_treatment, Dx_Bin == "adv_adenoma")[, "fit_difference"])$p.value, 
-  Pvalue_adnVcrc = wilcox.test(
-    filter(difference_table_treatment, Dx_Bin == "adenoma")[, "fit_difference"], 
-    filter(difference_table_treatment, Dx_Bin == "cancer")[, "fit_difference"])$p.value, 
-  Pvalue_srnVcrc = wilcox.test(
-    filter(difference_table_treatment, Dx_Bin == "adv_adenoma")[, "fit_difference"], 
-    filter(difference_table_treatment, Dx_Bin == "cancer")[, "fit_difference"])$p.value)
-
-
-# Perform a trend test 
-
-
 
 
 # Save table for later use
