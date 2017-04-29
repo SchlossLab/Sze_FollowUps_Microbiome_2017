@@ -74,7 +74,7 @@ Lesion_plot <- grid.arrange(
   
 # Save figures and write necessary tables
 ggsave(file = "results/figures/Figure4.pdf", Lesion_plot, 
-       width=13, height = 10, dpi = 300)
+       width=13, height = 7, dpi = 300)
 
 
 

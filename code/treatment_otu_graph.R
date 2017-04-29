@@ -86,7 +86,7 @@ adn_treat_MDA_graph <- ggplot(adn_data, aes(factor(otu,
   theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
-        axis.text.y = element_text(size = 6))
+        axis.text.y = element_text(size = 10))
 
 
 srn_treat_MDA_graph <- ggplot(srn_data, aes(factor(otu, 
@@ -98,7 +98,7 @@ srn_treat_MDA_graph <- ggplot(srn_data, aes(factor(otu,
   theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
-        axis.text.y = element_text(size = 6))
+        axis.text.y = element_text(size = 10))
 
 
 crc_treat_MDA_graph <- ggplot(crc_data, aes(factor(otu, 
@@ -110,10 +110,10 @@ crc_treat_MDA_graph <- ggplot(crc_data, aes(factor(otu,
   theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
         axis.title = element_text(face = "bold"), 
-        axis.text.y = element_text(size = 6))
+        axis.text.y = element_text(size = 10))
 
 
 full_fig2 <- grid.arrange(adn_treat_MDA_graph, srn_treat_MDA_graph, crc_treat_MDA_graph, nrow = 1)
 
 ggsave(file = "results/figures/Figure2.pdf", full_fig2, 
-       width=11, height = 6, dpi = 300)
+       width=17, height = 6, dpi = 300)

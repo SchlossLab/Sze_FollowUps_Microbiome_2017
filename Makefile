@@ -627,6 +627,15 @@ $(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
 	R -e "source('code/Run_FigureS3.R')"
 
 
+# This figure plots the oral specific crc-releated OTUs identified in the carcinoma model.
+
+$(FIGS)/FigureS4.pdf : $(PROC)/final.shared\
+$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
+$(PROC)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS4.R
+	R -e "source('code/Run_FigureS4.R')"
+
+
 #####################################################################################
 #																					#
 # Part 5: Pull it all together 														#
