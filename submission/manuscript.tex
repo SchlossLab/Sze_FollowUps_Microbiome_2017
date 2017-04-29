@@ -186,12 +186,13 @@ microbiota; colorectal cancer; polyps; treatment; risk factor.
 Colorectal cancer (CRC) is the third most common cause of cancer deaths
 in the United States {[}1,2{]}. Disease mortality has significantly
 decreased, predominately due to improvements in screening {[}2{]}.
-Despite this improvement, there are still approximately 50,000
-CRC-related deaths per year {[}1{]}. Current estimates indicate that
-20-30\% of those who undergo treatment will experience recurrence and
-35\% of all patients will die within five years {[}3--5{]}.
-Identification of methods to assess patients' risk of recurrence is of
-great importance to reduce mortality and healthcare costs.
+Despite these improvements, there are still approximately 50,000
+CRC-related deaths per year in the United States {[}1{]}. Current
+estimates indicate that 20-30\% of those who undergo treatment will
+experience recurrence and 35\% of all patients will die within five
+years {[}3--5{]}. Identification of methods to assess patients' risk of
+recurrence is of great importance to reduce mortality and healthcare
+costs.
 
 There is growing evidence that the gut microbiota is involved in the
 progression of CRC. Mouse-based studies have identified populations of
@@ -244,7 +245,7 @@ similar to those individuals with normal colons. We found that treatment
 alters the composition of the gut microbiota and that, for those with
 carinomas, the gut microbiota shifted more towards that of a normal
 colon after treatment. In the individuals with carcinomas, no difference
-was found byt the type of treatment (surgery alone versus surgery with
+was found by the type of treatment (surgery alone versus surgery with
 chemotherapy). Understanding how the community responds to these
 treatments could be a valuable tool for identifying biomarkers to
 quantify the risk of recurrence and the likelihood of survival.
@@ -258,8 +259,9 @@ patients diagnosed with colonic lesions.}} Within our 67-person cohort
 we tested whether the microbiota of patients with adenoma (N=22),
 advanced adenoma (N=19), or carcinoma (N=26) had any broad differences
 between pre and post-treatment samples {[}Table 1{]}. The structure of
-the microbial communities of the pre and post-treatment samples differed
-{[}Figure 1A{]}. We found that the communities obtained pre and
+the microbial communities of the pre and post-treatment samples
+differed, as measured by the \(\theta\)\textsubscript{YC} beta diversity
+metric {[}Figure 1A{]}. We found that the communities obtained pre and
 post-treament among the patients with carcinomas changed significantly
 more than those patients with adenoma (P-value = 5.4e-05). There were no
 significant differences in the amount of change observed between the
@@ -290,10 +292,10 @@ to differentiate between pre and post-treatment samples from each of the
 diagnosis groups. Because of the relatively small number of subjects in
 each group, we restricted our models to only incorporate 10 OTUs to
 limit the likelihood that the models would overfit the data. Despite
-this restriction, the models performed well (adenoma AUC=0.69 - 0.92,
-advanced adenoma AUC=0.80 - 1.00, carcinoma AUC=0.82 - 0.98).
-Interestingly, the 10 OTUs that were used for each model had little
-overlap with each other {[}Figure 2{]}. These results support the
+this restriction, the models performed well (adenoma AUC range =0.69 -
+0.92, advanced adenoma AUC range =0.80 - 1.00, carcinoma AUC range =0.82
+- 0.98). Interestingly, the 10 OTUs that were used for each model had
+little overlap with each other {[}Figure 2{]}. These results support the
 earlier community-wide analysis where we observed that the treatment had
 an impact on the overall community structure; however, the effect of
 treatment was not consistent across patients and diagnosis groups.
@@ -307,35 +309,36 @@ the same protocol as having normal colons or colons with adenoma,
 advanced adenoma, or carcinoma {[}Table 2{]}. We then constructed Random
 Forest models to classify the study samples, with the 3 diagnosis groups
 (adenoma, advanced adenoma, or carcinoma), or having a normal colon. The
-models performed well (adenoma AUC=0.62 - 0.72, advanced adenoma
-AUC=0.68 - 0.77, carcinoma AUC=0.84 - 0.90; Figure S2). The OTUs that
-were incorporated into the adenoma and advanced adenoma models largely
-overlapped and those OTUs that were used to classify the carcinoma
-samples were largely distinct from those of the other two models
-{[}Figure 3A{]}. Among the OTUs that were shared across the three models
-were those populations commonly considered as commensals (e.g.
-\emph{Faecalibacterium}, \emph{Lachnospiraceae}, \emph{Bacteroides},
-\emph{Dorea}, \emph{Anaerostipes}, and \emph{Roseburia}) {[}Figures
-3B{]}. Although many of these OTUs were also included in the model
-differentiating between patients with normal colons and those with
-carcinoma, this model also included OTUs affiliated with populations
-that have previously been associated with carcinoma
-(\emph{Fusobacterium}, \emph{Porphyromonas}, \emph{Parvimonas})
-{[}Figure S3{]}. Finally, we applied these three models to the pre and
-post-treatment samples for each diagnosis group and quantified the
-change in the positive probability of the model. A decrease in the
-positive probability would indicate that the colon more closely
-resembled that of a patient with a normal colon. There was no
-significant change in the positive probability for the adenoma or
-advanced adenoma groups {[}Figure 4{]}. The positive probability for the
-pre and post-treatment samples from patients diagnosed with carcinoma
-significantly decreased with treatment. Only, 6 of the 26 patients
-(23.08\%) who were diagnosed with a carcinoma had a higher positive
-probability after treatment; one of those was re-diagnosed with
-carcinoma on the follow up visit. These results indicate that, although
-there were changes in the microbiota associated with treatment, those
-experienced by patients with carcinoma after treatment yielded gut
-bacterial communities of greater similarity to that of a normal colon.
+models performed well (adenoma AUC range =0.62 - 0.72, advanced adenoma
+AUC range=0.68 - 0.77, carcinoma AUC range=0.84 - 0.90; Figure S2). The
+OTUs that were incorporated into the adenoma and advanced adenoma models
+largely overlapped and those OTUs that were used to classify the
+carcinoma samples were largely distinct from those of the other two
+models {[}Figure 3A{]}. Among the OTUs that were shared across the three
+models were those populations generally considered beneficial to their
+host (e.g. \emph{Faecalibacterium}, \emph{Lachnospiraceae},
+\emph{Bacteroides}, \emph{Dorea}, \emph{Anaerostipes}, and
+\emph{Roseburia}) {[}Figures 3B{]}. Although many of these OTUs were
+also included in the model differentiating between patients with normal
+colons and those with carcinoma, this model also included OTUs
+affiliated with populations that have previously been associated with
+carcinoma (\emph{Fusobacterium}, \emph{Porphyromonas},
+\emph{Parvimonas}) {[}24--26{]} {[}Figure S3{]}. Finally, we applied
+these three models to the pre and post-treatment samples for each
+diagnosis group and quantified the change in the positive probability of
+the model. A decrease in the positive probability would indicate that
+the colon more closely resembled that of a patient with a normal colon.
+There was no significant change in the positive probability for the
+adenoma or advanced adenoma groups {[}Figure 4{]}. The positive
+probability for the pre and post-treatment samples from patients
+diagnosed with carcinoma significantly decreased with treatment. Only, 6
+of the 26 patients (23.08\%) who were diagnosed with a carcinoma had a
+higher positive probability after treatment; one of those was
+re-diagnosed with carcinoma on the follow up visit. These results
+indicate that, although there were changes in the microbiota associated
+with treatment, those experienced by patients with carcinoma after
+treatment yielded gut bacterial communities of greater similarity to
+that of a normal colon.
 
 \textbf{\emph{Difficult to identify effects of specific treatments on
 the change in the microbiota.}} The type of treatment that the patients
