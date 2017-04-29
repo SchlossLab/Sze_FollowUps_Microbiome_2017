@@ -38,11 +38,12 @@ differences_graph <- grid.arrange(
                        labels = c("0.00", "0.25", "0.50", "0.75", "1.00"),limits = c(-0.06, 1.06)) + 
     xlab("") + theme_bw() + ggtitle("A") + 
     theme(axis.title = element_text(face="bold", hjust = 0.5), 
+          axis.text.x = element_text(size = 12), 
           legend.title = element_text(face="bold"), 
           legend.position = "none", 
-          plot.title = element_text(face="bold", hjust = -0.3, size = 20), 
+          plot.title = element_text(face="bold", hjust = -0.065, size = 20), 
           panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank()) + coord_fixed(ratio = 1.8), 
+          panel.grid.minor = element_blank()), 
   
   # Adenoma Only initial and follow up
   mutate(thetayc_adn_IF, samples = factor(samples, 
@@ -53,7 +54,7 @@ differences_graph <- grid.arrange(
     theme_bw() + coord_equal() + ggtitle("B") + ylim(-0.7, 0.7) + xlim(-0.7, 0.7) + 
     scale_color_manual(values = c('#00EE76', '#228B22')) + scale_fill_manual(values = c('#00EE76', '#228B22')) + 
     scale_shape_manual(values = c(16, 1)) + 
-    theme(plot.title = element_text(face="bold", hjust = -0.32, size = 20), 
+    theme(plot.title = element_text(face="bold", hjust = -0.28, size = 20), 
           legend.position = c(0.15, 0.11), 
           legend.title = element_blank(), 
           legend.key = element_blank(), 
@@ -101,39 +102,6 @@ differences_graph <- grid.arrange(
 
 
 ggsave(file = "results/figures/Figure1.pdf", differences_graph, 
-       width=11, height = 8.5, dpi = 300)
-
-
-
-
-
-
-
-# Difference from fit between adenoma and cancer
-#ggplot(difference_table_treatment, 
-#       aes(factor(dx, levels = c("adenoma", "cancer"), labels = c("Adenoma", "Carcinoma")), 
-#           fit_difference*-1, group = 1)) + 
-#  geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
-#  stat_summary(fun.data = "mean_cl_boot", colour = "black", size = 1) + 
-#  stat_summary(fun.y = mean, colour = "black", geom = "line") + 
-#  scale_color_manual(name = "Lesion Type", 
-#                     values = c('#00FFFF', '#0000FF', '#F1BB7B'), 
- #                    breaks = c("adenoma", "adv_adenoma", "cancer"), 
-  #                   labels = c("Adenoma", "SRN", "Carcinoma")) + 
-#  ylab("Change in FIT from Follow Up to Initial") + 
-#  xlab("") + theme_bw() + ggtitle("B") + 
-#  theme(axis.title = element_text(face="bold", hjust = 0.5), 
-#        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "lines"), 
-#        legend.title = element_text(face="bold"), 
-#        legend.position = "none", 
-#        title = element_text(face="bold", hjust = 0), 
-#        panel.grid.major = element_blank(), 
-#        panel.grid.minor = element_blank())
-
-
-
-
-
-
+       width=10, height = 8.5, dpi = 300)
 
 

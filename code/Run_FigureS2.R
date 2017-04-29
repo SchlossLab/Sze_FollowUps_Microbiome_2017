@@ -26,7 +26,7 @@ rocs_graph <- grid.arrange(
               size = 1.5, color = '#006400') + 
     scale_x_continuous(trans = "reverse") + theme_bw() + 
     ggtitle("A") + xlab("Sensitivity") + ylab("Specificity") + 
-    theme(plot.title = element_text(face= "bold", hjust = -0.11, size = 20), 
+    theme(plot.title = element_text(face= "bold", hjust = -0.19, size = 20), 
           axis.title = element_text(face = "bold")), 
   
   # SRN ROC curve information
@@ -39,7 +39,7 @@ rocs_graph <- grid.arrange(
               size = 1.5, color = '#EEC900') + 
     scale_x_continuous(trans = "reverse") + theme_bw() +  
     ggtitle("B") + xlab("Sensitivity") + ylab("Specificity") + 
-    theme(plot.title = element_text(face= "bold", hjust = -0.11, size = 20), 
+    theme(plot.title = element_text(face= "bold", hjust = -0.19, size = 20), 
           axis.title = element_text(face = "bold")), 
   
   # CRC ROC curve information
@@ -52,9 +52,9 @@ rocs_graph <- grid.arrange(
               size = 1.5, color = '#DC143C') + 
     scale_x_continuous(trans = "reverse") + theme_bw() +  
     ggtitle("C") + xlab("Sensitivity") + ylab("Specificity") + 
-    theme(plot.title = element_text(face= "bold", hjust = -0.11, size = 20), 
+    theme(plot.title = element_text(face= "bold", hjust = -0.19, size = 20), 
           axis.title = element_text(face = "bold")))
 
 
 ggsave(file = "results/figures/FigureS2.tiff", rocs_graph, 
-       width=6, height = 8, dpi = 300)
+       width=4, height = 8, dpi = 300)
