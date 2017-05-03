@@ -595,45 +595,37 @@ code/Run_Figure2.R
 	R -e "source('code/Run_Figure4.R')"
 
 
-# This figure summarizes the p-values found for all OTUs in comparing
-# initial versus follow up for adenoma, advanced adenoma, and carcinoma.
-
-$(FIGS)/FigureS1.pdf : $(TABLES)/OTU_paired_wilcoxson_test.csv\
-code/Run_FigureS1.R
-	R -e "source('code/Run_FigureS1.R')"
-
-
 # This graph highlights the ROC curve for each of the models used.  This
 # visualizes the models normal vs adenoma, normal vs advanced adenoma, and
 # normal vs carcinoma.
 
-$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
+$(FIGS)/FigureS1.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
 $(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS2.R
-	R -e "source('code/Run_FigureS2.R')"
-	tiff2pdf -z -o results/figures/FigureS2.pdf results/figures/FigureS2.tiff
-	rm results/figures/FigureS2.tiff
+$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS1.R
+	R -e "source('code/Run_FigureS1.R')"
+	tiff2pdf -z -o results/figures/FigureS1.pdf results/figures/FigureS1.tiff
+	rm results/figures/FigureS1.tiff
 
 
 # This figure explores the most important OTUs for each model and displays
 # them by median MDA.
 
-$(FIGS)/FigureS3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
+$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA.csv\
 $(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
-	R -e "source('code/Run_FigureS3.R')"
+$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS2.R
+	R -e "source('code/Run_FigureS2.R')"
 
 
 # This figure plots the oral specific crc-releated OTUs identified in the carcinoma model.
 
-$(FIGS)/FigureS4.pdf : $(PROC)/final.shared\
+$(FIGS)/FigureS3.pdf : $(PROC)/final.shared\
 $(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv\
-$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS4.R
-	R -e "source('code/Run_FigureS4.R')"
+$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS3.R
+	R -e "source('code/Run_FigureS3.R')"
 
 
 #####################################################################################
