@@ -295,7 +295,7 @@ ft1 <- cbind(Group = c("Adenoma", "Advanced Adenoma", "Carcinoma"), ttemptable$D
 
 age_label <- paste("Age (Mean ", label = "\u00B1", " SD)", sep = "")
 bmi_label <- paste("BMI (Mean ", label = "\u00B1", " SD)", sep = "")
-post_time_label <- paste("Post-Treatment Sample (Mean ", label = "\u00B1", " SD)", sep = "")
+post_time_label <- paste("Days Between Colonoscopy (Mean ", label = "\u00B1", " SD)", sep = "")
 
 colnames(ft1) <- c("Group", "n", age_label, "Sex (%F)", bmi_label, "Caucasian (%)", post_time_label)
 
