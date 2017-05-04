@@ -1,4 +1,4 @@
-## The Fecal Microbiome Before and After Treatment for Colorectal Adenoma or Carcinoma
+## The effect of treatment on the microbiota of patients diagnosed with colonic lesions
 
 **Background.** Colorectal cancer (CRC) is a worldwide health problem. Despite growing
 evidence that members of the gut microbiota can drive tumorigenesis, little is known about
