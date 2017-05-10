@@ -27,8 +27,8 @@ differences_graph <- grid.arrange(
          aes(factor(Dx_Bin, levels = c("adenoma", "adv_adenoma", "cancer"), 
                     labels = c("Adenoma", "Advanced\nAdenoma", "Carcinoma")), distance, group = 1)) + 
     geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
-    stat_summary(fun.y = median, colour = "black", geom = "point", size = 4.5) + 
-    stat_summary(fun.y = median, colour = "black", geom = "line", size = 1) + 
+    stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median, 
+                 colour = "black", geom = "crossbar", size = 0.5, width = 0.5) + 
     scale_color_manual(name = "Lesion Type", 
                        values = c('#228B22', '#FFD700', '#DC143C'), 
                        breaks = c("adenoma", "adv_adenoma", "cancer"), 
