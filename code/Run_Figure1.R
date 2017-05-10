@@ -28,7 +28,7 @@ differences_graph <- grid.arrange(
                     labels = c("Adenoma", "Advanced\nAdenoma", "Carcinoma")), distance, group = 1)) + 
     geom_jitter(aes(color=Dx_Bin), width = 0.3, size = 4, alpha = 0.5) + 
     stat_summary(fun.y = median, colour = "black", geom = "point", size = 4.5) + 
-    stat_summary(fun.y = median, colour = "black", geom = "line", size = 1) + 
+    geom_smooth(method = 'lm', formula = y~x, se = FALSE, color = "black") + 
     scale_color_manual(name = "Lesion Type", 
                        values = c('#228B22', '#FFD700', '#DC143C'), 
                        breaks = c("adenoma", "adv_adenoma", "cancer"), 
