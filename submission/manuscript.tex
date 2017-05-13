@@ -105,7 +105,7 @@ lesions}\label{the-effect-of-treatment-on-the-microbiota-of-patients-diagnosed-w
 \begin{center}
 \vspace{25mm}
 
-Marc A Sze${^1}$, Nielson T Baxter${^2}$, Mack T Ruffin IV${^3}$, Mary AM Rogers${^2}$, and Patrick D Schloss${^1}$${^\dagger}$
+Marc A Sze${^1}$, Nielson T Baxter${^1,2}$, Mack T Ruffin IV${^3}$, Mary AM Rogers${^2}$, and Patrick D Schloss${^1}$${^\dagger}$
 
 \vspace{20mm}
 
@@ -169,17 +169,16 @@ individuals treated with surgery alone and those treated with
 chemotherapy or chemotherapy and radiation (P-value \textgreater{}
 0.05).
 
-\textbf{Conclusions.} Further exploration of the relationship between
-diagnosis, treatment, and the impact on the microbiota will yield
-improvements in disease management.
+\textbf{Conclusions.} By better understanding the response of the
+microbiota to treatment for adenomas and carcinomas, it is likely that
+biomarkers will be validated that can be used to quantify the risk of
+recurrence and the likelihood of survival.
 
 \subsubsection{Keywords}\label{keywords}
 
 microbiota; colorectal cancer; polyps; treatment; risk factor.
 
 \newpage
-
-\linenumbers
 
 \subsection{Background}\label{background}
 
@@ -237,7 +236,7 @@ We answered these questions by sequencing the V4 region of 16S rRNA
 genes amplified from fecal samples of individuals with adenoma, advanced
 adenoma, and carcinomas pre and post-treatment. We used classical
 community analysis to compare the alpha and beta-diversity of
-communities pre and post treatment. Next, we generated Random Forest
+communities pre and post-treatment. Next, we generated Random Forest
 models to identify bacterial populations that were indicative of
 treatment for each diagnosis group. Finally, we measured the predictive
 probabilities to assess whether treatment yielded bacterial communities
@@ -256,26 +255,27 @@ quantify the risk of recurrence and the likelihood of survival.
 
 \textbf{\emph{Treatment alters the bacterial community structure of
 patients diagnosed with colonic lesions.}} Within our 67-person cohort
-we tested whether the microbiota of patients with adenoma (N=22),
-advanced adenoma (N=19), or carcinoma (N=26) had any broad differences
-between pre and post-treatment samples {[}Table 1{]}. The structure of
-the microbial communities of the pre and post-treatment samples
-differed, as measured by the \(\theta\)\textsubscript{YC} beta diversity
-metric {[}Figure 1A{]}. We found that the communities obtained pre and
-post-treament among the patients with carcinomas changed significantly
-more than those patients with adenoma (P-value = 5.4e-05). There were no
-significant differences in the amount of change observed between the
-patients with adenoma and advanced adenoma or between the patients with
-advanced adenoma and carcinoma (P-value \textgreater{} 0.05). Next, we
-tested whether there was a consistent direction in the change in the
-community structure between the pre and post-treatment samples for each
-of the diagnosis groups {[}Figure 1B-D{]}. We only observed a consistent
-shift in community structure for the patients with carcinoma when using
-a PERMANOVA test (adenoma P-value =0.999, advanced adenoma P-value
-=0.945, and carcinoma P-value =0.005). Finally, we measured the number
-of observed OTUs, Shannon evenness, and Shannon diversity in the pre and
-post-treatment samples and did not observe a significant change for any
-of the diagnosis groups (P-value \textgreater{} 0.05) {[}Table S1{]}.
+we tested whether the microbiota of patients with adenoma (N = 22),
+advanced adenoma (N = 19), or carcinoma (N = 26) had any broad
+differences between pre and post-treatment samples {[}Table 1{]}. The
+structure of the microbial communities of the pre and post-treatment
+samples differed, as measured by the \(\theta\)\textsubscript{YC} beta
+diversity metric {[}Figure 1A{]}. We found that the communities obtained
+pre and post-treament among the patients with carcinomas changed
+significantly more than those patients with adenoma (P-value \textless{}
+0.001). There were no significant differences in the amount of change
+observed between the patients with adenoma and advanced adenoma or
+between the patients with advanced adenoma and carcinoma (P-value
+\textgreater{} 0.05). Next, we tested whether there was a consistent
+direction in the change in the community structure between the pre and
+post-treatment samples for each of the diagnosis groups {[}Figure
+1B-D{]}. We only observed a consistent shift in community structure for
+the patients with carcinoma when using a PERMANOVA test (adenoma P-value
+= 0.999, advanced adenoma P-value = 0.945, and carcinoma P-value =
+0.005). Finally, we measured the number of observed OTUs, Shannon
+evenness, and Shannon diversity in the pre and post-treatment samples
+and did not observe a significant change for any of the diagnosis groups
+(P-value \textgreater{} 0.05) {[}Table S1{]}.
 
 \textbf{\emph{The effects of treatment are not consistent across
 treatment groups.}} We used two approaches to identify those bacterial
@@ -283,15 +283,15 @@ populations that change between the two samples for each diagnosis
 group. First, we sought to identify individual OTUs that could account
 for the change in overall community structure. However, using a paired
 Wilcoxon test we were unable to identify any OTUs that were
-significantly different in the pre and post-treatment groups (P-value NA
-0.05). It is likely that high inter-individual variation and the
-irregular distribution of OTUs across individuals limited the
+significantly different in the pre and post-treatment groups (P-value
+\textgreater{} 0.05). It is likely that high inter-individual variation
+and the irregular distribution of OTUs across individuals limited the
 statistical power of the test. To overcome these problems we developed
 Random Forest models to identify collections of OTUs that would allow us
 to differentiate between pre and post-treatment samples from each of the
-diagnosis groups. Because of the relatively small number of subjects in
-each group, we restricted our models to only incorporate 10 OTUs to
-limit the likelihood that the models would overfit the data. Despite
+diagnosis groups. To limit the likelihood that the models would overfit
+the data because of the relatively small number of subjects in each
+group, we restricted our models to only incorporate 10 OTUs. Despite
 this restriction, the models performed well (adenoma AUC range = 0.69 -
 0.92, advanced adenoma AUC range = 0.80 - 1.00, carcinoma AUC range =
 0.82 - 0.98). Interestingly, the 10 OTUs that were used for each model
@@ -388,13 +388,13 @@ with normal colons. This may be due to the fundamental differences
 between the features of adenomas and advanced adenomas and carcinoma.
 Specifically, carcinomas may create an inflammatory milieu that would
 impact the structure of the community and removal of that stimulus would
-alter said structure. In addition, it is possible that the difference
-between the microbiota of patients with adenoma and advanced adenoma and
-those with normal colons is subtle. This is supported by the reduced
-ability of our models to correctly classify patients with adenomas and
-advanced adenomas relative to those diagnosed with carcinomas {[}Figure
-S1{]}. Given the irregular distribution of microbiota across patients in
-the different diagnosis groups, it is possible that we lacked the
+alter said structure. It is possible that the difference between the
+microbiota of patients with adenoma and advanced adenoma and those with
+normal colons is subtle. This is supported by the reduced ability of our
+models to correctly classify patients with adenomas and advanced
+adenomas relative to those diagnosed with carcinomas {[}Figure S1{]}.
+Given the irregular distribution of microbiota across patients in the
+different diagnosis groups, it is possible that we lacked the
 statistical power to adequately characterize the change in the
 communities following treatment.
 
@@ -410,13 +410,13 @@ also hypothesized that we may have sampled these patients later than the
 rest and their communities may have reverted to a carcinoma-associated
 state; however, there was not a statistically significant difference in
 the length of time between sample collection among those whose
-probabilities increased (382 \(\pm\) 116 days) or decreased (341 \(\pm\)
-98 days) (Wilcoxon Test; P-value = 0.56). Finally, it is possible that
-these patients may not have responded to treatment as well as the other
-20 patients diagnosed with carcinoma and so the microbiota may not have
-been impacted the same way. Again, further studies looking at the role
-of the microbiota in recurrence are needed to understand the dynamics
-following treatment.
+probabilities increased (358 (121) days) or decreased (334 (143) days)
+(Wilcoxon Test; P-value = 0.56) (all days data displayed as median
+(IQR)). Finally, it is possible that these patients may not have
+responded to treatment as well as the other 20 patients diagnosed with
+carcinoma and so the microbiota may not have been impacted the same way.
+Again, further studies looking at the role of the microbiota in
+recurrence are needed to understand the dynamics following treatment.
 
 Our final hypothesis was that the specific type of treatment altered the
 structure of the microbiome. The treatment to remove adenomas and
@@ -433,7 +433,7 @@ received antibiotics and this may be a potential confounder. However,
 our pre-treatment stool samples were obtained before the surgery and the
 post-treatment samples were obtained long after any effects due to
 antibiotic administration on the microbiome would be expected to occur
-(351 \(\pm\) 102 days).
+(344 (142) days).
 
 This study expands upon existing research that has established a role
 for the microbiota in tumorigenesis and that demonstrated the utility of
@@ -495,7 +495,9 @@ similarity cutoff with an average neighbor clustering algorithm
 {[}32{]}. The number of sequences for each sample was rarefied to 10523
 to minimize the impacts of uneven sampling.
 
-\textbf{\emph{Model Building.}} The Random Forest {[}33{]} algorithm was
+\textbf{\emph{Model Building.}} {[}Comment: This entire section is
+pretty confusing. In the first paragraph it jumbles the treatment models
+and the diagnosis models{]} The Random Forest {[}33{]} algorithm was
 used to create the three models used. The adenoma model classified
 normal versus adenoma, the advanced adenoma model classified normal
 versus advanced adenoma, and the carcinoma model classified normal
@@ -516,21 +518,20 @@ disease free n = 22), pre-treatment advanced adenoma (advanced adenoma n
 carcinoma (carinoma n = 26 and disease free n = 0) versus post-treatment
 carcinoma (carcinoma n = 1 and disease free n = 25).
 
-The model included only OTU data obtained from 16S rRNA sequencing.
-Non-binary data was checked for near zero variance and OTUs that had
-near zero variance were removed. This pre-processing was performed with
-the R package caret (v6.0.73). Optimization of the mtry hyper-parameter
-involved making 100 different 80/20 (train/test) splits of the data
-where normal and adenoma, normal and advanced adenoma, or normal and
-carcinoma were represented in the same proportion within both the whole
-data set and the 80/20 split. For each of the different splits, 20
-repeated 10-fold cross validation was performed on the 80\% component to
-optimize the mtry hyper-parameter by maximizing the AUC (Area Under the
-Curve of the Receiver Operator Characteristic). The resulting model was
-then tested on the hold out data obtained from the 20\% component. All
-three models had an optimized mtry of 2. The hyper-parameter, mtry,
-defines the number of variables to investigate at each split before a
-new division of the data was created with the Random Forest model.
+The model included only OTU data obtained from 16S rRNA sequencing and
+was constructed using the R package caret (v6.0.73). Optimization of the
+mtry hyper-parameter involved making 100 different 80/20 (train/test)
+splits of the data where normal and adenoma, normal and advanced
+adenoma, or normal and carcinoma were represented in the same proportion
+within both the whole data set and the 80/20 split. For each of the
+different splits, 20 repeated 10-fold cross validation was performed on
+the 80\% component to optimize the mtry hyper-parameter by maximizing
+the AUC (Area Under the Curve of the Receiver Operator Characteristic).
+The resulting model was then tested on the hold out data obtained from
+the 20\% component. All three models had an optimized mtry of 2. The
+hyper-parameter, mtry, defines the number of variables to investigate at
+each split before a new division of the data was created with the Random
+Forest model.
 
 Assessment of the most important OTUs to the model involved counting the
 number of times an OTU was present in the top 10\% of mean decrease in
@@ -550,15 +551,15 @@ by diagnosis group to help avoid model overfitting.
 \textbf{\emph{Statistical Analysis.}} The R software package (v3.3.2)
 was used for all statistical analysis. Comparisons between bacterial
 community structure utilized PERMANOVA {[}34{]} in the vegan package
-(v2.4.1). Comparisons between probabilities as well as overall OTU
-differences between pre and post-treatment samples utilized a paired
-Wilcoxon ranked sum test. Where multiple comparison testing was
-appropriate, a Benjamini-Hochberg (BH) correction was applied {[}35{]}
-and a corrected P-value of less than 0.05 was considered significant.
-Unless otherwise stated the P-values reported are those that were BH
-corrected. Model rank importance was determined by obtaining the median
-MDA from the 100, 20 repeated 10-fold cross validation and then ranking
-from largest to smallest MDA.
+(v2.4.1). Comparisons between probabilities as well as overall
+differences in the median relative abundance of each OTU between pre and
+post-treatment samples utilized a paired Wilcoxon ranked sum test. Where
+multiple comparison testing was appropriate, a Benjamini-Hochberg (BH)
+correction was applied {[}35{]} and a corrected P-value of less than
+0.05 was considered significant. The P-values reported are those that
+were BH corrected. Model rank importance was determined by obtaining the
+median MDA from the 100, 20 repeated 10-fold cross validation and then
+ranking from largest to smallest MDA.
 
 \textbf{\emph{Reproducible Methods.}} A detailed and reproducible
 description of how the data were processed and analyzed can be found at
@@ -570,8 +571,8 @@ respective SRA study accession.
 
 \newpage
 
-\textbf{Figure 1: General Differences between Adenoma, Advanced Adenoma,
-and Carcinoma Groups After Treatment.} A) Thetayc distance from pre
+\textbf{Figure 1: General differences between adenoma, advanced adenoma,
+and carcinoma groups after treatment.} A) Thetayc distance from pre
 versus post sample within each individual. A significant difference was
 found between the adenoma and carcinoma group for thetayc (P-value =
 5.36e-05). Solid black points represent the median value for each
@@ -580,17 +581,18 @@ adenoma group. C) NMDS of the pre and post-treatment samples for the
 advanced adenoma group. D) NMDS of the pre and post-treatment samples
 for the carcinoma group.
 
-\textbf{Figure 2: The 10 OTUs used to classify treatment for Adenoma,
-Advanced Adenoma, and Carcinoma.} A) Adenoma OTUs. B) Advanced Adenoma
+\textbf{Figure 2: The 10 OTUs used to classify treatment for adenoma,
+advanced adenoma, and carcinoma.} A) Adenoma OTUs. B) Advanced Adenoma
 OTUs. C) Carcinoma OTUs.
 
-\textbf{Figure 3: Common OTUs to All Models.} A) Venn diagram showing
-the OTU overlap between each model. B) For each common OTU the lowest
-taxonomic identification and importance rank for each model run is
-shown.
+\textbf{Figure 3: OTUs common to those models used to differentiate
+between patients with normal colons and those with adenoma, advanced
+adenoma, and carcinoma.} A) Venn diagram showing the OTU overlap between
+each model. B) For each common OTU the lowest taxonomic identification
+and importance rank for each model run is shown.
 
-\textbf{Figure 4: Treatment Response Based on Models Built for Adenoma,
-Advanced Adenoma, or Carcinoma.} A) Positive probability change from
+\textbf{Figure 4: Treatment response based on models built for adenoma,
+advanced adenoma, or carcinoma.} A) Positive probability change from
 initial to follow up sample in those with adenoma. B) Positive
 probability change from initial to follow up sample in those with
 advanced adenoma. C) Positive probability change from initial to follow
@@ -598,7 +600,8 @@ up sample in those with carcinoma.
 
 \newpage
 
-\textbf{Table 1: Demographic Data of pre and Post Treatment Cohort}
+\textbf{Table 1: Demographic data of patients in the pre and
+post-treatment cohort}
 
 \begin{longtable}[]{@{}lccc@{}}
 \toprule
@@ -618,7 +621,7 @@ Days Between Colonoscopy (Mean ± SD) & 255.41 ± 42 & 250.16 ± 41 &
 
 \newpage
 
-\textbf{Table 2: Demographic Data of Training Cohort}
+\textbf{Table 2: Demographic data of training cohort}
 
 \begin{longtable}[]{@{}lcccc@{}}
 \toprule
@@ -637,8 +640,8 @@ Caucasian (\%) & 87.79 & 92.54 & 92.22 & 94.68\tabularnewline
 
 \newpage
 
-\textbf{Figure S1: ROC Curves of the Adenoma, Advanced Adenoma, and
-Carcinoma Models.} A) Adenoma ROC curve: The light green shaded areas
+\textbf{Figure S1: ROC curves of the adenoma, advanced adenoma, and
+carcinoma models.} A) Adenoma ROC curve: The light green shaded areas
 represent the range of values of a 100 different 80/20 splits of the
 test set data and the dark green line represents the model using 100\%
 of the data set and what was used for subsequent classification. B)
@@ -651,8 +654,8 @@ different 80/20 splits of the test set data and the dark red line
 represents the model using 100\% of the data set and what was used for
 subsequent classification.
 
-\textbf{Figure S2: Summary of Important OTUs for the Adenoma, Advanced
-Adenoma, and Carcinoma Models.} A) MDA of the most important variables
+\textbf{Figure S2: Summary of important OTUs for the adenoma, advanced
+adenoma, and carcinoma models.} A) MDA of the most important variables
 in the adenoma model. The dark green point represents the mean and the
 lighter green points are the value of each of the 100 different runs. B)
 Summary of Important Variables in the advanced adenoma model. MDA of the
@@ -662,8 +665,8 @@ of the 100 different runs. C) MDA of the most important variables in the
 carcinoma model. The dark red point represents the mean and the lighter
 red points are the value of each of the 100 different runs.
 
-\textbf{Figure S3: Pre and Post Treatment Relative Abundance of CRC
-associated OTUs within the Carcinoma Model.}
+\textbf{Figure S3: Pre and post-treatment relative abundance of CRC
+associated OTUs within the carcinoma model.}
 
 \newpage
 
