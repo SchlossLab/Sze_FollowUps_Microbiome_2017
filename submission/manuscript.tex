@@ -134,8 +134,8 @@ tested the hypothesis that treatment for adenoma or carcinoma alters the
 abundance of bacterial populations associated with disease to those
 associated with a normal colon. We tested this hypothesis by sequencing
 the 16S rRNA genes in the feces of 67 individuals before and after
-treatment for adenoma (N=22), advanced adenoma (N=19), and carcinoma
-(N=26).
+treatment for adenoma (N = 22), advanced adenoma (N = 19), and carcinoma
+(N = 26).
 
 \textbf{Results.} There were large changes to the bacterial communities
 associated with treatment across the three groups. The communities from
@@ -495,58 +495,68 @@ similarity cutoff with an average neighbor clustering algorithm
 {[}32{]}. The number of sequences for each sample was rarefied to 10523
 to minimize the impacts of uneven sampling.
 
-\textbf{\emph{Model Building.}} {[}Comment: This entire section is
-pretty confusing. In the first paragraph it jumbles the treatment models
-and the diagnosis models{]} The Random Forest {[}33{]} algorithm was
-used to create the three models used. The adenoma model classified
-normal versus adenoma, the advanced adenoma model classified normal
-versus advanced adenoma, and the carcinoma model classified normal
-versus carcinoma. The total number of individuals in the treatment
-models was 67 individuals. There were a total of 22 individuals in the
-treatment adenoma model, 19 individuals in the treatment advanced
-adenoma model, and 26 individuals in the treatment carcinoma model
-{[}Table 1{]}. The total number of individuals in the normal versus
-diagnosis models was 423 individuals {[}Table 2{]}. There were a total
-of 239 individuals in the adenoma model, 262 individuals in the advanced
-adenoma model, and 266 individuals in the carcinoma model {[}Table 2{]}.
-Each model was then applied to our 67-person cohort {[}Table 1{]} which
-assesed the prediction of pre-treatment adenoma (adenoma n = 22 and
-disease free n = 0) versus post-treatment adenoma (adenoma n = 0 and
-disease free n = 22), pre-treatment advanced adenoma (advanced adenoma n
-= 19 and disease free n = 0 ) versus post-treatment advanced adenoma
-(advanced adenoma n = 0 and disease free n = 19), pre-treatment
-carcinoma (carinoma n = 26 and disease free n = 0) versus post-treatment
-carcinoma (carcinoma n = 1 and disease free n = 25).
+\textbf{\emph{Model Building.}} The Random Forest {[}33{]} algorithm was
+used to create the three models used to classify pre and post-treatment
+samples by diagnosis (adenoma, advanced adenoma, or carcinoma). The
+total number of individuals in the pre versus post-treatment models was
+67 individuals. There were a total of 22 individuals in the pre versus
+post-treatment adenoma model, 19 individuals in the pre versus
+post-treatment advanced adenoma model, and 26 individuals in the pre
+versus post-treatment carcinoma model {[}Table 1{]}.
 
-The model included only OTU data obtained from 16S rRNA sequencing and
-was constructed using the R package caret (v6.0.73). Optimization of the
-mtry hyper-parameter involved making 100 different 80/20 (train/test)
-splits of the data where normal and adenoma, normal and advanced
-adenoma, or normal and carcinoma were represented in the same proportion
-within both the whole data set and the 80/20 split. For each of the
-different splits, 20 repeated 10-fold cross validation was performed on
-the 80\% component to optimize the mtry hyper-parameter by maximizing
+Similarily, the Random Forest {[}33{]} algorithm was also used to create
+the three models used to classify normal versus diagnosis. The total
+number of individuals in the normal versus diagnosis models was 423
+individuals {[}Table 2{]}. There were a total of 239 individuals in the
+normal versus adenoma model, 262 individuals in the normal versus
+advanced adenoma model, and 266 individuals in the normal versus
+carcinoma model {[}Table 2{]}.
+
+All models included only OTU data obtained from 16S rRNA sequencing and
+were processed and cleaned using the R package caret (v6.0.73).
+Optimization of the mtry hyper-parameter involved making 100 different
+80/20 (train/test) splits of the data where the same proportion was
+present within both the whole data set and the 80/20 split. For each of
+the different splits, 20 repeated 10-fold cross validation was performed
+on the 80\% component to optimize the mtry hyper-parameter by maximizing
 the AUC (Area Under the Curve of the Receiver Operator Characteristic).
 The resulting model was then tested on the hold out data obtained from
-the 20\% component. All three models had an optimized mtry of 2. The
-hyper-parameter, mtry, defines the number of variables to investigate at
-each split before a new division of the data was created with the Random
-Forest model.
+the 20\% component. For all pre versus post-treatment models the
+optimized mtry was 2 and for all normal versus diagnosis models the
+optimized mtry was 2. The hyper-parameter, mtry, defines the number of
+variables to investigate at each split before a new division of the data
+was created with the Random Forest model {[}33{]}.
 
-Assessment of the most important OTUs to the model involved counting the
-number of times an OTU was present in the top 10\% of mean decrease in
-accuracy (MDA) for each of the 100 different splits run. This was then
-followed with filtering of this list to variables that were only present
-in more than 50\% of these 100 runs. The final collated list of
-variables was then run through the mtry optimization again. Once the
-ideal mtry was found the entire sample set specific to normal versus
-adenoma, normal versus advanced adenoma, or normal versus carcinoma was
-used to create the final Random Forest model on which classifications on
-the 67-person cohort was completed. For all three models the final
-optimized mtry was 2. The only difference other than the sample set used
-between treatment models and normal versus diagnosis models was that
-only the top 10 OTUs were used to build each respective treatment model
-by diagnosis group to help avoid model overfitting.
+For each of the pre versus post-treamtent models assessment of the most
+important OTUs was then made by taking the top 10 OTUs by mean decrease
+in accuracy (MDA). These were then used to build each respective reduced
+OTU pre versus post-treatment model by diagnosis group to help avoid
+model overfitting. These reduced models were then put through the same
+process mentioned in the previous paragraph and were what was used for
+the final pre versus post-treatment models. For the normal versus
+diagnosis models the important OTUs were obtained by counting the number
+of times an OTU was present in the top 10\% of MDA for each of the 100
+different splits. This was then followed with filtering of this list to
+variables that were only present in more than 50\% of these 100 runs.
+These corresponding reduced OTU normal versus diagnosis models were then
+put through the same process mentioned in the previous paragraph and
+were what was used for the final normal versus diagnosis models. For the
+pre versus post-treatment models the final optimized mtry was 2 and for
+the normal versus diagnosis models the final optimized mtry was 2.
+
+Each model was then applied to our 67-person cohort {[}Table 1{]} based
+on diagnosis: adenoma (pre-treatment adenoma (adenoma n = 22 and disease
+free n = 0) versus post-treatment adenoma (adenoma n = 0 and disease
+free n = 22)), advanced adenoma pre-treatment advanced adenoma (advanced
+adenoma n = 19 and disease free n = 0 ) versus post-treatment advanced
+adenoma (advanced adenoma n = 0 and disease free n = 19), and carcinoma
+(pre-treatment carcinoma (carinoma n = 26 and disease free n = 0) versus
+post-treatment carcinoma (carcinoma n = 1 and disease free n = 25)). The
+application of the pre versus post-treatment models generated the
+probabilites that the sample was a pre-treatment sample. The application
+of the normal versus diagnosis models generated the probabilities that
+the sample was that specific diagnosis (adenoma, advanced adenoma, or
+carcinoma).
 
 \textbf{\emph{Statistical Analysis.}} The R software package (v3.3.2)
 was used for all statistical analysis. Comparisons between bacterial
