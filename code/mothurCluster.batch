@@ -1,0 +1,41 @@
+#!bash
+
+#Load needed R
+module load gcc/4.9.2
+module load R/3.3.0
+
+#Set local variables
+mothurRv=/mnt/EXT/Schloss-data/bin/mothur
+DOWNDIR=data/raw
+WORKDIR=data/process
+REF=data/references
+
+#Run mothur clustering and make shared process
+
+#$mothurRv "#cluster.split(file=$WORKDIR/unmatched.file, method=average, processors=1);
+#	make.shared(list=current, count=$WORKDIR/unmatched.count_table, label=0.03);
+#	classify.otu(list=current, count=current, taxonomy=$WORKDIR/unmatched.taxonomy, label=0.03);
+#	get.oturep(fasta=$WORKDIR/unmatched.fasta, count=current, list=current, label=0.03, method=abundance);
+#	remove.groups(shared=current, groups=mock1-mock2-mock5-mock6-mock7)"
+
+# Match the two metadata tables with the shared file
+#R -e "source('code/alignData.R')"
+	# Having problems but only a total of three samples missing may not 
+	# be worth trouble shooting for such a small number missing only
+
+# Rename data files
+mv $WORKDIR/unmatched.an.unique_list.0.03.pick.shared $WORKDIR/final.shared
+mv $WORKDIR/*.cons.taxonomy $WORKDIR/final.taxonomy
+mv $WORKDIR/*0.03.rep.fasta $WORKDIR/final.rep.seqs
+mv $WORKDIR/*.0.03.rep.count_table $WORKDIR/final.rep.count_table
+
+# Run diversity analysis on new aligned data set
+$mothurRv "#sub.sample(shared=$WORKDIR/final.shared, label=0.03);
+	dist.shared(shared=$WORKDIR/final.shared, calc=sharedsobs-thetayc, label=0.03, subsample=T, iters=100);
+	summary.single(shared=$WORKDIR/final.shared, calc=nseqs-sobs-shannon-shannoneven, subsample=T)"
+
+
+# Remove raw files to free up space
+rm $WORKDIR/unmatched.* $WORKDIR/stability.* $WORKDIR/*.fastq $WORKDIR/*.temp
+rm $WORKDIR/*.rabund
+mv $WORKDIR/followup.files $WORKDIR/stability.files
