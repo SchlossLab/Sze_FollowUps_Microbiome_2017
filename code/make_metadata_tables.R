@@ -6,16 +6,61 @@ source('code/functions.R')
 
 loadLibs(c("dplyr", "tidyr"))
 
+# Load needed data tables
+dataI <- read.delim("data/process/metaI.txt", header = T, stringsAsFactors = F)
+dataF <- read.delim("data/process/metaF.txt", header = T, stringsAsFactors = F)
+extra_follow_samples <- read.csv("data/process/followup_samples.csv", header = T, stringsAsFactors = F)
+
+
+# subset dataI and rename specific columns
+metaI <- dataI %>% filter(grepl("mock", Sample_Name_s) == FALSE) %>% 
+  mutate(dx = ifelse(diagnosis_s == "High Risk Normal" | diagnosis_s == "Normal", invisible("normal"), NA)) %>% 
+  mutate(dx = ifelse(diagnosis_s == "Adenoma" | diagnosis_s == "adv Adenoma", invisible("adenoma"), dx)) %>% 
+  mutate(dx = ifelse(is.na(dx), invisible("cancer"), dx)) %>% 
+  select(Sample_Name_s, fit_result_s, diagnosis_s, dx, Hx_Prev_s, Hx_of_Polyps_s, Age_s, 
+         Gender_s, Smoke_s, Diabetic_s, Hx_Fam_CRC_s, Height_s, Weight_s, BMI_s, White_s, 
+         Native_s, Black_s, Pacific_s, Asian_s, Other_s, Ethnic_s, NSAID_s, Abx_s, 
+         Diabetes_Med_s, cancer_stage_s) %>% 
+  mutate(cancer_stage_s = ifelse(is.na(cancer_stage_s), 0, cancer_stage_s)) %>% 
+  arrange(Sample_Name_s)
+
+colnames(metaI) <- gsub("_s", "", colnames(metaI))
+
+metaI <- metaI %>% 
+  rename(sample = Sample_Name, Dx_Bin = diagnosis, stage = cancertage) %>% 
+  mutate(sample = as.character(sample))
+
+# create preliminary metaF data
+metaF <- extra_follow_samples %>% 
+  mutate(initial = as.character(initial), followUp = as.character(followUp)) %>% 
+  inner_join(metaI, by = c("initial" = "sample")) %>% 
+  select(-stage.y) %>% rename(stage = stage.x) %>% 
+  distinct(initial, .keep_all = TRUE) %>% 
+  mutate(Dx_Bin = ifelse(Dx_Bin == "Cancer", invisible("cancer"), Dx_Bin)) %>% 
+  mutate(Dx_Bin = ifelse(Dx_Bin == "Adenoma", invisible("adenoma"), Dx_Bin)) %>% 
+  mutate(Dx_Bin = ifelse(Dx_Bin == "adv Adenoma", invisible("adv_adenoma"), Dx_Bin))
+
+#Select specific data from dataF file
+mod_dataF <- dataF %>% 
+  select(Sample_Name_s, fit_followUp_s, time_s, Disease_Free_s) %>% 
+  distinct(Sample_Name_s, .keep_all = TRUE) %>% 
+  mutate(Disease_Free_s = ifelse(Disease_Free_s == "y" | Disease_Free_s == "n", Disease_Free_s, invisible("unknown"))) %>% 
+  mutate(Sample_Name_s = as.character(Sample_Name_s))
+  
+colnames(mod_dataF) <- gsub("_s", "", colnames(mod_dataF))
+
+# Merge the two files together
+metaF <- metaF %>% 
+  inner_join(mod_dataF, by = c("followUp" = "Sample_Name"))
+
+# Keep only distinct samples
+metaI <- metaI %>% distinct(sample, .keep_all = TRUE)
 
 ### Organize tables for train and test sets (first focus is to look at non-cancer versus cancer)
-metaF <- read.delim('data/raw/metadata/followUps_metadata.txt', 
-	header=T, sep='\t') %>% mutate(lesion = factor(NA, levels=c(0,1)))
 metaF$cancer[metaF$dx =='normal' | metaF$dx =='adenoma'] <- 0
 metaF$cancer[metaF$dx =='cancer'] <- 1
 metaF$cancer <- factor(metaF$cancer)
 
-metaI <- read.delim('data/raw/metadata/initials_metadata.tsv', 
-	header=T, sep='\t') %>% mutate(lesion = factor(NA, levels=c(0,1)))
 metaI$cancer[metaI$dx == 'normal' | metaI$dx == 'adenoma'] <- 0
 metaI$cancer[metaI$dx == 'cancer'] <- 1
 metaI$cancer <- factor(metaI$cancer)
@@ -62,24 +107,14 @@ metaF$fit_follow_positive[metaF$fit_followUp > 100] <- 1
 metaF$fit_follow_positive[metaF$fit_followUp < 100] <- 0
 
 
-### Need to amend and separate Adenoma and CRC
-good_metaf <- read.csv('data/raw/metadata/followUp_outcome_data.csv', 
-	header = T, stringsAsFactors = F) %>% inner_join(metaF, by="EDRN")
-
-metaFConly <- filter(good_metaf, Diagnosis == "adenocarcinoma" | 
-	Diagnosis == "N/D")
-
-metaFAonly <- filter(good_metaf, Diagnosis == "adenoma")
-
-
 ### Add finalized column of finalized lesion call the good_metaf
-good_metaf$lesionf[good_metaf$Disease_Free == 'n'] <- 1
-good_metaf$lesionf[good_metaf$Disease_Free == 'y' | good_metaf$Disease_Free == 'unknown'] <- 0
+metaF$lesionf[metaF$Disease_Free == 'n'] <- 1
+metaF$lesionf[metaF$Disease_Free == 'y' | metaF$Disease_Free == 'unknown'] <- 0
 
 
 write.csv(metaI, "data/process/mod_metadata/metaI_final.csv", row.names = F)
 write.csv(metaF, "data/process/mod_metadata/metaF_final.csv", row.names = F)
-write.csv(good_metaf, "data/process/mod_metadata/good_metaf_final.csv", row.names = F)
+write.csv(metaF, "data/process/mod_metadata/good_metaf_final.csv", row.names = F)
 
 
 
