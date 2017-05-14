@@ -94,8 +94,8 @@ $(PROC)/final.% :
 
 $(PROC)/mod_metadata/metaI_final.csv\
 $(PROC)/mod_metadata/metaF_final.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv : $(METADATA)/followUps_metadata.txt\
-$(METADATA)/initials_metadata.tsv $(METADATA)/followUp_outcome_data.csv\
+$(PROC)/mod_metadata/good_metaf_final.csv : $(PROC)/metaI.txt\
+$(PROC)/metaF.txt $(PROC)/followup_samples.csv\
 code/make_metadata_tables.R
 	R -e "source('code/make_metadata_tables.R')"
 
