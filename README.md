@@ -1,13 +1,10 @@
 ## The effect of treatment on the microbiota of patients diagnosed with colonic lesions
 
-**Background.** Colorectal cancer (CRC) is a worldwide health problem. Despite growing
-evidence that members of the gut microbiota can drive tumorigenesis, little is known about
-what happens to the microbiota after treatment for an adenoma or carcinoma. This study
-tested the hypothesis that treatment for adenoma or carcinoma alters the abundance of
-bacterial populations associated with disease to those associated with a normal colon. We
+**Background.** Colorectal cancer (CRC) is a worldwide health problem. Despite growing evidence that members of the gut microbiota can drive tumorigenesis, little is known about
+what happens to the microbiota after treatment for an adenoma or carcinoma. This study tested the hypothesis that treatment for adenoma or carcinoma alters the abundance of bacterial populations associated with disease to those associated with a normal colon. We
 tested this hypothesis by sequencing the 16S rRNA genes in the feces of 67 individuals
-before and after treatment for adenoma (N=22), advanced adenoma (N=19), and carcinoma
-(N=26). 
+before and after treatment for adenoma (N = 22), advanced adenoma (N = 19), and 
+carcinoma (N = 26). 
 
 **Results.** There were large changes to the bacterial communities associated with
 treatment across the three groups. The communities from patients with carcinomas
@@ -27,15 +24,16 @@ adenomas, and carcinomas to determine whether individuals who underwent treatmen
 were more likely to have OTUs associated with normal colons. We again built Random
 Forest models and measured the change in the positive probability of having one of the
 three diagnoses. Only patients who had carcinomas experienced a significant decrease in
-positive probability of having a lesion after treatment (P-value < 0.05), indicating that the
-microbial milieu of the colon more closely resembled that of a normal colon. Finally, we
+positive probability of having a lesion after treatment (P-value < 0.05), indicating that the microbial milieu of the colon more closely resembled that of a normal colon. Finally, we
 tested whether the type of treatment impacted the microbiota of those diagnosed with
 carcinomas and were unable to detect any significant differences in characteristics of
 these communities between individuals treated with surgery alone and those treated with
 chemotherapy or chemotherapy and radiation (P-value > 0.05).   
 
-**Conclusions.** Further exploration of the relationship between diagnosis, treatment, and
-the impact on the microbiota will yield improvements in disease management.
+**Conclusions.** By better understanding the response of the microbiota to treatment for
+adenomas and carcinomas, it is likely that biomarkers will be validated that can be used to
+quantify the risk of recurrence and the likelihood of survival.
+
 
 ### Overview
 	project
