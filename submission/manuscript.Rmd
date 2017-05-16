@@ -116,6 +116,13 @@ $3$ Department of Family Medicine and Community Medicine, Penn State Hershey Med
 
 \end{center}
 
+Co-author e-mails:
+
+* marcsze@med.umich.med.edu
+* ntbaxter@umich.edu
+* mruffin@pennstatehealth.psu.edu
+* maryroge@med.umich.edu
+
 
 \newpage
 \linenumbers
@@ -179,6 +186,8 @@ There was a subset of patients (`r table(filter(crc_probs, sampleType == "initia
 
 Our final hypothesis was that the specific type of treatment altered the structure of the microbiome. The treatment to remove adenomas and advanced adenomas was either polyp removal or surgical resection whereas it was surgical resection alone or in combination with chemotherapy or with chemotherapy and radiation for individuals with carcinoma. Because chemotherapy and radiation target rapidly growing cells, these treatments would be more likely to cause a turnover of the colonic epithelium driving a more significant change in the structure of the microbiota. Although, we were able to test for an effect across these specific types of treatment, the number of patients in each treatment group was relatively small.  Finally, those undergoing surgery would have received antibiotics and this may be a potential confounder.  However, our pre-treatment stool samples were obtained before the surgery and the post-treatment samples were obtained long after any effects due to antibiotic administration on the microbiome would be expected to occur (`r format(median(filter(good_metaf, dx == "cancer")[, "time"]), digits = 0)` (`r format(quantile(filter(good_metaf, dx == "cancer")[, "time"])["25%"], digits = 0)` - `r format(quantile(filter(good_metaf, dx == "cancer")[, "time"])["75%"], digits = 0)`) days).
 
+
+## Conclusion
 
 This study expands upon existing research that has established a role for the microbiota in tumorigenesis and that demonstrated the utility of microbiome-based biomarkers to predict the presence of colonic lesions. The most exciting future direction from the current study is the possibility that markers within the microbiota could be used to evaluate the effect of treatment and predict recurrence for those diagnosed with carcinoma. If such an approach is effective, it might be possible to target the microbiota as part of adjuvant therapy. Our data provides additional evidence on the importance of the microbiota in tumorigenesis by addressing the recovery of the microbiota after treatment and opens interesting avenues of research into how these changes may affect recurrence.
 
@@ -254,7 +263,7 @@ for(i in 1:length(colnames(t2))){
 
   t2["Dx_Bin", i] <- length(rownames(filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i])))
   t2["Age", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% summarise(avg = mean(Age))
-  t2["Gender_f", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% count(Gender) %>% mutate(n = n/sum(n) * 100) %>%  filter(Gender == "f") %>% select(n)
+  t2["Gender_f", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% count(Gender) %>% mutate(n = n/sum(n) * 100) %>%  filter(Gender == "female") %>% select(n)
   t2["BMI", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% summarise(avg = mean(BMI, na.rm = TRUE))
   t2["White", i] <- length(rownames(filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i] & White == 1)))/length(rownames(filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i]))) * 100
 
@@ -330,8 +339,8 @@ for(i in 1:length(colnames(t1))){
 
   t1["Dx_Bin", i] <- length(rownames(filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i])))
   t1["Age", i] <- filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% summarise(avg = mean(Age))
-  t1["Gender_f", i] <- filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% count(Gender) %>% mutate(n = n/sum(n) * 100) %>%  filter(Gender == "f") %>% select(n)
-  t1["BMI", i] <- filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% summarise(avg = mean(BMI, na.rm = TRUE))
+  t1["Gender_f", i] <- filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% count(Gender) %>% mutate(n = n/sum(n) * 100) %>%  filter(Gender == "female") %>% select(n)
+  t1["BMI", i] <- filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i]) %>% summarise(avg = mean(as.numeric(BMI), na.rm = TRUE))
   t1["White", i] <- length(rownames(filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i] & White == 1)))/length(rownames(filter(metadata, dx == data_filter1[i] & Dx_Bin == data_filter2[i]))) * 100
 }
 
