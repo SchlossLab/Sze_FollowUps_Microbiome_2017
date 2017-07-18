@@ -6,8 +6,7 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("dplyr", "ggplot2", "reshape2", "gridExtra", "scales", 
-           "wesanderson", "caret", "pROC"))
+loadLibs(c("dplyr", "reshape2", "scales", "caret", "pROC"))
 
 
 # Load needed data
