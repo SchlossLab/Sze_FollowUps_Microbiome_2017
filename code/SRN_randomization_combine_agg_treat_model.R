@@ -6,7 +6,7 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("dplyr", "reshape2", "scales", "caret", "pROC"))
+loadLibs(c("dplyr", "scales", "caret", "pROC"))
 
 
 # Load needed data
