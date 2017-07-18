@@ -5,8 +5,7 @@
 ###Load needed Libraries and functions
 source('code/functions.R')
 
-loadLibs(c("randomForest", "dplyr", "ggplot2", "reshape2", 
-  "gridExtra", "scales", "wesanderson", "caret", "doMC"))
+loadLibs(c("randomForest", "dplyr", "scales", "caret", "doMC"))
 
 # Read in data tables
 good_metaf <- read.csv(
