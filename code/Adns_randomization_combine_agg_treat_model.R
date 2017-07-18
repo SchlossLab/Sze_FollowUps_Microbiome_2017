@@ -144,8 +144,8 @@ for(i in 1:length(top_vars_MDA_by_run)){
 
 # "1" pulls the value of mean or sd from the data frame
 MDA_vars_summary <- cbind(
-  mean_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
-  sd_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
+  mean_MDA = t(summarise_all(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
+  sd_MDA = t(summarise_all(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
   variable = rownames(top_vars_MDA_by_run))
 
 write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
