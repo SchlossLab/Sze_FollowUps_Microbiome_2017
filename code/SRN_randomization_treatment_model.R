@@ -47,6 +47,12 @@ test_data <- test_data %>%
 
 test_data <- test_data[complete.cases(test_data), ]
 
+
+# Need to randomize the labels
+set.seed(12345)
+test_data <- test_data %>% 
+  mutate(lesion = sample(lesion, length(lesion), replace = F))
+
 # Need to create dummy variables for those that are factor classes
 #temp_dummy <- dummyVars(~lesion,  data = test_data)
 #useable_dummy_vars <- as.data.frame(predict(temp_dummy, 
@@ -120,7 +126,7 @@ test_data$lesion <- factor(test_data$lesion,
 
 #write out table for future use
 
-write.csv(test_data, "data/process/tables/srn_treatment_model.csv", 
+write.csv(test_data, "data/process/tables/srn_randomization_treatment_model.csv", 
   row.names = F)
 
 
@@ -169,7 +175,7 @@ for(i in 1:100){
 
 
 # Save image with data and relevant parameters
-save.image("exploratory/srn_treatment_model.RData")
+save.image("exploratory/srn_randomization_treatment_model.RData")
 
 
 
