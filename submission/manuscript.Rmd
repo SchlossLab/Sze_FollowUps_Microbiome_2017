@@ -29,7 +29,7 @@ opts_chunk$set("message" = FALSE)
 
 ```{r rdata_tables}
 # Extra data and meta data needed
-good_metaf <- read.csv('../data/process/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
+good_metaf <- read.csv('../data/process/mod_metadata/metaf_final.csv', header = T, stringsAsFactors = F)
 metaI <- read.csv('../data/process/mod_metadata/metaI_final.csv', header = T, stringsAsFactors = F)
 total_sub_Seqs <- read.delim('../data/process/final.0.03.subsample.shared', header = T) %>%
   select(contains("Otu0")) %>% rowSums()
@@ -166,7 +166,7 @@ We used two approaches to identify those bacterial populations that change betwe
 
 
 ***Post-treatment samples from patients with carcinoma more closely resemble those of a normal colon.***
-Next, we determined whether treatment changed the microbiota in a way that the post-treatment communities resembled that of patients with normal colons. To test this, we used an expanded cohort of `r length(rownames(metaI)) - length(rownames(good_metaf))` individuals that were diagnosed under the same protocol as having normal colons or colons with adenoma, advanced adenoma, or carcinoma [Table 2]. We then constructed Random Forest models to classify the study samples, with the 3 diagnosis groups (adenoma, advanced adenoma, or carcinoma), or having a normal colon. The models performed well (adenoma AUC range =`r format(min(adn_AUC_run_summary$ROC), digits = 2, nsmall=2L)` - `r format(max(adn_AUC_run_summary$ROC), digits = 2, nsmall=2L)`, advanced adenoma AUC range = `r format(min(srn_AUC_run_summary$ROC), digits = 2, nsmall=2L)` - `r format(max(srn_AUC_run_summary$ROC), digits = 2, nsmall=2L)`, carcinoma AUC range = `r format(min(crc_AUC_run_summary$ROC), digits = 2, nsmall=2L)` - `r format(max(crc_AUC_run_summary$ROC), digits = 2, nsmall=2L)`; Figure S1). The OTUs that were incorporated into the adenoma and advanced adenoma models largely overlapped and those OTUs that were used to classify the carcinoma samples were largely distinct from those of the other two models [Figure 3A]. Among the OTUs that were shared across the three models were those populations generally considered beneficial to their host (e.g. *Faecalibacterium*, *Lachnospiraceae*, *Bacteroides*, *Dorea*, *Anaerostipes*, and *Roseburia*) [Figures 3B]. Although many of these OTUs were also included in the model differentiating between patients with normal colons and those with carcinoma, this model also included OTUs affiliated with populations that have previously been associated with carcinoma (*Fusobacterium*, *Porphyromonas*, *Parvimonas*) [@baxter_microbiota-based_2016; @zeller_potential_2014; @zackular_human_2014] [Figure S2] with some individuals showing are marked decrease in relative abundance [Figure S3]. Finally, we applied these three models to the pre and post-treatment samples for each diagnosis group and quantified the change in the positive probability of the model. A decrease in the positive probability would indicate that the microbiota more closely resembled that of a patient with a normal colon. There was no significant change in the positive probability for the adenoma or advanced adenoma groups [Figure 4]. The positive probability for the pre and post-treatment samples from patients diagnosed with carcinoma significantly decreased with treatment, suggesting a shift toward a normal microbiota for most individuals. Only, `r table(filter(crc_probs, sampleType == "initial")[, "Yes"] < filter(crc_probs, sampleType == "followup")[, "Yes"])["TRUE"]` of the 26 patients (`r round(table(filter(crc_probs, sampleType == "initial")[, "Yes"] < filter(crc_probs, sampleType == "followup")[, "Yes"])["TRUE"]/26*100,digits = 2)`%) who were diagnosed with a carcinoma had a higher positive probability after treatment; one of those was re-diagnosed with carcinoma on the follow up visit. These results indicate that, although there were changes in the microbiota associated with treatment, those experienced by  patients with carcinoma after treatment yielded gut bacterial communities of greater similarity to that of a normal colon.
+Next, we determined whether treatment changed the microbiota in a way that the post-treatment communities resembled that of patients with normal colons. To test this, we used an expanded cohort of `r length(rownames(metaI)) - length(rownames(good_metaf))` individuals that were diagnosed under the same protocol as having normal colons or colons with adenoma, advanced adenoma, or carcinoma [Table 2]. We then constructed Random Forest models to classify the study samples, with the 3 diagnosis groups (adenoma, advanced adenoma, or carcinoma), or having a normal colon. The models performed well (adenoma AUC range =`r format(min(adn_AUC_run_summary$ROC), digits = 2, nsmall=2L)` - `r format(max(adn_AUC_run_summary$ROC), digits = 2, nsmall=2L)`, advanced adenoma AUC range = `r format(min(srn_AUC_run_summary$ROC), digits = 2, nsmall=2L)` - `r format(max(srn_AUC_run_summary$ROC), digits = 2, nsmall=2L)`, carcinoma AUC range = `r format(min(crc_AUC_run_summary$ROC), digits = 2, nsmall=2L)` - `r format(max(crc_AUC_run_summary$ROC), digits = 2, nsmall=2L)`; Figure S1). The OTUs that were incorporated into the adenoma and advanced adenoma models largely overlapped and those OTUs that were used to classify the carcinoma samples were largely distinct from those of the other two models [Figure 3A]. Among the OTUs that were shared across the three models were those populations generally considered beneficial to their host (e.g. *Faecalibacterium*, *Lachnospiraceae*, *Bacteroides*, *Dorea*, *Anaerostipes*, and *Roseburia*) [Figures 3B]. Although many of these OTUs were also included in the model differentiating between patients with normal colons and those with carcinoma, this model also included OTUs affiliated with populations that have previously been associated with carcinoma (*Fusobacterium*, *Porphyromonas*, *Parvimonas*) [@baxter_microbiota-based_2016; @zeller_potential_2014; @zackular_human_2014] [Figure S2] with some individuals showing are marked decrease in relative abundance [Figure S3]. Finally, we applied these three models to the pre and post-treatment samples for each diagnosis group and quantified the change in the positive probability of the model. A decrease in the positive probability would indicate that the microbiota more closely resembled that of a patient with a normal colon. There was no significant change in the positive probability for the adenoma or advanced adenoma groups (P-value `r ifelse(all_probs_paired_wilcox["adenoma", "BH_correction"] > 0.05 & all_probs_paired_wilcox["SRN", "BH_correction"] > 0.05, invisible(">"), invisible("<"))` 0.05) [Figure 4]. The positive probability for the pre and post-treatment samples from patients diagnosed with carcinoma significantly decreased with treatment, suggesting a shift toward a normal microbiota for most individuals (P-value = `r format(all_probs_paired_wilcox["carcinoma", "BH_correction"], digits = 3)`). Only, `r table(filter(crc_probs, sampleType == "initial")[, "Yes"] < filter(crc_probs, sampleType == "followup")[, "Yes"])["TRUE"]` of the 26 patients (`r round(table(filter(crc_probs, sampleType == "initial")[, "Yes"] < filter(crc_probs, sampleType == "followup")[, "Yes"])["TRUE"]/26*100,digits = 2)`%) who were diagnosed with a carcinoma had a higher positive probability after treatment; one of those was re-diagnosed with carcinoma on the follow up visit. These results indicate that, although there were changes in the microbiota associated with treatment, those experienced by  patients with carcinoma after treatment yielded gut bacterial communities of greater similarity to that of a normal colon.
 
 
 ***Difficult to identify effects of specific treatments on the change in the microbiota.***
@@ -178,7 +178,7 @@ The type of treatment that the patients received varied across diagnosis groups.
 
 ## Discussion
 
-Our study focused on comparing the microbiota of patients diagnosed with adenoma, advanced adenoma, and carcinoma before and after treatment. For all three groups of patients, we observed changes in their microbiota. Some of these changes, specifically for adenoma and advanced adenoma, may be due to normal temporal variation but those with CRC clearly had large microbiota changes that would be greater than what could be expected from this type of variation. After treatment, the microbiota of patients with carcinoma changed significantly more than the other groups. This change resulted in communities that more closely resembled those of patients with a normal colon.  This may suggest that treatment for carcinoma is not only successful for removing the carcinoma but also at reducing the associated bacterial communities.  Understanding the effect of treatment on the microbiota of those diagnosed with carcinomas may have important implications for reducing disease recurrence.  It is intriguing that it may be possible to use microbiome-based biomarkers to not only predict the presence of lesions but to assess the risk of recurrence.
+Our study focused on comparing the microbiota of patients diagnosed with adenoma, advanced adenoma, and carcinoma before and after treatment. For all three groups of patients, we observed changes in their microbiota. Some of these changes, specifically for adenoma, may be due to normal temporal variation but those with advanced adenoma and CRC clearly had large microbiota changes that would be greater than what could be expected from this type of variation [@schloss_dynamics_2014]. After treatment, the microbiota of patients with carcinoma changed significantly more than the other groups. This change resulted in communities that more closely resembled those of patients with a normal colon.  This may suggest that treatment for carcinoma is not only successful for removing the carcinoma but also at reducing the associated bacterial communities.  Understanding the effect of treatment on the microbiota of those diagnosed with carcinomas may have important implications for reducing disease recurrence.  It is intriguing that it may be possible to use microbiome-based biomarkers to not only predict the presence of lesions but to assess the risk of recurrence.
 
 Patients diagnosed with adenoma and advanced adenoma, however, did not experience a shift towards a community structure that resembled those with normal colons. This may be due to the fundamental differences between the features of adenomas and advanced adenomas and carcinoma. Specifically, carcinomas may create an inflammatory milieu that would impact the structure of the community and removal of that stimulus would alter said structure. It is possible that the difference between the microbiota of patients with adenoma and advanced adenoma and those with normal colons is subtle. This is supported by the reduced ability of our models to correctly classify patients with adenomas and advanced adenomas relative to those diagnosed with carcinomas [Figure S1]. Given the irregular distribution of microbiota across patients in the different diagnosis groups, it is possible that we lacked the statistical power to adequately characterize the change in the communities following treatment.
 
@@ -189,7 +189,7 @@ Our final hypothesis was that the specific type of treatment altered the structu
 
 ## Conclusion
 
-This study expands upon existing research that has established a role for the microbiota in tumorigenesis and that demonstrated the utility of microbiome-based biomarkers to predict the presence of colonic lesions. Although we cannot make a specific statment regarding the effect of a specific treatment on the gut microbiota, due to the low number of samples, there are still a number of exciting new avenues to explore. One of the most exciting of these future directions is the possibility that markers within the microbiota could be used to potentially evaluate the effect of treatment and predict recurrence for those diagnosed with carcinoma. If such an approach is effective, it might be possible to target the microbiota as part of adjuvant therapy, if the biomarkers identified play a key role in the disease process. Our data provides additional evidence on the importance of the microbiota in tumorigenesis by addressing the recovery of the microbiota after treatment and opens interesting avenues of research into how these changes may affect recurrence.
+This study expands upon existing research that has established a role for the microbiota in tumorigenesis and that demonstrated the utility of microbiome-based biomarkers to predict the presence of colonic lesions. Although we cannot make a specific statement regarding the effect of a specific treatment on the gut microbiota, due to the low number of samples and small effect sizes in the adenoma and advnaced adenoma groups, there are still a number of exciting new avenues to explore. One of the most exciting of these future directions is the possibility that markers within the microbiota could be used to potentially evaluate the effect of treatment and predict recurrence for those diagnosed with carcinoma. If such an approach is effective, it might be possible to target the microbiota as part of adjuvant therapy, if the biomarkers identified play a key role in the disease process. Our data provides additional evidence on the importance of the microbiota in tumorigenesis by addressing the recovery of the microbiota after treatment and opens interesting avenues of research into how these changes may affect recurrence.
 
 
 
@@ -202,7 +202,7 @@ Sampling and design have been previously reported in Baxter, et al [@baxter_micr
 
 
 ***Treatment***
-The majority of patients undergoing treatment for adenoma or advanced adenoma were not treated surigically [Table 1]. The type of chemotherapy used for patients with CRC varied markably. The types used included Oxaliplatin, Levicovorin, Folfox, Xeloda, Capecitabine, Avastin, Fluorouracil, and Glucovorin. These were used individually or in combination with others depending on the patient [Table 1]. If an individual was treated with radiation they were also always treated with chemotherapy. Radiation therapy generally used 18 mV photons for treatment. 
+The majority of patients undergoing treatment for adenoma or advanced adenoma were not treated surigically [Table 1] but rather via colonoscopy. All CRC individuals were treated with at least surgery or a combination of surgery and chemotherapy or surgery, chermotherapy, and radiation. The type of chemotherapy used for patients with CRC varied markably. The types used included Oxaliplatin, Levicovorin, Folfox, Xeloda, Capecitabine, Avastin, Fluorouracil, and Glucovorin. These were used individually or in combination with others depending on the patient [Table 1]. If an individual was treated with radiation they were also always treated with chemotherapy. Radiation therapy generally used 18 mV photons for treatment. 
 
 
 ***16S rRNA Gene Sequencing.***
@@ -251,12 +251,12 @@ A detailed and reproducible description of how the data were processed and analy
 **Table 1: Demographic data of patients in the pre and post-treatment cohort**
 
 ```{r table1, echo=FALSE, message=FALSE, warning=FALSE}
-test_cohort <- good_metaf %>% select(Dx_Bin, dx, Age, Gender, BMI, White, time, Surgery, chemo_received, radiation_received)
+test_cohort <- good_metaf %>% select(Dx_Bin, dx, Age, Gender, BMI, White, time, Surgery, chemo_received, radiation_received, Abx)
 
-t2 <- as.data.frame(matrix(nrow = 9, ncol = 3, 
+t2 <- as.data.frame(matrix(nrow = 10, ncol = 3, 
                            dimnames = 
                              list(rown = c("Dx_Bin", "Age", "Gender_f", "BMI", "White", "post_time",  
-                                           "Surgery_only", "Surg_Chemo", "Surg_Chemo_Radiation"), 
+                                           "Surgery_only", "Surg_Chemo", "Surg_Chemo_Radiation", "antibiotics"), 
                                   coln = c("Adenoma", "SRN", "Carcinoma"))))
 
 data_filter1 <- c("adenoma", "adenoma", "cancer")
@@ -274,6 +274,8 @@ for(i in 1:length(colnames(t2))){
   t2["Surgery_only", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i] & Surgery == "Y" & chemo_received == "no") %>% select(Surgery) %>% count()
   t2["Surg_Chemo", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i] & chemo_received == "yes" & radiation_received == "no") %>% select(chemo_received) %>% count()
   t2["Surg_Chemo_Radiation", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i] & radiation_received == "yes") %>% select(radiation_received) %>% count()
+  t2["antibiotics", i] <- filter(test_cohort, dx == data_filter1[i] & Dx_Bin == data_filter2[i] & Abx > 0) %>% select(Abx) %>% count()
+
 }
 
 # Generate SD for applicable metrics
@@ -304,10 +306,11 @@ ttemptable <- as.data.frame(t(t2)) %>% mutate(Age = paste(format(Age, digits = 2
                                                     format(post_time_sd, digits = 2, nmsall = 2)), 
                                         Surgery_only = format(Surgery_only, digits = 2, nsmall = 0), 
                                         Surg_Chemo = format(Surg_Chemo, digits = 2, nsmall = 0), 
-                                        Surg_Chemo_Radiation = format(Surg_Chemo_Radiation, digits = 2, nsmall = 0))
+                                        Surg_Chemo_Radiation = format(Surg_Chemo_Radiation, digits = 2, nsmall = 0), 
+                                        antibiotics = format(antibiotics, digits = 2, nsmall = 0))
 
 ft1 <- cbind(Group = c("Adenoma", "Advanced Adenoma", "Carcinoma"), ttemptable$Dx_Bin, ttemptable$Age, ttemptable$Gender_f, 
-             ttemptable$BMI, ttemptable$White, ttemptable$post_time, ttemptable$Surgery_only, ttemptable$Surg_Chemo, ttemptable$Surg_Chemo_Radiation)
+             ttemptable$BMI, ttemptable$White, ttemptable$post_time, ttemptable$Surgery_only, ttemptable$Surg_Chemo, ttemptable$Surg_Chemo_Radiation, ttemptable$antibiotics)
 
 
 age_label <- paste("Age (Mean ", label = "\u00B1", " SD)", sep = "")
@@ -315,7 +318,8 @@ bmi_label <- paste("BMI (Mean ", label = "\u00B1", " SD)", sep = "")
 post_time_label <- paste("Days Between Colonoscopy (Mean ", label = "\u00B1", " SD)", sep = "")
 
 colnames(ft1) <- c("Group", "n", age_label, "Sex (%F)", bmi_label, "Caucasian (%)", post_time_label, 
-                   "Surgery Only", "Surgery & Chemotherapy", "Surgery, Chemotherapy, & Radiation")
+                   "Surgery Only", "Surgery & Chemotherapy", "Surgery, Chemotherapy, & Radiation", 
+                   "Recorded Antibiotic Use")
 
 test <- t(ft1)
 colnames(test) <- test["Group", ]
