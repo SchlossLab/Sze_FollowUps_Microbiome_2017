@@ -12,7 +12,7 @@ loadLibs(c("randomForest", "dplyr", "ggplot2", "reshape2",
 
 # Read in data tables
 good_metaf <- read.csv(
-  "data/process/mod_metadata/good_metaf_final.csv", 
+  "data/process/mod_metadata/metaF_final.csv", 
   stringsAsFactors = F, header = T) %>% 
   mutate(lesion_follow = ifelse(Disease_Free == "n", 1, 0))
 

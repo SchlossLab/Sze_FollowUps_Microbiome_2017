@@ -163,7 +163,7 @@ source('code/Adns_combine_agg_treat_model.R
 exploratory/adn_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/adn_treatment_test_tune_data.csv\
 $(TABLES)/adn_treatment_imp_vars_summary.csv\
 $(TABLES)/adn_treatment_top_vars_MDA_Summary.csv adn_treatment_reduce_feature_model.R
-	R -e "source('adn_treatment_reduce_feature_model.R')"
+	R -e "source('code/adn_treatment_reduce_feature_model.R')"
 
 $(TABLES)/red_adn_treatment_test_tune_data.csv\
 $(TABLES)/reduced_adn_treatment_ROC_model_summary.csv\
@@ -172,7 +172,7 @@ $(TABLES)/reduced_adn_treatment_top_vars_MDA_Summary.csv\
 $(TABLES)/reduced_adn_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
 exploratory/adn_treatment_reduced_RF_model_Imp_OTU.RData\
 Adns_combine_reduced_agg_treat_model.R
-	R -e "source('Adns_combine_reduced_agg_treat_model.R')"
+	R -e "source('code/Adns_combine_reduced_agg_treat_model.R')"
 
 
 
