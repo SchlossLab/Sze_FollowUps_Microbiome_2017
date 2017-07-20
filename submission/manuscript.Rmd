@@ -42,6 +42,11 @@ time_pvalues <- read.csv("../data/process/tables/time_pvalues.csv", header = T, 
 time_summary <- read.csv("../data/process/tables/time_summary_data.csv", header = T, row.names = 1)
 all_OTU_pair_wilcox <- read.csv("../data/process/tables/OTU_paired_wilcoxson_test.csv", header = T)
 
+# Antibiotic test data
+surg_only_comparisons <- read.csv("../data/process/tables/surgery_only_comparisons.csv", header = T)
+surgVnonsurg_noncrc <- read.csv("../data/process/tables/surgVnonsurg_noncrc.csv", header = T)
+surgVnonsurg_noncrc_pvalues <- read.csv("../data/process/tables/surgVnonsurg_noncrc_pvalues.csv", header = T)
+
 # Treatment model data
 adn_treat_AUC_summary <- read.csv('../data/process/tables/reduced_adn_treatment_ROC_model_summary.csv',
                                   stringsAsFactors = F, header = T)
@@ -62,12 +67,14 @@ adn_varsMDA <- read.csv('../data/process/tables/adn_reduced_model_top_vars_MDA_S
 adn_imp_vars <- read.csv('../data/process/tables/adn_rf_otu_tax.csv', header = T, row.names = 1)
 adn_AUC_run_summary <- read.csv('../data/process/tables/adn_Reduced_ROC_model_summary.csv', header = T)
 adn_general_summary <- read.csv('../data/process/tables/adn_reduced_auc_summary.csv', header = T, row.names = 1)
+adn_randomized_summary <- read.csv('../data/process/tables/reduced_adn_randomization_treatment_ROC_model_summary.csv', header = T)
 
 # SRN Model
 srn_varsMDA <- read.csv('../data/process/tables/srn_reduced_model_top_vars_MDA_Summary.csv', header = T)
 srn_imp_vars <- read.csv('../data/process/tables/srn_rf_otu_tax.csv', header = T, row.names = 1)
 srn_AUC_run_summary <- read.csv('../data/process/tables/srn_Reduced_ROC_model_summary.csv', header = T)
 srn_general_summary <- read.csv('../data/process/tables/srn_reduced_auc_summary.csv', header = T, row.names = 1)
+srn_randomized_summary <- read.csv('../data/process/tables/reduced_srn_randomization_treatment_ROC_model_summary.csv', header = T)
 
 # CRC Model
 crc_varsMDA <- read.csv('../data/process/tables/reduced_crc_model_top_vars_MDA_Summary.csv', header = T)
@@ -75,6 +82,7 @@ crc_imp_vars <- read.csv('../data/process/tables/crc_rf_otu_tax.csv', header = T
 crc_AUC_run_summary <- read.csv('../data/process/tables/crc_Reduced_ROC_model_summary.csv', header = T)
 crc_general_summary <- read.csv('../data/process/tables/crc_reduced_auc_summary.csv', header = T, row.names = 1)
 crc_probs <- read.csv('../data/process/tables/crc_reduced_follow_up_probability_summary.csv', header = T)
+crc_randomized_summary <- read.csv('../data/process/tables/reduced_crc_randomization_treatment_ROC_model_summary.csv', header = T)
 
 # All model information
 all_probs_paired_wilcox <- read.csv('../data/process/tables/all_crc_srn_adn_models_wilcox_paired_pvalue_summary.csv', header = T, stringsAsFactors = F, row.names = 4)
