@@ -73,7 +73,7 @@ oral_bugs <- filter(data_analysis, Dx_Bin == "cancer") %>%
   facet_wrap(~factor(otu, levels = otus, labels = label_names), labeller = label_parsed, scales = "free_y") + theme_bw()
 
 
-ggsave(file = "results/figures/FigureS3.pdf", oral_bugs, 
+ggsave(file = "results/figures/FigureS4.pdf", oral_bugs, 
        width=11, height = 6, dpi = 300)
 
 

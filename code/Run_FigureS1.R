@@ -56,5 +56,5 @@ rocs_graph <- grid.arrange(
           axis.title = element_text(face = "bold")))
 
 
-ggsave(file = "results/figures/FigureS1.tiff", rocs_graph, 
+ggsave(file = "results/figures/FigureS2.tiff", rocs_graph, 
        width=4, height = 8, dpi = 300)

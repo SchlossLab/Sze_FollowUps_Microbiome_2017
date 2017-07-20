@@ -154,7 +154,7 @@ full_figS3 <- grid.arrange(adn_MDA_graph, srn_MDA_graph, crc_MDA_graph, nrow = 1
 
 
 
-ggsave(file = "results/figures/FigureS2.pdf", full_figS3, 
+ggsave(file = "results/figures/FigureS3.pdf", full_figS3, 
        width=12, height = 8, dpi = 300)
 
 
