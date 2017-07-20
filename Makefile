@@ -156,13 +156,13 @@ $(TABLES)/adn_treatment_test_data_roc.csv\
 $(TABLES)/adn_treatment_imp_vars_summary.csv\
 $(TABLES)/adn_treatment_top_vars_MDA_Summary.csv\
 $(TABLES)/adn_treatment_top_vars_MDA_full_data.csv : exploratory/adn_treatment_model.RData\
-source('code/Adns_combine_agg_treat_model.R
+code/Adns_combine_agg_treat_model.R
 	R -e "source('code/Adns_combine_agg_treat_model.R')"
 
 # Set up and run reduced treatment models
 exploratory/adn_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/adn_treatment_test_tune_data.csv\
 $(TABLES)/adn_treatment_imp_vars_summary.csv\
-$(TABLES)/adn_treatment_top_vars_MDA_Summary.csv adn_treatment_reduce_feature_model.R
+$(TABLES)/adn_treatment_top_vars_MDA_Summary.csv code/adn_treatment_reduce_feature_model.R
 	R -e "source('code/adn_treatment_reduce_feature_model.R')"
 
 $(TABLES)/red_adn_treatment_test_tune_data.csv\
@@ -171,8 +171,48 @@ $(TABLES)/reduced_adn_treatment_test_data_roc.csv\
 $(TABLES)/reduced_adn_treatment_top_vars_MDA_Summary.csv\
 $(TABLES)/reduced_adn_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
 exploratory/adn_treatment_reduced_RF_model_Imp_OTU.RData\
-Adns_combine_reduced_agg_treat_model.R
+code/Adns_combine_reduced_agg_treat_model.R
 	R -e "source('code/Adns_combine_reduced_agg_treat_model.R')"
+
+
+
+####################################################################################
+#																				   #
+# Model building  Adenoma Treatment Random Labels								   #
+#																				   #
+#																				   #
+####################################################################################
+
+# Set up and run treatment models
+exploratory/adn_randomized_treatment_model.RData : $(PROC)/mod_metadata/metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/Adns_randomization_treatment_model.R
+	R -e "source('code/Adns_randomization_treatment_model.R')"
+
+$(TABLES)/adn_randomization_treatment_test_tune_data.csv\
+$(TABLES)/adn_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/adn_randomization_treatment_test_data_roc.csv\
+$(TABLES)/adn_randomization_treatment_imp_vars_summary.csv\
+$(TABLES)/adn_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/adn_randomization_treatment_top_vars_MDA_full_data.csv : exploratory/adn_randomized_treatment_model.RData\
+source('code/Adns_randomization_combine_agg_treat_model.R
+	R -e "source('code/Adns_randomization_combine_agg_treat_model.R')"
+
+# Set up and run reduced treatment models
+exploratory/adn_randomization_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/adn_randomization_treatment_test_tune_data.csv\
+$(TABLES)/adn_randomization_treatment_imp_vars_summary.csv\
+$(TABLES)/adn_randomization_treatment_top_vars_MDA_Summary.csv\
+code/adn_randomization_treatment_reduce_feature_model.R
+	R -e "source('code/adn_randomization_treatment_reduce_feature_model.R')"
+
+$(TABLES)/red_adn_randomization_treatment_test_tune_data.csv\
+$(TABLES)/reduced_adn_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/reduced_adn_randomization_treatment_test_data_roc.csv\
+$(TABLES)/reduced_adn_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_adn_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+exploratory/adn_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
+code/Adns_randomization_combine_reduced_agg_treat_model.R
+	R -e "source('code/Adns_randomization_combine_reduced_agg_treat_model.R')"
+
 
 
 
@@ -268,14 +308,14 @@ $(TABLES)/srn_treatment_test_data_roc.csv\
 $(TABLES)/srn_treatment_imp_vars_summary.csv\
 $(TABLES)/srn_treatment_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_treatment_top_vars_MDA_full_data.csv : exploratory/srn_treatment_model.RData\
-source('code/SRN_combine_agg_treat_model.R
+code/SRN_combine_agg_treat_model.R
 	R -e "source('code/SRN_combine_agg_treat_model.R')"
 
 # Set up and run reduced treatment models
 exploratory/srn_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/srn_treatment_test_tune_data.csv\
 $(TABLES)/srn_treatment_imp_vars_summary.csv\
-$(TABLES)/srn_treatment_top_vars_MDA_Summary.csv srn_treatment_reduce_feature_model.R
-	R -e "source('srn_treatment_reduce_feature_model.R')"
+$(TABLES)/srn_treatment_top_vars_MDA_Summary.csv code/srn_treatment_reduce_feature_model.R
+	R -e "source('code/srn_treatment_reduce_feature_model.R')"
 
 $(TABLES)/red_srn_treatment_test_tune_data.csv\
 $(TABLES)/reduced_srn_treatment_ROC_model_summary.csv\
@@ -283,9 +323,46 @@ $(TABLES)/reduced_srn_treatment_test_data_roc.csv\
 $(TABLES)/reduced_srn_treatment_top_vars_MDA_Summary.csv\
 $(TABLES)/reduced_srn_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
 exploratory/srn_treatment_reduced_RF_model_Imp_OTU.RData\
-SRN_combine_reduced_agg_treat_model.R
-	R -e "source('SRN_combine_reduced_agg_treat_model.R')"
+code/SRN_combine_reduced_agg_treat_model.R
+	R -e "source('code/SRN_combine_reduced_agg_treat_model.R')"
 
+
+####################################################################################
+#																				   #
+# Model building SRN Treatment Random Labels	 								   #
+#																				   #
+#																				   #
+####################################################################################
+
+# Set up and run treatment models
+exploratory/srn_randomized_treatment_model.RData : $(PROC)/mod_metadata/metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/SRN_randomization_treatment_model.R
+	R -e "source('code/SRN_randomization_treatment_model.R')"
+
+$(TABLES)/srn_randomization_treatment_test_tune_data.csv\
+$(TABLES)/srn_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/srn_randomization_treatment_test_data_roc.csv\
+$(TABLES)/srn_randomization_treatment_imp_vars_summary.csv\
+$(TABLES)/srn_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/srn_randomization_treatment_top_vars_MDA_full_data.csv : exploratory/srn_randomized_treatment_model.RData\
+source('code/SRN_randomization_combine_agg_treat_model.R
+	R -e "source('code/SRN_randomization_combine_agg_treat_model.R')"
+
+# Set up and run reduced treatment models
+exploratory/srn_randomization_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/srn_randomization_treatment_test_tune_data.csv\
+$(TABLES)/srn_randomization_treatment_imp_vars_summary.csv\
+$(TABLES)/srn_randomization_treatment_top_vars_MDA_Summary.csv\
+code/srn_randomization_treatment_reduce_feature_model.R
+	R -e "source('code/srn_randomization_treatment_reduce_feature_model.R')"
+
+$(TABLES)/red_srn_randomization_treatment_test_tune_data.csv\
+$(TABLES)/reduced_srn_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/reduced_srn_randomization_treatment_test_data_roc.csv\
+$(TABLES)/reduced_srn_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_srn_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+exploratory/srn_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
+code/SRN_randomization_combine_reduced_agg_treat_model.R
+	R -e "source('code/SRN_randomization_combine_reduced_agg_treat_model.R')"
 
 ######################################################################################
 #																					 #
@@ -377,14 +454,14 @@ $(TABLES)/crc_treatment_test_data_roc.csv\
 $(TABLES)/crc_treatment_imp_vars_summary.csv\
 $(TABLES)/crc_treatment_top_vars_MDA_Summary.csv\
 $(TABLES)/crc_treatment_top_vars_MDA_full_data.csv : exploratory/crc_treatment_model.RData\
-source('code/CRC_combine_agg_treat_model.R
+code/CRC_combine_agg_treat_model.R
 	R -e "source('code/CRC_combine_agg_treat_model.R')"
 
 # Set up and run reduced treatment models
 exploratory/crc_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/crc_treatment_test_tune_data.csv\
 $(TABLES)/crc_treatment_imp_vars_summary.csv\
-$(TABLES)/crc_treatment_top_vars_MDA_Summary.csv crc_treatment_reduce_feature_model.R
-	R -e "source('crc_treatment_reduce_feature_model.R')"
+$(TABLES)/crc_treatment_top_vars_MDA_Summary.csv code/crc_treatment_reduce_feature_model.R
+	R -e "source('code/crc_treatment_reduce_feature_model.R')"
 
 $(TABLES)/red_crc_treatment_test_tune_data.csv\
 $(TABLES)/reduced_crc_treatment_ROC_model_summary.csv\
@@ -392,8 +469,46 @@ $(TABLES)/reduced_crc_treatment_test_data_roc.csv\
 $(TABLES)/reduced_crc_treatment_top_vars_MDA_Summary.csv\
 $(TABLES)/reduced_crc_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
 exploratory/crc_treatment_reduced_RF_model_Imp_OTU.RData\
-CRC_combine_reduced_agg_treat_model.R
-	R -e "source('CRC_combine_reduced_agg_treat_model.R')"
+code/CRC_combine_reduced_agg_treat_model.R
+	R -e "source('code/CRC_combine_reduced_agg_treat_model.R')"
+
+
+####################################################################################
+#																				   #
+# Model building CRC Treatment Random Labels	 								   #
+#																				   #
+#																				   #
+####################################################################################
+
+# Set up and run treatment models
+exploratory/crc_randomized_treatment_model.RData : $(PROC)/mod_metadata/metaf_final.csv\
+$(PROC)/final.0.03.subsample.shared code/CRC_randomization_treatment_model.R
+	R -e "source('code/CRC_randomization_treatment_model.R')"
+
+$(TABLES)/crc_randomization_treatment_test_tune_data.csv\
+$(TABLES)/crc_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/crc_randomization_treatment_test_data_roc.csv\
+$(TABLES)/crc_randomization_treatment_imp_vars_summary.csv\
+$(TABLES)/crc_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/crc_randomization_treatment_top_vars_MDA_full_data.csv : exploratory/crc_randomized_treatment_model.RData\
+source('code/CRC_randomization_combine_agg_treat_model.R
+	R -e "source('code/CRC_randomization_combine_agg_treat_model.R')"
+
+# Set up and run reduced treatment models
+exploratory/crc_randomization_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/crc_randomization_treatment_test_tune_data.csv\
+$(TABLES)/crc_randomization_treatment_imp_vars_summary.csv\
+$(TABLES)/crc_randomization_treatment_top_vars_MDA_Summary.csv\
+code/crc_randomization_treatment_reduce_feature_model.R
+	R -e "source('code/crc_randomization_treatment_reduce_feature_model.R')"
+
+$(TABLES)/red_crc_randomization_treatment_test_tune_data.csv\
+$(TABLES)/reduced_crc_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/reduced_crc_randomization_treatment_test_data_roc.csv\
+$(TABLES)/reduced_crc_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/reduced_crc_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+exploratory/crc_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
+code/CRC_randomization_combine_reduced_agg_treat_model.R
+	R -e "source('code/CRC_randomization_combine_reduced_agg_treat_model.R')"
 
 
 ###################################################################################
@@ -595,37 +710,46 @@ code/Run_Figure2.R
 	R -e "source('code/Run_Figure4.R')"
 
 
+# This figure explores differences based solely on who received surgery and whether 
+# those with surgery were different than those that did not within diagnosis group
+
+$(FIGS)/FigureS1.pdf : $(PROC)/final.groups.ave-std.summary\
+$(PROC)/mod_metadata/metaF_final.csv\
+$(PROC)/final.thetayc.0.03.lt.ave.dist code/Run_FigureS3.R
+	R -e "source('code/antibiotic_comparisons.R')"
+
+
 # This graph highlights the ROC curve for each of the models used.  This
 # visualizes the models normal vs adenoma, normal vs advanced adenoma, and
 # normal vs carcinoma.
 
-$(FIGS)/FigureS1.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
+$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
 $(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS1.R
-	R -e "source('code/Run_FigureS1.R')"
-	tiff2pdf -z -o results/figures/FigureS1.pdf results/figures/FigureS1.tiff
-	rm results/figures/FigureS1.tiff
+$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS2.R
+	R -e "source('code/Run_FigureS2.R')"
+	tiff2pdf -z -o results/figures/FigureS2.pdf results/figures/FigureS2.tiff
+	rm results/figures/FigureS2.tiff
 
 
 # This figure explores the most important OTUs for each model and displays
 # them by median MDA.
 
-$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
+$(FIGS)/FigureS3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA.csv\
 $(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS2.R
-	R -e "source('code/Run_FigureS2.R')"
+$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
+	R -e "source('code/Run_FigureS3.R')"
 
 
 # This figure plots the oral specific crc-releated OTUs identified in the carcinoma model.
 
-$(FIGS)/FigureS3.pdf : $(PROC)/final.shared\
+$(FIGS)/FigureS4.pdf : $(PROC)/final.shared\
 $(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv\
-$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS3.R
-	R -e "source('code/Run_FigureS3.R')"
+$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS4.R
+	R -e "source('code/Run_FigureS4.R')"
 
 
 #####################################################################################

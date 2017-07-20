@@ -22,7 +22,7 @@ data_list <- list(
 difference_table_treatment <- read.csv("data/process/tables/difference_table.csv", 
                                        header = T, stringsAsFactors = F)
 
-good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", stringsAsFactors = F, header = T)
+good_metaf <- read.csv("data/process/mod_metadata/metaf_final.csv", stringsAsFactors = F, header = T)
 alpha_summary <- read.delim("data/process/final.groups.ave-std.summary", stringsAsFactors = F)
 
 # Create data set more amenable to changes
@@ -59,21 +59,19 @@ crc_test <- (filter(alpha_data, sampleType == "initial" & Dx_Bin == "cancer")[, 
          chemo = filter(good_metaf, Dx_Bin == "cancer")[, "chemo_received"], 
          rads = filter(good_metaf, Dx_Bin == "cancer")[, "radiation_received"], 
          surgery = filter(good_metaf, Dx_Bin =="cancer")[, "Surgery"], 
-         Dx_Bin = filter(good_metaf, Dx_Bin == "cancer")[, "Dx_Bin"])
+         Dx_Bin = filter(good_metaf, Dx_Bin == "cancer")[, "Dx_Bin"]) %>% 
+  mutate(treatment_group = ifelse(chemo == "yes" & rads == "no", invisible(1), 
+                                  ifelse(rads == "yes", invisible(2), invisible(3))))
 
 
 # Create variables for actual analysis to be automated
 adn_tests <- c("sobs", "shannon", "shannoneven", "distance", "red_adn", "red_srn")
 
-crc_tests <- c("sobs", "shannon", "shannoneven", "distance", "red_crc")
 
 adn_mean_table <- as.data.frame(matrix(nrow = 6, ncol = 6, dimnames = list(
   rown = c("sobs", "shannon", "even", "dist", "red_adn", "red_srn"), 
   coln = c("surg_mean", "no_surg_mean", "surg_sd", "no_surg_sd", "pvalue", "bh"))))
 
-crc_mean_table <- as.data.frame(matrix(nrow = 5, ncol = 6, dimnames = list(
-  rown = c("sobs", "shannon", "even", "dist", "red_crc"), 
-  coln = c("chemo_rad_mean", "removal_only_mean", "cr_sd", "ro_sd", "pvalue", "bh"))))
 
 # Run automated tests for adn
 for(i in 1:length(adn_tests)){
@@ -127,26 +125,30 @@ for(i in 1:length(adn_tests)){
 adn_mean_table$bh <- p.adjust(adn_mean_table$pvalue, method = "BH")
 
 
+# Create variables for actual analysis to be automated
+crc_tests <- c("sobs", "shannon", "shannoneven", "distance", "red_crc")
+
+crc_mean_table <- as.data.frame(matrix(nrow = 5, ncol = 8, dimnames = list(
+  rown = c("sobs", "shannon", "even", "dist", "red_crc"), 
+  coln = c("chemo_mean", "chemo_rad_mean", "removal_only_mean", "c_sd", "cr_sd", "ro_sd", "pvalue", "bh"))))
+
+
 # Run automated tests for crc
 for(i in 1:length(crc_tests)){
   
-  crc_mean_table[i, "chemo_rad_mean"] <- mean(filter(crc_test, chemo == "yes")[, crc_tests[i]])
+  crc_mean_table[i, "chemo_mean"] <- mean(filter(crc_test, chemo == "yes" & rads == "no")[, crc_tests[i]])
+  crc_mean_table[i, "chemo_rad_mean"] <- mean(filter(crc_test, rads == "yes")[, crc_tests[i]])
   crc_mean_table[i, "removal_only_mean"] <- mean(filter(crc_test, chemo == "no")[, crc_tests[i]])
+  crc_mean_table[i, "c_sd"] <- sd(filter(crc_test, chemo == "yes" & rads == "no")[, crc_tests[i]])
   crc_mean_table[i, "cr_sd"] <- sd(filter(crc_test, chemo == "yes")[, crc_tests[i]])
   crc_mean_table[i, "ro_sd"] <- sd(filter(crc_test, chemo == "no")[, crc_tests[i]])
   
-  crc_mean_table[i, "pvalue"] <- wilcox.test(filter(crc_test, chemo == "yes")[, crc_tests[i]], 
-                                             filter(crc_test, chemo == "no")[, crc_tests[i]])$p.value
+  crc_mean_table[i, "pvalue"] <- kruskal.test(crc_test[, crc_tests[i]], factor(crc_test$treatment_group))$p.value
+    
 }
 
 # Implement P-value correction
 crc_mean_table$bh <- p.adjust(crc_mean_table$pvalue, method = "BH")
-
-# Test whether radiation is significantly different then chemo in IF proability reduction
-crc_mean_table <- rbind(crc_mean_table, 
-                    chemo_v_rads_red = c(NA, NA, NA, NA, 
-                                        wilcox.test(filter(crc_test, chemo == "yes" & rads == "no")[, "red_crc"], 
-                                                  filter(crc_test, rads == "yes")[, "red_crc"])$p.value, NA))
 
 
 # Run fisher exact test on surgery proportions for adn and srn
