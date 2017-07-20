@@ -80,6 +80,15 @@ surg_only_comparisons <- data_frame(
                 filter(working_beta, Dx_Bin == "adv_adenoma" & Surgery == "Y")[, "distance"])$p.value)) %>% 
   mutate(BH = p.adjust(pvalues, method = "BH"), comparison = c("adnVcrc", "srnVcrc", "adnVsrn"))
 
+# Write out needed tables
+write.csv(surg_only_comparisons, "data/process/tables/surgery_only_comparisons.csv", 
+          row.names = F)
+
+write.csv(surg_non_crc_summary, "data/process/tables/surgVnonsurg_noncrc.csv", 
+          row.names = F)
+
+write.csv(non_crc_surg_pvalues, "data/process/tables/surgVnonsurg_noncrc_pvalues.csv", 
+          row.names = F)
 
 
 # Want to graph both sections and add a supplemental figure 
