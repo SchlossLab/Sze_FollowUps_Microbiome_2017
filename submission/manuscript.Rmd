@@ -242,20 +242,6 @@ A detailed and reproducible description of how the data were processed and analy
 \newpage
 
 
-**Figure 1: General differences between adenoma, advanced adenoma, and carcinoma groups after treatment.** A) Thetayc distance from pre versus post sample within each individual. A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue_adnVcrc'], scientific = TRUE, digits = 3)`). Solid black points represent the median value for each diagnosis group. B) NMDS of the pre and post-treatment samples for the adenoma group. C) NMDS of the pre and post-treatment samples for the advanced adenoma group. D) NMDS of the pre and post-treatment samples for the carcinoma group.
-
-**Figure 2: The 10 OTUs used to classify treatment for adenoma, advanced adenoma, and carcinoma.** A) Adenoma OTUs. B) Advanced Adenoma OTUs. C) Carcinoma OTUs. The darker circle highlights the median log10 MDA value obtained from 100 different 80/20 splits while the lighter colored circles represents the value obtained for a specific run.
-
-**Figure 3: OTUs common to those models used to differentiate between patients with normal colons and those with adenoma, advanced adenoma, and carcinoma.** A) Venn diagram showing the OTU overlap between each model.  B) For each common OTU the lowest taxonomic identification and importance rank for each model run is shown.
-
-**Figure 4: Treatment response based on models built for adenoma, advanced adenoma, or carcinoma.** A) Positive probability change from initial to follow up sample in those with adenoma. B) Positive probability change from initial to follow up sample in those with advanced adenoma. C) Positive probability change from initial to follow up sample in those with carcinoma.
-
-
-
-
-
-\newpage
-
 **Table 1: Demographic data of patients in the pre and post-treatment cohort**
 
 ```{r table1, echo=FALSE, message=FALSE, warning=FALSE}
@@ -336,6 +322,7 @@ test <- test[-1, ]
 kable(test, format = "markdown", align = 'c', padding = 2)
 ```
 
+
 \newpage
 
 
@@ -406,6 +393,23 @@ kable(test, format = "markdown", align = 'c', padding = 2)
 
 
 \newpage
+
+
+**Figure 1: General differences between adenoma, advanced adenoma, and carcinoma groups after treatment.** A) Thetayc distance from pre versus post sample within each individual. A significant difference was found between the adenoma and carcinoma group for thetayc (P-value = `r format(change_summary['thetayc', 'Pvalue_adnVcrc'], scientific = TRUE, digits = 3)`). Solid black points represent the median value for each diagnosis group. B) NMDS of the pre and post-treatment samples for the adenoma group. C) NMDS of the pre and post-treatment samples for the advanced adenoma group. D) NMDS of the pre and post-treatment samples for the carcinoma group.
+
+**Figure 2: The 10 OTUs used to classify treatment for adenoma, advanced adenoma, and carcinoma.** A) Adenoma OTUs. B) Advanced Adenoma OTUs. C) Carcinoma OTUs. The darker circle highlights the median log10 MDA value obtained from 100 different 80/20 splits while the lighter colored circles represents the value obtained for a specific run.
+
+**Figure 3: OTUs common to those models used to differentiate between patients with normal colons and those with adenoma, advanced adenoma, and carcinoma.** A) Venn diagram showing the OTU overlap between each model.  B) For each common OTU the lowest taxonomic identification and importance rank for each model run is shown.
+
+**Figure 4: Treatment response based on models built for adenoma, advanced adenoma, or carcinoma.** A) Positive probability change from initial to follow up sample in those with adenoma. B) Positive probability change from initial to follow up sample in those with advanced adenoma. C) Positive probability change from initial to follow up sample in those with carcinoma.
+
+
+
+
+
+\newpage
+
+
 
 
 **Figure S1: ROC curves of the adenoma, advanced adenoma, and carcinoma models.** A) Adenoma ROC curve: The light green shaded areas represent the range of values of a 100 different 80/20 splits of the test set data and the dark green line represents the model using 100% of the data set and what was used for subsequent classification. B) Advanced Adenoma ROC curve: The light yellow shaded areas represent the range of values of a 100 different 80/20 splits of the test set data and the dark yellow line represents the model using 100% of the data set and what was used for subsequent classification. C) Carcinoma ROC curve: The light red shaded areas represent the range of values of a 100 different 80/20 splits of the test set data and the dark red line represents the model using 100% of the data set and what was used for subsequent classification.
