@@ -98,9 +98,9 @@
 
 \begin{document}
 
-\section{The effect of treatment on the microbiota of patients diagnosed
-with colonic
-lesions}\label{the-effect-of-treatment-on-the-microbiota-of-patients-diagnosed-with-colonic-lesions}
+\section{Normalization of the microbiota in patients after treatment for
+colonic
+lesions}\label{normalization-of-the-microbiota-in-patients-after-treatment-for-colonic-lesions}
 
 \begin{center}
 \vspace{25mm}
@@ -151,42 +151,39 @@ the 16S rRNA genes in the feces of 67 individuals before and after
 treatment for adenoma (N = 22), advanced adenoma (N = 19), and carcinoma
 (N = 26).
 
-\textbf{Results.} There were large changes to the bacterial communities
-associated with treatment across the three groups. The communities from
-patients with carcinomas changed significantly more than those with
-adenoma following treatment (P-value \textless{} 0.001). There was no
-significant change in the microbiota between patients with adenoma and
-advanced adenoma, or between patients with advanced adenoma and
-carcinoma (P-value \textgreater{} 0.05). Although treatment was
-associated with intrapersonal changes, the change in the abundance of
-individual OTUs to treatment was not consistent within diagnosis groups
-(P-value \textgreater{} 0.05). Because the distribution of OTUs across
-patients and diagnosis groups was irregular, we used the Random Forest
-machine learning algorithm to identify groups of OTUs that allowed us to
-successfully distinguish between pre and post-treatment samples for each
-of the diagnosis groups. Although the three models successfully
-differentiated between the pre and post-treatment samples, there was
-little overlap between the OTUs that were indicative of treatment. Next,
-we used a larger cohort that contained individuals with normal colons
-and those with adenomas, advanced adenomas, and carcinomas to determine
-whether individuals who underwent treatment were more likely to have
-OTUs associated with normal colons. We again built Random Forest models
-and measured the change in the positive probability of having one of the
-three diagnoses. Only patients who had carcinomas experienced a
-significant decrease in positive probability of having a lesion after
-treatment (P-value \textless{} 0.05), indicating that the microbial
-milieu of the colon more closely resembled that of a normal colon.
-Finally, we tested whether the type of treatment impacted the microbiota
-of those diagnosed with carcinomas and were unable to detect any
-significant differences in characteristics of these communities between
+\textbf{Results.} There were small changes to the bacterial community
+associated with adenoma or advanced adenoma and large changes associated
+with the carcinoma. The communities from patients with carcinomas
+changed significantly more than those with adenoma following treatment
+(P-value \textless{} 0.001). Although treatment was associated with
+intrapersonal changes, the change in the abundance of individual OTUs to
+treatment was not consistent within diagnosis groups (P-value
+\textgreater{} 0.05). Because the distribution of OTUs across patients
+and diagnosis groups was irregular, we used the Random Forest machine
+learning algorithm to try and identify groups of OTUs that would allow
+us to distinguish between pre and post-treatment samples for each of the
+diagnosis groups. Although the three models could differentiate between
+the pre and post-treatment samples, there was little overlap between the
+OTUs that were indicative of treatment. Next, we used a larger cohort
+that contained individuals with normal colons and those with adenomas,
+advanced adenomas, and carcinomas to determine whether individuals who
+underwent treatment were more likely to have OTUs associated with normal
+colons. We again built Random Forest models and measured the change in
+the positive probability of having one of the three diagnoses to assess
+whether these changes were similar to their original diagnosis or not.
+Patients who had carcinomas changed towards a microbial milieu that
+resembles the normal colon (P-value \textless{} 0.05). Finally, we were
+unable to detect any significant differences in the microbiota between
 individuals treated with surgery alone and those treated with
 chemotherapy or chemotherapy and radiation (P-value \textgreater{}
 0.05).
 
-\textbf{Conclusions.} By better understanding the response of the
-microbiota to treatment for adenomas and carcinomas, it is likely that
-biomarkers will be validated that can be used to quantify the risk of
-recurrence and the likelihood of survival.
+\textbf{Conclusions.} Although it was difficult to identify significant
+differences between pre and post treatment samples for adenoma and
+advanced adenoma, this was not the case for carcinomas. Not only were
+there large changes in pre versus post treatment samples for those with
+carcinoma but also these changes were towards a more normal microbiota
+composition.
 
 \subsubsection{Keywords}\label{keywords}
 
@@ -238,11 +235,11 @@ early detection of disease {[}21--26{]}.
 Despite advances in understanding the role between the gut microbiota
 and colonic tumorigenesis, we still do not understand how treatments
 including resection, chemotherapy, and/or radiation affect the
-composition of the gut microbiota. If the microbial community drives
-tumorigenesis then one would hypothesize that treatment to remove a
-lesion would affect the microbiota and risk of recurrence. To test this
-hypothesis, we addressed two related questions: Does treatment affect
-the colonic microbiota in a predictable manner? If so, does the
+composition of the gut microbiota. If the microbial community has an
+affect on recurrence risk or tumorigenesis it would be reasonable to
+expect treatment to remove a lesion to affect the microbiota. To test
+this hypothesis, we addressed two related questions: Does treatment
+affect the colonic microbiota in a predictable manner? If so, does the
 treatment alter the community to more closely resemble that of
 individuals with normal colons?
 
@@ -267,32 +264,39 @@ quantify the risk of recurrence and the likelihood of survival.
 
 \subsection{Results}\label{results}
 
-\textbf{\emph{Treatment alters the bacterial community structure of
-patients diagnosed with colonic lesions.}} Within our 67-person cohort
-we tested whether the microbiota of patients with adenoma (N = 22),
-advanced adenoma (N = 19), or carcinoma (N = 26) had any broad
-differences between pre and post-treatment samples {[}Table 1{]}. The
-structure of the microbial communities of the pre and post-treatment
-samples differed, as measured by the \(\theta\)\textsubscript{YC} beta
-diversity metric {[}Figure 1A{]}. We found that the communities obtained
-pre and post-treament among the patients with carcinomas changed
-significantly more than those patients with adenoma (P-value \textless{}
-0.001). There were no significant differences in the amount of change
-observed between the patients with adenoma and advanced adenoma or
-between the patients with advanced adenoma and carcinoma (P-value
-\textgreater{} 0.05). Next, we tested whether there was a consistent
-direction in the change in the community structure between the pre and
-post-treatment samples for each of the diagnosis groups {[}Figure
-1B-D{]}. We only observed a consistent shift in community structure for
-the patients with carcinoma when using a PERMANOVA test (adenoma P-value
-= 0.999, advanced adenoma P-value = 0.945, and carcinoma P-value =
-0.005). Finally, we measured the number of observed OTUs, Shannon
-evenness, and Shannon diversity in the pre and post-treatment samples
-and did not observe a significant change for any of the diagnosis groups
-(P-value \textgreater{} 0.05) {[}Table S1{]}.
+\textbf{\emph{Treatment for colonic lesions alters the bacterial
+community structure}} Within our 67-person cohort we tested whether the
+microbiota of patients with adenoma (N = 22), advanced adenoma (N = 19),
+or carcinoma (N = 26) had any broad differences between pre and
+post-treatment samples {[}Table 1{]}. None of the individuals in this
+study had any recorded antibiotic use before treatment of their
+respective lesion {[}Table 1{]}. The structure of the microbial
+communities of the pre and post-treatment samples differed, as measured
+by the \(\theta\)\textsubscript{YC} beta diversity metric {[}Figure
+1A{]}. We found that the communities obtained pre and post-treament
+among the patients with carcinomas changed significantly more than those
+patients with adenoma (P-value \textless{} 0.001). There were no
+significant differences in the amount of change observed between the
+patients with adenoma and advanced adenoma or between the patients with
+advanced adenoma and carcinoma (P-value \textgreater{} 0.05). When
+analyzing only those who underwent surgery as a treatment these trends
+persisted (P-value \textgreater{} 0.05) {[}Figure S1A{]}. There was also
+no difference in the change of \(\theta\)\textsubscript{YC} between pre
+and post treatment samples between those who had surgery versus those
+who did not for both the adenoma and advanced adenoma group (P-value
+\textgreater{} 0.05) {[}Figure S1B-C{]}. Next, we tested whether there
+was a consistent direction in the change in the community structure
+between the pre and post-treatment samples for each of the diagnosis
+groups {[}Figure 1B-D{]}. We only observed a consistent shift in
+community structure for the patients with carcinoma when using a
+PERMANOVA test (adenoma P-value = 0.999, advanced adenoma P-value =
+0.945, and carcinoma P-value = 0.005). Finally, we measured the number
+of observed OTUs, Shannon evenness, and Shannon diversity in the pre and
+post-treatment samples and did not observe a significant change for any
+of the diagnosis groups (P-value \textgreater{} 0.05) {[}Table S1{]}.
 
-\textbf{\emph{The effects of treatment are not consistent across
-treatment groups.}} We used two approaches to identify those bacterial
+\textbf{\emph{The treatment of lesions are not consistent across
+diagnosis groups.}} We used two approaches to identify those bacterial
 populations that change between the two samples for each diagnosis
 group. First, we sought to identify individual OTUs that could account
 for the change in overall community structure. However, using a paired
@@ -300,19 +304,22 @@ Wilcoxon test we were unable to identify any OTUs that were
 significantly different in the pre and post-treatment groups (P-value
 \textgreater{} 0.05). It is likely that high inter-individual variation
 and the irregular distribution of OTUs across individuals limited the
-statistical power of the test. To overcome these problems we developed
-Random Forest models to identify collections of OTUs that would allow us
-to differentiate between pre and post-treatment samples from each of the
-diagnosis groups. To limit the likelihood that the models would overfit
-the data because of the relatively small number of subjects in each
-group, we restricted our models to only incorporate 10 OTUs. Despite
-this restriction, the models performed well (adenoma AUC range = 0.69 -
-0.92, advanced adenoma AUC range = 0.80 - 1.00, carcinoma AUC range =
-0.82 - 0.98). Interestingly, the 10 OTUs that were used for each model
-had little overlap with each other {[}Figure 2{]}. These results support
-the earlier community-wide analysis where we observed that the treatment
-had an impact on the overall community structure; however, the effect of
-treatment was not consistent across patients and diagnosis groups.
+statistical power of the test. We attempted to overcome these problems
+by using Random Forest models to identify collections of OTUs that would
+allow us to differentiate between pre and post-treatment samples from
+each of the diagnosis groups. To try and limit the likelihood that the
+models would overfit the data because of the relatively small number of
+subjects in each group, we restricted our models to only incorporate 10
+OTUs. Despite this restriction, the models performed well (adenoma AUC
+range = 0.69 - 0.92, advanced adenoma AUC range = 0.80 - 1.00, carcinoma
+AUC range = 0.82 - 0.98). However, upon randomizing the pre and post
+treatment labels we found that Random Forest could work equally well
+(adenoma AUC range = 0.73 - 0.98, advanced adenoma AUC range = 0.70 -
+0.97, carcinoma AUC range = 0.89 - 0.99). Interestingly, the 10 OTUs
+that were used for each model had little overlap with each other
+{[}Figure 2{]}. Although treatment had an impact on the overall
+community structure; the effect of treatment was not consistent across
+patients and diagnosis groups.
 
 \textbf{\emph{Post-treatment samples from patients with carcinoma more
 closely resemble those of a normal colon.}} Next, we determined whether
@@ -324,7 +331,7 @@ advanced adenoma, or carcinoma {[}Table 2{]}. We then constructed Random
 Forest models to classify the study samples, with the 3 diagnosis groups
 (adenoma, advanced adenoma, or carcinoma), or having a normal colon. The
 models performed well (adenoma AUC range =0.62 - 0.72, advanced adenoma
-AUC range = 0.68 - 0.77, carcinoma AUC range = 0.84 - 0.90; Figure S1).
+AUC range = 0.68 - 0.77, carcinoma AUC range = 0.84 - 0.90; Figure S2).
 The OTUs that were incorporated into the adenoma and advanced adenoma
 models largely overlapped and those OTUs that were used to classify the
 carcinoma samples were largely distinct from those of the other two
@@ -337,24 +344,25 @@ also included in the model differentiating between patients with normal
 colons and those with carcinoma, this model also included OTUs
 affiliated with populations that have previously been associated with
 carcinoma (\emph{Fusobacterium}, \emph{Porphyromonas},
-\emph{Parvimonas}) {[}24--26{]} {[}Figure S2{]} with some individuals
-showing are marked decrease in relative abundance {[}Figure S3{]}.
+\emph{Parvimonas}) {[}24--26{]} {[}Figure S3{]} with some individuals
+showing are marked decrease in relative abundance {[}Figure S4{]}.
 Finally, we applied these three models to the pre and post-treatment
 samples for each diagnosis group and quantified the change in the
 positive probability of the model. A decrease in the positive
 probability would indicate that the microbiota more closely resembled
 that of a patient with a normal colon. There was no significant change
 in the positive probability for the adenoma or advanced adenoma groups
-{[}Figure 4{]}. The positive probability for the pre and post-treatment
-samples from patients diagnosed with carcinoma significantly decreased
-with treatment, suggesting a shift toward a normal microbiota for most
-individuals. Only, 6 of the 26 patients (23.08\%) who were diagnosed
-with a carcinoma had a higher positive probability after treatment; one
-of those was re-diagnosed with carcinoma on the follow up visit. These
-results indicate that, although there were changes in the microbiota
-associated with treatment, those experienced by patients with carcinoma
-after treatment yielded gut bacterial communities of greater similarity
-to that of a normal colon.
+(P-value \textgreater{} 0.05) {[}Figure 4{]}. The positive probability
+for the pre and post-treatment samples from patients diagnosed with
+carcinoma significantly decreased with treatment, suggesting a shift
+toward a normal microbiota for most individuals (P-value = 0.0156).
+Only, 6 of the 26 patients (23.08\%) who were diagnosed with a carcinoma
+had a higher positive probability after treatment; one of those was
+re-diagnosed with carcinoma on the follow up visit. These results
+indicate that, although there were changes in the microbiota associated
+with treatment, those experienced by patients with carcinoma after
+treatment yielded gut bacterial communities of greater similarity to
+that of a normal colon.
 
 \textbf{\emph{Difficult to identify effects of specific treatments on
 the change in the microbiota.}} The type of treatment that the patients
@@ -363,20 +371,17 @@ advanced adenomas received surgical resection (adenoma, N=4; advanced
 adenoma, N=4) or polyp removal during colonoscopy (adenoma, N=18;
 advanced adenoma, N=15) and those with carcinomas received surgical
 resection (N=12), surgical resection with chemotherapy (N=9), and
-surgical resection with chemotherapy and radiation (N=5). We focused on
-the patients with carcinoma and pooled those patients that received
-chemotherapy with those that received chemotherapy and radiation to
-improve our statistical power. We did not observe a significant
-difference in the effect of these treatments on the number of observed
-OTUs, Shannon diversity, or Shannon evenness (P-value \textgreater{}
-0.05). Furthermore, there was not a significant difference in the effect
-of the treatments on the amount of change in the community structure
-(P-value = 0.298). Finally, the change in the positive probability was
-not significantly different between the two treatment groups (P-value =
-0.999). Due to the relatively small number of samples in each treatment
-group, it was difficult to make a definitive statement regarding the
-specific type of treatment on the amount of change in the structure of
-the microbiota.
+surgical resection with chemotherapy and radiation (N=5). Regardless of
+treatment used there was no significant difference in the effect of
+these treatments on the number of observed OTUs, Shannon diversity, or
+Shannon evenness (P-value \textgreater{} 0.05). Furthermore, there was
+no significant difference in the effect of the treatments on the amount
+of change in the community structure (P-value = 0.532). Finally, the
+change in the positive probability was also not significantly different
+between any treatment group (P-value = 0.532). Due to the relatively
+small number of samples in each treatment group, it was difficult to
+make a definitive statement regarding the specific type of treatment on
+the amount of change in the structure of the microbiota.
 
 \newpage
 
@@ -385,16 +390,20 @@ the microbiota.
 Our study focused on comparing the microbiota of patients diagnosed with
 adenoma, advanced adenoma, and carcinoma before and after treatment. For
 all three groups of patients, we observed changes in their microbiota.
-After treatment, the microbiota of patients with carcinoma changed
-significantly more than the other groups. This change resulted in
-communities that more closely resembled those of patients with a normal
-colon. This may suggest that treatment for carcinoma is not only
-successful for removing the carcinoma but also at reducing the
-associated bacterial communities. Understanding the effect of treatment
-on the microbiota of those diagnosed with carcinomas may have important
-implications for reducing disease recurrence. It is intriguing that it
-may be possible to use microbiome-based biomarkers to not only predict
-the presence of lesions but to assess the risk of recurrence.
+Some of these changes, specifically for adenoma, may be due to normal
+temporal variation but those with advanced adenoma and CRC clearly had
+large microbiota changes that would be greater than what could be
+expected from this type of variation {[}27{]}. After treatment, the
+microbiota of patients with carcinoma changed significantly more than
+the other groups. This change resulted in communities that more closely
+resembled those of patients with a normal colon. This may suggest that
+treatment for carcinoma is not only successful for removing the
+carcinoma but also at reducing the associated bacterial communities.
+Understanding the effect of treatment on the microbiota of those
+diagnosed with carcinomas may have important implications for reducing
+disease recurrence. It is intriguing that it may be possible to use
+microbiome-based biomarkers to not only predict the presence of lesions
+but to also assess the risk of recurrence.
 
 Patients diagnosed with adenoma and advanced adenoma, however, did not
 experience a shift towards a community structure that resembled those
@@ -406,7 +415,7 @@ alter said structure. It is possible that the difference between the
 microbiota of patients with adenoma and advanced adenoma and those with
 normal colons is subtle. This is supported by the reduced ability of our
 models to correctly classify patients with adenomas and advanced
-adenomas relative to those diagnosed with carcinomas {[}Figure S1{]}.
+adenomas relative to those diagnosed with carcinomas {[}Figure S2{]}.
 Given the irregular distribution of microbiota across patients in the
 different diagnosis groups, it is possible that we lacked the
 statistical power to adequately characterize the change in the
@@ -454,11 +463,18 @@ antibiotic administration on the microbiome would be expected to occur
 This study expands upon existing research that has established a role
 for the microbiota in tumorigenesis and that demonstrated the utility of
 microbiome-based biomarkers to predict the presence of colonic lesions.
-The most exciting future direction from the current study is the
-possibility that markers within the microbiota could be used to evaluate
-the effect of treatment and predict recurrence for those diagnosed with
+Although in the adenoma and advanced adenoma groups we cannot make a
+definitive statement regarding the effect of a specific treatment on the
+gut microbiota, due to the low number of samples, small effect sizes,
+potential changes in diet after treatment, changing medical care for
+chronic maladies, etc. There are still a number of exciting new
+potential avenues to explore based on the carcinoma observations. One of
+the most exciting of these future directions is the possibility that
+markers within the microbiota could be used to potentially evaluate the
+effect of treatment and predict recurrence for those diagnosed with
 carcinoma. If such an approach is effective, it might be possible to
-target the microbiota as part of adjuvant therapy. Our data provides
+target the microbiota as part of adjuvant therapy, if the biomarkers
+identified play a key role in the disease process. Our data provides
 additional evidence on the importance of the microbiota in tumorigenesis
 by addressing the recovery of the microbiota after treatment and opens
 interesting avenues of research into how these changes may affect
@@ -469,28 +485,45 @@ recurrence.
 \subsection{Methods}\label{methods}
 
 \textbf{\emph{Study Design and Patient Sampling.}} Sampling and design
-have been previously reported in Baxter, et al {[}24{]}. Briefly, study
-exclusion involved those who had already undergone surgery, radiation,
-or chemotherapy, had colorectal cancer before a baseline fecal sample
-could be obtained, had IBD, a known hereditary non-polyposis colorectal
-cancer, or familial adenomatous polyposis. Samples used to build the
-models for prediction were collected either prior to a colonoscopy or
-between one and two weeks after initial colonoscopy. The bacterial
-community has been shown to normalize back to a pre-colonoscopy
-community within this time period {[}27{]}. Our study cohort consisted
-of 67 individuals with an initial sample as described and a follow up
-sample obtained between 188 - 546 days after treatment of lesion
-{[}Table 1{]}. Patients were diagnosed by colonoscopic examination and
-histopathological review of any biopsies taken. Patients were classified
-as having advanced adenoma if they had an adenoma greater than 1 cm,
-more than three adenomas of any size, or an adenoma with villous
-histology. This study was approved by the University of Michigan
-Institutional Review Board. All study participants provided informed
-consent and the study itself conformed to the guidelines set out by the
-Helsinki Declaration.
+have been previously reported in Baxter, et al {[}24{]}. Briefly,
+samples were stored on ice for at least 24h before freezing. Although we
+cannot exclude that this sampling protocol may have impacted the gut
+microbiota composition all samples were subjected to the same
+methodology. Study exclusion involved those who had already undergone
+surgery, radiation, or chemotherapy, had colorectal cancer before a
+baseline fecal sample could be obtained, had IBD, a known hereditary
+non-polyposis colorectal cancer, or familial adenomatous polyposis.
+Samples used to build the models for prediction were collected either
+prior to a colonoscopy or between one and two weeks after initial
+colonoscopy. The bacterial community has been shown to normalize back to
+a pre-colonoscopy community within this time period {[}28{]}. Our study
+cohort consisted of 67 individuals with an initial sample as described
+and a follow up sample obtained between 188 - 546 days after treatment
+of lesion {[}Table 1{]}. Patients were diagnosed by colonoscopic
+examination and histopathological review of any biopsies taken. Patients
+were classified as having advanced adenoma if they had an adenoma
+greater than 1 cm, more than three adenomas of any size, or an adenoma
+with villous histology. This study was approved by the University of
+Michigan Institutional Review Board. All study participants provided
+informed consent and the study itself conformed to the guidelines set
+out by the Helsinki Declaration.
+
+\textbf{\emph{Treatment}} For this study treatment refers specifically
+to the removal of a lesion or with or without chemotherapy and
+radiation. The majority of patients undergoing treatment for adenoma or
+advanced adenoma were not treated surigically {[}Table 1{]} but rather
+via colonoscopy. All CRC individuals were treated with at least surgery
+or a combination of surgery and chemotherapy or surgery, chermotherapy,
+and radiation. The type of chemotherapy used for patients with CRC
+varied markably. The types used included Oxaliplatin, Levicovorin,
+Folfox, Xeloda, Capecitabine, Avastin, Fluorouracil, and Glucovorin.
+These were used individually or in combination with others depending on
+the patient {[}Table 1{]}. If an individual was treated with radiation
+they were also always treated with chemotherapy. Radiation therapy
+generally used 18 mV photons for treatment.
 
 \textbf{\emph{16S rRNA Gene Sequencing.}} Sequencing was completed as
-described by Kozich, et al. {[}28{]}. DNA extraction used the 96-well
+described by Kozich, et al. {[}29{]}. DNA extraction used the 96-well
 Soil DNA isolation kit (MO BIO Laboratories) and an epMotion 5075
 automated pipetting system (Eppendorf). The V4 variable region was
 amplified and the resulting product was split between four sequencing
@@ -501,17 +534,17 @@ on the same run.
 
 \textbf{\emph{Sequence Processing.}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences and has been
-previously described {[}28{]}. The general workflow using mothur
+previously described {[}29{]}. The general workflow using mothur
 included merging paired-end reads into contigs, filtering for low
-quality contigs, aligning to the SILVA database {[}29{]}, screening for
-chimeras using UCHIME {[}30{]}, classifying with a naive Bayesian
-classifier using the Ribosomal Database Project (RDP){[}31{]}, and
+quality contigs, aligning to the SILVA database {[}30{]}, screening for
+chimeras using UCHIME {[}31{]}, classifying with a naive Bayesian
+classifier using the Ribosomal Database Project (RDP){[}32{]}, and
 clustered into Operational Taxonomic Units (OTUs) using a 97\%
 similarity cutoff with an average neighbor clustering algorithm
-{[}32{]}. The number of sequences for each sample was rarefied to 10523
+{[}33{]}. The number of sequences for each sample was rarefied to 10523
 to minimize the impacts of uneven sampling.
 
-\textbf{\emph{Model Building.}} The Random Forest {[}33{]} algorithm was
+\textbf{\emph{Model Building.}} The Random Forest {[}34{]} algorithm was
 used to create the three models used to classify pre and post-treatment
 samples by diagnosis (adenoma, advanced adenoma, or carcinoma). The
 total number of individuals in the pre versus post-treatment models was
@@ -520,16 +553,18 @@ post-treatment adenoma model, 19 individuals in the pre versus
 post-treatment advanced adenoma model, and 26 individuals in the pre
 versus post-treatment carcinoma model {[}Table 1{]}.
 
-Similarily, the Random Forest {[}33{]} algorithm was also used to create
-the three models used to classify normal versus diagnosis. The total
-number of individuals in the normal versus diagnosis models was 423
-individuals {[}Table 2{]}. There were a total of 239 individuals in the
-normal versus adenoma model, 262 individuals in the normal versus
-advanced adenoma model, and 266 individuals in the normal versus
-carcinoma model {[}Table 2{]}.
+Similarily, the Random Forest {[}34{]} algorithm was also used to create
+the three models used to classify normal versus diagnosis. These samples
+were obtained using the same methodology as described earlier in this
+section. All samples used for this component of model training were from
+pre-treatment samples. The total number of individuals in the normal
+versus diagnosis models was 423 individuals {[}Table 2{]}. There were a
+total of 239 individuals in the normal versus adenoma model, 262
+individuals in the normal versus advanced adenoma model, and 266
+individuals in the normal versus carcinoma model {[}Table 2{]}.
 
 All models included only OTU data obtained from 16S rRNA sequencing and
-were processed and cleaned using the R package caret (v6.0.73).
+were processed and cleaned using the R package caret (v6.0.76).
 Optimization of the mtry hyper-parameter involved making 100 different
 80/20 (train/test) splits of the data where the same proportion was
 present within both the whole data set and the 80/20 split. For each of
@@ -541,7 +576,7 @@ the 20\% component. For all pre versus post-treatment models the
 optimized mtry was 2 and for all normal versus diagnosis models the
 optimized mtry was 2. The hyper-parameter, mtry, defines the number of
 variables to investigate at each split before a new division of the data
-was created with the Random Forest model {[}33{]}.
+was created with the Random Forest model {[}34{]}.
 
 For each of the pre versus post-treamtent models assessment of the most
 important OTUs was then made by taking the top 10 OTUs by mean decrease
@@ -574,18 +609,19 @@ of the normal versus diagnosis models generated the probabilities that
 the sample was that specific diagnosis (adenoma, advanced adenoma, or
 carcinoma).
 
-\textbf{\emph{Statistical Analysis.}} The R software package (v3.3.2)
+\textbf{\emph{Statistical Analysis.}} The R software package (v3.4.1)
 was used for all statistical analysis. Comparisons between bacterial
-community structure utilized PERMANOVA {[}34{]} in the vegan package
-(v2.4.1). Comparisons between probabilities as well as overall
+community structure utilized PERMANOVA {[}35{]} in the vegan package
+(v2.4.3). Comparisons between probabilities as well as overall
 differences in the median relative abundance of each OTU between pre and
-post-treatment samples utilized a paired Wilcoxon ranked sum test. Where
-multiple comparison testing was appropriate, a Benjamini-Hochberg (BH)
-correction was applied {[}35{]} and a corrected P-value of less than
-0.05 was considered significant. The P-values reported are those that
-were BH corrected. Model rank importance was determined by obtaining the
-median MDA from the 100, 20 repeated 10-fold cross validation and then
-ranking from largest to smallest MDA.
+post-treatment samples utilized a paired Wilcoxon ranked sum test.
+Comparisons between different treatment for lesions utilized a Kruskal
+Wallis test. Where multiple comparison testing was appropriate, a
+Benjamini-Hochberg (BH) correction was applied {[}36{]} and a corrected
+P-value of less than 0.05 was considered significant. The P-values
+reported are those that were BH corrected. Model rank importance was
+determined by obtaining the median MDA from the 100, 20 repeated 10-fold
+cross validation and then ranking from largest to smallest MDA.
 
 \textbf{\emph{Reproducible Methods.}} A detailed and reproducible
 description of how the data were processed and analyzed can be found at
@@ -594,35 +630,6 @@ have been deposited into the NCBI Sequence Read Archive (SRP062005 and
 SRP096978) and the necessary metadata can be found at
 \url{https://www.ncbi.nlm.nih.gov/Traces/study/} and searching the
 respective SRA study accession.
-
-\newpage
-
-\textbf{Figure 1: General differences between adenoma, advanced adenoma,
-and carcinoma groups after treatment.} A) Thetayc distance from pre
-versus post sample within each individual. A significant difference was
-found between the adenoma and carcinoma group for thetayc (P-value =
-5.36e-05). Solid black points represent the median value for each
-diagnosis group. B) NMDS of the pre and post-treatment samples for the
-adenoma group. C) NMDS of the pre and post-treatment samples for the
-advanced adenoma group. D) NMDS of the pre and post-treatment samples
-for the carcinoma group.
-
-\textbf{Figure 2: The 10 OTUs used to classify treatment for adenoma,
-advanced adenoma, and carcinoma.} A) Adenoma OTUs. B) Advanced Adenoma
-OTUs. C) Carcinoma OTUs.
-
-\textbf{Figure 3: OTUs common to those models used to differentiate
-between patients with normal colons and those with adenoma, advanced
-adenoma, and carcinoma.} A) Venn diagram showing the OTU overlap between
-each model. B) For each common OTU the lowest taxonomic identification
-and importance rank for each model run is shown.
-
-\textbf{Figure 4: Treatment response based on models built for adenoma,
-advanced adenoma, or carcinoma.} A) Positive probability change from
-initial to follow up sample in those with adenoma. B) Positive
-probability change from initial to follow up sample in those with
-advanced adenoma. C) Positive probability change from initial to follow
-up sample in those with carcinoma.
 
 \newpage
 
@@ -642,6 +649,10 @@ BMI (Mean ± SD) & 26.86 ± 3.9 & 25.81 ± 4.7 & 28.63 ± 7.2\tabularnewline
 Caucasian (\%) & 95.45 & 84.21 & 96.15\tabularnewline
 Days Between Colonoscopy (Mean ± SD) & 255.41 ± 42 & 250.16 ± 41 &
 350.85 ± 102\tabularnewline
+Surgery Only & 4 & 4 & 12\tabularnewline
+Surgery \& Chemotherapy & 0 & 0 & 9\tabularnewline
+Surgery, Chemotherapy, \& Radiation & 0 & 0 & 5\tabularnewline
+Pre-Treatment Antibiotic Use & 0 & 0 & 0\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -666,7 +677,47 @@ Caucasian (\%) & 87.79 & 92.54 & 92.22 & 94.68\tabularnewline
 
 \newpage
 
-\textbf{Figure S1: ROC curves of the adenoma, advanced adenoma, and
+\textbf{Figure 1: General differences between adenoma, advanced adenoma,
+and carcinoma groups after treatment.} A) \(\theta\)\textsubscript{YC}
+distance from pre versus post sample within each individual. A
+significant difference was found between the adenoma and carcinoma group
+for thetayc (P-value = 5.36e-05). Solid black points represent the
+median value for each diagnosis group. B) NMDS of the pre and
+post-treatment samples for the adenoma group. C) NMDS of the pre and
+post-treatment samples for the advanced adenoma group. D) NMDS of the
+pre and post-treatment samples for the carcinoma group.
+
+\textbf{Figure 2: The 10 OTUs used to classify treatment for adenoma,
+advanced adenoma, and carcinoma.} A) Adenoma OTUs. B) Advanced Adenoma
+OTUs. C) Carcinoma OTUs. The darker circle highlights the median log10
+MDA value obtained from 100 different 80/20 splits while the lighter
+colored circles represents the value obtained for a specific run.
+
+\textbf{Figure 3: OTUs common to those models used to differentiate
+between patients with normal colons and those with adenoma, advanced
+adenoma, and carcinoma.} A) Venn diagram showing the OTU overlap between
+each model. B) For each common OTU the lowest taxonomic identification
+and importance rank for each model run is shown.
+
+\textbf{Figure 4: Treatment response based on models built for adenoma,
+advanced adenoma, or carcinoma.} A) Positive probability change from
+initial to follow up sample in those with adenoma. B) Positive
+probability change from initial to follow up sample in those with
+advanced adenoma. C) Positive probability change from initial to follow
+up sample in those with carcinoma.
+
+\newpage
+
+\textbf{Figure S1: Surgery comparisons by diagnosis using
+\(\theta\)\textsubscript{YC} distance.} A) Differences by diagnosis
+group for pre versus post sample within each individual. No significant
+difference was found but the trend is similar to that found for the full
+data set. B) Difference between those receiving surgery and those that
+did not for the adenoma group. No significant difference was observed.
+C) Difference between those receiving surgery and those that did not for
+the advanced adenoma group. No significant difference was observed.
+
+\textbf{Figure S2: ROC curves of the adenoma, advanced adenoma, and
 carcinoma models.} A) Adenoma ROC curve: The light green shaded areas
 represent the range of values of a 100 different 80/20 splits of the
 test set data and the dark green line represents the model using 100\%
@@ -680,7 +731,7 @@ different 80/20 splits of the test set data and the dark red line
 represents the model using 100\% of the data set and what was used for
 subsequent classification.
 
-\textbf{Figure S2: Summary of important OTUs for the adenoma, advanced
+\textbf{Figure S3: Summary of important OTUs for the adenoma, advanced
 adenoma, and carcinoma models.} A) MDA of the most important variables
 in the adenoma model. The dark green point represents the mean and the
 lighter green points are the value of each of the 100 different runs. B)
@@ -691,7 +742,7 @@ of the 100 different runs. C) MDA of the most important variables in the
 carcinoma model. The dark red point represents the mean and the lighter
 red points are the value of each of the 100 different runs.
 
-\textbf{Figure S3: Pre and post-treatment relative abundance of CRC
+\textbf{Figure S4: Pre and post-treatment relative abundance of CRC
 associated OTUs within the carcinoma model.}
 
 \newpage
@@ -887,47 +938,52 @@ cancer. Molecular Systems Biology. 2014;10:766.
 microbiome as a screening tool for colorectal cancer. Cancer Prevention
 Research (Philadelphia, Pa.). 2014;7:1112--21.
 
+\hypertarget{ref-schloss_dynamics_2014}{}
+27. Schloss PD, Iverson KD, Petrosino JF, Schloss SJ. The dynamics of a
+family's gut microbiota reveal variations on a theme. Microbiome.
+2014;2:25.
+
 \hypertarget{ref-obrien_impact_2013}{}
-27. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
+28. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
 bowel preparation on intestinal microbiota. PloS One. 2013;8:e62815.
 
 \hypertarget{ref-kozich_development_2013}{}
-28. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
+29. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
 Development of a dual-index sequencing strategy and curation pipeline
 for analyzing amplicon sequence data on the MiSeq Illumina sequencing
 platform. Applied and Environmental Microbiology. 2013;79:5112--20.
 
 \hypertarget{ref-pruesse_silva_2007}{}
-29. Pruesse E, Quast C, Knittel K, Fuchs BM, Ludwig W, Peplies J, et al.
+30. Pruesse E, Quast C, Knittel K, Fuchs BM, Ludwig W, Peplies J, et al.
 SILVA: A comprehensive online resource for quality checked and aligned
 ribosomal RNA sequence data compatible with ARB. Nucleic Acids Research.
 2007;35:7188--96.
 
 \hypertarget{ref-edgar_uchime_2011}{}
-30. Edgar RC, Haas BJ, Clemente JC, Quince C, Knight R. UCHIME improves
+31. Edgar RC, Haas BJ, Clemente JC, Quince C, Knight R. UCHIME improves
 sensitivity and speed of chimera detection. Bioinformatics (Oxford,
 England). 2011;27:2194--200.
 
 \hypertarget{ref-wang_naive_2007}{}
-31. Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier
+32. Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier
 for rapid assignment of rRNA sequences into the new bacterial taxonomy.
 Applied and Environmental Microbiology. 2007;73:5261--7.
 
 \hypertarget{ref-schloss_assessing_2011}{}
-32. Schloss PD, Westcott SL. Assessing and improving methods used in
+33. Schloss PD, Westcott SL. Assessing and improving methods used in
 operational taxonomic unit-based approaches for 16S rRNA gene sequence
 analysis. Applied and Environmental Microbiology. 2011;77:3219--26.
 
 \hypertarget{ref-breiman_random_2001}{}
-33. Breiman L. Random Forests. Machine Learning. 2001;45:5--32.
+34. Breiman L. Random Forests. Machine Learning. 2001;45:5--32.
 
 \hypertarget{ref-anderson_permanova_2013}{}
-34. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
+35. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
 the face of heterogeneous dispersions: What null hypothesis are you
 testing? Ecological Monographs. 2013;83:557--74.
 
 \hypertarget{ref-benjamini_controlling_1995}{}
-35. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
+36. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
 practical and powerful approach to multiple testing. Journal of the
 Royal Statistical Society. Series B (Methodological). 1995;57:289--300.
 
