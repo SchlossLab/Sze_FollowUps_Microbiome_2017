@@ -6,7 +6,7 @@
 
 * Post-treatment samples were collected 188-546 days after lesion treatment, I wonder if that is not too long to evaluate the effect of the treatment. Many other factors may interfere such as an adaptation in their nutritional habits or changes in their medical chronic treatments, for instance.
 
-
+We agree with the reviewers statement that there are other factors that could potentially account for the changes that were observed for treatment of lesions due to the long time that passed. With this in mind we have added a caution to our concluding statement that would remind readers that other aspects may also be important in these observed differences.  "Although we cannot make a definitive statement regarding the effect of a specific treatment on the gut microbiota, due to the low number of samples, small effect sizes, potential changes in diet after treatment, changing medical care for chronic maladies, etc. in the adenoma and advnaced adenoma groups, there are still a number of exciting new potential avenues to explore."
 
 * I think "Treatment" is not accurate enough, a treatment is a "fixed" factor in a design, almost any intervention can be consider as a treatment. It can be nutritional, pharmacological, surgical, .. I would specify it more, maybe something like "anti-cancer treatment". 
 
@@ -14,13 +14,16 @@
 
 * The consumption of antibiotics is not reported in the study. Cancer patients received antibiotics for several reasons, pending the clinical situation. It is hard to decipher what is due to the antibiotic treatment versus the surgical intervention and the chemotherapy. At least, antibiotic regimen should be reported. Statement in lines 220-222 is not enough.  Antibiotics can have long-term effects on the gut microbiota composition by completely eradicating sensitive microorganisms.
 
+We have added to Table 1 the recorded antibiotic usage before treatment. For all groups there was no antibiotic use recorded. Within both our adenoma and advanced adenoma group a small subset were treated using surgery and thus presumably received antibiotics like those being treated for CRC. We have added the results to this comparison to the section titled, "Treatment alters the bacterial community structure of patients diagnosed with colonic lesions". Although there was no significant difference after multiple comparison correction the trend of CRC displaying the largest change persisted (newly added Figure S1). Furthermore, there was no statistical difference between those that received surgery and those that did not in the observed thetayc distance between pre and post treatment samples for adenoma and advanced adenoma.  
 
 
 * If the point is actually to search for microbial biomarkers of recurrence and survival (as stated in the conclusion of the abstract and the manuscript), it would be relevant to provide recurrence and survival data, at least for the 26 patients with carcinoma.
 
-
+THIS WILL BE ACCOMPLISHED BY MODIFYING 
 
 * Line 161-163. "We focused on the patients with carcinoma and pooled those patients that received chemotherapy with those that received chemotherapy and radiation to improve our statistical power." Radiation influences the gut microbiota by itself (see for instance Cui et al EMBO Mol Med 2017 and Gerassy-Vainberg et al, Gut 2017), so I don't think that the pooling is scientifically justified.
+
+Ww have made this change to the section, "Difficult to identify effects of specific treatments on the change in the microbiota" in the manuscript and no longer analyze the data in a pooled fashion. However, this did not change our initial findings of no difference between groups. 
 
 **Additional points**
 
@@ -52,7 +55,7 @@ It is not immediately clear which grey lines the reviewer is referring to. We we
 
 * 	From the results section, it appears that no definitive statement can be made regarding the effect of a specific treatment on the gut microbiota due to the low number of samples, which I think is correct; however such statement are made at the end of the introduction (lines 84-85) and in the abstract (lines 29-33).
 
-In light of the reviewers correct statement about specific treatments for the removal of lesions and the lack of such comments in the discussion we have added a comment about this to that section. In the last paragraph of the discussion the second and third sentence now reads, "Although we cannot make a specific statement regarding the effect of a specific treatment on the gut microbiota, due to the low number of samples and small effect sizes in the adenoma and advnaced adenoma groups, there are still a number of exciting new avenues to explore. One of the most exciting of these future directions is the possibility that markers within the microbiota could be used to potentially evaluate the effect of treatment and predict recurrence for those diagnosed with carcinoma."
+In light of the reviewers correct statement about specific treatments for the removal of lesions and the lack of such comments in the discussion we have added a comment about this to that section. In the last paragraph of the discussion the second and third sentence now reads, "Although we cannot make a definitive statement regarding the effect of a specific treatment on the gut microbiota, due to the low number of samples, small effect sizes, potential changes in diet after treatment, changing medical care for chronic maladies, etc. in the adenoma and advnaced adenoma groups, there are still a number of exciting new potential avenues to explore. One of the most exciting of these future directions is the possibility that markers within the microbiota could be used to potentially evaluate the effect of treatment and predict recurrence for those diagnosed with carcinoma."
 
 
 * Lines 69-71: "If the microbial community drives tumorigenesis then one would hypothesize that treatment to remove a lesion would affect the microbiota and risk of recurrence." I think the sentence should be rephrased, as it is known that treatment to remove lesion affects risk of recurrence.
@@ -80,15 +83,15 @@ Changed "are" to "a"
 
 * "Only patients who had carcinomas experienced a significant decrease in positive probability of having a lesion after treatment (P-value < 0.05), indicating that the microbial milieu of the colon more closely resembled that of a normal colon."  This sentence in the abstract is confusing.  Do the authors mean that only patients with carcinomas had a significant decrease in the similarity of the microbial community to other patients in a previous cohort that also had colorectal cancer?
 
+CLARIFY THE ABSTRACT SENTENCE (NEED TO ADD PARTS)
 
 
 
 * I find it a little odd that for the adenomas and advanced adenomas groups, there was no difference between pre-treatment and treatment by change in the beta diversity metric (lines 94-96), PERMANOVA (line 102), number of observed OTUs, Shannon evenness, and Shannon diversity (line 104), and OTUs that were significantly different in the pre and post-treatment  groups (line 106).  It is of concern that differences in adenomas and advanced adenomas were only detectable by machine learning (Random Forest) techniques.  Could the authors use permutation tests (randomly permuting the pre- and post- treatment labels) and rerun their Random Forest pipeline over each permutation to ensure that the results for adenomas and advanced adenomas are not due to over-fitting?   In particular, I am concerned that the results could reflect the optimization of the mtry parameter described in lines 277-280.  Any permutation scheme would need to randomly assign treatment and pre-treatment
 parameters and then run the entire optimization scheme over the 80/20 splits and through the rest of the pipeline.  It has been demonstrated in the literature that optimization over cross-training can still produce substantial overfitting ( e.g. https://doi.org/10.1093/bioinformatics/btr591; "Optimized application of penalized regression methods to diverse genomic data") and given the lack of any other observable differences between adenomas and post-adenomas, it seems likely that that kind of overfitting has occurred here.
 
-We agree with the reviewer that the models are likely to be overfit. We took the suggestion to randomize the labels for the groupings and show that the randomized data can perform just as well as the reported values of the non-randomized groupings. We have added these findings to the results section. With this information we think this finding aligns well with the lack of difference in adenoma and advanced adenoma groups for both alpha and beta diversity metrics. The results section has been amended to reflect this change. Overall, this does not take away from the original message for this section of results. That differences due to treatment are very hard to detect especially for adenoma and advanced adenoma samples and that the effect of treatment is not consistent across patients or diagnosis group.
+We agree with the reviewer that the models are likely to be overfit. We took the suggestion to randomize the labels for the groupings and show that the randomized data can perform just as well as the reported values of the non-randomized groupings. We have added these findings to the results section. With this information we think this finding aligns well with the lack of difference in adenoma and advanced adenoma groups for both alpha and beta diversity metrics. The results specifically the section titled, "The effects of treatment are not consistent across treatment groups" has been amended to reflect this change. Overall, this does not take away from the original message for this section of results. That differences due to treatment are very hard to detect especially for adenoma and advanced adenoma samples and that the effect of treatment is not consistent across patients or diagnosis group.
 
-(NEED TO ADD DATA TO MANUSCRIPT)
 
 * I would also think that language in the abstract and conclusion could better emphasize how small the effect was for adenomas and advanced adenomas.  Given that "treatment" for adenomas is presumably just removing the adenomas during colonoscopy, it is reasonable to expect a difference in the microbial community?  Can the authors more explicitly state what treatment was for the adenomas and pre-adenomas groups?
 
