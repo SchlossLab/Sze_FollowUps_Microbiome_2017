@@ -304,7 +304,7 @@ ttemptable <- as.data.frame(t(t2)) %>% mutate(Age = paste(format(Age, digits = 2
                                         antibiotics = format(antibiotics, digits = 2, nsmall = 0))
 
 ft1 <- cbind(Group = c("Adenoma", "Advanced Adenoma", "Carcinoma"), ttemptable$Dx_Bin, ttemptable$Age, ttemptable$Gender_f, 
-             ttemptable$BMI, ttemptable$White, ttemptable$post_time, ttemptable$Surgery_only, ttemptable$Surg_Chemo, ttemptable$Surg_Chemo_Radiation, ttemptable$antibiotics)
+             ttemptable$BMI, ttemptable$White, ttemptable$post_time, ttemptable$Surgery_only, ttemptable$Surg_Chemo, ttemptable$Surg_Chemo_Radiation)
 
 
 age_label <- paste("Age (Mean ", label = "\u00B1", " SD)", sep = "")
@@ -312,8 +312,7 @@ bmi_label <- paste("BMI (Mean ", label = "\u00B1", " SD)", sep = "")
 post_time_label <- paste("Days Between Colonoscopy (Mean ", label = "\u00B1", " SD)", sep = "")
 
 colnames(ft1) <- c("Group", "n", age_label, "Sex (%F)", bmi_label, "Caucasian (%)", post_time_label, 
-                   "Surgery Only", "Surgery & Chemotherapy", "Surgery, Chemotherapy, & Radiation", 
-                   "Non-Surgery Associated Antibiotic Use")
+                   "Surgery Only", "Surgery & Chemotherapy", "Surgery, Chemotherapy, & Radiation")
 
 test <- t(ft1)
 colnames(test) <- test["Group", ]
