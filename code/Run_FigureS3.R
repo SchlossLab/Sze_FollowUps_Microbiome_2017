@@ -1,88 +1,161 @@
-### Create Figure S3 graph
-### Show results for initial and follow up samples based on 3 specific OTUs
+### Figure S2
+### Summary of Important OTUs within the model and their MDAs
 ## Marc Sze
 
-
-#Load needed libraries
+#Load needed code and packages
 source('code/functions.R')
 
-loadLibs(c("dplyr", "tidyr", "ggplot2"))
+loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
+
+#Read data needed
+adn_MDA_data_summary <- read.csv("data/process/tables/adn_reduced_model_top_vars_MDA_Summary.csv", 
+                                    header = T, stringsAsFactors = F)
+
+adn_MDA_full <- read.csv("data/process/tables/adn_reduced_lesion_model_top_vars_MDA.csv", 
+                            header = T, stringsAsFactors = F)
+
+srn_MDA_data_summary <- read.csv("data/process/tables/srn_reduced_model_top_vars_MDA_Summary.csv", 
+                                 header = T, stringsAsFactors = F)
+
+srn_MDA_full <- read.csv("data/process/tables/srn_reduced_model_top_vars_MDA.csv", 
+                         header = T, stringsAsFactors = F)
+
+crc_MDA_data_summary <- read.csv("data/process/tables/reduced_crc_model_top_vars_MDA_Summary.csv", 
+                                 header = T, stringsAsFactors = F)
+
+crc_MDA_full <- read.csv("data/process/tables/crc_reduced_lesion_model_top_vars_MDA.csv", 
+                         header = T, stringsAsFactors = F)
 
 
-# Read in necessary data frames
-shared <- read.delim('data/process/final.shared', 
-                     header=T, sep='\t') %>% select(Group, contains("Otu0"))
-         
-         
-good_metaf <- read.csv('data/process/mod_metadata/good_metaf_final.csv', 
-                       header = T, stringsAsFactors = F)
+tax <- read.delim('data/process/final.taxonomy', sep='\t', header=T, row.names=1)
 
-reduced_model <- read.csv('data/process/tables/reduced_crc_model_top_vars_MDA_Summary.csv', 
-                          header = T, stringsAsFactors = F)
-
-crc_tax <- read.csv('data/process/tables/crc_rf_otu_tax.csv', 
-                    header = T, stringsAsFactors = F) %>% rename(otu = X)
-
-# select out only necessary groups
-test <- shared %>% slice(match(c(good_metaf$initial, good_metaf$followUp), Group))
-
-# Get Relative Abundance
-total_sub_Seqs <- test %>% select(contains("Otu0")) %>% rowSums()
-
-test2 <- as.data.frame(apply(select(test, -Group), 2, function(x) x/total_sub_Seqs)) %>% 
-  mutate(Group = test$Group)
-
-# Select out for only three specific OTUs 
-otus <- filter(crc_tax, Genus == "Porphyromonas" | Genus == "Parvimonas" | Genus == "Fusobacterium")[, "otu"]
-
-# Filter shared by these specific otus
-test2 <- test2 %>% select(Group, one_of(otus))
-
-# Create modified data table
-data_analysis <- data_frame(Group = c(good_metaf$initial, good_metaf$followUp), 
-                            EDRN = rep(good_metaf$EDRN, 2), 
-                            sampleType = c(rep("initial", length(good_metaf$EDRN)), rep("followup", length(good_metaf$EDRN))), 
-                            Dx_Bin = rep(good_metaf$Dx_Bin, 2), 
-                            dx = rep(good_metaf$dx, 2)) %>% 
-  inner_join(test2, by = "Group") %>% 
-  gather(key = otu, value = rel.abund, -EDRN, -Group, -sampleType, -Dx_Bin, -dx)
+# Convert taxa table to a data frame with columns for each taxonomic division
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+rm(tax)
 
 
+# Generate the files needed for the MDA graph (ADN)
+
+# Order the data file from most to least important based on mean MDA
+adn_MDA_data_summary <- adn_MDA_data_summary[order(adn_MDA_data_summary$median_MDA, decreasing = TRUE), ]
 
 # Pull OTUs that are only in the MDA data
-select_tax_df <- (crc_tax %>% slice(match(otus, otu)))[, "Genus"]
-otu_num <- as.numeric(gsub("Otu", "", otus))
+OTU_IDs <- unique(filter(adn_MDA_data_summary, otu != "fit_result")[, "otu"])
+select_tax_df <- tax_df[OTU_IDs, ]
+low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
+otu_num <- as.numeric(gsub("Otu", "", OTU_IDs))
 
 # create labels for factor values with low taxonomy
+adn_graph_labels <- paste(gsub("2", "", low_tax_ID), " (OTU", otu_num, ")", sep = "")
+
 test <- c()
-for(i in 1:length(select_tax_df)){
+for(i in 1:length(low_tax_ID)){
   
-  test <- c(test, bquote(paste(italic(.(select_tax_df[i])) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
+  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
   
 }
 
-label_names <- do.call(expression, test)
-names(label_names) <- otus
+adn_labels <- do.call(expression, test)
+
+
+# Generate the files needed for the MDA graph (SRN)
+
+# Order the data file from most to least important based on mean MDA
+srn_MDA_data_summary <- srn_MDA_data_summary[order(srn_MDA_data_summary$median_MDA, decreasing = TRUE), ]
+
+# Pull OTUs that are only in the MDA data
+OTU_IDs <- unique(filter(srn_MDA_data_summary, otu != "fit_result")[, "otu"])
+select_tax_df <- tax_df[OTU_IDs, ]
+low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
+otu_num <- as.numeric(gsub("Otu", "", OTU_IDs))
+
+# create labels for factor values with low taxonomy
+srn_graph_labels <- paste(gsub("2", "", low_tax_ID), " (OTU", otu_num, ")", sep = "")
+
+test <- c()
+for(i in 1:length(low_tax_ID)){
+  
+  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
+}
+
+srn_labels <- do.call(expression, test)
+
+# Generate the files needed for the MDA graph (CRC)
+
+# Order the data file from most to least important based on mean MDA
+crc_MDA_data_summary <- crc_MDA_data_summary[order(crc_MDA_data_summary$median_MDA, decreasing = TRUE), ]
+
+# Pull OTUs that are only in the MDA data
+OTU_IDs <- unique(filter(crc_MDA_data_summary, otu != "fit_result")[, "otu"])
+select_tax_df <- tax_df[OTU_IDs, ]
+low_tax_ID <- gsub("_", " ", gsub("2", "", gsub("_unclassified", "", createTaxaLabeller(select_tax_df))))
+otu_num <- as.numeric(gsub("Otu", "", OTU_IDs))
+
+# create labels for factor values with low taxonomy
+crc_graph_labels <- paste(gsub("2", "", low_tax_ID), " (OTU", otu_num, ")", sep = "")
+
+test <- c()
+for(i in 1:length(low_tax_ID)){
+  
+  test <- c(test, bquote(paste(italic(.(low_tax_ID[i])) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
+}
+
+crc_labels <- do.call(expression, test)
+
+# Create decimal control
+fmt_dcimals <- function(decimals=0){
+  function(x) format(x,nsmall = decimals,scientific = FALSE)
+}
+
+
+# MDA Graph
+adn_MDA_graph <- ggplot(adn_MDA_full, aes(factor(otu, 
+                                   levels = rev(unique(adn_MDA_full$otu)), 
+                                   labels = rev(adn_graph_labels)), 
+                            log10(value))) + 
+  geom_point(color = '#76EE00') + stat_summary(fun.y = "median", colour = '#006400', geom = "point", size = 2.5) + 
+  coord_flip(ylim = c(-0.25, 1)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
+  scale_x_discrete(labels = rev(adn_labels)) + scale_y_continuous(labels = fmt_dcimals(0)) + 
+  theme(plot.title = element_text(face = "bold", hjust = -0.56, size = 20), 
+        legend.position = "none", 
+        axis.title = element_text(face = "bold"), 
+        axis.text.y = element_text(size = 6))
+
+
+srn_MDA_graph <- ggplot(srn_MDA_full, aes(factor(otu, 
+                                                 levels = rev(unique(srn_MDA_full$otu)), 
+                                                 labels = rev(srn_graph_labels)), 
+                                          log10(value))) + 
+  geom_point(color = '#F0E68C') + stat_summary(fun.y = "median", colour = '#EEC900', geom = "point", size = 2.5) + 
+  coord_flip(ylim = c(-0.25, 1)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
+  scale_x_discrete(labels = rev(srn_labels)) + 
+  theme(plot.title = element_text(face = "bold", hjust = -0.56, size = 20), 
+        legend.position = "none", 
+        axis.title = element_text(face = "bold"), 
+        axis.text.y = element_text(size = 6))
+
+crc_MDA_graph <- ggplot(crc_MDA_full, aes(factor(otu, 
+                                                 levels = rev(unique(crc_MDA_full$otu)), 
+                                                 labels = rev(crc_graph_labels)), 
+                                          log10(value))) + 
+  geom_point(color = '#FFB6C1') + stat_summary(fun.y = "median", colour = '#DC143C', geom = "point", size = 2.5) + 
+  coord_flip(ylim = c(-0.25, 1)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
+  scale_x_discrete(labels = rev(crc_labels)) + 
+  theme(plot.title = element_text(face = "bold", hjust = -0.56, size = 20), 
+        legend.position = "none", 
+        axis.title = element_text(face = "bold"), 
+        axis.text.y = element_text(size = 6))
+
+
+full_figS3 <- grid.arrange(adn_MDA_graph, srn_MDA_graph, crc_MDA_graph, nrow = 1)
 
 
 
-oral_bugs <- filter(data_analysis, Dx_Bin == "cancer") %>% 
-  ggplot(aes(factor(sampleType, levels = c("initial", "followup"), 
-                    labels = c("Pre", "Post")), rel.abund, group = EDRN)) + 
-  geom_point() + geom_line() + ylab("Relative Abundance") + xlab("") + 
-  facet_wrap(~factor(otu, levels = otus, labels = label_names), labeller = label_parsed, scales = "free_y") + theme_bw()
-
-
-ggsave(file = "results/figures/FigureS3.pdf", oral_bugs, 
-       width=11, height = 6, dpi = 300)
-
-
-
-
-
-
-
-
+ggsave(file = "results/figures/FigureS3.pdf", full_figS3, 
+       width=12, height = 8, dpi = 300)
 
 
 
