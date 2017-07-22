@@ -1,4 +1,4 @@
-### List of commands to render final pdf
+### List of commands to render Revision 1 pdf
 ### renders both main text and supplemental
 
 # Load needed functions
@@ -8,6 +8,4 @@ source('code/functions.R')
 loadLibs(c("knitr", "rmarkdown"))
 
 # Render the final pdfs
-render('submission/manuscript.Rmd', clean = FALSE)
-
-render('submission/supplemental.Rmd', clean=FALSE)
+render('submission/manuscript_R1.Rmd', clean = FALSE)
