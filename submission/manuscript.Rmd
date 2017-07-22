@@ -29,7 +29,7 @@ opts_chunk$set("message" = FALSE)
 
 ```{r rdata_tables}
 # Extra data and meta data needed
-good_metaf <- read.csv('../data/process/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
+good_metaf <- read.csv('../data/process/mod_metadata/metaf_final.csv', header = T, stringsAsFactors = F)
 metaI <- read.csv('../data/process/mod_metadata/metaI_final.csv', header = T, stringsAsFactors = F)
 total_sub_Seqs <- read.delim('../data/process/final.0.03.subsample.shared', header = T) %>%
   select(contains("Otu0")) %>% rowSums()
