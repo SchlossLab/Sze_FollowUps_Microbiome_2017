@@ -1,4 +1,4 @@
-## The effect of treatment on the microbiota of patients diagnosed with colonic lesions
+## Normalization of the microbiota in patients after treatment for colonic lesions
 
 **Background.** Colorectal cancer is a worldwide health problem. Despite growing evidence that members of the gut microbiota can drive tumorigenesis, little is known about what happens to it after treatment for an adenoma or carcinoma. This study tested the hypothesis that treatment for adenoma or carcinoma alters the abundance of bacterial populations associated with disease to those associated with a normal colon. We tested this hypothesis by sequencing the 16S rRNA genes in the feces of 67 individuals before and after treatment
 for adenoma (N = 22), advanced adenoma (N = 19), and carcinoma (N = 26).
