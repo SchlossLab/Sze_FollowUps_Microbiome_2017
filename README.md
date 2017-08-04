@@ -1,38 +1,12 @@
-## The effect of treatment on the microbiota of patients diagnosed with colonic lesions
+## Normalization of the microbiota in patients after treatment for colonic lesions
 
-**Background.** Colorectal cancer (CRC) is a worldwide health problem. Despite growing evidence that members of the gut microbiota can drive tumorigenesis, little is known about
-what happens to the microbiota after treatment for an adenoma or carcinoma. This study tested the hypothesis that treatment for adenoma or carcinoma alters the abundance of bacterial populations associated with disease to those associated with a normal colon. We
-tested this hypothesis by sequencing the 16S rRNA genes in the feces of 67 individuals
-before and after treatment for adenoma (N = 22), advanced adenoma (N = 19), and 
-carcinoma (N = 26). 
+**Background.** Colorectal cancer is a worldwide health problem. Despite growing evidence that members of the gut microbiota can drive tumorigenesis, little is known about what happens to it after treatment for an adenoma or carcinoma. This study tested the hypothesis that treatment for adenoma or carcinoma alters the abundance of bacterial populations associated with disease to those associated with a normal colon. We tested this hypothesis by sequencing the 16S rRNA genes in the feces of 67 individuals before and after treatment
+for adenoma (N = 22), advanced adenoma (N = 19), and carcinoma (N = 26).
 
-**Results.** There were large changes to the bacterial communities associated with
-treatment across the three groups. The communities from patients with carcinomas
-changed significantly more than those with adenoma following treatment (P-value <
-0.001). There was no significant change in the microbiota between patients with adenoma
-and advanced adenoma, or between patients with advanced adenoma and carcinoma
-(P-value > 0.05). Although treatment was associated with intrapersonal changes, the
-change in the abundance of individual OTUs to treatment was not consistent within
-diagnosis groups (P-value > 0.05). Because the distribution of OTUs across patients and
-diagnosis groups was irregular, we used the Random Forest machine learning algorithm
-to identify groups of OTUs that allowed us to successfully distinguish between pre and
-post-treatment samples for each of the diagnosis groups. Although the three models
-successfully differentiated between the pre and post-treatment samples, there was little
-overlap between the OTUs that were indicative of treatment. Next, we used a larger
-cohort that contained individuals with normal colons and those with adenomas, advanced
-adenomas, and carcinomas to determine whether individuals who underwent treatment
-were more likely to have OTUs associated with normal colons. We again built Random
-Forest models and measured the change in the positive probability of having one of the
-three diagnoses. Only patients who had carcinomas experienced a significant decrease in
-positive probability of having a lesion after treatment (P-value < 0.05), indicating that the microbial milieu of the colon more closely resembled that of a normal colon. Finally, we
-tested whether the type of treatment impacted the microbiota of those diagnosed with
-carcinomas and were unable to detect any significant differences in characteristics of
-these communities between individuals treated with surgery alone and those treated with
-chemotherapy or chemotherapy and radiation (P-value > 0.05).   
+**Results.** There were small changes to the bacterial community associated with adenoma or advanced adenoma and large changes associated with carcinoma. The communities from patients with carcinomas changed significantly more than those with adenoma following treatment (P-value < 0.001). Although treatment was associated with intrapersonal changes, the change in the abundance of individual OTUs to treatment was not consistent within diagnosis groups (P-value > 0.05). Because the distribution of OTUs across patients and diagnosis groups was irregular, we used the Random Forest machine learning algorithm to try and identify groups of OTUs that could distinguish between pre and post-treatment samples for each of the diagnosis groups. Although the three models could differentiate between the pre and post-treatment samples, there was little overlap between the OTUs that were indicative of treatment. Next, we used a larger cohort that contained individuals with normal colons and those with adenomas, advanced adenomas, and carcinomas to determine whether individuals who underwent treatment were more likely to have OTUs associated with normal colons. We again built Random Forest models and measured the change in the positive probability of having one of the three diagnoses to assess whether these changes were similar to their original diagnosis or not. Patients who had carcinomas changed towards a microbial milieu that resembles the normal colon (P-value < 0.05). Finally, we were unable to detect any significant differences in the microbiota between individuals treated with surgery alone and those treated with chemotherapy or chemotherapy and radiation (P-value > 0.05).  
 
-**Conclusions.** By better understanding the response of the microbiota to treatment for
-adenomas and carcinomas, it is likely that biomarkers will be validated that can be used to
-quantify the risk of recurrence and the likelihood of survival.
+**Conclusions.** Although it was difficult to identify significant differences between pre and post treatment samples for adenoma and advanced adenoma, this was not the case for carcinomas. Not only were there large changes in pre versus post treatment samples for those with carcinoma but also these changes were towards a more normal microbiota composition.
+
 
 
 ### Overview
