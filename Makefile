@@ -598,25 +598,16 @@ code/Run_Figure2.R
 	R -e "source('code/Run_Figure4.R')"
 
 
-# This figure explores differences based solely on who received surgery and whether 
-# those with surgery were different than those that did not within diagnosis group
-
-$(FIGS)/FigureS1.pdf : $(PROC)/final.groups.ave-std.summary\
-$(PROC)/mod_metadata/metaF_final.csv\
-$(PROC)/final.thetayc.0.03.lt.ave.dist code/Run_FigureS3.R
-	R -e "source('code/antibiotic_comparisons.R')"
-
-
 # This graph highlights the ROC curve for each of the models used.  This
 # visualizes the models normal vs adenoma, normal vs advanced adenoma, and
 # normal vs carcinoma.
 
-$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
+$(FIGS)/FigureS1.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
 $(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS2.R
-	R -e "source('code/Run_FigureS2.R')"
-	tiff2pdf -z -o results/figures/FigureS2.pdf results/figures/FigureS2.tiff
-	rm results/figures/FigureS2.tiff
+$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS1.R
+	R -e "source('code/Run_FigureS1.R')"
+	tiff2pdf -z -o results/figures/FigureS1.pdf results/figures/FigureS1.tiff
+	rm results/figures/FigureS1.tiff
 
 
 # This figure explores the most important OTUs for each model and displays
@@ -627,17 +618,17 @@ $(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA.csv\
 $(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS3.R
-	R -e "source('code/Run_FigureS3.R')"
+$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS2.R
+	R -e "source('code/Run_FigureS2.R')"
 
 
 # This figure plots the oral specific crc-releated OTUs identified in the carcinoma model.
 
-$(FIGS)/FigureS4.pdf : $(PROC)/final.shared\
+$(FIGS)/FigureS3.pdf : $(PROC)/final.shared\
 $(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
 $(PROC)/mod_metadata/good_metaf_final.csv\
-$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS4.R
-	R -e "source('code/Run_FigureS4.R')"
+$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS3.R
+	R -e "source('code/Run_FigureS3.R')"
 
 
 #####################################################################################
