@@ -658,5 +658,6 @@ write.r1.marked.up : $(FINAL)/manuscript.tex\
 		$(FINAL)/manuscript_R1.tex
 	latexdiff $(FINAL)/manuscript.tex $(FINAL)/manuscript_R1.tex > $(FINAL)/manuscript_R1_markedup.tex
 	pdflatex -output-directory=$(FINAL) $(FINAL)/manuscript_R1_markedup.tex
-	rm $(FINAL)/{manuscript,manuscript_R1,manuscript_R1_markedup}.tex
-	rm $(FINAL)/manuscript_R1_markedup.{aux,log,out}
+	rm $(FINAL)/manuscript_R1_markedup.aux 
+	rm $(FINAL)/manuscript_R1_markedup.log
+	rm $(FINAL)/manuscript_R1_markedup.out}
