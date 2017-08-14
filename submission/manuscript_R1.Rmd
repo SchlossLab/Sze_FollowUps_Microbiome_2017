@@ -239,6 +239,45 @@ A detailed and reproducible description of how the data were processed and analy
 \newpage
 
 
+## Declarations
+
+### Ethics approval and consent to participate
+
+The University of Michigan Institutional Review Board approved this study, and all subjects provided informed consent. This study conformed to the guidelines of the Helsinki Declaration.
+
+### Consent for publication
+
+Not applicable.
+
+### Availability of data and material
+
+A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017. Raw sequences have been deposited into the NCBI Sequence Read Archive (SRP062005 and SRP096978) and the necessary metadata can be found at https://www.ncbi.nlm.nih.gov/Traces/study/ and searching the respective SRA study accession.
+
+### Competing Interests
+
+All authors declare that they do not have any relevant competing interests to report.
+
+### Funding
+
+This study was supported by funding from the National Institutes of Health to P. Schloss (R01GM099514, P30DK034933) and to the Early Detection Research Network (U01CA86400).
+
+### Authors' contributions
+
+All authors were involved in the conception and design of the study. MAS analyzed the data. NTB processed samples and analyzed the data. All authors interpreted the data. MAS and PDS wrote the manuscript. All authors reviewed and revised the manuscript. All authors read and approved the final manuscript.
+
+### Acknowledgements
+
+The authors thank the Great Lakes-New England Early Detection Research Network for providing the fecal samples that were used in this study. We would also like to thank Amanda Elmore for reviewing and correcting code error and providing feedback on manuscript drafts. We would also like to thank Nicholas Lesniak for providing feedback on manuscript drafts.
+
+\newpage
+
+## References
+
+<div id="refs"></div>
+
+\newpage
+
+
 **Table 1: Demographic data of patients in the pre and post-treatment cohort**
 
 ```{r table1, echo=FALSE, message=FALSE, warning=FALSE}
@@ -402,7 +441,6 @@ kable(test, format = "markdown", align = 'c', padding = 2)
 
 
 
-
 \newpage
 
 
@@ -413,37 +451,3 @@ kable(test, format = "markdown", align = 'c', padding = 2)
 **Figure S3: Pre and post-treatment relative abundance of CRC associated OTUs within the carcinoma model.**
 
 \newpage
-
-## Declarations
-
-### Ethics approval and consent to participate
-
-The University of Michigan Institutional Review Board approved this study, and all subjects provided informed consent. This study conformed to the guidelines of the Helsinki Declaration.
-
-### Consent for publication
-
-Not applicable.
-
-### Availability of data and material
-
-A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017. Raw sequences have been deposited into the NCBI Sequence Read Archive (SRP062005 and SRP096978) and the necessary metadata can be found at https://www.ncbi.nlm.nih.gov/Traces/study/ and searching the respective SRA study accession.
-
-### Competing Interests
-
-All authors declare that they do not have any relevant competing interests to report.
-
-### Funding
-
-This study was supported by funding from the National Institutes of Health to P. Schloss (R01GM099514, P30DK034933) and to the Early Detection Research Network (U01CA86400).
-
-### Authors' contributions
-
-All authors were involved in the conception and design of the study. MAS analyzed the data. NTB processed samples and analyzed the data. All authors interpreted the data. MAS and PDS wrote the manuscript. All authors reviewed and revised the manuscript. All authors read and approved the final manuscript.
-
-### Acknowledgements
-
-The authors thank the Great Lakes-New England Early Detection Research Network for providing the fecal samples that were used in this study. We would also like to thank Amanda Elmore for reviewing and correcting code error and providing feedback on manuscript drafts. We would also like to thank Nicholas Lesniak for providing feedback on manuscript drafts.
-
-\newpage
-
-## References
