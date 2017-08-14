@@ -16,7 +16,6 @@ exploratory/wofit/
 code/full/
 exploratory/*.RData
 *.Rproj
-submission/*.tex
 sra_submission/
 *.fastq
 *.sra
