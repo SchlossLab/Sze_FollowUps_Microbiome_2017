@@ -1,7 +1,7 @@
 \documentclass[12pt,]{article}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL submission/manuscript.tex      Sat Jul 22 09:51:59 2017
-%DIF ADD submission/manuscript_R1.tex   Sat Aug 12 11:21:56 2017
+%DIF ADD submission/manuscript_R1.tex   Mon Aug 14 12:16:01 2017
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -728,101 +728,139 @@ up sample in those with carcinoma.
 %DIFDELCMD < 
 
 %DIFDELCMD < %%%
-\DIFdelend \textbf{Table 1: Demographic data of patients in the pre and
-post-treatment cohort}
+\textbf{\DIFdel{Table 1: Demographic data of patients in the pre and
+post-treatment cohort}}
+%DIFAUXCMD
+%DIFDELCMD < 
 
-\begin{longtable}[]{@{}lccc@{}}
-\toprule
-& Adenoma & Advanced Adenoma & Carcinoma\tabularnewline
-\midrule
-\endhead
-n & 22 & 19 & 26\tabularnewline
-Age (Mean ± SD) & 61.68 ± 7.2 & 63.11 ± 10.9 & 61.65 ±
-12.9\tabularnewline
-Sex (\%F) & 36.36 & 36.84 & 42.31\tabularnewline
-BMI (Mean ± SD) & 26.86 ± 3.9 & 25.81 ± 4.7 & 28.63 ± 7.2\tabularnewline
-Caucasian (\%) & 95.45 & 84.21 & 96.15\tabularnewline
-Days Between Colonoscopy (Mean ± SD) & 255.41 ± 42 & 250.16 ± 41 &
-350.85 ± 102\tabularnewline
-\DIFaddbegin \DIFadd{Surgery Only }& \DIFadd{4 }& \DIFadd{4 }& \DIFadd{12}\tabularnewline
-\DIFadd{Surgery }\& \DIFadd{Chemotherapy }& \DIFadd{0 }& \DIFadd{0 }& \DIFadd{9}\tabularnewline
-\DIFadd{Surgery, Chemotherapy, }\& \DIFadd{Radiation }& \DIFadd{0 }& \DIFadd{0 }& \DIFadd{5}\tabularnewline
-\DIFaddend \bottomrule
-\end{longtable}
+%DIFDELCMD < \begin{longtable}[]{@{}lccc@{}}
+%DIFDELCMD < \toprule
+%DIFDELCMD < & %%%
+\DIFdel{Adenoma }%DIFDELCMD < & %%%
+\DIFdel{Advanced Adenoma }%DIFDELCMD < & %%%
+\DIFdel{Carcinoma}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < \midrule
+%DIFDELCMD < \endhead
+%DIFDELCMD < %%%
+\DIFdel{n }%DIFDELCMD < & %%%
+\DIFdel{22 }%DIFDELCMD < & %%%
+\DIFdel{19 }%DIFDELCMD < & %%%
+\DIFdel{26}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{Age (Mean ± SD) }%DIFDELCMD < & %%%
+\DIFdel{61.68 ± 7.2 }%DIFDELCMD < & %%%
+\DIFdel{63.11 ± 10.9 }%DIFDELCMD < & %%%
+\DIFdel{61.65 ±
+12.9}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{Sex (}%DIFDELCMD < \%%%%
+\DIFdel{F) }%DIFDELCMD < & %%%
+\DIFdel{36.36 }%DIFDELCMD < & %%%
+\DIFdel{36.84 }%DIFDELCMD < & %%%
+\DIFdel{42.31}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{BMI (Mean ± SD) }%DIFDELCMD < & %%%
+\DIFdel{26.86 ± 3.9 }%DIFDELCMD < & %%%
+\DIFdel{25.81 ± 4.7 }%DIFDELCMD < & %%%
+\DIFdel{28.63 ± 7.2}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{Caucasian (}%DIFDELCMD < \%%%%
+\DIFdel{) }%DIFDELCMD < & %%%
+\DIFdel{95.45 }%DIFDELCMD < & %%%
+\DIFdel{84.21 }%DIFDELCMD < & %%%
+\DIFdel{96.15}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{Days Between Colonoscopy (Mean ± SD) }%DIFDELCMD < & %%%
+\DIFdel{255.41 ± 42 }%DIFDELCMD < & %%%
+\DIFdel{250.16 ± 41 }%DIFDELCMD < &
+%DIFDELCMD < %%%
+\DIFdel{350.85 ± 102}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < \bottomrule
+%DIFDELCMD < \end{longtable}
+%DIFDELCMD < 
 
-\newpage
+%DIFDELCMD < \newpage
+%DIFDELCMD < 
 
-\textbf{Table 2: Demographic data of training cohort}
+%DIFDELCMD < %%%
+\textbf{\DIFdel{Table 2: Demographic data of training cohort}}
+%DIFAUXCMD
+%DIFDELCMD < 
 
-\begin{longtable}[]{@{}lcccc@{}}
-\toprule
-& Normal & Adenoma & Advanced Adenoma & Carcinoma\tabularnewline
-\midrule
-\endhead
-n & 172 & 67 & 90 & 94\tabularnewline
-Age (Mean ± SD) & 54.29 ± 9.9 & 63.01 ± 13.1 & 64.07 ± 11.3 & 64.37 ±
-12.9\tabularnewline
-Sex (\%F) & 64.53 & 46.27 & 37.78 & 43.62\tabularnewline
-BMI (Mean ± SD) & 26.97 ± 5.3 & 25.69 ± 4.8 & 26.66 ± 4.9 & 29.27 ±
-6.7\tabularnewline
-Caucasian (\%) & 87.79 & 92.54 & 92.22 & 94.68\tabularnewline
-\bottomrule
-\end{longtable}
-\DIFaddbegin 
+%DIFDELCMD < \begin{longtable}[]{@{}lcccc@{}}
+%DIFDELCMD < \toprule
+%DIFDELCMD < & %%%
+\DIFdel{Normal }%DIFDELCMD < & %%%
+\DIFdel{Adenoma }%DIFDELCMD < & %%%
+\DIFdel{Advanced Adenoma }%DIFDELCMD < & %%%
+\DIFdel{Carcinoma}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < \midrule
+%DIFDELCMD < \endhead
+%DIFDELCMD < %%%
+\DIFdel{n }%DIFDELCMD < & %%%
+\DIFdel{172 }%DIFDELCMD < & %%%
+\DIFdel{67 }%DIFDELCMD < & %%%
+\DIFdel{90 }%DIFDELCMD < & %%%
+\DIFdel{94}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{Age (Mean ± SD) }%DIFDELCMD < & %%%
+\DIFdel{54.29 ± 9.9 }%DIFDELCMD < & %%%
+\DIFdel{63.01 ± 13.1 }%DIFDELCMD < & %%%
+\DIFdel{64.07 ± 11.3 }%DIFDELCMD < & %%%
+\DIFdel{64.37 ±
+12.9}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{Sex (}%DIFDELCMD < \%%%%
+\DIFdel{F) }%DIFDELCMD < & %%%
+\DIFdel{64.53 }%DIFDELCMD < & %%%
+\DIFdel{46.27 }%DIFDELCMD < & %%%
+\DIFdel{37.78 }%DIFDELCMD < & %%%
+\DIFdel{43.62}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{BMI (Mean ± SD) }%DIFDELCMD < & %%%
+\DIFdel{26.97 ± 5.3 }%DIFDELCMD < & %%%
+\DIFdel{25.69 ± 4.8 }%DIFDELCMD < & %%%
+\DIFdel{26.66 ± 4.9 }%DIFDELCMD < & %%%
+\DIFdel{29.27 ±
+6.7}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < %%%
+\DIFdel{Caucasian (}%DIFDELCMD < \%%%%
+\DIFdel{) }%DIFDELCMD < & %%%
+\DIFdel{87.79 }%DIFDELCMD < & %%%
+\DIFdel{92.54 }%DIFDELCMD < & %%%
+\DIFdel{92.22 }%DIFDELCMD < & %%%
+\DIFdel{94.68}%DIFDELCMD < \tabularnewline
+%DIFDELCMD < \bottomrule
+%DIFDELCMD < \end{longtable}
+%DIFDELCMD < 
 
-\newpage
+%DIFDELCMD < \newpage
+%DIFDELCMD < 
 
-\textbf{\DIFadd{Figure 1: General differences between adenoma, advanced adenoma,
-and carcinoma groups after treatment.}} \DIFadd{A) \(\theta\)\textsubscript{YC}
-distances from pre versus post sample within each individual. A
-significant difference was found between the adenoma and carcinoma group
-(P-value = 5.36e-05). Solid black points represent the median value for
-each diagnosis group. B) NMDS of the pre and post-treatment samples for
-the adenoma group. C) NMDS of the pre and post-treatment samples for the
-advanced adenoma group. D) NMDS of the pre and post-treatment samples
-for the carcinoma group.
-}
-
-\textbf{\DIFadd{Figure 2: The 10 OTUs used to classify treatment for adenoma,
-advanced adenoma, and carcinoma.}} \DIFadd{A) Adenoma OTUs. B) Advanced Adenoma
-OTUs. C) Carcinoma OTUs. The darker circle highlights the median log10
-MDA value obtained from 100 different 80/20 splits while the lighter
-colored circles represents the value obtained for a specific run.
-}
-
-\textbf{\DIFadd{Figure 3: OTUs common to those models used to differentiate
-between patients with normal colons and those with adenoma, advanced
-adenoma, and carcinoma.}} \DIFadd{A) Venn diagram showing the OTU overlap between
-each model. B) For each common OTU the lowest taxonomic identification
-and importance rank for each model run is shown.
-}
-
-\textbf{\DIFadd{Figure 4: Treatment response based on models built for adenoma,
-advanced adenoma, or carcinoma.}} \DIFadd{A) Positive probability change from
-initial to follow up sample in those with adenoma. B) Positive
-probability change from initial to follow up sample in those with
-advanced adenoma. C) Positive probability change from initial to follow
-up sample in those with carcinoma.
-}\DIFaddend 
-
-\newpage
-
-\textbf{Figure S1: ROC curves of the adenoma, advanced adenoma, and
-carcinoma models.} A) Adenoma ROC curve: The light green shaded areas
+%DIFDELCMD < %%%
+\textbf{\DIFdel{Figure S1: ROC curves of the adenoma, advanced adenoma, and
+carcinoma models.}} %DIFAUXCMD
+\DIFdel{A) Adenoma ROC curve: The light green shaded areas
 represent the range of values of a 100 different 80/20 splits of the
-test set data and the dark green line represents the model using 100\%
-of the data set and what was used for subsequent classification. B)
+test set data and the dark green line represents the model using 100}%DIFDELCMD < \%
+%DIFDELCMD < %%%
+\DIFdel{of the data set and what was used for subsequent classification. B)
 Advanced Adenoma ROC curve: The light yellow shaded areas represent the
 range of values of a 100 different 80/20 splits of the test set data and
-the dark yellow line represents the model using 100\% of the data set
+the dark yellow line represents the model using 100}%DIFDELCMD < \% %%%
+\DIFdel{of the data set
 and what was used for subsequent classification. C) Carcinoma ROC curve:
 The light red shaded areas represent the range of values of a 100
 different 80/20 splits of the test set data and the dark red line
-represents the model using 100\% of the data set and what was used for
+represents the model using 100}%DIFDELCMD < \% %%%
+\DIFdel{of the data set and what was used for
 subsequent classification.
+}%DIFDELCMD < 
 
-\textbf{Figure S2: Summary of important OTUs for the adenoma, advanced
-adenoma, and carcinoma models.} A) MDA of the most important variables
+%DIFDELCMD < %%%
+\textbf{\DIFdel{Figure S2: Summary of important OTUs for the adenoma, advanced
+adenoma, and carcinoma models.}} %DIFAUXCMD
+\DIFdel{A) MDA of the most important variables
 in the adenoma model. The dark green point represents the mean and the
 lighter green points are the value of each of the 100 different runs. B)
 Summary of Important Variables in the advanced adenoma model. MDA of the
@@ -831,13 +869,19 @@ represents the mean and the lighter yellow points are the value of each
 of the 100 different runs. C) MDA of the most important variables in the
 carcinoma model. The dark red point represents the mean and the lighter
 red points are the value of each of the 100 different runs.
+}%DIFDELCMD < 
 
-\textbf{Figure S3: Pre and post-treatment relative abundance of CRC
-associated OTUs within the carcinoma model.}
+%DIFDELCMD < %%%
+\textbf{\DIFdel{Figure S3: Pre and post-treatment relative abundance of CRC
+associated OTUs within the carcinoma model.}}
+%DIFAUXCMD
+%DIFDELCMD < 
 
-\newpage
+%DIFDELCMD < \newpage
+%DIFDELCMD < 
 
-\subsection{Declarations}\label{declarations}
+%DIFDELCMD < %%%
+\DIFdelend \subsection{Declarations}\label{declarations}
 
 \subsubsection{Ethics approval and consent to
 participate}\label{ethics-approval-and-consent-to-participate}
@@ -890,8 +934,11 @@ thank Nicholas Lesniak for providing feedback on manuscript drafts.
 
 \newpage
 
-\subsection*{References}\label{references}
-\addcontentsline{toc}{subsection}{References}
+\DIFdelbegin \subsection*{\DIFdel{References}}%DIFAUXCMD
+\DIFdelend \DIFaddbegin \subsection{\DIFadd{References}}\DIFaddend \label{references}
+\DIFdelbegin \addcontentsline{toc}{subsection}{\DIFdel{References}}
+%DIFAUXCMD
+\DIFdelend 
 
 \hypertarget{refs}{}
 \hypertarget{ref-siegel_cancer_2016}{}
@@ -1071,6 +1118,120 @@ testing? Ecological Monographs. 2013;83:557--74.
 35. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
 practical and powerful approach to multiple testing. Journal of the
 Royal Statistical Society. Series B (Methodological). 1995;57:289--300.
+\DIFaddbegin 
+
+\newpage
+
+\textbf{\DIFadd{Table 1: Demographic data of patients in the pre and
+post-treatment cohort}}
+
+\begin{longtable}[]{@{}lccc@{}}
+\toprule
+& \DIFadd{Adenoma }& \DIFadd{Advanced Adenoma }& \DIFadd{Carcinoma}\tabularnewline
+\midrule
+\endhead
+\DIFadd{n }& \DIFadd{22 }& \DIFadd{19 }& \DIFadd{26}\tabularnewline
+\DIFadd{Age (Mean ± SD) }& \DIFadd{61.68 ± 7.2 }& \DIFadd{63.11 ± 10.9 }& \DIFadd{61.65 ±
+12.9}\tabularnewline
+\DIFadd{Sex (}\%\DIFadd{F) }& \DIFadd{36.36 }& \DIFadd{36.84 }& \DIFadd{42.31}\tabularnewline
+\DIFadd{BMI (Mean ± SD) }& \DIFadd{26.86 ± 3.9 }& \DIFadd{25.81 ± 4.7 }& \DIFadd{28.63 ± 7.2}\tabularnewline
+\DIFadd{Caucasian (}\%\DIFadd{) }& \DIFadd{95.45 }& \DIFadd{84.21 }& \DIFadd{96.15}\tabularnewline
+\DIFadd{Days Between Colonoscopy (Mean ± SD) }& \DIFadd{255.41 ± 42 }& \DIFadd{250.16 ± 41 }&
+\DIFadd{350.85 ± 102}\tabularnewline
+\DIFadd{Surgery Only }& \DIFadd{4 }& \DIFadd{4 }& \DIFadd{12}\tabularnewline
+\DIFadd{Surgery }\& \DIFadd{Chemotherapy }& \DIFadd{0 }& \DIFadd{0 }& \DIFadd{9}\tabularnewline
+\DIFadd{Surgery, Chemotherapy, }\& \DIFadd{Radiation }& \DIFadd{0 }& \DIFadd{0 }& \DIFadd{5}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\textbf{\DIFadd{Table 2: Demographic data of training cohort}}
+
+\begin{longtable}[]{@{}lcccc@{}}
+\toprule
+& \DIFadd{Normal }& \DIFadd{Adenoma }& \DIFadd{Advanced Adenoma }& \DIFadd{Carcinoma}\tabularnewline
+\midrule
+\endhead
+\DIFadd{n }& \DIFadd{172 }& \DIFadd{67 }& \DIFadd{90 }& \DIFadd{94}\tabularnewline
+\DIFadd{Age (Mean ± SD) }& \DIFadd{54.29 ± 9.9 }& \DIFadd{63.01 ± 13.1 }& \DIFadd{64.07 ± 11.3 }& \DIFadd{64.37 ±
+12.9}\tabularnewline
+\DIFadd{Sex (}\%\DIFadd{F) }& \DIFadd{64.53 }& \DIFadd{46.27 }& \DIFadd{37.78 }& \DIFadd{43.62}\tabularnewline
+\DIFadd{BMI (Mean ± SD) }& \DIFadd{26.97 ± 5.3 }& \DIFadd{25.69 ± 4.8 }& \DIFadd{26.66 ± 4.9 }& \DIFadd{29.27 ±
+6.7}\tabularnewline
+\DIFadd{Caucasian (}\%\DIFadd{) }& \DIFadd{87.79 }& \DIFadd{92.54 }& \DIFadd{92.22 }& \DIFadd{94.68}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\textbf{\DIFadd{Figure 1: General differences between adenoma, advanced adenoma,
+and carcinoma groups after treatment.}} \DIFadd{A) \(\theta\)\textsubscript{YC}
+distances from pre versus post sample within each individual. A
+significant difference was found between the adenoma and carcinoma group
+(P-value = 5.36e-05). Solid black points represent the median value for
+each diagnosis group. B) NMDS of the pre and post-treatment samples for
+the adenoma group. C) NMDS of the pre and post-treatment samples for the
+advanced adenoma group. D) NMDS of the pre and post-treatment samples
+for the carcinoma group.
+}
+
+\textbf{\DIFadd{Figure 2: The 10 OTUs used to classify treatment for adenoma,
+advanced adenoma, and carcinoma.}} \DIFadd{A) Adenoma OTUs. B) Advanced Adenoma
+OTUs. C) Carcinoma OTUs. The darker circle highlights the median log10
+MDA value obtained from 100 different 80/20 splits while the lighter
+colored circles represents the value obtained for a specific run.
+}
+
+\textbf{\DIFadd{Figure 3: OTUs common to those models used to differentiate
+between patients with normal colons and those with adenoma, advanced
+adenoma, and carcinoma.}} \DIFadd{A) Venn diagram showing the OTU overlap between
+each model. B) For each common OTU the lowest taxonomic identification
+and importance rank for each model run is shown.
+}
+
+\textbf{\DIFadd{Figure 4: Treatment response based on models built for adenoma,
+advanced adenoma, or carcinoma.}} \DIFadd{A) Positive probability change from
+initial to follow up sample in those with adenoma. B) Positive
+probability change from initial to follow up sample in those with
+advanced adenoma. C) Positive probability change from initial to follow
+up sample in those with carcinoma.
+}
+
+\newpage
+
+\textbf{\DIFadd{Figure S1: ROC curves of the adenoma, advanced adenoma, and
+carcinoma models.}} \DIFadd{A) Adenoma ROC curve: The light green shaded areas
+represent the range of values of a 100 different 80/20 splits of the
+test set data and the dark green line represents the model using 100}\%
+\DIFadd{of the data set and what was used for subsequent classification. B)
+Advanced Adenoma ROC curve: The light yellow shaded areas represent the
+range of values of a 100 different 80/20 splits of the test set data and
+the dark yellow line represents the model using 100}\% \DIFadd{of the data set
+and what was used for subsequent classification. C) Carcinoma ROC curve:
+The light red shaded areas represent the range of values of a 100
+different 80/20 splits of the test set data and the dark red line
+represents the model using 100}\% \DIFadd{of the data set and what was used for
+subsequent classification.
+}
+
+\textbf{\DIFadd{Figure S2: Summary of important OTUs for the adenoma, advanced
+adenoma, and carcinoma models.}} \DIFadd{A) MDA of the most important variables
+in the adenoma model. The dark green point represents the mean and the
+lighter green points are the value of each of the 100 different runs. B)
+Summary of Important Variables in the advanced adenoma model. MDA of the
+most important variables in the SRN model. The dark yellow point
+represents the mean and the lighter yellow points are the value of each
+of the 100 different runs. C) MDA of the most important variables in the
+carcinoma model. The dark red point represents the mean and the lighter
+red points are the value of each of the 100 different runs.
+}
+
+\textbf{\DIFadd{Figure S3: Pre and post-treatment relative abundance of CRC
+associated OTUs within the carcinoma model.}}
+
+\newpage
+\DIFaddend 
 
 
 \end{document}
