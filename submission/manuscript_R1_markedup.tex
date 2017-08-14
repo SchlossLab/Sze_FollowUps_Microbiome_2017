@@ -1,7 +1,7 @@
 \documentclass[12pt,]{article}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL submission/manuscript.tex      Sat Jul 22 09:51:59 2017
-%DIF ADD submission/manuscript_R1.tex   Mon Aug 14 12:16:01 2017
+%DIF ADD submission/manuscript_R1.tex   Mon Aug 14 13:38:58 2017
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -211,7 +211,7 @@ whether individuals who underwent treatment were more likely to have
 OTUs associated with normal colons}\DIFdelend . We again built Random Forest models and measured the change
 in the positive probability of having one of the three diagnoses \DIFdelbegin \DIFdel{. Only }\DIFdelend \DIFaddbegin \DIFadd{to
 assess whether the post-treatment samples received the same
-classification as the pre-treament samples. Samples from }\DIFaddend patients who
+classification as the pre-treatment samples. Samples from }\DIFaddend patients who
 had carcinomas \DIFdelbegin \DIFdel{experienced a
 significant decrease in positive probability of having a lesion }\DIFdelend \DIFaddbegin \DIFadd{changed towards a microbial milieu that resembles the
 normal colon }\DIFaddend after treatment (P-value \textless{} 0.05)\DIFdelbegin \DIFdel{, indicating that the microbial
@@ -229,7 +229,7 @@ microbiota to treatment for adenomas and carcinomas, it is likely that
 biomarkers will \DIFaddbegin \DIFadd{eventually }\DIFaddend be validated that can be used to quantify the
 risk of recurrence and the likelihood of survival. \DIFaddbegin \DIFadd{Although it was
 difficult to identify significant differences between pre and
-post-treatment samples from patientes with adenoma and advanced adenoma,
+post-treatment samples from patients with adenoma and advanced adenoma,
 this was not the case for carcinomas. Not only were there large changes
 in pre versus post-treatment samples for those with carcinoma, but these
 changes were towards a more normal microbiota.
@@ -303,7 +303,7 @@ treatment for each diagnosis group. Finally, we measured the predictive
 probabilities to assess whether treatment yielded bacterial communities
 similar to those individuals with normal colons. We found that treatment
 alters the composition of the gut microbiota and that, for those with
-carinomas, the gut microbiota shifted more towards that of a normal
+\DIFdelbegin \DIFdel{carinomas}\DIFdelend \DIFaddbegin \DIFadd{carcinomas}\DIFaddend , the gut microbiota shifted more towards that of a normal
 colon after treatment. In the individuals with carcinomas, no difference
 was found by the type of treatment (surgery alone\DIFdelbegin \DIFdel{versus }\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend surgery with
 chemotherapy\DIFaddbegin \DIFadd{, surgery with chemotherapy and radiation}\DIFaddend ). Understanding
@@ -327,7 +327,7 @@ surgical treatment of their respective lesion. }\DIFaddend The structure of the
 microbial communities of the pre and post-treatment samples differed, as
 measured by the \(\theta\)\textsubscript{YC} beta diversity metric
 {[}Figure 1A{]}. We found that the communities obtained pre and
-post-treament among the patients with carcinomas changed significantly
+\DIFdelbegin \DIFdel{post-treament }\DIFdelend \DIFaddbegin \DIFadd{post-treatment }\DIFaddend among the patients with carcinomas changed significantly
 more than those patients with adenoma (P-value \textless{} 0.001). There
 were no significant differences in the amount of change observed between
 the patients with adenoma and advanced adenoma or between the patients
@@ -358,7 +358,8 @@ statistical power of the test. \DIFdelbegin \DIFdel{To }\DIFdelend \DIFaddbegin 
 }\DIFdelend \DIFaddbegin \DIFadd{by using }\DIFaddend Random Forest models to identify collections of OTUs that would
 allow us to differentiate between pre and post-treatment samples from
 each of the diagnosis groups. To limit the likelihood that the models
-would overfit the data because of the relatively small number of
+would \DIFdelbegin \DIFdel{overfit
+}\DIFdelend \DIFaddbegin \DIFadd{over-fit }\DIFaddend the data because of the relatively small number of
 subjects in each group, we restricted our models to only incorporate 10
 OTUs. Despite this restriction, the models performed well (adenoma AUC
 range = 0.69 - 0.92, advanced adenoma AUC range = 0.80 - 1.00, carcinoma
@@ -518,7 +519,7 @@ microbiome-based biomarkers to predict the presence of colonic lesions.
 \DIFdelbegin \DIFdel{The most exciting future direction from the current study }\DIFdelend \DIFaddbegin \DIFadd{We were surprised by the lack of a consistent signal that was associated
 with treatment of patients with adenomas or advanced adenomas. The lack
 of a large effect size may be due to differences in the role of bacteria
-in the formation of adnomas and carcinomas or it could be due to
+in the formation of adenomas and carcinomas or it could be due to
 differences in the behaviors and medications within these classes of
 patients. One of the most exciting of these future directions }\DIFaddend is the
 possibility that markers within the microbiota could be used to
@@ -563,10 +564,10 @@ out by the Helsinki Declaration.
 \DIFaddbegin \textbf{\emph{\DIFadd{Treatment.}}} \DIFadd{For this study treatment refers specifically
 to the removal of a lesion with or without chemotherapy and radiation.
 The majority of patients undergoing treatment for adenoma or advanced
-adenoma were not treated surigically }{[}\DIFadd{Table 1}{]} \DIFadd{but rather via
+adenoma were not treated surgically }{[}\DIFadd{Table 1}{]} \DIFadd{but rather via
 colonoscopy. All patients diagnosed with carcinomas were treated with at
 least surgery or a combination of surgery and chemotherapy or surgery,
-chermotherapy, and radiation. The type of chemotherapy used for patients
+chemotherapy, and radiation. The type of chemotherapy used for patients
 with CRC included Oxaliplatin, Levicovorin, Folfox, Xeloda,
 Capecitabine, Avastin, Fluorouracil, and Glucovorin. These were used
 individually or in combination with others depending on the patient
@@ -606,7 +607,7 @@ post-treatment adenoma model, 19 individuals in the pre versus
 post-treatment advanced adenoma model, and 26 individuals in the pre
 versus post-treatment carcinoma model {[}Table 1{]}.
 
-Similarily, the Random Forest {[}33{]} algorithm was also used to create
+\DIFdelbegin \DIFdel{Similarily}\DIFdelend \DIFaddbegin \DIFadd{Similarly}\DIFaddend , the Random Forest {[}33{]} algorithm was also used to create
 the three models used to classify normal versus diagnosis. \DIFaddbegin \DIFadd{These samples
 were obtained using the same methodology as described earlier in this
 section. All samples used for this component of model training were from
@@ -631,11 +632,11 @@ optimized mtry was 2. The hyper-parameter, mtry, defines the number of
 variables to investigate at each split before a new division of the data
 was created with the Random Forest model {[}33{]}.
 
-For each of the pre versus post-treamtent models assessment of the most
+For each of the pre versus \DIFdelbegin \DIFdel{post-treamtent }\DIFdelend \DIFaddbegin \DIFadd{post-treatment }\DIFaddend models assessment of the most
 important OTUs was then made by taking the top 10 OTUs by mean decrease
 in accuracy (MDA). These were then used to build each respective reduced
 OTU pre versus post-treatment model by diagnosis group to help avoid
-model overfitting. These reduced models were then put through the same
+model \DIFdelbegin \DIFdel{overfitting}\DIFdelend \DIFaddbegin \DIFadd{over-fitting}\DIFaddend . These reduced models were then put through the same
 process mentioned in the previous paragraph and were what was used for
 the final pre versus post-treatment models. For the normal versus
 diagnosis models the important OTUs were obtained by counting the number
@@ -654,13 +655,13 @@ free n = 0) versus post-treatment adenoma (adenoma n = 0 and disease
 free n = 22)), advanced adenoma pre-treatment advanced adenoma (advanced
 adenoma n = 19 and disease free n = 0 ) versus post-treatment advanced
 adenoma (advanced adenoma n = 0 and disease free n = 19), and carcinoma
-(pre-treatment carcinoma (carinoma n = 26 and disease free n = 0) versus
-post-treatment carcinoma (carcinoma n = 1 and disease free n = 25)). The
-application of the pre versus post-treatment models generated the
-probabilites that the sample was a pre-treatment sample. The application
-of the normal versus diagnosis models generated the probabilities that
-the sample was that specific diagnosis (adenoma, advanced adenoma, or
-carcinoma).
+(pre-treatment carcinoma (\DIFdelbegin \DIFdel{carinoma }\DIFdelend \DIFaddbegin \DIFadd{carcinoma }\DIFaddend n = 26 and disease free n = 0)
+versus post-treatment carcinoma (carcinoma n = 1 and disease free n =
+25)). The application of the pre versus post-treatment models generated
+the \DIFdelbegin \DIFdel{probabilites }\DIFdelend \DIFaddbegin \DIFadd{probabilities }\DIFaddend that the sample was a pre-treatment sample. The
+application of the normal versus diagnosis models generated the
+probabilities that the sample was that specific diagnosis (adenoma,
+advanced adenoma, or carcinoma).
 
 \textbf{\emph{Statistical Analysis.}} The R software package (v3.4.1)
 was used for all statistical analysis. Comparisons between bacterial
