@@ -45,7 +45,6 @@ test_data <- test_data %>%
 test_data <- test_data[complete.cases(test_data), ]
 
 # Need to randomize the labels
-set.seed(12345)
 test_data <- test_data %>% 
   mutate(lesion = sample(lesion, length(lesion), replace = F))
 
