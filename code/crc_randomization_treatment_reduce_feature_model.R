@@ -9,10 +9,10 @@ source('code/functions.R')
 loadLibs(c("randomForest", "dplyr", "scales", "caret"))
 
 #Load needed data
-test_data <- read.csv("data/process/tables/crc_randomization_treatment_test_tune_data.csv", header = TRUE)
-lesion_imp_vars <- read.csv("data/process/tables/crc_randomization_treatment_imp_vars_summary.csv", header = T, stringsAsFactors = F) %>% 
-  rename(variable = Variable)
-mda_summary <- read.csv("data/process/tables/crc_randomization_treatment_top_vars_MDA_Summary.csv", header = T, stringsAsFactors = F)
+load("exploratory/crc_randomization_treatment_model.RData")
+
+rm(good_metaf, good_metaf_select, shared, test_data, 
+   fitControl, i, nzv)
 
 #Merge MDA and rank counts together to get top 10.
 combined_ranks <- inner_join(lesion_imp_vars, mda_summary, by = "variable") %>% 
@@ -47,30 +47,58 @@ set.seed(3457)
 #Set up lists to store the data
 test_tune_list <- list()
 test_predictions <- list()
+runs_list <- list()
+avg_auc <- c()
+sd_auc <- c()
+min_auc <- c()
+max_auc <- c()
+
 
 for(i in 1:100){
   
-  #Get test data
+  # Get the MDA counts from most to least
+  test_imp <- varImp(test_tune_list[[i]], scale = F)$importance %>% 
+    mutate(otu = rownames(.)) %>% 
+    arrange(desc(Overall))
+  
+  #Create data table with only reduced features (impvars only)
+  vars_to_keep <- slice(test_imp, 1:10)[, "otu"]
+  test_data_imps <- select(stored_data[[i]], lesion, one_of(vars_to_keep$otu))
+  
   train_test_data <- test_data_imps
+  stored_aucs <- c()
   
-  #Train the model
-  test_tune_list[[paste("data_split", i, sep = "")]] <- 
-    train(lesion ~ ., data = train_test_data, 
-          method = "rf", 
-          ntree = 100, 
-          trControl = fitControl, 
-          metric = "ROC", 
-          na.action = na.omit, 
-          verbose = FALSE)
+  for(j in 1:100){
+    
+    #Train the model
+    runs_list[[paste("data_split", j, sep = "")]] <- 
+      train(lesion ~ ., data = train_test_data, 
+            method = "rf", 
+            ntree = 100, 
+            trControl = fitControl, 
+            metric = "ROC", 
+            na.action = na.omit, 
+            verbose = FALSE)
+    
+    stored_aucs <- c(stored_aucs, ifelse(runs_list$results$ROC < 0.5, 
+                                         invisible(1-runs_list$results$ROC), 
+                                         invisible(runs_list$results$ROC)))
+    
+  }
+  
+  sd_auc <- c(sd_auc, sd(stored_aucs))
+  avg_auc <- c(avg_auc, mean(stored_aucs, na.rm = TRUE))
+  min_auc <- c(min_auc, min(stored_aucs))
+  max_auc <- c(max_auc, max(stored_aucs))
   
   
-  test_predictions[[paste("data_split", i, sep = "")]] <- 
-    predict(test_tune_list[[i]], test_data_imps)
 }
+
+final_results <- cbind(runs = c(1:100), avg_auc = avg_auc, min_auc = min_auc, max_auc = max_auc)
 
 
 # Save image with data and relevant parameters
-save.image("exploratory/crc_randomization_treatment_reduced_RF_model_Imp_OTU.RData")
+write.csv(final_results, "data/process/tables/crc_rand_treat_reduced_summary.csv", row.names = F)
 
 
 
