@@ -41,8 +41,7 @@ for(i in 1:n){
   }
   
   probs_predictions[[paste("run_", i, sep = "")]] <- 
-    predict(test_tune_list[[paste("data_split", i, sep = "")]], 
-            test_data, type = 'prob')
+    test_tune_list[[paste("data_split", i, sep = "")]]$finalModel$votes %>% as.data.frame
   
   best_tune[paste("run_", i, sep = "")] <- test_tune_list[[paste(
     "data_split", i, sep = "")]]$bestTune
@@ -56,7 +55,7 @@ for(i in 1:n){
     mutate(Variable = rownames(.)) %>% arrange(desc(Overall))
   
   
-  run_predictions[[paste("run_", i, sep = "")]] <- test_predictions[[paste(
+  run_predictions[[paste("run_", i, sep = "")]] <- probs_predictions[[paste(
     "data_split", i, sep = "")]]
   
   best_model_data[i, ] <- filter(run_info_list[[i]], 
@@ -125,7 +124,7 @@ for(i in 1:length(top_vars_MDA_by_run)){
 }
 
 # "1" pulls the value of mean or sd from the data frame
-MDA_vars_summary <- as.data.frame(t(top_vars_MDA_by_run)) %>% summarise_each(funs(median, IQR)) %>% 
+MDA_vars_summary <- as.data.frame(t(top_vars_MDA_by_run)) %>% summarise_all(funs(median, IQR)) %>% 
   gather(key = tempName) %>% separate(tempName, c("otu", "measurement")) %>% 
   spread(key = measurement, value = value) %>% rename(median_MDA = median, median_IQR = IQR) %>% 
   mutate(tax_id = as.character(tax_df[otu, "Genus"])) %>% 
