@@ -197,20 +197,18 @@ source('code/Adns_randomization_combine_agg_treat_model.R
 	R -e "source('code/Adns_randomization_combine_agg_treat_model.R')"
 
 # Set up and run reduced treatment models
-exploratory/adn_randomization_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/adn_randomization_treatment_test_tune_data.csv\
-$(TABLES)/adn_randomization_treatment_imp_vars_summary.csv\
-$(TABLES)/adn_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/adn_rand_treat_reduced_summary.csv : exploratory/adn_randomized_treatment_model.RData\
 code/adn_randomization_treatment_reduce_feature_model.R
 	R -e "source('code/adn_randomization_treatment_reduce_feature_model.R')"
 
-$(TABLES)/red_adn_randomization_treatment_test_tune_data.csv\
-$(TABLES)/reduced_adn_randomization_treatment_ROC_model_summary.csv\
-$(TABLES)/reduced_adn_randomization_treatment_test_data_roc.csv\
-$(TABLES)/reduced_adn_randomization_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_adn_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
-exploratory/adn_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
-code/Adns_randomization_combine_reduced_agg_treat_model.R
-	R -e "source('code/Adns_randomization_combine_reduced_agg_treat_model.R')"
+#$(TABLES)/red_adn_randomization_treatment_test_tune_data.csv\
+#$(TABLES)/reduced_adn_randomization_treatment_ROC_model_summary.csv\
+#$(TABLES)/reduced_adn_randomization_treatment_test_data_roc.csv\
+#$(TABLES)/reduced_adn_randomization_treatment_top_vars_MDA_Summary.csv\
+#$(TABLES)/reduced_adn_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+#exploratory/adn_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
+#code/Adns_randomization_combine_reduced_agg_treat_model.R
+#	R -e "source('code/Adns_randomization_combine_reduced_agg_treat_model.R')"
 
 
 
@@ -347,20 +345,18 @@ source('code/SRN_randomization_combine_agg_treat_model.R
 	R -e "source('code/SRN_randomization_combine_agg_treat_model.R')"
 
 # Set up and run reduced treatment models
-exploratory/srn_randomization_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/srn_randomization_treatment_test_tune_data.csv\
-$(TABLES)/srn_randomization_treatment_imp_vars_summary.csv\
-$(TABLES)/srn_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/srn_rand_treat_reduced_summary.csv : exploratory/srn_randomized_treatment_model.RData\
 code/srn_randomization_treatment_reduce_feature_model.R
 	R -e "source('code/srn_randomization_treatment_reduce_feature_model.R')"
 
-$(TABLES)/red_srn_randomization_treatment_test_tune_data.csv\
-$(TABLES)/reduced_srn_randomization_treatment_ROC_model_summary.csv\
-$(TABLES)/reduced_srn_randomization_treatment_test_data_roc.csv\
-$(TABLES)/reduced_srn_randomization_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_srn_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
-exploratory/srn_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
-code/SRN_randomization_combine_reduced_agg_treat_model.R
-	R -e "source('code/SRN_randomization_combine_reduced_agg_treat_model.R')"
+#$(TABLES)/red_srn_randomization_treatment_test_tune_data.csv\
+#$(TABLES)/reduced_srn_randomization_treatment_ROC_model_summary.csv\
+#$(TABLES)/reduced_srn_randomization_treatment_test_data_roc.csv\
+#$(TABLES)/reduced_srn_randomization_treatment_top_vars_MDA_Summary.csv\
+#$(TABLES)/reduced_srn_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+#exploratory/srn_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
+#code/SRN_randomization_combine_reduced_agg_treat_model.R
+#	R -e "source('code/SRN_randomization_combine_reduced_agg_treat_model.R')"
 
 ######################################################################################
 #																					 #
@@ -493,20 +489,18 @@ source('code/CRC_randomization_combine_agg_treat_model.R
 	R -e "source('code/CRC_randomization_combine_agg_treat_model.R')"
 
 # Set up and run reduced treatment models
-exploratory/crc_randomization_treatment_reduced_RF_model_Imp_OTU.RData : $(TABLES)/crc_randomization_treatment_test_tune_data.csv\
-$(TABLES)/crc_randomization_treatment_imp_vars_summary.csv\
-$(TABLES)/crc_randomization_treatment_top_vars_MDA_Summary.csv\
+$(TABLES)/crc_rand_treat_reduced_summary.csv : exploratory/crc_randomized_treatment_model.RData\
 code/crc_randomization_treatment_reduce_feature_model.R
 	R -e "source('code/crc_randomization_treatment_reduce_feature_model.R')"
 
-$(TABLES)/red_crc_randomization_treatment_test_tune_data.csv\
-$(TABLES)/reduced_crc_randomization_treatment_ROC_model_summary.csv\
-$(TABLES)/reduced_crc_randomization_treatment_test_data_roc.csv\
-$(TABLES)/reduced_crc_randomization_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_crc_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
-exploratory/crc_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
-code/CRC_randomization_combine_reduced_agg_treat_model.R
-	R -e "source('code/CRC_randomization_combine_reduced_agg_treat_model.R')"
+#$(TABLES)/red_crc_randomization_treatment_test_tune_data.csv\
+#$(TABLES)/reduced_crc_randomization_treatment_ROC_model_summary.csv\
+#$(TABLES)/reduced_crc_randomization_treatment_test_data_roc.csv\
+#$(TABLES)/reduced_crc_randomization_treatment_top_vars_MDA_Summary.csv\
+#$(TABLES)/reduced_crc_randomization_treatment_top_vars_MDA_full_data.csv : $(PROC)/final.taxonomy\
+#exploratory/crc_randomization_treatment_reduced_RF_model_Imp_OTU.RData\
+#code/CRC_randomization_combine_reduced_agg_treat_model.R
+#	R -e "source('code/CRC_randomization_combine_reduced_agg_treat_model.R')"
 
 
 
