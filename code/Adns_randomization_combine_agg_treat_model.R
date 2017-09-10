@@ -32,8 +32,7 @@ for(i in 1:n){
   }
   
   probs_predictions[[paste("run_", i, sep = "")]] <- 
-    predict(test_tune_list[[paste("run_", i, sep = "")]], 
-            test_data, type = 'prob')
+    test_tune_list[[paste("run_", i, sep = "")]]$finalModel$votes %>% as.data.frame
   
   best_tune[paste("run_", i, sep = "")] <- test_tune_list[[paste(
     "run_", i, sep = "")]]$bestTune
@@ -65,13 +64,15 @@ write.csv(
 
 # Get Ranges of 100 10-fold 20 times CV data (worse, best)
 best_run <- as.numeric(strsplit((
-  mutate(best_model_data, run = rownames(best_model_data)) %>% 
-    filter(ROC == max(best_model_data$ROC)) %>% 
+  mutate(best_model_data, run = rownames(best_model_data), 
+         one_minus_ROC = ifelse(ROC < 0.5, invisible(1-ROC), invisible(ROC))) %>% 
+    filter(one_minus_ROC == max(one_minus_ROC)) %>% 
     select(run))[1,], "_")[[1]][2])
 
 worse_run <- as.numeric(strsplit((mutate(best_model_data, 
-                                         run = rownames(best_model_data)) %>% 
-                                    filter(ROC == min(best_model_data$ROC)) %>% 
+                                         run = rownames(best_model_data), 
+                                         one_minus_ROC = ifelse(ROC < 0.5, invisible(1-ROC), invisible(ROC))) %>% 
+                                    filter(one_minus_ROC == min(one_minus_ROC)) %>% 
                                     select(run))[1,], "_")[[1]][2])
 
 

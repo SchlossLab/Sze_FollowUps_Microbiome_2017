@@ -145,10 +145,8 @@ for(i in 1:100){
   test_data$lesion <- factor(test_data$lesion, 
     levels = c(0, 1), labels = c("No", "Yes"))
 
-#write out table for future use
-
-  write.csv(test_data, "data/process/tables/adn_randomized_treatment_model.csv", 
-    row.names = F)
+#store as list for future use
+  stored_data[[paste("run_", i, sep = "")]] <- test_data
 
 #################################################################################
 #                                                                               #
