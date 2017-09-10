@@ -145,7 +145,8 @@ for(i in 1:100){
   test_data$lesion <- factor(test_data$lesion, 
     levels = c(0, 1), labels = c("No", "Yes"))
 
-#store as list for future use
+#write out table for future use
+
   stored_data[[paste("run_", i, sep = "")]] <- test_data
 
 #################################################################################

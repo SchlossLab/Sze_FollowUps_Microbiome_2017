@@ -21,7 +21,7 @@ combined_ranks <- inner_join(lesion_imp_vars, mda_summary, by = "variable") %>%
 
 #Create data table with only reduced features (impvars only)
 vars_to_keep <- slice(combined_ranks, 1:10)[, "variable"]
-test_data_imps <- test_data %>% select(lesion, one_of(vars_to_keep$variable))
+test_data_imps <- select(test_data, lesion, one_of(vars_to_keep))
 
 
 #################################################################################
