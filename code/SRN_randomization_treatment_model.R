@@ -152,8 +152,7 @@ for(i in 1:100){
 
 #write out table for future use
 
-  write.csv(test_data, "data/process/tables/srn_randomization_treatment_model.csv", 
-  row.names = F)
+  stored_data[[paste("run_", i, sep = "")]] <- test_data
 
   #Train the model
   set.seed(3457)
