@@ -56,7 +56,7 @@ for(i in 1:n){
     mutate(Variable = rownames(.)) %>% arrange(desc(Overall))
   
   
-  run_predictions[[paste("run_", i, sep = "")]] <- test_predictions[[paste(
+  run_predictions[[paste("run_", i, sep = "")]] <- probs_predictions[[paste(
     "data_split", i, sep = "")]]
   
   best_model_data[i, ] <- filter(run_info_list[[i]], 
