@@ -9,6 +9,8 @@ source('code/functions.R')
 loadLibs(c("randomForest", "dplyr", "scales", "caret"))
 
 #Load needed data
+load("exploratory/srn_randomization_treatment_model.RData")
+
 test_data <- read.csv("data/process/tables/adn_randomization_treatment_test_tune_data.csv", header = TRUE)
 lesion_imp_vars <- read.csv("data/process/tables/adn_randomization_treatment_imp_vars_summary.csv", header = T, stringsAsFactors = F) %>% 
   rename(variable = Variable)

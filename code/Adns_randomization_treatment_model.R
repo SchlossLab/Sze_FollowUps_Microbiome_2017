@@ -43,7 +43,7 @@ registerDoMC(cores = 8)
 #Set up lists to store the data
 test_tune_list <- list()
 test_predictions <- list()
-
+stored_data <- list()
 
 
 for(i in 1:100){
