@@ -33,8 +33,7 @@ for(i in 1:n){
   }
   
   probs_predictions[[paste("run_", i, sep = "")]] <- 
-    predict(test_tune_list[[paste("run_", i, sep = "")]], 
-            test_data, type = 'prob')
+    test_tune_list[[paste("run_", i, sep = "")]]$finalModel$votes %>% as.data.frame
   
   best_tune[paste("run_", i, sep = "")] <- test_tune_list[[paste(
     "run_", i, sep = "")]]$bestTune
@@ -48,7 +47,7 @@ for(i in 1:n){
     mutate(Variable = rownames(.)) %>% arrange(desc(Overall))
   
   
-  run_predictions[[paste("run_", i, sep = "")]] <- test_predictions[[paste(
+  run_predictions[[paste("run_", i, sep = "")]] <- probs_predictions[[paste(
     "data_split", i, sep = "")]]
   
   best_model_data[i, ] <- filter(run_info_list[[i]], 
@@ -66,13 +65,15 @@ write.csv(
 
 # Get Ranges of 100 10-fold 20 times CV data (worse, best)
 best_run <- as.numeric(strsplit((
-  mutate(best_model_data, run = rownames(best_model_data)) %>% 
-    filter(ROC == max(best_model_data$ROC)) %>% 
+  mutate(best_model_data, run = rownames(best_model_data), 
+         one_minus_ROC = ifelse(ROC < 0.5, invisible(1-ROC), invisible(ROC))) %>% 
+    filter(one_minus_ROC == max(one_minus_ROC)) %>% 
     select(run))[1,], "_")[[1]][2])
 
 worse_run <- as.numeric(strsplit((mutate(best_model_data, 
-                                         run = rownames(best_model_data)) %>% 
-                                    filter(ROC == min(best_model_data$ROC)) %>% 
+                                         run = rownames(best_model_data), 
+                                         one_minus_ROC = ifelse(ROC < 0.5, invisible(1-ROC), invisible(ROC))) %>% 
+                                    filter(one_minus_ROC == min(one_minus_ROC)) %>% 
                                     select(run))[1,], "_")[[1]][2])
 
 
@@ -147,8 +148,8 @@ for(i in 1:length(top_vars_MDA_by_run)){
 
 # "1" pulls the value of mean or sd from the data frame
 MDA_vars_summary <- cbind(
-  mean_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
-  sd_MDA = t(summarise_each(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
+  mean_MDA = t(summarise_all(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
+  sd_MDA = t(summarise_all(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
   variable = rownames(top_vars_MDA_by_run))
 
 write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
