@@ -23,8 +23,7 @@ treat_actual <- sapply(c("adn", "srn", "crc"),
 # Function to generate model stats
 get_summary_stats <- function(i, column_of_int, dataList){
   
-  mod_column <- ifelse(dataList[[i]][, column_of_int] < 0.5, 
-                       1-dataList[[i]][, column_of_int], dataList[[i]][, column_of_int])
+  mod_column <- dataList[[i]][, column_of_int]
   
   average <- mean(mod_column)
   std_dv <- sd(mod_column)
@@ -41,13 +40,9 @@ get_pvalues <- function(i_rand, i_act, rand_dataList = treat_rand,
                         act_dataList = treat_actual, 
                         column_of_int = "ROC"){
   
-  random_set <- ifelse(rand_dataList[[i_rand]][, column_of_int] < 0.5, 
-                       1-rand_dataList[[i_rand]][, column_of_int], 
-                       rand_dataList[[i_rand]][, column_of_int])
+  random_set <- rand_dataList[[i_rand]][, column_of_int]
   
-  actual_set <- ifelse(act_dataList[[i_act]][, column_of_int] < 0.5, 
-                       1-act_dataList[[i_act]][, column_of_int], 
-                       act_dataList[[i_act]][, column_of_int])
+  actual_set <- act_dataList[[i_act]][, column_of_int]
   
   final_data <- c(pvalue = t.test(random_set, actual_set)$p.value, study = i_act)
   
