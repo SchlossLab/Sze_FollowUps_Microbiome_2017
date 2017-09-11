@@ -52,8 +52,8 @@ for(i in 1:100){
     arrange(desc(Overall))
   
   #Create data table with only reduced features (impvars only)
-  vars_to_keep <- slice(test_imp, 1:10)[, "otu"]
-  test_data_imps <- select(stored_data[[i]], lesion, one_of(vars_to_keep$otu))
+  vars_to_keep <- slice(test_imp, 1:10)$otu
+  test_data_imps <- select(stored_data[[i]], lesion, one_of(vars_to_keep))
   
   train_test_data <- test_data_imps
   stored_aucs <- c()
