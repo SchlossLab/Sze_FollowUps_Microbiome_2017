@@ -37,8 +37,6 @@ fitControl <- trainControl(## 10-fold CV
 set.seed(3457)
 
 #Set up lists to store the data
-test_tune_list <- list()
-test_predictions <- list()
 runs_list <- list()
 avg_auc <- c()
 sd_auc <- c()
