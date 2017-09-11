@@ -26,34 +26,6 @@ good_metaf_select <- data_frame(sample = c(good_metaf$initial, good_metaf$follow
 
 
 
-#################################################################################
-#                                                                               #
-#                                                                               #
-#               Model Training and Parameter Tuning                             #
-#                                                                               #
-#################################################################################
-
-#Create Overall specifications for model tuning
-# number controls fold of cross validation
-# Repeats control the number of times to run it
-
-fitControl <- trainControl(## 5-fold CV
-  method = "cv",
-  number = 10,
-  p = 0.8, 
-  classProbs = TRUE, 
-  summaryFunction = twoClassSummary, 
-  savePredictions = "final")
-
-registerDoMC(cores = 8)
-
-#Set up lists to store the data
-test_tune_list <- list()
-test_predictions <- list()
-stored_data <- list()
-
-for(i in 1:100){
-  
   #################################################################################
 #                                                                               #
 #                                                                               #
@@ -153,10 +125,39 @@ for(i in 1:100){
 
 #write out table for future use
 
-  stored_data[[paste("run_", i, sep = "")]] <- test_data
+write.csv(test_data, "data/process/tables/srn_randomized_treatment_model.csv", 
+    row.names = F)
+
+#Set up lists to store the data
+test_tune_list <- list()
+test_predictions <- list()
+stored_data <- list()
+
+for(i in 1:100){
+
+  #################################################################################
+#                                                                               #
+#                                                                               #
+#               Model Training and Parameter Tuning                             #
+#                                                                               #
+#################################################################################
+
+#Create Overall specifications for model tuning
+# number controls fold of cross validation
+# Repeats control the number of times to run it
+
+fitControl <- trainControl(## 5-fold CV
+  method = "cv",
+  number = 10,
+  p = 0.8, 
+  classProbs = TRUE, 
+  summaryFunction = twoClassSummary, 
+  savePredictions = "final")
+
+registerDoMC(cores = 8)
+
 
   #Train the model
-  set.seed(3457)
   test_tune_list[[paste("run_", i, sep = "")]] <- 
     train(lesion ~ ., data = test_data, 
           method = "rf", 

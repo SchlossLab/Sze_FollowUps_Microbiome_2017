@@ -14,14 +14,6 @@ load("exploratory/crc_randomization_treatment_model.RData")
 rm(good_metaf, good_metaf_select, shared, test_data, 
    fitControl, i, nzv)
 
-#Merge MDA and rank counts together to get top 10.
-combined_ranks <- inner_join(lesion_imp_vars, mda_summary, by = "variable") %>% 
-  arrange(desc(total_appearance), desc(mean_MDA))
-
-#Create data table with only reduced features (impvars only)
-vars_to_keep <- slice(combined_ranks, 1:10)[, "variable"]
-test_data_imps <- select(test_data, lesion, one_of(vars_to_keep))
-
 
 #################################################################################
 #                                                                               #
