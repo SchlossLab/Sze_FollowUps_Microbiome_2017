@@ -116,7 +116,7 @@ write.csv(raw_mda_otu_data,
           "data/process/tables/crc_treatment_raw_mda_values.csv", row.names = F)
 
 
-write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
+write.csv(summary_otu_mda, 
           "data/process/tables/crc_treatment_MDA_Summary.csv", row.names = F)
 
 
