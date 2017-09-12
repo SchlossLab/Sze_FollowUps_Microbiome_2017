@@ -271,9 +271,8 @@ $(PROC)/final.0.03.subsample.shared code/SRN_treatment_model.R
 $(TABLES)/srn_treatment_test_tune_data.csv\
 $(TABLES)/srn_treatment_ROC_model_summary.csv\
 $(TABLES)/srn_treatment_test_data_roc.csv\
-$(TABLES)/srn_treatment_imp_vars_summary.csv\
-$(TABLES)/srn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/srn_treatment_top_vars_MDA_full_data.csv : exploratory/srn_treatment_model.RData\
+$(TABLES)/srn_treatment_raw_mda_values.csv\
+$(TABLES)/srn_treatment_MDA_Summary.csv : exploratory/srn_treatment_model.RData\
 code/SRN_combine_agg_treat_model.R
 	R -e "source('code/SRN_combine_agg_treat_model.R')"
 
