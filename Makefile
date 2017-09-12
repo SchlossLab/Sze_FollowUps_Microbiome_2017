@@ -303,7 +303,12 @@ $(CODE)/srn_createDuplicates.sh $(CODE)/srn_create_pbs.sh $(CODE)/srn_qsubmissio
 # It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
-exploratory/srn_rocs.RData : code/Run_srn_Combine_Testing_pull_imp_OTUs.R
+$(TABLES)/srn_test_data_splits.csv\
+$(TABLES)/srn_test_tune_data.csv\
+$(TABLES)/srn_ROC_model_summary.csv\
+$(TABLES)/srn_test_data_roc.csv\
+$(TABLES)/srn_raw_mda_values.csv\
+$(TABLES)/srn_MDA_Summary.csv : code/Run_srn_Combine_Testing_pull_imp_OTUs.R
 	R -e "source('code/Run_srn_Combine_Testing_pull_imp_OTUs.R')"
 
 
