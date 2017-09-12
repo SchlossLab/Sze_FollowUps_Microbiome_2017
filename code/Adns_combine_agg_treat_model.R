@@ -110,6 +110,26 @@ summary_otu_mda <- raw_mda_otu_data %>% select(-run) %>%
   arrange(desc(median_mda))
 
 
+# Read in and generate taxa labels
+tax <- read.delim('data/process/final.taxonomy', sep='\t', header=T, row.names=1)
+
+# Convert taxa table to a data frame with columns for each taxonomic division
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+otu <- rownames(tax_df)
+
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+
+low_tax_ID <- gsub("_", " ", 
+                   gsub("2", "", 
+                        gsub("_unclassified", "", createTaxaLabeller(tax_df))))
+
+test <- data_frame(otu = otu, tax_ID = low_tax_ID)
+
+summary_otu_mda <- summary_otu_mda %>% inner_join(test, by = c("Variable" = "otu"))
+
+
 # Write out the raw information for the importantance by MDA to a table
 write.csv(raw_mda_otu_data, 
           "data/process/tables/adn_treatment_raw_mda_values.csv", row.names = F)
