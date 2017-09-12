@@ -6,68 +6,75 @@ source('code/functions.R')
 
 loadLibs(c("tidyr", "dplyr", "scales", "ggplot2", "gridExtra"))
 
-# Load needed data
-adn_treat_varsMDA <- read.csv('data/process/tables/reduced_adn_treatment_top_vars_MDA_Summary.csv', 
-                        header = T, stringsAsFactors = F) %>% 
-  mutate(rank = seq(1:10), tax_id = gsub("_unclassified", "", tax_id))
+# Load needed data and take only top 10
+adn_treat_varsMDA <- read.csv('data/process/tables/adn_treatment_MDA_Summary.csv', 
+                        header = T, stringsAsFactors = F) %>% slice(1:10)
 
-srn_treat_varsMDA <- read.csv('data/process/tables/reduced_srn_treatment_top_vars_MDA_Summary.csv', 
-                        header = T, stringsAsFactors = F) %>% 
-  mutate(rank = seq(1:10), tax_id = gsub("_unclassified", "", tax_id))
+srn_treat_varsMDA <- read.csv('data/process/tables/srn_treatment_MDA_Summary.csv', 
+                        header = T, stringsAsFactors = F) %>% slice(1:10)
 
-crc_treat_varsMDA <- read.csv('data/process/tables/reduced_crc_treatment_top_vars_MDA_Summary.csv', 
-                        header = T, stringsAsFactors = F) %>% 
-  mutate(rank = seq(1:10), tax_id = gsub("_unclassified", "", tax_id))
+crc_treat_varsMDA <- read.csv('data/process/tables/crc_treatment_MDA_Summary.csv', 
+                        header = T, stringsAsFactors = F) %>% slice(1:10)
 
 
-adn_data <- read.csv('data/process/tables/reduced_adn_treatment_top_vars_MDA_full_data.csv', 
-                     header = T, stringsAsFactors = F)
+adn_data <- read.csv('data/process/tables/adn_treatment_raw_mda_values.csv', 
+                     header = T, stringsAsFactors = F) %>% 
+  filter(Variable %in% adn_treat_varsMDA$Variable)
 
-srn_data <- read.csv('data/process/tables/reduced_srn_treatment_top_vars_MDA_full_data.csv', 
-                     header = T, stringsAsFactors = F)
-crc_data <- read.csv('data/process/tables/reduced_crc_treatment_top_vars_MDA_full_data.csv', 
-                     header = T, stringsAsFactors = F)
+srn_data <- read.csv('data/process/tables/srn_treatment_raw_mda_values.csv', 
+                     header = T, stringsAsFactors = F) %>% 
+  filter(Variable %in% srn_treat_varsMDA$Variable)
+
+crc_data <- read.csv('data/process/tables/crc_treatment_raw_mda_values.csv', 
+                     header = T, stringsAsFactors = F) %>% 
+  filter(Variable %in% crc_treat_varsMDA$Variable)
 
 # Create adn labels
-otu_num <- as.numeric(gsub("Otu", "", adn_treat_varsMDA$otu))
+otu_num <- as.numeric(gsub("Otu", "", adn_treat_varsMDA$Variable))
 
 test <- c()
 for(i in 1:length(otu_num)){
   
   test <- c(test, 
-            bquote(paste(italic(.(gsub("_", " ", adn_treat_varsMDA$tax_id[i]))) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
+            bquote(paste(italic(.(gsub("_", " ", 
+                                       adn_treat_varsMDA$tax_ID[i]))) ~ "(OTU", .(otu_num[i]), ")", 
+                         sep = "")))
 }
 
 adn_labels <- do.call(expression, test)
-adn_axis <- paste(adn_treat_varsMDA$tax_id, " (OTU", otu_num, ")", sep="")
+adn_axis <- paste(adn_treat_varsMDA$tax_ID, " (OTU", otu_num, ")", sep="")
 
 
 # Create srn labels
-otu_num <- as.numeric(gsub("Otu", "", srn_treat_varsMDA$otu))
+otu_num <- as.numeric(gsub("Otu", "", srn_treat_varsMDA$Variable))
 
 test <- c()
 for(i in 1:length(otu_num)){
   
   test <- c(test, 
-            bquote(paste(italic(.(gsub("_", " ", srn_treat_varsMDA$tax_id[i]))) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
+            bquote(paste(italic(.(gsub("_", " ", 
+                                       srn_treat_varsMDA$tax_ID[i]))) ~ "(OTU", .(otu_num[i]), ")", 
+                         sep = "")))
 }
 
 srn_labels <- do.call(expression, test)
-srn_axis <- paste(adn_treat_varsMDA$tax_id, " (OTU", otu_num, ")", sep="")
+srn_axis <- paste(adn_treat_varsMDA$tax_ID, " (OTU", otu_num, ")", sep="")
 
 
 # Create crc labels
-otu_num <- as.numeric(gsub("Otu", "", crc_treat_varsMDA$otu))
+otu_num <- as.numeric(gsub("Otu", "", crc_treat_varsMDA$Variable))
 
 test <- c()
 for(i in 1:length(otu_num)){
   
   test <- c(test, 
-            bquote(paste(italic(.(gsub("_", " ", crc_treat_varsMDA$tax_id[i]))) ~ "(OTU", .(otu_num[i]), ")", sep = "")))
+            bquote(paste(italic(.(gsub("_", " ", 
+                                       crc_treat_varsMDA$tax_ID[i]))) ~ "(OTU", .(otu_num[i]), ")", 
+                         sep = "")))
 }
 
 crc_labels <- do.call(expression, test)
-crc_axis <- paste(adn_treat_varsMDA$tax_id, " (OTU", otu_num, ")", sep="")
+crc_axis <- paste(adn_treat_varsMDA$tax_ID, " (OTU", otu_num, ")", sep="")
 
 
 # Create decimal control
@@ -77,11 +84,12 @@ fmt_dcimals <- function(decimals=0){
 
 
 # Create Graph
-adn_treat_MDA_graph <- ggplot(adn_data, aes(factor(otu, 
-                                levels = rev(unique(adn_data$otu)), 
-                                labels = rev(adn_axis)), log10(value))) + 
+adn_treat_MDA_graph <- adn_data %>% filter(Overall > 0) %>% 
+  ggplot(aes(factor(Variable, 
+                    levels = rev(unique(adn_data$Variable)), 
+                    labels = rev(adn_axis)), log10(Overall))) + 
   geom_point(color = '#76EE00') + stat_summary(fun.y = "median", colour = '#006400', geom = "point", size = 2.5) + 
-  coord_flip(ylim = c(-0.3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
+  coord_flip(ylim = c(-3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
   scale_x_discrete(labels = rev(adn_labels)) + scale_y_continuous(labels = fmt_dcimals(0)) + 
   theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
@@ -89,9 +97,10 @@ adn_treat_MDA_graph <- ggplot(adn_data, aes(factor(otu,
         axis.text.y = element_text(size = 10))
 
 
-srn_treat_MDA_graph <- ggplot(srn_data, aes(factor(otu, 
-                                                 levels = rev(unique(srn_data$otu)), 
-                                                 labels = rev(srn_axis)), log10(value))) + 
+srn_treat_MDA_graph <- srn_data %>% filter(Overall > 0) %>% 
+  ggplot(aes(factor(Variable, 
+                    levels = rev(unique(srn_data$Variable)), 
+                    labels = rev(srn_axis)), log10(Overall))) + 
   geom_point(color = '#F0E68C') + stat_summary(fun.y = "median", colour = '#EEC900', geom = "point", size = 2.5) + 
   coord_flip(ylim = c(-0.3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
   scale_x_discrete(labels = rev(srn_labels)) + 
