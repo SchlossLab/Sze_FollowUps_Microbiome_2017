@@ -634,7 +634,7 @@ $(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS1.R
 # This figure explores the most important OTUs for each model and displays
 # them by median MDA.
 
-$(FIGS)/FigureS3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
+$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
 $(TABLES)/srn_reduced_model_top_vars_MDA.csv\
