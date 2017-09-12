@@ -153,9 +153,8 @@ $(PROC)/final.0.03.subsample.shared code/Adns_treatment_model.R
 $(TABLES)/adn_treatment_test_tune_data.csv\
 $(TABLES)/adn_treatment_ROC_model_summary.csv\
 $(TABLES)/adn_treatment_test_data_roc.csv\
-$(TABLES)/adn_treatment_imp_vars_summary.csv\
-$(TABLES)/adn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/adn_treatment_top_vars_MDA_full_data.csv : exploratory/adn_treatment_model.RData\
+$(TABLES)/adn_treatment_raw_mda_values.csv\
+$(TABLES)/adn_treatment_MDA_Summary.csv : exploratory/adn_treatment_model.RData\
 code/Adns_combine_agg_treat_model.R
 	R -e "source('code/Adns_combine_agg_treat_model.R')"
 
