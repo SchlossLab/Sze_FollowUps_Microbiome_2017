@@ -141,6 +141,12 @@ summary_otu_mda <- raw_mda_otu_data %>% select(-run) %>%
   arrange(desc(median_mda))
 
 
+###Load needed Libraries and functions
+source('code/functions.R')
+
+loadLibs(c("dplyr", "reshape2", "scales", "caret", "pROC"))
+
+
 # Read in and generate taxa labels
 tax <- read.delim('data/process/final.taxonomy', sep='\t', header=T, row.names=1)
 
@@ -170,19 +176,6 @@ write.csv(raw_mda_otu_data,
 
 write.csv(summary_otu_mda, 
           "data/process/tables/adn_MDA_Summary.csv", row.names = F)
-
-
-
-
-write.csv(OTU_appearance_table, 
-  "data/process/tables/adn_rf_wCV_imp_vars_summary.csv", row.names = F)
-
-
-
-
-
-
-
 
 
 

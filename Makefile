@@ -211,7 +211,12 @@ $(CODE)/adn_createDuplicates.sh $(CODE)/adn_create_pbs.sh $(CODE)/adn_qsubmissio
 # It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
-exploratory/adn_rocs.RData : code/Run_adn_Combine_Testing_pull_imp_OTUs.R
+$(TABLES)/adn_test_data_splits.csv\
+$(TABLES)/adn_test_tune_data.csv\
+$(TABLES)/adn_ROC_model_summary.csv\
+$(TABLES)/adn_test_data_roc.csv\
+$(TABLES)/adn_raw_mda_values.csv\
+$(TABLES)/adn_MDA_Summary.csv : code/Run_adn_Combine_Testing_pull_imp_OTUs.R
 	R -e "source('code/Run_adn_Combine_Testing_pull_imp_OTUs.R')"
 
 # This code creates a 100 different 80/20 splits but with only the most
