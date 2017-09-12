@@ -43,10 +43,8 @@ registerDoMC(cores = 8)
 #Set up lists to store the data
 test_tune_list <- list()
 test_predictions <- list()
+stored_data <- list()
 
-
-
-for(i in 1:100){
 
   #################################################################################
 #                                                                               #
@@ -57,8 +55,6 @@ for(i in 1:100){
 
   test_data <- inner_join(good_metaf_select, shared, 
   by = c("sample" = "Group"))
-
-
 
 # Filter and use only specific data
 
@@ -150,6 +146,8 @@ for(i in 1:100){
   write.csv(test_data, "data/process/tables/adn_randomized_treatment_model.csv", 
     row.names = F)
 
+for(i in 1:100){
+
 #################################################################################
 #                                                                               #
 #                                                                               #
@@ -159,7 +157,6 @@ for(i in 1:100){
 
 
  #Train the model
-  set.seed(3457)
   test_tune_list[[paste("run_", i, sep = "")]] <- 
     train(lesion ~ ., data = test_data, 
           method = "rf", 

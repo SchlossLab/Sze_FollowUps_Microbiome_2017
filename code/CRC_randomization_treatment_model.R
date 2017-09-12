@@ -23,26 +23,6 @@ good_metaf_select <- data_frame(sample = c(good_metaf$initial, good_metaf$follow
          Dx_Bin = rep(good_metaf$Dx_Bin, 2))
 
 
-#Create Overall specifications for model tuning
-# number controls fold of cross validation
-# Repeats control the number of times to run it
-
-fitControl <- trainControl(## 5-fold CV
-  method = "cv",
-  number = 10,
-  p = 0.8, 
-  classProbs = TRUE, 
-  summaryFunction = twoClassSummary, 
-  savePredictions = "final")
-
-registerDoMC(cores = 8)
-
-#Set up lists to store the data
-test_tune_list <- list()
-test_predictions <- list()
-
-for(i in 1:100){
-
 
   #################################################################################
 #                                                                               #
@@ -142,8 +122,29 @@ for(i in 1:100){
 
 #write out table for future use
 
-  write.csv(test_data, "data/process/tables/crc_randomization_treatment_model.csv", 
+write.csv(test_data, "data/process/tables/crc_randomized_treatment_model.csv", 
     row.names = F)
+
+#Create Overall specifications for model tuning
+# number controls fold of cross validation
+# Repeats control the number of times to run it
+
+fitControl <- trainControl(## 5-fold CV
+  method = "cv",
+  number = 10,
+  p = 0.8, 
+  classProbs = TRUE, 
+  summaryFunction = twoClassSummary, 
+  savePredictions = "final")
+
+registerDoMC(cores = 8)
+
+#Set up lists to store the data
+test_tune_list <- list()
+test_predictions <- list()
+stored_data <- list()
+
+for(i in 1:100){
 
 #################################################################################
 #                                                                               #
@@ -153,7 +154,6 @@ for(i in 1:100){
 #################################################################################
 
   #Train the model
-  set.seed(3457)
   test_tune_list[[paste("run_", i, sep = "")]] <- 
     train(lesion ~ ., data = test_data, 
           method = "rf", 
