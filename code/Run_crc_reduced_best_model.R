@@ -9,14 +9,13 @@ source('code/functions.R')
 loadLibs(c("dplyr", "caret","scales", "wesanderson", "randomForest", "pROC"))
 
 # Read in necessary data frames
-test_data <- read.csv("data/process/tables/crc_reduced_test_tune_data.csv", header = TRUE)
-split_data_results <- read.csv("data/process/tables/crc_Reduced_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
-test_data_roc <- read.csv("data/process/tables/crc_reduced_test_data_roc.csv", header = TRUE, stringsAsFactors = F)
-auc_data_table <- read.csv("data/process/tables/crc_reduced_auc_summary.csv", header = TRUE, row.names = 1)
+test_data <- read.csv("data/process/tables/crc_full_test_data.csv", header = TRUE, row.names = 1)
+split_data_results <- read.csv("data/process/tables/crc_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
+test_data_roc <- read.csv("data/process/tables/crc_test_data_roc.csv", header = TRUE, stringsAsFactors = F)
 
 # Get best mtry to use
-mtry_table <- table(split_data_results$best_mtry)
-maximized_mtry <- as.numeric(names(mtry_table[mtry_table == max(mtry_table)]))
+mtry_table <- table(split_data_results$mtry)
+maximized_mtry <- unique(filter(split_data_results, test_auc == max(test_auc))[, "mtry"])
 
 # Create Random Forest model
 
