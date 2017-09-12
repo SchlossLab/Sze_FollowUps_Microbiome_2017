@@ -102,7 +102,7 @@ srn_treat_MDA_graph <- srn_data %>% filter(Overall > 0) %>%
                     levels = rev(unique(srn_data$Variable)), 
                     labels = rev(srn_axis)), log10(Overall))) + 
   geom_point(color = '#F0E68C') + stat_summary(fun.y = "median", colour = '#EEC900', geom = "point", size = 2.5) + 
-  coord_flip(ylim = c(-0.3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
+  coord_flip(ylim = c(-3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
   scale_x_discrete(labels = rev(srn_labels)) + 
   theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
@@ -110,11 +110,12 @@ srn_treat_MDA_graph <- srn_data %>% filter(Overall > 0) %>%
         axis.text.y = element_text(size = 10))
 
 
-crc_treat_MDA_graph <- ggplot(crc_data, aes(factor(otu, 
-                                                 levels = rev(unique(crc_data$otu)), 
-                                                 labels = rev(crc_axis)), log10(value))) + 
+crc_treat_MDA_graph <- crc_data %>% filter(Overall > 0) %>% 
+  ggplot(aes(factor(Variable, 
+                              levels = rev(unique(crc_data$Variable)), 
+                              labels = rev(crc_axis)), log10(Overall))) + 
   geom_point(color = '#FFB6C1') + stat_summary(fun.y = "median", colour = '#DC143C', geom = "point", size = 2.5) + 
-  coord_flip(ylim = c(-0.3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
+  coord_flip(ylim = c(-3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
   scale_x_discrete(labels = rev(crc_labels)) + 
   theme(plot.title = element_text(face = "bold", hjust = -0.60, size = 20), 
         legend.position = "none", 
