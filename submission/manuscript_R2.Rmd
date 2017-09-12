@@ -233,7 +233,7 @@ The R software package (v`r paste(version$major, ".", version$minor, sep = "")`)
 
 
 ***Reproducible Methods.***
-A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_followUps_2017. Raw sequences have been deposited into the NCBI Sequence Read Archive (SRP062005 and SRP096978) and the necessary metadata can be found at https://www.ncbi.nlm.nih.gov/Traces/study/ and searching the respective SRA study accession.
+A detailed and reproducible description of how the data were processed and analyzed can be found at https://github.com/SchlossLab/Sze_FollowUps_Microbiome_2017. Raw sequences have been deposited into the NCBI Sequence Read Archive (SRP062005 and SRP096978) and the necessary metadata can be found at https://www.ncbi.nlm.nih.gov/Traces/study/ and searching the respective SRA study accession.
 
 
 \newpage
