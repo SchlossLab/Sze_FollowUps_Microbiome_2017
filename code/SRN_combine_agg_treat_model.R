@@ -45,7 +45,7 @@ for(i in 1:n){
   imp_vars_list[[paste("run_", i, sep = "")]] <- 
     varImp(test_tune_list[[paste("run_", i, sep = "")]], 
            scale = FALSE)$importance %>% 
-    mutate(Variable = rownames(.)) %>% arrange(desc(Overall))
+    mutate(Variable = rownames(.), run = i) 
   
   
   run_predictions[[paste("run_", i, sep = "")]] <- probs_predictions[[paste(
@@ -98,68 +98,47 @@ test_roc_data <- cbind(
 write.csv(test_roc_data, 
           "data/process/tables/srn_treatment_test_data_roc.csv", row.names = F)
 
-# Calculate number of times an OTU is in the top 10% of overall importance
+# Aggregate all the MDA values into a single table
+raw_mda_otu_data <- bind_rows(imp_vars_list)
 
-OTU_appearance_table <- as.data.frame(data_frame(
-  Variable = imp_vars_list[["run_1"]]$Variable) %>% 
-    mutate(total_appearance = 0))
+# Generate median and IQR
+summary_otu_mda <- raw_mda_otu_data %>% select(-run) %>% 
+  group_by(Variable) %>% 
+  summarise_all(
+    funs(median_mda = median, 
+         iqr25 = quantile(.)["25%"], 
+         iqr75 = quantile(.)["75%"])) %>% as.data.frame() %>% 
+  arrange(desc(median_mda))
 
-rownames(OTU_appearance_table) <- OTU_appearance_table$Variable
 
-for(j in 1:length(imp_vars_list)){
-  
-  tempVars <- imp_vars_list[[j]][c(1:round(length(test_data)*0.10)), ][, "Variable"]
-  
-  for(i in tempVars){
-    
-    OTU_appearance_table[i, "total_appearance"] <- 
-      OTU_appearance_table[i, "total_appearance"] + 1
-  }
-}
+# Read in and generate taxa labels
+tax <- read.delim('data/process/final.taxonomy', sep='\t', header=T, row.names=1)
 
-OTU_appearance_table <- arrange(OTU_appearance_table, 
-                                desc(total_appearance))
+# Convert taxa table to a data frame with columns for each taxonomic division
+tax_df <- data.frame(do.call('rbind', strsplit(as.character(tax$Taxonomy), ';')))
+rownames(tax_df) <- rownames(tax)
+colnames(tax_df) <- c("Domain", "Phyla", "Order", "Class", "Family", "Genus")
+otu <- rownames(tax_df)
 
+tax_df <- as.data.frame(apply(tax_df, 2, function(x) gsub("\\(\\d{2}\\d?\\)", "", x)))
+
+low_tax_ID <- gsub("_", " ", 
+                   gsub("2", "", 
+                        gsub("_unclassified", "", createTaxaLabeller(tax_df))))
+
+test <- data_frame(otu = otu, tax_ID = low_tax_ID)
+
+summary_otu_mda <- summary_otu_mda %>% inner_join(test, by = c("Variable" = "otu"))
 
 # Write out the important variables to a table
-write.csv(OTU_appearance_table, 
-          "data/process/tables/srn_treatment_imp_vars_summary.csv", row.names = F)
+write.csv(raw_mda_otu_data, 
+          "data/process/tables/srn_treatment_raw_mda_values.csv", row.names = F)
 
 
-# Collect the mean and SD for the MDA of the most important variables
+write.csv(summary_otu_mda, 
+          "data/process/tables/srn_treatment_MDA_Summary.csv", row.names = F)
 
-top_vars_MDA <- lapply(imp_vars_list, function(x) 
-  x[order(x[, "Variable"]), ] %>% filter(Variable %in% OTU_appearance_table$Variable))
 
-top_vars_MDA_by_run <- as.data.frame(matrix(nrow = length(OTU_appearance_table$Variable), 
-                                            ncol = length(imp_vars_list), 
-                                            dimnames = list(
-                                              nrow = top_vars_MDA[["run_1"]]$Variable, 
-                                              ncol = paste("run_", seq(1:100), sep = ""))))
-
-for(i in 1:length(top_vars_MDA_by_run)){
-  
-  tempData <- top_vars_MDA[[i]]
-  rownames(tempData) <- tempData$Variable
-  top_vars_MDA_by_run[, i] <- tempData[rownames(top_vars_MDA_by_run), "Overall"]
-  rm(tempData)
-}
-
-# "1" pulls the value of mean or sd from the data frame
-MDA_vars_summary <- cbind(
-  mean_MDA = t(summarise_all(as.data.frame(t(top_vars_MDA_by_run)), funs(mean)))[, 1], 
-  sd_MDA = t(summarise_all(as.data.frame(t(top_vars_MDA_by_run)), funs(sd)))[, 1], 
-  variable = rownames(top_vars_MDA_by_run))
-
-write.csv(MDA_vars_summary[order(MDA_vars_summary[, "mean_MDA"], decreasing = TRUE), ], 
-          "data/process/tables/srn_treatment_top_vars_MDA_Summary.csv", row.names = F)
-
-srn_model_top_vars_MDA_full_data <- 
-  mutate(top_vars_MDA_by_run, variables = rownames(top_vars_MDA_by_run)) %>% 
-  melt(id = c("variables"))
-
-write.csv(srn_model_top_vars_MDA_full_data, 
-          "data/process/tables/srn_treatment_top_vars_MDA_full_data.csv", row.names = F)
 
 
 

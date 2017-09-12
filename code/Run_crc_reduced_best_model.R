@@ -9,14 +9,13 @@ source('code/functions.R')
 loadLibs(c("dplyr", "caret","scales", "wesanderson", "randomForest", "pROC"))
 
 # Read in necessary data frames
-test_data <- read.csv("data/process/tables/crc_reduced_test_tune_data.csv", header = TRUE)
-split_data_results <- read.csv("data/process/tables/crc_Reduced_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
-test_data_roc <- read.csv("data/process/tables/crc_reduced_test_data_roc.csv", header = TRUE, stringsAsFactors = F)
-auc_data_table <- read.csv("data/process/tables/crc_reduced_auc_summary.csv", header = TRUE, row.names = 1)
+test_data <- read.csv("data/process/tables/crc_full_test_data.csv", header = TRUE, row.names = 1)
+split_data_results <- read.csv("data/process/tables/crc_ROC_model_summary.csv", header = TRUE, stringsAsFactors = F)
+test_data_roc <- read.csv("data/process/tables/crc_test_data_roc.csv", header = TRUE, stringsAsFactors = F)
 
 # Get best mtry to use
-mtry_table <- table(split_data_results$best_mtry)
-maximized_mtry <- as.numeric(names(mtry_table[mtry_table == max(mtry_table)]))
+mtry_table <- table(split_data_results$mtry)
+maximized_mtry <- unique(filter(split_data_results, test_auc == max(test_auc))[, "mtry"])
 
 # Create Random Forest model
 
@@ -28,10 +27,20 @@ full_model_probs_predictions <- full_model$votes
 full_model_roc <- roc(test_data$lesion ~ full_model_probs_predictions[, "Yes"])
 
 # Add to needed data tables and write them back out
-auc_data_table <- rbind(auc_data_table, full = c(full_model_roc$auc, NA, NA, NA))
-write.csv(auc_data_table, "data/process/tables/crc_reduced_auc_summary.csv")
+auc_data_table <- rbind(
+  cbind(filter(split_data_results, test_auc == max(test_auc))[1, ], 
+        auc_type = "best", stringsAsFactors = FALSE), 
+  cbind(filter(split_data_results, test_auc == min(test_auc))[1, ], 
+        auc_type = "worse", stringsAsFactors = FALSE), 
+  stringsAsFactors = FALSE)
+
+auc_data_table <- rbind(auc_data_table, 
+                        c(maximized_mtry, full_model_roc$auc, 
+                          NA, NA, NA, NA, NA, NA, NA, auc_type = "full"))
+
+write.csv(auc_data_table, "data/process/tables/crc_auc_summary.csv")
 write.csv(cbind(lesion = as.character(test_data$lesion), full_model_probs_predictions), 
-          "data/process/tables/crc_reduced_lesion_test_data_probs_summary.csv", row.names = F)
+          "data/process/tables/crc_lesion_test_data_probs_summary.csv", row.names = F)
 
 test_data_roc <- rbind(test_data_roc, 
                        cbind(sensitivities = full_model_roc$sensitivities, 
@@ -39,11 +48,11 @@ test_data_roc <- rbind(test_data_roc,
                              run = rep("full_roc", length(full_model_roc$sensitivities))))
 
 write.csv(test_data_roc, 
-          "data/process/tables/crc_reduced_test_data_roc.csv", row.names = F)
+          "data/process/tables/crc_all_test_data_roc.csv", row.names = F)
 
 
 #load in metadata to get IDs to select shared file by
-good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", 
+good_metaf <- read.csv("data/process/mod_metadata/metaF_final.csv", 
                        stringsAsFactors = F, header = T)
 
 #create vector in correct order
@@ -97,7 +106,7 @@ probability_data_table <- cbind(
   EDRN = rep(filter(good_metaf, dx == "cancer")[, "EDRN"], 2))
 
 write.csv(probability_data_table, 
-          "data/process/tables/crc_reduced_follow_up_probability_summary.csv", row.names = F)
+          "data/process/tables/crc_follow_up_probability_summary.csv", row.names = F)
 
 
 

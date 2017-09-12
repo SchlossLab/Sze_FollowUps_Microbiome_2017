@@ -15,7 +15,7 @@ shared <- read.delim('data/process/final.0.03.subsample.shared',
 metaI <- read.csv("data/process/mod_metadata/metaI_final.csv", 
   stringsAsFactors = F, header = T) 
 
-good_metaf <- read.csv('data/process/mod_metadata/good_metaf_final.csv', 
+good_metaf <- read.csv('data/process/mod_metadata/metaF_final.csv', 
                        header = T, stringsAsFactors = F) %>% select(initial)
 
 metaI <- filter(metaI, !(sample %in% good_metaf$initial)) %>% 
@@ -65,7 +65,7 @@ test_data <- cbind(lesion = factor(metaI$lesion,
   levels = c(0, 1), labels = c("No", "Yes")), test_data)
 
 # Write data table for future use
-write.csv(test_data, "data/process/tables/adn_full_test_data.csv")
+write.csv(test_data, "data/process/tables/srn_full_test_data.csv")
 
 
 #################################################################################

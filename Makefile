@@ -153,9 +153,8 @@ $(PROC)/final.0.03.subsample.shared code/Adns_treatment_model.R
 $(TABLES)/adn_treatment_test_tune_data.csv\
 $(TABLES)/adn_treatment_ROC_model_summary.csv\
 $(TABLES)/adn_treatment_test_data_roc.csv\
-$(TABLES)/adn_treatment_imp_vars_summary.csv\
-$(TABLES)/adn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/adn_treatment_top_vars_MDA_full_data.csv : exploratory/adn_treatment_model.RData\
+$(TABLES)/adn_treatment_raw_mda_values.csv\
+$(TABLES)/adn_treatment_MDA_Summary.csv : exploratory/adn_treatment_model.RData\
 code/Adns_combine_agg_treat_model.R
 	R -e "source('code/Adns_combine_agg_treat_model.R')"
 
@@ -212,48 +211,24 @@ $(CODE)/adn_createDuplicates.sh $(CODE)/adn_create_pbs.sh $(CODE)/adn_qsubmissio
 # It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
-exploratory/adn_rocs.RData : code/Run_adn_Combine_Testing_pull_imp_OTUs.R
+$(TABLES)/adn_test_data_splits.csv\
+$(TABLES)/adn_test_tune_data.csv\
+$(TABLES)/adn_ROC_model_summary.csv\
+$(TABLES)/adn_test_data_roc.csv\
+$(TABLES)/adn_raw_mda_values.csv\
+$(TABLES)/adn_MDA_Summary.csv : code/Run_adn_Combine_Testing_pull_imp_OTUs.R
 	R -e "source('code/Run_adn_Combine_Testing_pull_imp_OTUs.R')"
-
-# This code creates a 100 different 80/20 splits but with only the most
-# important OTUs.  Each of the reduced adenoma models are stored as .RData
-# files in the exploratory directory.
-
-# Sets up the target file names
-RED_ADN_TITLE=$(addprefix exploratory/adn_Reducedfeatures_RF_model_,$(MODEL_NUMBER))
-RED_ADN_MODELS=$(addsuffix .RData,$(RED_ADN_TITLE))
-
-$(RED_ADN_MODELS) : $(TABLES)/adn_full_test_data.csv\
-$(TABLES)/adn_rf_wCV_imp_vars_summary.csv code/adn_RF_reduced_vars_reference.pbs\
-code/adn_reference_run_reduced_feature_RF.R code/Run_adn_reduce_feature_lesion_model.R\
-$(CODE)/adn_createDuplicates_reducedVars.sh $(CODE)/adn_create_reducedVars_pbs.sh\
-$(CODE)/adn_qsubmission_reducedVars.sh
-	mkdir $(CODE)/reduced_adn
-	R -e "source('code/Run_adn_reduce_feature_lesion_model.R')"
-	bash $(CODE)/adn_createDuplicates_reducedVars.sh
-	bash $(CODE)/adn_create_reducedVars_pbs.sh
-	bash $(CODE)/adn_qsubmission_reducedVars.sh
-
-# This code gathers all the data together from the 100 different reduced adenoma model runs.
-# It also stores the MDA infomration for the OTUs used in this reduced model.
-
-$(TABLES)/adn_reduced_test_data_splits.csv\
-$(TABLES)/adn_reduced_test_tune_data.csv\
-$(TABLES)/adn_Reduced_ROC_model_summary.csv\
-$(TABLES)/adn_reduced_test_data_roc.csv\
-$(TABLES)/adn_reduced_auc_summary.csv\
-$(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_adn_model.R
-	R -e "source('code/Run_combine_aggregate_reduced_adn_model.R')"
 
 # This code uses the entire normal vs adenoma cohort to generate the best model for the
 # reduced ladenoma model.
 
-$(TABLES)/adn_reduced_test_data_roc.csv\
-$(TABLES)/adn_reduced_follow_up_probability_summary.csv : $(TABLES)/adn_reduced_test_tune_data.csv\
-$(TABLES)/adn_Reduced_ROC_model_summary.csv $(TABLES)/adn_reduced_test_data_roc.csv\
-$(TABLES)/adn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-$(PROC)/final.0.03.subsample.shared code/Run_adn_reduced_best_model.R
+$(TABLES)/adn_auc_summary.csv\
+$(TABLES)/adn_lesion_test_data_probs_summary.csv\
+$(TABLES)/adn_all_test_data_roc.csv\
+$(TABLES)/adn_follow_up_probability_summary.csv : $(TABLES)/adn_full_test_data.csv\
+$(TABLES)/adn_ROC_model_summary.csv $(TABLES)/adn_test_data_roc.csv\
+$(PROC)/mod_metadata/metaF_final.csv $(PROC)/final.0.03.subsample.shared\
+code/Run_adn_reduced_best_model.R
 	R -e "source('code/Run_adn_reduced_best_model.R')"
 
 
@@ -272,9 +247,8 @@ $(PROC)/final.0.03.subsample.shared code/SRN_treatment_model.R
 $(TABLES)/srn_treatment_test_tune_data.csv\
 $(TABLES)/srn_treatment_ROC_model_summary.csv\
 $(TABLES)/srn_treatment_test_data_roc.csv\
-$(TABLES)/srn_treatment_imp_vars_summary.csv\
-$(TABLES)/srn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/srn_treatment_top_vars_MDA_full_data.csv : exploratory/srn_treatment_model.RData\
+$(TABLES)/srn_treatment_raw_mda_values.csv\
+$(TABLES)/srn_treatment_MDA_Summary.csv : exploratory/srn_treatment_model.RData\
 code/SRN_combine_agg_treat_model.R
 	R -e "source('code/SRN_combine_agg_treat_model.R')"
 
@@ -329,49 +303,25 @@ $(CODE)/srn_createDuplicates.sh $(CODE)/srn_create_pbs.sh $(CODE)/srn_qsubmissio
 # It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
-exploratory/srn_rocs.RData : code/Run_srn_Combine_Testing_pull_imp_OTUs.R
+$(TABLES)/srn_test_data_splits.csv\
+$(TABLES)/srn_test_tune_data.csv\
+$(TABLES)/srn_ROC_model_summary.csv\
+$(TABLES)/srn_test_data_roc.csv\
+$(TABLES)/srn_raw_mda_values.csv\
+$(TABLES)/srn_MDA_Summary.csv : code/Run_srn_Combine_Testing_pull_imp_OTUs.R
 	R -e "source('code/Run_srn_Combine_Testing_pull_imp_OTUs.R')"
 
-# This code creates a 100 different 80/20 splits but with only the most
-# important OTUs.  Each of the reduced advanced adenoma models are stored as .RData
-# files in the exploratory directory.
-
-# Sets up the target file names
-RED_SRN_TITLE=$(addprefix exploratory/srn_Reducedfeatures_RF_model_,$(MODEL_NUMBER))
-RED_SRN_MODELS=$(addsuffix .RData,$(RED_SRN_TITLE))
-
-$(RED_SRN_MODELS) : $(TABLES)/srn_full_test_data.csv\
-$(TABLES)/srn_rf_wCV_imp_vars_summary.csv code/srn_RF_reduced_vars_reference.pbs\
-code/srn_reference_run_reduced_feature_RF.R code/Run_srn_reduce_feature_lesion_model.R\
-$(CODE)/srn_createDuplicates_reducedVars.sh $(CODE)/srn_create_reducedVars_pbs.sh\
-$(CODE)/srn_qsubmission_reducedVars.sh
-	mkdir $(CODE)/reduced_srn
-	R -e "source('code/Run_srn_reduce_feature_lesion_model.R')"
-	bash $(CODE)/srn_createDuplicates_reducedVars.sh
-	bash $(CODE)/srn_create_reducedVars_pbs.sh
-	bash $(CODE)/srn_qsubmission_reducedVars.sh
-
-# This code gathers all the data together from the 100 different reduced advanced adenoma
-# model runs.  It also stores the MDA infomration for the OTUs used in this reduced model.
-
-$(TABLES)/srn_reduced_test_data_splits.csv\
-$(TABLES)/srn_reduced_test_tune_data.csv\
-$(TABLES)/srn_Reduced_ROC_model_summary.csv\
-$(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/srn_reduced_auc_summary.csv\
-$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/srn_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_srn_model.R
-	#Collects the needed data to generate figure 3
-	R -e "source('code/Run_combine_aggregate_reduced_srn_model.R')"
 
 # This code uses the entire normal vs advanced adenoma cohort to generate the best model
 # for the reduced advanced adenoma model.
 
-$(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv : $(TABLES)/srn_reduced_test_tune_data.csv\
-$(TABLES)/srn_Reduced_ROC_model_summary.csv $(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/srn_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-$(PROC)/final.0.03.subsample.shared code/Run_srn_reduced_best_model.R
+$(TABLES)/srn_auc_summary.csv\
+$(TABLES)/srn_lesion_test_data_probs_summary.csv\
+$(TABLES)/srn_all_test_data_roc.csv\
+$(TABLES)/srn_follow_up_probability_summary.csv : $(TABLES)/srn_full_test_data.csv\
+$(TABLES)/srn_ROC_model_summary.csv $(TABLES)/srn_test_data_roc.csv\
+$(PROC)/mod_metadata/metaF_final.csv\ $(PROC)/final.0.03.subsample.shared\
+code/Run_srn_reduced_best_model.R
 	R -e "source('code/Run_srn_reduced_best_model.R')"
 
 
@@ -390,9 +340,8 @@ $(PROC)/final.0.03.subsample.shared code/CRC_treatment_model.R
 $(TABLES)/crc_treatment_test_tune_data.csv\
 $(TABLES)/crc_treatment_ROC_model_summary.csv\
 $(TABLES)/crc_treatment_test_data_roc.csv\
-$(TABLES)/crc_treatment_imp_vars_summary.csv\
-$(TABLES)/crc_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_treatment_top_vars_MDA_full_data.csv : exploratory/crc_treatment_model.RData\
+$(TABLES)/crc_treatment_raw_mda_values.csv\
+$(TABLES)/crc_treatment_MDA_Summary.csv : exploratory/crc_treatment_model.RData\
 code/CRC_combine_agg_treat_model.R
 	R -e "source('code/CRC_combine_agg_treat_model.R')"
 
@@ -446,49 +395,26 @@ $(CODE)/crc_createDuplicates.sh $(CODE)/crc_create_pbs.sh $(CODE)/crc_qsubmissio
 # It also grabs the most important OTUs based on MDA and
 # frequency they've occured in the 100 different runs.
 
-exploratory/crc_rocs.RData : code/Run_Combine_Testing_pull_imp_OTUs.R
+$(TABLES)/crc_test_data_splits.csv\
+$(TABLES)/crc_test_tune_data.csv\
+$(TABLES)/crc_ROC_model_summary.csv\
+$(TABLES)/crc_test_data_roc.csv\
+$(TABLES)/crc_raw_mda_values.csv\
+$(TABLES)/crc_MDA_Summary.csv : $(PROC)/final.taxonomy\
+code/Run_Combine_Testing_pull_imp_OTUs.R
 	R -e "source('code/Run_crc_Combine_Testing_pull_imp_OTUs.R')"
 
-# This code creates a 100 different 80/20 splits but with only the most
-# important OTUs.  Each of the reduced lcarcinomamodels are stored as .RData
-# files in the exploratory directory.
-
-# Sets up the target file names
-RED_CRC_TITLE=$(addprefix exploratory/crc_Reducedfeatures_RF_model_,$(MODEL_NUMBER))
-RED_CRC_MODELS=$(addsuffix .RData,$(RED_CRC_TITLE))
-
-$(RED_CRC_MODELS) : $(TABLES)/crc_full_test_data.csv\
-$(TABLES)/crc_rf_wCV_imp_vars_summary.csv code/crc_RF_reduced_vars_reference.pbs\
-code/crc_reference_run_reduced_feature_RF.R code/Run_crc_reduce_feature_lesion_model.R\
-$(CODE)/crc_createDuplicates_reducedVars.sh $(CODE)/crc_create_reducedVars_pbs.sh\
-$(CODE)/crc_qsubmission_reducedVars.sh
-	mkdir $(CODE)/reduced_crc
-	R -e "source('code/Run_crc_reduce_feature_lesion_model.R')"
-	bash $(CODE)/crc_createDuplicates_reducedVars.sh
-	bash $(CODE)/crc_create_reducedVars_pbs.sh
-	bash $(CODE)/crc_qsubmission_reducedVars.sh
-
-
-# This code gathers all the data together from the 100 different reduced carcinoma
-# model runs. It also stores the MDA infomration for the OTUs used in this reduced model.
-
-$(TABLES)/crc_reduced_test_data_splits.csv\
-$(TABLES)/crc_reduced_test_tune_data.csv\
-$(TABLES)/crc_Reduced_ROC_model_summary.csv\
-$(TABLES)/crc_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_auc_summary.csv\
-$(TABLES)/crc_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv : code/Run_combine_aggregate_reduced_crc_model.R
-	R -e "source('code/Run_combine_aggregate_reduced_crc_model.R')"
 
 # This code uses the entire normal vs carcinoma cohort to generate the best model for the
 # reduced carcinoma model.
 
-$(TABLES)/crc_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv : $(TABLES)/crc_reduced_test_tune_data.csv\
-$(TABLES)/crc_Reduced_ROC_model_summary.csv $(TABLES)/crc_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_auc_summary.csv $(PROC)/mod_metadata/good_metaf_final.csv\
-$(PROC)/final.0.03.subsample.shared code/Run_crc_reduced_best_model.R
+$(TABLES)/crc_auc_summary.csv\
+$(TABLES)/crc_lesion_test_data_probs_summary.csv\
+$(TABLES)/crc_all_test_data_roc.csv\
+$(TABLES)/crc_follow_up_probability_summary.csv : $(TABLES)/crc_full_test_data.csv\
+$(TABLES)/crc_ROC_model_summary.csv $(TABLES)/crc_test_data_roc.csv\
+$(PROC)/mod_metadata/metaF_final.csv $(PROC)/final.0.03.subsample.shared\
+code/Run_crc_reduced_best_model.R
 	R -e "source('code/Run_crc_reduced_best_model.R')"
 
 
