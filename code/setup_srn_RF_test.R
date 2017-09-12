@@ -65,7 +65,7 @@ test_data <- cbind(lesion = factor(metaI$lesion,
   levels = c(0, 1), labels = c("No", "Yes")), test_data)
 
 # Write data table for future use
-write.csv(test_data, "data/process/tables/adn_full_test_data.csv")
+write.csv(test_data, "data/process/tables/srn_full_test_data.csv")
 
 
 #################################################################################
