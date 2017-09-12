@@ -1,0 +1,7 @@
+"sensitivities","specificities","run"
+1,0,"best_roc"
+0.277777777777778,0.970588235294118,"best_roc"
+0,1,"best_roc"
+1,0,"worse_roc"
+0,0.823529411764706,"worse_roc"
+0,1,"worse_roc"
