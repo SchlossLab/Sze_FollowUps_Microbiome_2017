@@ -93,8 +93,7 @@ for(i in 1:n){
 # Write out ROC summary table
 
 write.csv(
-  mutate(best_model_data, run = rownames(best_model_data), 
-    best_mtry = t(as.data.frame.list(best_tune))), 
+  mutate(best_model_data, run = rownames(best_model_data)), 
   "data/process/tables/srn_ROC_model_summary.csv", row.names = F)
 
 

@@ -15,8 +15,8 @@ test_data_roc <- read.csv("data/process/tables/srn_test_data_roc.csv", header = 
 
 
 # Get best mtry to use
-mtry_table <- table(split_data_results$best_mtry)
-maximized_mtry <- as.numeric(names(mtry_table[mtry_table == max(mtry_table)]))
+mtry_table <- table(split_data_results$mtry)
+maximized_mtry <- filter(split_data_results, test_auc == max(test_auc))[, "mtry"]
 
 # Create Random Forest model
 
@@ -28,10 +28,20 @@ full_model_probs_predictions <- full_model$votes
 full_model_roc <- roc(test_data$lesion ~ full_model_probs_predictions[, "Yes"])
 
 # Add to needed data tables and write them back out
-auc_data_table <- rbind(auc_data_table, full = c(full_model_roc$auc, NA, NA, NA))
-write.csv(auc_data_table, "data/process/tables/srn_reduced_auc_summary.csv")
+auc_data_table <- rbind(
+  cbind(filter(split_data_results, test_auc == max(test_auc))[1, ], 
+        auc_type = "best", stringsAsFactors = FALSE), 
+  cbind(filter(split_data_results, test_auc == min(test_auc))[1, ], 
+        auc_type = "worse", stringsAsFactors = FALSE), 
+  stringsAsFactors = FALSE)
+
+auc_data_table <- rbind(auc_data_table, 
+                        c(maximized_mtry, full_model_roc$auc, 
+                          NA, NA, NA, NA, NA, NA, NA, auc_type = "full"))
+
+write.csv(auc_data_table, "data/process/tables/srn_auc_summary.csv")
 write.csv(cbind(lesion = as.character(test_data$lesion), full_model_probs_predictions), 
-          "data/process/tables/srn_reduced_lesion_test_data_probs_summary.csv", row.names = F)
+          "data/process/tables/srn_lesion_test_data_probs_summary.csv", row.names = F)
 
 test_data_roc <- rbind(test_data_roc, 
                        cbind(sensitivities = full_model_roc$sensitivities, 
@@ -39,11 +49,11 @@ test_data_roc <- rbind(test_data_roc,
                              run = rep("full_roc", length(full_model_roc$sensitivities))))
 
 write.csv(test_data_roc, 
-          "data/process/tables/srn_reduced_test_data_roc.csv", row.names = F)
+          "data/process/tables/srn_all_test_data_roc.csv", row.names = F)
 
 
 #load in metadata to get IDs to select shared file by
-good_metaf <- read.csv("data/process/mod_metadata/good_metaf_final.csv", 
+good_metaf <- read.csv("data/process/mod_metadata/metaF_final.csv", 
                        stringsAsFactors = F, header = T)
 
 #create vector in correct order
@@ -64,6 +74,7 @@ shared <- select(shared, Group, one_of(OTUs_to_keep))
 good_metaf$followup_call[good_metaf$Disease_Free == "n"] <- "Yes"
 good_metaf$followup_call[good_metaf$Disease_Free != "n"] <- "No"
 test_follow_up_data <- cbind(lesion = c(rep("Yes", length(good_metaf$lesion)), good_metaf$followup_call), 
+                             dx = good_metaf$dx, 
                              Dx_Bin = good_metaf$Dx_Bin, 
                              sampleType = c(rep("initial", length(good_metaf$lesion)), 
                                             rep("followup", length(good_metaf$lesion))), 
@@ -74,12 +85,12 @@ test_follow_up_data <- cbind(lesion = c(rep("Yes", length(good_metaf$lesion)), g
 initial_predictions <- predict(full_model, 
                                newdata = (filter(test_follow_up_data, 
                                                  sampleType == "initial" & Dx_Bin == "adv_adenoma") %>% 
-                                            select(-Dx_Bin, -sampleType)), type='prob')
+                                            select(-dx, -sampleType)), type='prob')
 
 followup_predictions <- predict(full_model, 
                                 newdata = (filter(test_follow_up_data, 
-                                                 sampleType == "followup" & Dx_Bin == "adv_adenoma") %>% 
-                                            select(-Dx_Bin, -sampleType)), type='prob')
+                                                  sampleType == "followup" & Dx_Bin == "adv_adenoma") %>% 
+                                             select(-dx, -sampleType)), type='prob')
 
 
 # Create data table needed for figure 4
@@ -97,7 +108,8 @@ probability_data_table <- cbind(
   EDRN = rep(filter(good_metaf, Dx_Bin == "adv_adenoma")[, "EDRN"], 2))
 
 write.csv(probability_data_table, 
-          "data/process/tables/srn_reduced_follow_up_probability_summary.csv", row.names = F)
+          "data/process/tables/srn_follow_up_probability_summary.csv", row.names = F)
+
 
 
 
