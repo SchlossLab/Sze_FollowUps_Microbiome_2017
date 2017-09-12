@@ -388,9 +388,8 @@ $(PROC)/final.0.03.subsample.shared code/CRC_treatment_model.R
 $(TABLES)/crc_treatment_test_tune_data.csv\
 $(TABLES)/crc_treatment_ROC_model_summary.csv\
 $(TABLES)/crc_treatment_test_data_roc.csv\
-$(TABLES)/crc_treatment_imp_vars_summary.csv\
-$(TABLES)/crc_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_treatment_top_vars_MDA_full_data.csv : exploratory/crc_treatment_model.RData\
+$(TABLES)/crc_treatment_raw_mda_values.csv\
+$(TABLES)/crc_treatment_MDA_Summary.csv : exploratory/crc_treatment_model.RData\
 code/CRC_combine_agg_treat_model.R
 	R -e "source('code/CRC_combine_agg_treat_model.R')"
 
