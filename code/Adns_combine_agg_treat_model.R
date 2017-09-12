@@ -46,9 +46,7 @@ for(i in 1:n){
            scale = FALSE)$importance %>% 
     mutate(Variable = rownames(.), run = i) 
   
-  #%>% arrange(desc(Overall))
-  
-  
+
   run_predictions[[paste("run_", i, sep = "")]] <- test_predictions[[paste(
     "data_split", i, sep = "")]]
   
