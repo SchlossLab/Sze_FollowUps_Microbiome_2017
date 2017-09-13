@@ -142,6 +142,13 @@ was little overlap between the OTUs that were indicative of each treatment. Trai
 
 \newpage
 
+## Importance
+
+This study helps to clarify what happens to the microbiota after generalized treatment for an adenoma or carcinoma. It is a necessary first step to ultimately investigating how the microbiota changes in those with carcinoma recurrence. This is important since a large number of those treated for carcinoma will have a recurrence. Finding better ways to stratify those most and least likely to recur using the microbiota could provide a cheaper and more accurate alternative to the current status quo. Our results suggest that the microbiota could be used to stratify individuals for risk of recurrence and provides a starting point for future studies into this area.
+
+\newpage
+
+
 ## Background
 
 Colorectal cancer (CRC) is the third most common cause of cancer deaths in the United States [@siegel_cancer_2016; @haggar_colorectal_2009]. Disease mortality has significantly decreased, predominately due to improvements in screening [@haggar_colorectal_2009]. Despite these improvements, there are still approximately 50,000 CRC-related deaths per year in the United States [@siegel_cancer_2016]. Current estimates indicate that 20-30% of those who undergo treatment will experience recurrence and 35% of all patients will die within five years [@hellinger_reoperation_2006; @ryuk_predictive_2014; @national_cancer_institute_seer_nodate]. Identification of methods to assess patients' risk of recurrence is of great importance to reduce mortality and healthcare costs.

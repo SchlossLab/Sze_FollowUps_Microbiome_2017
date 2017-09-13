@@ -610,3 +610,15 @@ write.r1.marked.up : $(FINAL)/manuscript.tex\
 	rm $(FINAL)/manuscript_R1_markedup.aux 
 	rm $(FINAL)/manuscript_R1_markedup.log
 	rm $(FINAL)/manuscript_R1_markedup.out}
+
+write.revision2.paper : $(FINAL)/manuscript_R2.Rmd\
+code/Run_render_revision2_paper.R
+	R -e "source('code/Run_render_revision2_paper.R')"
+
+write.r2.marked.up : $(FINAL)/manuscript_R1.tex\
+		$(FINAL)/manuscript_R2.tex
+	latexdiff $(FINAL)/manuscript_R1.tex $(FINAL)/manuscript_R2.tex > $(FINAL)/manuscript_R2_markedup.tex
+	pdflatex -output-directory=$(FINAL) $(FINAL)/manuscript_R2_markedup.tex
+	rm $(FINAL)/manuscript_R2_markedup.aux 
+	rm $(FINAL)/manuscript_R2_markedup.log
+	rm $(FINAL)/manuscript_R2_markedup.out}
