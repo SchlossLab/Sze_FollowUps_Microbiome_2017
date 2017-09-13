@@ -535,6 +535,7 @@ code/treatment_otu_graph.R
 
 $(FIGS)/Figure3.pdf : $(TABLES)/adn_MDA_Summary.csv\
 $(TABLES)/srn_MDA_Summary.csv $(TABLES)/crc_MDA_Summary.csv\
+$(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv\
 code/common_all_models.R code/common_otu_graph.R
 	R -e "source('code/common_otu_graph.R')"
 
@@ -542,9 +543,9 @@ code/common_all_models.R code/common_otu_graph.R
 # This figure looks at classification of intial and follow up samples
 # based on adenoma, advanced adenoma, or carcinoma.
 
-$(FIGS)/Figure4.pdf : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
+$(FIGS)/Figure4.pdf : $(TABLES)/adn_follow_up_probability_summary.csv\
+$(TABLES)/srn_follow_up_probability_summary.csv\
+$(TABLES)/crc_follow_up_probability_summary.csv\
 code/Run_Figure2.R
 	R -e "source('code/Run_Figure4.R')"
 
