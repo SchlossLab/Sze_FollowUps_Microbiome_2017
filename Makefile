@@ -575,9 +575,8 @@ $(TABLES)/crc_raw_mda_values.csv code/Run_FigureS2.R
 # This figure plots the oral specific crc-releated OTUs identified in the carcinoma model.
 
 $(FIGS)/FigureS3.pdf : $(PROC)/final.shared\
-$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv\
-$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS3.R
+$(TABLES)/crc_MDA_Summary.csv $(PROC)/mod_metadata/metaF_final.csv\
+code/Run_FigureS3.R
 	R -e "source('code/Run_FigureS3.R')"
 
 
