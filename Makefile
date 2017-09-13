@@ -494,8 +494,7 @@ $(TABLES)/SRN_randomization_treatment_ROC_model_summary.csv\
 $(TABLES)/CRC_randomization_treatment_ROC_model_summary.csv\
 $(TABLES)/adn_treatment_ROC_model_summary.csv\
 $(TABLES)/srn_treatment_ROC_model_summary.csv\
-$(TABLES)/crc_treatment_ROC_model_summary.csv 
-code/get_randomization_treatment_summary_data.R
+$(TABLES)/crc_treatment_ROC_model_summary.csv code/get_randomization_treatment_summary_data.R
 	R -e "source('code/get_randomization_treatment_summary_data.R')"
 
 
@@ -604,21 +603,21 @@ write.revision1.paper : $(FINAL)/manuscript_R1.Rmd\
 	R -e "source('code/Run_render_revision1_paper.R')"
 
 write.r1.marked.up : $(FINAL)/manuscript.tex\
-		$(FINAL)/manuscript_R1.tex
+$(FINAL)/manuscript_R1.tex
 	latexdiff $(FINAL)/manuscript.tex $(FINAL)/manuscript_R1.tex > $(FINAL)/manuscript_R1_markedup.tex
 	pdflatex -output-directory=$(FINAL) $(FINAL)/manuscript_R1_markedup.tex
 	rm $(FINAL)/manuscript_R1_markedup.aux 
 	rm $(FINAL)/manuscript_R1_markedup.log
-	rm $(FINAL)/manuscript_R1_markedup.out}
+	rm $(FINAL)/manuscript_R1_markedup.out
 
 write.revision2.paper : $(FINAL)/manuscript_R2.Rmd\
 code/Run_render_revision2_paper.R
 	R -e "source('code/Run_render_revision2_paper.R')"
 
 write.r2.marked.up : $(FINAL)/manuscript_R1.tex\
-		$(FINAL)/manuscript_R2.tex
+$(FINAL)/manuscript_R2.tex
 	latexdiff $(FINAL)/manuscript_R1.tex $(FINAL)/manuscript_R2.tex > $(FINAL)/manuscript_R2_markedup.tex
 	pdflatex -output-directory=$(FINAL) $(FINAL)/manuscript_R2_markedup.tex
 	rm $(FINAL)/manuscript_R2_markedup.aux 
 	rm $(FINAL)/manuscript_R2_markedup.log
-	rm $(FINAL)/manuscript_R2_markedup.out}
+	rm $(FINAL)/manuscript_R2_markedup.out
