@@ -86,7 +86,7 @@ fmt_dcimals <- function(decimals=0){
 # Create Graph
 adn_treat_MDA_graph <- adn_data %>% filter(Overall > 0) %>% 
   ggplot(aes(factor(Variable, 
-                    levels = rev(unique(adn_data$Variable)), 
+                    levels = rev(unique(adn_treat_varsMDA$Variable)), 
                     labels = rev(adn_axis)), log10(Overall))) + 
   geom_point(color = '#76EE00') + stat_summary(fun.y = "median", colour = '#006400', geom = "point", size = 2.5) + 
   coord_flip(ylim = c(-3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("A") + 
@@ -99,7 +99,7 @@ adn_treat_MDA_graph <- adn_data %>% filter(Overall > 0) %>%
 
 srn_treat_MDA_graph <- srn_data %>% filter(Overall > 0) %>% 
   ggplot(aes(factor(Variable, 
-                    levels = rev(unique(srn_data$Variable)), 
+                    levels = rev(unique(srn_treat_varsMDA$Variable)), 
                     labels = rev(srn_axis)), log10(Overall))) + 
   geom_point(color = '#F0E68C') + stat_summary(fun.y = "median", colour = '#EEC900', geom = "point", size = 2.5) + 
   coord_flip(ylim = c(-3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("B") + 
@@ -112,7 +112,7 @@ srn_treat_MDA_graph <- srn_data %>% filter(Overall > 0) %>%
 
 crc_treat_MDA_graph <- crc_data %>% filter(Overall > 0) %>% 
   ggplot(aes(factor(Variable, 
-                              levels = rev(unique(crc_data$Variable)), 
+                              levels = rev(unique(crc_treat_varsMDA$Variable)), 
                               labels = rev(crc_axis)), log10(Overall))) + 
   geom_point(color = '#FFB6C1') + stat_summary(fun.y = "median", colour = '#DC143C', geom = "point", size = 2.5) + 
   coord_flip(ylim = c(-3, 0.8)) + theme_bw() + ylab("Log10 MDA") + xlab("") +  ggtitle("C") + 
