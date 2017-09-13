@@ -11,18 +11,18 @@ loadLibs(c("dplyr", "tidyr"))
 # Read in data tables
 
 data_list <- list(
-  red_adn_probs = read.csv("data/process/tables/adn_reduced_follow_up_probability_summary.csv", 
+  red_adn_probs = read.csv("data/process/tables/adn_follow_up_probability_summary.csv", 
                               header = T, stringsAsFactors = F), 
-  red_srn_probs = read.csv("data/process/tables/srn_reduced_follow_up_probability_summary.csv", 
+  red_srn_probs = read.csv("data/process/tables/srn_follow_up_probability_summary.csv", 
                            header = T, stringsAsFactors = F), 
-  red_crc_probs = read.csv("data/process/tables/crc_reduced_follow_up_probability_summary.csv", 
+  red_crc_probs = read.csv("data/process/tables/crc_follow_up_probability_summary.csv", 
                           header = T, stringsAsFactors = F)
 )
 
 difference_table_treatment <- read.csv("data/process/tables/difference_table.csv", 
                                        header = T, stringsAsFactors = F)
 
-good_metaf <- read.csv("data/process/mod_metadata/metaf_final.csv", stringsAsFactors = F, header = T)
+good_metaf <- read.csv("data/process/mod_metadata/metaF_final.csv", stringsAsFactors = F, header = T)
 alpha_summary <- read.delim("data/process/final.groups.ave-std.summary", stringsAsFactors = F)
 
 # Create data set more amenable to changes

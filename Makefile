@@ -465,10 +465,10 @@ code/Run_adn_crc_Compare_models.R
 $(TABLES)/crc_probs_chemo_rad_pvalue_summary.csv\
 $(TABLES)/adn_combined_probs_surgery_pvalue_summary.csv\
 $(TABLES)/crc_chemo_rad_summary.csv\
-$(TABLES)/adn_combined_surgery_summary.csv : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
+$(TABLES)/adn_combined_surgery_summary.csv : $(TABLES)/adn_follow_up_probability_summary.csv\
+$(TABLES)/srn_follow_up_probability_summary.csv\
+$(TABLES)/crc_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
+$(PROC)/mod_metadata/metaF_final.csv $(PROC)/final.groups.ave-std.summary\
 code/Run_adn_crc_Test_Chemo_Rad.R
 	R -e "source('code/Run_adn_crc_Test_Chemo_Rad.R')"
 
