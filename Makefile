@@ -483,6 +483,22 @@ $(TABLES)/crc_chemo_rad_summary.csv $(PROC)/final.shared code/Run_treatment_comm
 	R -e "source('code/Run_treatment_common_otus.R')"
 
 
+# This comparison compares random permuted labels for each
+# treatment model against the actual model and returns the resulting
+# data files on the outcome of the test
+
+$(TABLES)/randomization_treatment_AUC_summary.csv\
+$(TABLES)/actual_treatment_AUC_summary.csv\
+$(TABLES)/treatment_comparison_AUC_summary.csv : $(TABLES)/adn_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/SRN_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/CRC_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/adn_treatment_ROC_model_summary.csv\
+$(TABLES)/srn_treatment_ROC_model_summary.csv\
+$(TABLES)/crc_treatment_ROC_model_summary.csv 
+code/get_randomization_treatment_summary_data.R
+	R -e "source('code/get_randomization_treatment_summary_data.R')"
+
+
 
 ###################################################################################
 #																				  #
