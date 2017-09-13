@@ -563,14 +563,12 @@ code/Run_FigureS1.R
 
 
 # This figure explores the most important OTUs for each model and displays
-# them by median MDA.
+# them by median MDA. Restricted this to the top 50
 
-$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
-$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/srn_reduced_model_top_vars_MDA.csv\
-$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS2.R
+$(FIGS)/FigureS2.pdf : $(TABLES)/adn_MDA_Summary.csv\
+$(TABLES)/adn_raw_mda_values.csv $(TABLES)/srn_MDA_Summary.csv\
+$(TABLES)/srn_raw_mda_values.csv $(TABLES)/crc_MDA_Summary.csv\
+$(TABLES)/crc_raw_mda_values.csv code/Run_FigureS2.R
 	R -e "source('code/Run_FigureS2.R')"
 
 
