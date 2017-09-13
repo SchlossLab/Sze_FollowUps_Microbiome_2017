@@ -554,9 +554,9 @@ code/Run_Figure2.R
 # visualizes the models normal vs adenoma, normal vs advanced adenoma, and
 # normal vs carcinoma.
 
-$(FIGS)/FigureS1.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
-$(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS1.R
+$(FIGS)/FigureS1.pdf : $(TABLES)/adn_all_test_data_roc.csv\
+$(TABLES)/srn_all_test_data_roc.csv $(TABLES)/crc_all_test_data_roc.csv\
+code/Run_FigureS1.R
 	R -e "source('code/Run_FigureS1.R')"
 	tiff2pdf -z -o results/figures/FigureS1.pdf results/figures/FigureS1.tiff
 	rm results/figures/FigureS1.tiff

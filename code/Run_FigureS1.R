@@ -8,9 +8,9 @@ source('code/functions.R')
 loadLibs(c("dplyr", "tidyr", "ggplot2", "reshape2", "gridExtra", "scales", "wesanderson", "knitr", "rmarkdown"))
 
 #Read data needed
-adn_model_roc <- read.csv("data/process/tables/adn_reduced_test_data_roc.csv", header = T)
-srn_model_roc <- read.csv("data/process/tables/srn_reduced_test_data_roc.csv", header = T)
-crc_model_roc <- read.csv("data/process/tables/crc_reduced_test_data_roc.csv", header = T)
+adn_model_roc <- read.csv("data/process/tables/adn_all_test_data_roc.csv", header = T)
+srn_model_roc <- read.csv("data/process/tables/srn_all_test_data_roc.csv", header = T)
+crc_model_roc <- read.csv("data/process/tables/crc_all_test_data_roc.csv", header = T)
 
 
 # Create the graph
