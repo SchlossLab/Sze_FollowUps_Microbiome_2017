@@ -12,7 +12,7 @@ loadLibs(c("dplyr", "tidyr"))
 chemo_rad_stats_summary <- read.csv('data/process/tables/crc_probs_chemo_rad_pvalue_summary.csv', 
                               header = T, stringsAsFactors = F, row.names = 1)
 
-good_metaf <- read.csv('data/process/mod_metadata/good_metaf_final.csv', header = T, stringsAsFactors = F)
+good_metaf <- read.csv('data/process/mod_metadata/metaF_final.csv', header = T, stringsAsFactors = F)
 
 common_vars_summary <- read.csv('data/process/tables/pvalue_adn_srn_crc_common_imp_vars.csv', 
                                 header = T, row.names = 1, stringsAsFactors = F)
@@ -36,7 +36,7 @@ shared <- filter(shared, Group %in% samples_to_keep) %>%
   slice(match(samples_to_keep, Group))
 
 # Select only OTUs that were common
-crc_shared <- shared %>% select(one_of(common_vars_summary$otu)) %>% 
+crc_shared <- shared %>% select(one_of(common_vars_summary$Variable)) %>% 
   mutate(sampleType = c(rep("initial", length(good_metaf$initial)), rep("followups", length(good_metaf$followUp))), 
          Dx_Bin = rep(good_metaf$Dx_Bin, 2), 
          chemo = rep(good_metaf$chemo_received, 2), 
@@ -49,7 +49,7 @@ test_data <- ((filter(crc_shared, sampleType == "initial") %>% select(contains("
          rads = crc_shared$rads[crc_shared$sampleType == "initial"])
 
 # Create lowest ID labels
-common_lowest_IDs <- common_vars_summary$lowest_ID
+common_lowest_IDs <- common_vars_summary$tax_ID
 table_labels <- c()
 for(i in 1:length(common_lowest_IDs)){
   
@@ -59,7 +59,7 @@ for(i in 1:length(common_lowest_IDs)){
 
 # Add a lowest taxa ID to test data table
 graph_ids <- c()
-otus <- unique(common_vars_summary$otu)
+otus <- unique(common_vars_summary$Variable)
 
 for(i in 1:length(otus)){
   
@@ -69,7 +69,7 @@ for(i in 1:length(otus)){
 
 
 # Create data table to be used for graphing
-common_data <- test_data %>% gather(key = otu, value = change, one_of(common_vars_summary$otu)) %>% 
+common_data <- test_data %>% gather(key = otu, value = change, one_of(common_vars_summary$Variable)) %>% 
   mutate(lowest_ID = graph_ids)
 
 
@@ -100,7 +100,7 @@ write.csv(pvalue_table, "data/process/tables/chemo_rads_treatment_pvalue_summary
 # Calculate P-values for surgery within adenoma combined group
 
 # Select only OTUs that were common
-adn_shared <- shared %>% select(one_of(common_vars_summary$otu)) %>% 
+adn_shared <- shared %>% select(one_of(common_vars_summary$Variable)) %>% 
   mutate(sampleType = c(rep("initial", length(good_metaf$initial)), rep("followups", length(good_metaf$followUp))), 
          Dx_Bin = rep(good_metaf$Dx_Bin, 2), 
          Surgery = rep(good_metaf$Surgery, 2)) %>% 
@@ -122,7 +122,7 @@ for(i in 1:length(otus)){
 
 
 # Create data table to be used for graphing
-adn_common_data <- adn_test_data %>% gather(key = otu, value = change, one_of(common_vars_summary$otu)) %>% 
+adn_common_data <- adn_test_data %>% gather(key = otu, value = change, one_of(common_vars_summary$Variable)) %>% 
   mutate(lowest_ID = adn_graph_ids)
 
 

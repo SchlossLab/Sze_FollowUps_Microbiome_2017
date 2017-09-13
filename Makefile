@@ -440,31 +440,20 @@ code/Run_wilcoxson_all.R $(PROC)/mod_metadata/metaI_final.csv\
 # samples for all reduced final models.
 
 $(TABLES)/all_crc_srn_adn_models_wilcox_paired_pvalue_summary.csv\
-$(TABLES)/all_crc_srn_adn_models_confusion_summary.csv\
-$(TABLES)/all_crc_srn_adn_models_summary_info.csv : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_srn_crc_probs_comparison.R
+$(TABLES)/all_crc_srn_adn_models_summary_info.csv : $(TABLES)/adn_follow_up_probability_summary.csv\
+$(TABLES)/srn_follow_up_probability_summary.csv\
+$(TABLES)/crc_follow_up_probability_summary.csv\
+$(PROC)/mod_metadata/metaF_final.csv code/Run_adn_srn_crc_probs_comparison.R
 	R -e "source('code/Run_adn_srn_crc_probs_comparison.R')"
-
-
-# The generation and storage of the taxonomies for the OTUs used in the
-# reduced adenoma, advanced adenoma, and carcinoma models.
-
-$(TABLES)/adn_rf_otu_tax.csv\
-$(TABLES)/srn_rf_otu_tax.csv\
-$(TABLES)/crc_rf_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
-$(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
-	R -e "source('code/Run_ID_imp_OTUs.R')"
 
 
 # This code IDs the common OTUs between the three different models and
 # also runs a comparison for differences between initial and follow up
 # samples.
 
-$(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv : $(TABLES)/adn_rf_otu_tax.csv\
-$(TABLES)/srn_rf_otu_tax.csv $(TABLES)/crc_rf_otu_tax.csv\
-$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv : $(TABLES)/adn_MDA_Summary.csv\
+$(TABLES)/srn_MDA_Summary.csv $(TABLES)/crc_MDA_Summary.csv\
+$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/metaF_final.csv\
 code/Run_adn_crc_Compare_models.R
 	R -e "source('code/Run_adn_crc_Compare_models.R')"
 
@@ -476,10 +465,10 @@ code/Run_adn_crc_Compare_models.R
 $(TABLES)/crc_probs_chemo_rad_pvalue_summary.csv\
 $(TABLES)/adn_combined_probs_surgery_pvalue_summary.csv\
 $(TABLES)/crc_chemo_rad_summary.csv\
-$(TABLES)/adn_combined_surgery_summary.csv : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv $(PROC)/final.groups.ave-std.summary\
+$(TABLES)/adn_combined_surgery_summary.csv : $(TABLES)/adn_follow_up_probability_summary.csv\
+$(TABLES)/srn_follow_up_probability_summary.csv\
+$(TABLES)/crc_follow_up_probability_summary.csv $(TABLES)/difference_table.csv\
+$(PROC)/mod_metadata/metaF_final.csv $(PROC)/final.groups.ave-std.summary\
 code/Run_adn_crc_Test_Chemo_Rad.R
 	R -e "source('code/Run_adn_crc_Test_Chemo_Rad.R')"
 
@@ -489,9 +478,25 @@ code/Run_adn_crc_Test_Chemo_Rad.R
 
 $(TABLES)/chemo_rads_treatment_pvalue_summary.csv\
 $(TABLES)/all_adn_surg_pvalue_summary.csv : $(TABLES)/crc_probs_chemo_rad_pvalue_summary.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv $(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv\
+$(PROC)/mod_metadata/metaF_final.csv $(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv\
 $(TABLES)/crc_chemo_rad_summary.csv $(PROC)/final.shared code/Run_treatment_common_otus.R
 	R -e "source('code/Run_treatment_common_otus.R')"
+
+
+# This comparison compares random permuted labels for each
+# treatment model against the actual model and returns the resulting
+# data files on the outcome of the test
+
+$(TABLES)/randomization_treatment_AUC_summary.csv\
+$(TABLES)/actual_treatment_AUC_summary.csv\
+$(TABLES)/treatment_comparison_AUC_summary.csv : $(TABLES)/adn_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/SRN_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/CRC_randomization_treatment_ROC_model_summary.csv\
+$(TABLES)/adn_treatment_ROC_model_summary.csv\
+$(TABLES)/srn_treatment_ROC_model_summary.csv\
+$(TABLES)/crc_treatment_ROC_model_summary.csv 
+code/get_randomization_treatment_summary_data.R
+	R -e "source('code/get_randomization_treatment_summary_data.R')"
 
 
 
@@ -515,12 +520,12 @@ $(TABLES)/beta_diver_summary.csv code/Run_Figure1.R
 
 # This figure explores the MDA of the 10 OTUs in the  adenoma,
 # advanced adenoma, and carincoma treatment models.
-$(FIGS)/Figure2.pdf : $(TABLES)/reduced_adn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_srn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_crc_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_adn_treatment_top_vars_MDA_full_data.csv\
-$(TABLES)/reduced_srn_treatment_top_vars_MDA_full_data.csv\
-$(TABLES)/reduced_crc_treatment_top_vars_MDA_full_data.csv\
+$(FIGS)/Figure2.pdf : $(TABLES)/adn_treatment_MDA_Summary.csv\
+$(TABLES)/srn_treatment_MDA_Summary.csv\
+$(TABLES)/crc_treatment_MDA_Summary.csv\
+$(TABLES)/adn_treatment_raw_mda_values.csv\
+$(TABLES)/srn_treatment_raw_mda_values.csv\
+$(TABLES)/crc_treatment_raw_mda_values.csv\
 code/treatment_otu_graph.R
 	R -e "source('code/treatment_otu_graph.R')"
 
@@ -528,9 +533,9 @@ code/treatment_otu_graph.R
 # This figure explores how the rank importance of common OTUs between the adenoma,
 # advanced adenoma, and carincoma models change depending on the model.
 
-$(FIGS)/Figure3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_model_top_vars_MDA_Summary.csv\
+$(FIGS)/Figure3.pdf : $(TABLES)/adn_MDA_Summary.csv\
+$(TABLES)/srn_MDA_Summary.csv $(TABLES)/crc_MDA_Summary.csv\
+$(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv\
 code/common_all_models.R code/common_otu_graph.R
 	R -e "source('code/common_otu_graph.R')"
 
@@ -538,9 +543,9 @@ code/common_all_models.R code/common_otu_graph.R
 # This figure looks at classification of intial and follow up samples
 # based on adenoma, advanced adenoma, or carcinoma.
 
-$(FIGS)/Figure4.pdf : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
+$(FIGS)/Figure4.pdf : $(TABLES)/adn_follow_up_probability_summary.csv\
+$(TABLES)/srn_follow_up_probability_summary.csv\
+$(TABLES)/crc_follow_up_probability_summary.csv\
 code/Run_Figure2.R
 	R -e "source('code/Run_Figure4.R')"
 
@@ -549,32 +554,29 @@ code/Run_Figure2.R
 # visualizes the models normal vs adenoma, normal vs advanced adenoma, and
 # normal vs carcinoma.
 
-$(FIGS)/FigureS1.pdf : $(TABLES)/adn_reduced_test_data_roc.csv\
-$(TABLES)/srn_reduced_test_data_roc.csv\
-$(TABLES)/crc_reduced_test_data_roc.csv code/Run_FigureS1.R
+$(FIGS)/FigureS1.pdf : $(TABLES)/adn_all_test_data_roc.csv\
+$(TABLES)/srn_all_test_data_roc.csv $(TABLES)/crc_all_test_data_roc.csv\
+code/Run_FigureS1.R
 	R -e "source('code/Run_FigureS1.R')"
 	tiff2pdf -z -o results/figures/FigureS1.pdf results/figures/FigureS1.tiff
 	rm results/figures/FigureS1.tiff
 
 
 # This figure explores the most important OTUs for each model and displays
-# them by median MDA.
+# them by median MDA. Restricted this to the top 50
 
-$(FIGS)/FigureS2.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/adn_reduced_lesion_model_top_vars_MDA.csv\
-$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/srn_reduced_model_top_vars_MDA.csv\
-$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_lesion_model_top_vars_MDA.csv code/Run_FigureS2.R
+$(FIGS)/FigureS2.pdf : $(TABLES)/adn_MDA_Summary.csv\
+$(TABLES)/adn_raw_mda_values.csv $(TABLES)/srn_MDA_Summary.csv\
+$(TABLES)/srn_raw_mda_values.csv $(TABLES)/crc_MDA_Summary.csv\
+$(TABLES)/crc_raw_mda_values.csv code/Run_FigureS2.R
 	R -e "source('code/Run_FigureS2.R')"
 
 
 # This figure plots the oral specific crc-releated OTUs identified in the carcinoma model.
 
 $(FIGS)/FigureS3.pdf : $(PROC)/final.shared\
-$(TABLES)/reduced_crc_model_top_vars_MDA_Summary.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv\
-$(TABLES)/crc_rf_otu_tax.csv code/Run_FigureS3.R
+$(TABLES)/crc_MDA_Summary.csv $(PROC)/mod_metadata/metaF_final.csv\
+code/Run_FigureS3.R
 	R -e "source('code/Run_FigureS3.R')"
 
 

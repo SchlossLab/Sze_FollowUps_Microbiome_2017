@@ -14,14 +14,11 @@ shared <- read.delim('data/process/final.shared',
                      header=T, sep='\t') %>% select(Group, contains("Otu0"))
          
          
-good_metaf <- read.csv('data/process/mod_metadata/good_metaf_final.csv', 
+good_metaf <- read.csv('data/process/mod_metadata/metaF_final.csv', 
                        header = T, stringsAsFactors = F)
 
-reduced_model <- read.csv('data/process/tables/reduced_crc_model_top_vars_MDA_Summary.csv', 
+reduced_model <- read.csv('data/process/tables/crc_MDA_Summary.csv', 
                           header = T, stringsAsFactors = F)
-
-crc_tax <- read.csv('data/process/tables/crc_rf_otu_tax.csv', 
-                    header = T, stringsAsFactors = F) %>% rename(otu = X)
 
 # select out only necessary groups
 test <- shared %>% slice(match(c(good_metaf$initial, good_metaf$followUp), Group))
@@ -33,7 +30,7 @@ test2 <- as.data.frame(apply(select(test, -Group), 2, function(x) x/total_sub_Se
   mutate(Group = test$Group)
 
 # Select out for only three specific OTUs 
-otus <- filter(crc_tax, Genus == "Porphyromonas" | Genus == "Parvimonas" | Genus == "Fusobacterium")[, "otu"]
+otus <- filter(reduced_model, tax_ID == "Porphyromonas" | tax_ID == "Parvimonas" | tax_ID == "Fusobacterium")[, "Variable"]
 
 # Filter shared by these specific otus
 test2 <- test2 %>% select(Group, one_of(otus))
@@ -50,7 +47,7 @@ data_analysis <- data_frame(Group = c(good_metaf$initial, good_metaf$followUp),
 
 
 # Pull OTUs that are only in the MDA data
-select_tax_df <- (crc_tax %>% slice(match(otus, otu)))[, "Genus"]
+select_tax_df <- as.data.frame(reduced_model %>% slice(match(otus, Variable)))[, "tax_ID"]
 otu_num <- as.numeric(gsub("Otu", "", otus))
 
 # create labels for factor values with low taxonomy
