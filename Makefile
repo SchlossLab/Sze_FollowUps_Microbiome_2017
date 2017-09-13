@@ -478,7 +478,7 @@ code/Run_adn_crc_Test_Chemo_Rad.R
 
 $(TABLES)/chemo_rads_treatment_pvalue_summary.csv\
 $(TABLES)/all_adn_surg_pvalue_summary.csv : $(TABLES)/crc_probs_chemo_rad_pvalue_summary.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv $(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv\
+$(PROC)/mod_metadata/metaF_final.csv $(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv\
 $(TABLES)/crc_chemo_rad_summary.csv $(PROC)/final.shared code/Run_treatment_common_otus.R
 	R -e "source('code/Run_treatment_common_otus.R')"
 
