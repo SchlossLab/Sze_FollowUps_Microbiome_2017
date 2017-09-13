@@ -440,31 +440,20 @@ code/Run_wilcoxson_all.R $(PROC)/mod_metadata/metaI_final.csv\
 # samples for all reduced final models.
 
 $(TABLES)/all_crc_srn_adn_models_wilcox_paired_pvalue_summary.csv\
-$(TABLES)/all_crc_srn_adn_models_confusion_summary.csv\
-$(TABLES)/all_crc_srn_adn_models_summary_info.csv : $(TABLES)/adn_reduced_follow_up_probability_summary.csv\
-$(TABLES)/crc_reduced_follow_up_probability_summary.csv\
-$(TABLES)/srn_reduced_follow_up_probability_summary.csv\
-$(PROC)/mod_metadata/good_metaf_final.csv code/Run_adn_srn_crc_probs_comparison.R
+$(TABLES)/all_crc_srn_adn_models_summary_info.csv : $(TABLES)/adn_follow_up_probability_summary.csv\
+$(TABLES)/srn_follow_up_probability_summary.csv\
+$(TABLES)/crc_follow_up_probability_summary.csv\
+$(PROC)/mod_metadata/metaF_final.csv code/Run_adn_srn_crc_probs_comparison.R
 	R -e "source('code/Run_adn_srn_crc_probs_comparison.R')"
-
-
-# The generation and storage of the taxonomies for the OTUs used in the
-# reduced adenoma, advanced adenoma, and carcinoma models.
-
-$(TABLES)/adn_rf_otu_tax.csv\
-$(TABLES)/srn_rf_otu_tax.csv\
-$(TABLES)/crc_rf_otu_tax.csv : $(PROC)/final.taxonomy $(TABLES)/IF_rf_wCV_imp_vars_summary.csv\
-$(TABLES)/rf_wCV_imp_vars_summary.csv code/Run_ID_imp_OTUs.R
-	R -e "source('code/Run_ID_imp_OTUs.R')"
 
 
 # This code IDs the common OTUs between the three different models and
 # also runs a comparison for differences between initial and follow up
 # samples.
 
-$(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv : $(TABLES)/adn_rf_otu_tax.csv\
-$(TABLES)/srn_rf_otu_tax.csv $(TABLES)/crc_rf_otu_tax.csv\
-$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/good_metaf_final.csv\
+$(TABLES)/pvalue_adn_srn_crc_common_imp_vars.csv : $(TABLES)/adn_MDA_Summary.csv\
+$(TABLES)/srn_MDA_Summary.csv $(TABLES)/crc_MDA_Summary.csv\
+$(PROC)/final.0.03.subsample.shared $(PROC)/mod_metadata/metaF_final.csv\
 code/Run_adn_crc_Compare_models.R
 	R -e "source('code/Run_adn_crc_Compare_models.R')"
 
