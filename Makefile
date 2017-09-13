@@ -520,12 +520,12 @@ $(TABLES)/beta_diver_summary.csv code/Run_Figure1.R
 
 # This figure explores the MDA of the 10 OTUs in the  adenoma,
 # advanced adenoma, and carincoma treatment models.
-$(FIGS)/Figure2.pdf : $(TABLES)/reduced_adn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_srn_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_crc_treatment_top_vars_MDA_Summary.csv\
-$(TABLES)/reduced_adn_treatment_top_vars_MDA_full_data.csv\
-$(TABLES)/reduced_srn_treatment_top_vars_MDA_full_data.csv\
-$(TABLES)/reduced_crc_treatment_top_vars_MDA_full_data.csv\
+$(FIGS)/Figure2.pdf : $(TABLES)/adn_treatment_MDA_Summary.csv\
+$(TABLES)/srn_treatment_MDA_Summary.csv\
+$(TABLES)/crc_treatment_MDA_Summary.csv\
+$(TABLES)/adn_treatment_raw_mda_values.csv\
+$(TABLES)/srn_treatment_raw_mda_values.csv\
+$(TABLES)/crc_treatment_raw_mda_values.csv\
 code/treatment_otu_graph.R
 	R -e "source('code/treatment_otu_graph.R')"
 
