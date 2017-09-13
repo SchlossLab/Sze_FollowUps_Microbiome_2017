@@ -9,17 +9,17 @@ loadLibs(c("tidyr", "dplyr", "scales", "VennDiagram", "ggplot2"))
 
 
 # Load necessary data
-adn_data <- read.csv("data/process/tables/adn_reduced_model_top_vars_MDA_Summary.csv", 
-                     header = T, stringsAsFactors = F)
-srn_data <- read.csv("data/process/tables/srn_reduced_model_top_vars_MDA_Summary.csv", 
-                      header = T, stringsAsFactors = F)
-crc_data <- read.csv("data/process/tables/reduced_crc_model_top_vars_MDA_Summary.csv", 
-                      header = T, stringsAsFactors = F)
+adn_data <- read.csv("data/process/tables/adn_MDA_Summary.csv", 
+                     header = T, stringsAsFactors = F) %>% slice(1:round(length(rownames(.))*0.10))
+srn_data <- read.csv("data/process/tables/srn_MDA_Summary.csv", 
+                      header = T, stringsAsFactors = F) %>% slice(1:round(length(rownames(.))*0.10))
+crc_data <- read.csv("data/process/tables/crc_MDA_Summary.csv", 
+                      header = T, stringsAsFactors = F) %>% slice(1:round(length(rownames(.))*0.10))
 
 #Generate vectors of OTUs for each diagnosis
-adn_OTUs <- adn_data$otu
-srn_OTUs <- srn_data$otu
-crc_data <- crc_data$otu
+adn_OTUs <- adn_data$Variable
+srn_OTUs <- srn_data$Variable
+crc_data <- crc_data$Variable
 
 
 test <- calculate.overlap(list(adn_OTUs, srn_OTUs, crc_data))

@@ -533,9 +533,8 @@ code/treatment_otu_graph.R
 # This figure explores how the rank importance of common OTUs between the adenoma,
 # advanced adenoma, and carincoma models change depending on the model.
 
-$(FIGS)/Figure3.pdf : $(TABLES)/adn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/srn_reduced_model_top_vars_MDA_Summary.csv\
-$(TABLES)/crc_reduced_model_top_vars_MDA_Summary.csv\
+$(FIGS)/Figure3.pdf : $(TABLES)/adn_MDA_Summary.csv\
+$(TABLES)/srn_MDA_Summary.csv $(TABLES)/crc_MDA_Summary.csv\
 code/common_all_models.R code/common_otu_graph.R
 	R -e "source('code/common_otu_graph.R')"
 

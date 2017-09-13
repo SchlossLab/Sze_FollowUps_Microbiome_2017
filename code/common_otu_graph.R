@@ -11,27 +11,31 @@ loadLibs("gridExtra")
 common_vars_summary <- read.csv('data/process/tables/pvalue_adn_srn_crc_common_imp_vars.csv', 
                                 header = T, row.names = 1, stringsAsFactors = F)
 
-adn_varsMDA <- read.csv('data/process/tables/adn_reduced_model_top_vars_MDA_Summary.csv', 
-                        header = T, stringsAsFactors = F)
+adn_varsMDA <- read.csv('data/process/tables/adn_MDA_Summary.csv', 
+                        header = T, stringsAsFactors = F) %>% 
+  slice(1:round(length(rownames(.))*0.10)) %>% mutate(rank = c(1:length(rownames(.))))
+  
 
-srn_varsMDA <- read.csv('data/process/tables/srn_reduced_model_top_vars_MDA_Summary.csv', 
-                        header = T, stringsAsFactors = F)
+srn_varsMDA <- read.csv('data/process/tables/srn_MDA_Summary.csv', 
+                        header = T, stringsAsFactors = F) %>% 
+  slice(1:round(length(rownames(.))*0.10)) %>% mutate(rank = c(1:length(rownames(.))))
 
-crc_varsMDA <- read.csv('data/process/tables/reduced_crc_model_top_vars_MDA_Summary.csv', 
-                        header = T, stringsAsFactors = F)
+crc_varsMDA <- read.csv('data/process/tables/crc_MDA_Summary.csv', 
+                        header = T, stringsAsFactors = F) %>% 
+  slice(1:round(length(rownames(.))*0.10)) %>% mutate(rank = c(1:length(rownames(.))))
 
 # Create selection vector
-common_vars <- common_vars_summary$otu
+common_vars <- common_vars_summary$Variable
 
 # Create MDA vectors
-adn_rank <- (filter(adn_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)))[, "rank"]
-srn_rank <- (filter(srn_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)))[, "rank"]
-crc_rank <- (filter(crc_varsMDA, otu %in% common_vars) %>% slice(match(common_vars, otu)))[, "rank"]
+adns <- as.data.frame(filter(adn_varsMDA, Variable %in% common_vars) %>% slice(match(common_vars, Variable)))[, "rank"]
+srns <- as.data.frame(filter(srn_varsMDA, Variable %in% common_vars) %>% slice(match(common_vars, Variable)))[, "rank"]
+crcs <- as.data.frame(filter(crc_varsMDA, Variable %in% common_vars) %>% slice(match(common_vars, Variable)))[, "rank"]
 
 # Create a combined table for graphing
-combined_table <- select(common_vars_summary, otu) %>% 
-  mutate(Tax = gsub("_unclassified", "", common_vars_summary$lowest_ID), 
-         adn_rank = adn_rank, srn_rank = srn_rank, crc_rank = crc_rank) %>% 
+combined_table <- select(common_vars_summary, Variable) %>% 
+  mutate(Tax = gsub("_unclassified", "", common_vars_summary$tax_ID), 
+         adn_rank = adns, srn_rank = srns, crc_rank = crcs) %>% 
   gather(key = model, value = rank, adn_rank, srn_rank, crc_rank)
 
 
@@ -48,7 +52,7 @@ common_labels <- do.call(expression, test)
 
 # Create Graph
 test_graph <- ggplot(combined_table, 
-                     aes(factor(otu, levels = common_vars), rank)) + 
+                     aes(factor(Variable, levels = common_vars), rank)) + 
   geom_point(aes(color = factor(model, levels = c("adn_rank", "srn_rank", "crc_rank"), 
                              labels = c("Adenoma", "Advanced\nAdenoma", "Carcinoma"))), size = 4, alpha = 0.75) + 
   scale_y_continuous(trans = "reverse", breaks = c(1, 10, 20, 30, 40, 50, 60, 70)) + 
