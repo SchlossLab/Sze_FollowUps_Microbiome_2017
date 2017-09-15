@@ -1,7 +1,7 @@
 \documentclass[12pt,]{article}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL submission/manuscript_R1.tex   Mon Aug 14 13:38:58 2017
-%DIF ADD submission/manuscript_R2.tex   Wed Sep 13 12:50:31 2017
+%DIF ADD submission/manuscript_R2.tex   Fri Sep 15 13:10:04 2017
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -167,140 +167,100 @@ Co-author e-mails:
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background.} \DIFdelbegin \DIFdel{Colorectal cancer is a worldwide health problem.
-}\DIFdelend Despite growing evidence that members of the gut
-microbiota can drive tumorigenesis, little is known about what happens
-to it after treatment for an adenoma or carcinoma. This study \DIFdelbegin \DIFdel{tested the hypothesis that
-treatment for adenoma or carcinoma }\DIFdelend \DIFaddbegin \DIFadd{tests
-whether treatment }\DIFaddend alters the abundance of bacterial populations
-associated with disease \DIFdelbegin \DIFdel{to those associated }\DIFdelend \DIFaddbegin \DIFadd{versus those }\DIFaddend with a normal colon \DIFdelbegin \DIFdel{. We tested this hypothesis }\DIFdelend by sequencing
-the 16S rRNA genes in \DIFdelbegin \DIFdel{the
-}\DIFdelend feces of 67 individuals before and after treatment
-\DIFdelbegin \DIFdel{for adenoma (N }\DIFdelend \DIFaddbegin \DIFadd{(adenoma n }\DIFaddend = 22), advanced adenoma \DIFdelbegin \DIFdel{(N }\DIFdelend \DIFaddbegin \DIFadd{n }\DIFaddend = 19), and carcinoma \DIFdelbegin \DIFdel{(N }\DIFdelend \DIFaddbegin \DIFadd{n }\DIFaddend = 26).
+\textbf{Background.} Colorectal cancer is a worldwide health problem.
+Despite growing evidence that members of the gut microbiota can drive
+tumorigenesis, little is known about what happens to it after treatment
+for an adenoma or carcinoma. This study tested the hypothesis that
+treatment for adenoma or carcinoma alters the abundance of bacterial
+populations associated with disease to those associated with a normal
+colon. We tested this hypothesis by sequencing the 16S rRNA genes in the
+feces of 67 individuals before and after treatment for adenoma (N = 22),
+advanced adenoma (N = 19), and carcinoma (N = 26).
 
-\textbf{Results.} \DIFdelbegin \DIFdel{There were small changes to the bacterial community
+\textbf{Results.} There were small changes to the bacterial community
 associated with adenoma or advanced adenoma and large changes associated
-with carcinoma. }\DIFdelend The communities from patients with carcinomas changed
+with carcinoma. The communities from patients with carcinomas changed
 significantly more than those with adenoma following treatment (P-value
-\textless{} 0.001). Although \DIFdelbegin \DIFdel{treatment was associated with intrapersonal
+\textless{} 0.001). Although treatment was associated with intrapersonal
 changes, the change in the abundance of individual OTUs in response to
 treatment was not consistent within diagnosis groups (P-value
 \textgreater{} 0.05). Because the distribution of OTUs across patients
 and diagnosis groups was irregular, we used the Random Forest machine
 learning algorithm to identify groups of OTUs that could be used to
-classify }\DIFdelend \DIFaddbegin \DIFadd{Random Forest models classified }\DIFaddend pre and
-post-treatment samples for each \DIFdelbegin \DIFdel{of the diagnosis groups. Although the three models could differentiate between the pre
-and post-treatment samples}\DIFdelend \DIFaddbegin \DIFadd{diagnosis group}\DIFaddend , there was little
-overlap between the OTUs that were indicative of each treatment.
-\DIFdelbegin \DIFdel{To determine whether individuals
+classify pre and post-treatment samples for each of the diagnosis
+groups. Although the three models could differentiate between the pre
+and post-treatment samples, there was little overlap between the OTUs
+that were indicative of each treatment. To determine whether individuals
 who underwent treatment were more likely to have OTUs associated with
-normal colons we used }\DIFdelend \DIFaddbegin \DIFadd{Training Random Forest models on }\DIFaddend a larger cohort that contained
-individuals with normal colons\DIFdelbegin \DIFdel{and those with }\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend adenomas, advanced adenomas, and
-carcinomas \DIFdelbegin \DIFdel{. We again built Random Forest models and measured the change
-in }\DIFdelend \DIFaddbegin \DIFadd{we assessed }\DIFaddend the positive probability of having one of \DIFdelbegin \DIFdel{the three
-diagnoses to
-assess whether the }\DIFdelend \DIFaddbegin \DIFadd{three
-diagnoses and whether the pre and }\DIFaddend post-treatment samples \DIFdelbegin \DIFdel{received the sameclassification as the pre-treatment samples. Samples from patients }\DIFdelend \DIFaddbegin \DIFadd{were classified
-the same. Patients }\DIFaddend who had carcinomas changed towards a microbial milieu
-that resembles the normal colon after treatment (P-value \textless{}
-0.05). \DIFdelbegin \DIFdel{Finally, we
-were unable to detect any significant differences }\DIFdelend \DIFaddbegin \DIFadd{There was no significant difference }\DIFaddend in the microbiota of
+normal colons we used a larger cohort that contained individuals with
+normal colons and those with adenomas, advanced adenomas, and
+carcinomas. We again built Random Forest models and measured the change
+in the positive probability of having one of the three diagnoses to
+assess whether the post-treatment samples received the same
+classification as the pre-treatment samples. Samples from patients who
+had carcinomas changed towards a microbial milieu that resembles the
+normal colon after treatment (P-value \textless{} 0.05). Finally, we
+were unable to detect any significant differences in the microbiota of
 individuals treated with surgery alone and those treated with
 chemotherapy or chemotherapy and radiation (P-value \textgreater{}
 0.05).
 
-\textbf{Conclusions.} \DIFdelbegin \DIFdel{By better understanding the response of the
+\textbf{Conclusions.} By better understanding the response of the
 microbiota to treatment for adenomas and carcinomas, it is likely that
 biomarkers will eventually be validated that can be used to quantify the
-risk of recurrence and the likelihood of survival. Although it }\DIFdelend \DIFaddbegin \DIFadd{It }\DIFaddend was difficult to identify significant
-differences between pre and post-treatment samples from patients with
-adenoma and advanced adenoma\DIFdelbegin \DIFdel{,
-this was not the case for carcinomas. Not }\DIFdelend \DIFaddbegin \DIFadd{. However, for carcinomas, not }\DIFaddend only were
-there large changes in pre versus post-treatment samples\DIFdelbegin \DIFdel{for those with carcinoma}\DIFdelend , but these
+risk of recurrence and the likelihood of survival. Although it was
+difficult to identify significant differences between pre and
+post-treatment samples from patients with adenoma and advanced adenoma,
+this was not the case for carcinomas. Not only were there large changes
+in pre versus post-treatment samples for those with carcinoma, but these
 changes were towards a more normal microbiota.
 
-\DIFdelbegin \subsubsection{\DIFdel{Keywords}}%DIFAUXCMD
-\addtocounter{subsubsection}{-1}%DIFAUXCMD
-%DIFDELCMD < \label{keywords}
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \newpage
-\DIFaddend 
+\subsubsection{Keywords}\label{keywords}
 
-\DIFdelbegin \DIFdel{microbiota; colorectal cancer; polyps; treatment ; risk factor}\DIFdelend \DIFaddbegin \subsection{\DIFadd{Importance}}\label{importance}
-
-\DIFadd{This study helps to clarify what happens to the microbiota after
-generalized treatment for an adenoma or carcinoma. It is a necessary
-first step to ultimately investigating how the microbiota changes in
-those with carcinoma recurrence. This is important since a large number
-of those treated for carcinoma will have a recurrence. Finding better
-ways to stratify those most and least likely to recur using the
-microbiota could provide a cheaper and more accurate alternative to the
-current status quo. Our results suggest that the microbiota could be
-used to stratify individuals for risk of recurrence and provides a
-starting point for future studies into this area}\DIFaddend .
+microbiota; colorectal cancer; polyps; treatment; risk factor.
 
 \newpage
 
 \subsection{Background}\label{background}
 
 Colorectal cancer (CRC) is the third most common cause of cancer deaths
-in the United States \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 1, 2\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . Disease mortality has significantly
-decreased, predominately due to improvements in screening \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 2\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . Despite
-these improvements, there are still approximately 50,000 CRC-related
-deaths per year in the United States \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 1\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . Current estimates indicate
-that 20-30\% of those who undergo treatment will experience recurrence
-and 35\% of all patients will die within five years \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 3--5\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend .
-Identification of methods to assess patients' risk of recurrence is of
-great importance to reduce mortality and healthcare costs.
+in the United States {[}1,2{]}. Disease mortality has significantly
+decreased, predominately due to improvements in screening {[}2{]}.
+Despite these improvements, there are still approximately 50,000
+CRC-related deaths per year in the United States {[}1{]}. Current
+estimates indicate that 20-30\% of those who undergo treatment will
+experience recurrence and 35\% of all patients will die within five
+years {[}3--5{]}. Identification of methods to assess patients' risk of
+recurrence is of great importance to reduce mortality and healthcare
+costs.
 
 There is growing evidence that the gut microbiota is involved in the
 progression of CRC. Mouse-based studies have identified populations of
 \emph{Bacteroides fragilis}, \emph{Escherichia coli}, and
-\emph{Fusobacterium nucleatum} that alter disease progression \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 6--10\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend .
-Furthermore, studies that shift the structure of the microbiota through
-the use of antibiotics or inoculation of germ free mice with human feces
-have shown that varying community compositions can result in varied
-tumor burden \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 11--13\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . Collectively, these studies support the
-hypothesis that the microbiota can alter the amount of inflammation in
-the colon and with it the rate of tumorigenesis \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 14\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend .
+\emph{Fusobacterium nucleatum} that alter disease progression
+{[}6--10{]}. Furthermore, studies that shift the structure of the
+microbiota through the use of antibiotics or inoculation of germ free
+mice with human feces have shown that varying community compositions can
+result in varied tumor burden {[}11--13{]}. Collectively, these studies
+support the hypothesis that the microbiota can alter the amount of
+inflammation in the colon and with it the rate of tumorigenesis
+{[}14{]}.
 
 Building upon this evidence, several human studies have identified
-unique signatures of colonic lesions \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 15--20\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . One line of research has
-identified community-level differences between those bacteria that are
-found on and adjacent to colonic lesions and have supported a role for
-\emph{Bacteroides fragilis}, \emph{Escherichia coli}, and
-\emph{Fusobacterium nucleatum} in tumorigenesis \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 21--23\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . Others have
-proposed feces-based biomarkers that could be used to diagnose the
-presence of colonic adenomas and carcinomas \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 24--26\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . These studies have
-associated \emph{Fusobacterium nucleatum} and other oral pathogens with
-colonic lesions (adenoma, advanced adenoma, and carcinoma). They have
-also noted that the loss of bacteria generally thought to produce short
-chain fatty acids, which can suppress inflammation, is associated with
-colonic lesions. This suggests that gut bacteria have a role in
+unique signatures of colonic lesions {[}15--20{]}. One line of research
+has identified community-level differences between those bacteria that
+are found on and adjacent to colonic lesions and have supported a role
+for \emph{Bacteroides fragilis}, \emph{Escherichia coli}, and
+\emph{Fusobacterium nucleatum} in tumorigenesis {[}21--23{]}. Others
+have proposed feces-based biomarkers that could be used to diagnose the
+presence of colonic adenomas and carcinomas {[}24--26{]}. These studies
+have associated \emph{Fusobacterium nucleatum} and other oral pathogens
+with colonic lesions (adenoma, advanced adenoma, and carcinoma). They
+have also noted that the loss of bacteria generally thought to produce
+short chain fatty acids, which can suppress inflammation, is associated
+with colonic lesions. This suggests that gut bacteria have a role in
 tumorigenesis with potential as useful biomarkers for aiding in the
-early detection of disease \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 21--26\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend .
+early detection of disease {[}21--26{]}.
 
 Despite advances in understanding the role between the gut microbiota
 and colonic tumorigenesis, we still do not understand how treatments
@@ -412,9 +372,7 @@ the top 10}\% \DIFaddend were also included in the model differentiating between
 patients with normal colons and those with carcinoma, this model also
 included OTUs affiliated with populations that have previously been
 associated with carcinoma (\emph{Fusobacterium}, \emph{Porphyromonas},
-\emph{Parvimonas}) \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 24--26\DIFdelbegin %DIFDELCMD < {]} %%%
-\DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend {[}Figure S2{]} with some individuals
+\emph{Parvimonas}) {[}24--26{]} {[}Figure S2{]} with some individuals
 showing a marked decrease in relative abundance {[}Figure S3{]}.
 Finally, we applied these three models to the pre and post-treatment
 samples for each diagnosis group and quantified the change in the
@@ -494,9 +452,7 @@ There was a subset of patients (\DIFdelbegin \DIFdel{6 }\DIFdelend \DIFaddbegin 
 demonstrated an elevated probability of carcinoma after treatment. This
 may reflect an elevated risk of recurrence. The \DIFdelbegin \DIFdel{23.08}\DIFdelend \DIFaddbegin \DIFadd{26.92}\DIFaddend \% prevalence of
 increased carcinoma probability from our study is within the expected
-rate of recurrence (20-30\% \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 3, 4\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend ). We hypothesized that these
+rate of recurrence (20-30\% {[}3,4{]}). We hypothesized that these
 individuals may have had more severe tumors; however, the tumor severity
 of these \DIFdelbegin \DIFdel{6 individuals (}\DIFdelend \DIFaddbegin \DIFadd{7 individuals (1 with Stage I, }\DIFaddend 3 with Stage II\DIFaddbegin \DIFadd{, }\DIFaddend and 3 with
 Stage III) was similar to the distribution observed among the other \DIFdelbegin \DIFdel{20 }\DIFdelend \DIFaddbegin \DIFadd{19
@@ -558,32 +514,28 @@ changes may affect recurrence.
 \subsection{Methods}\label{methods}
 
 \textbf{\emph{Study Design and Patient Sampling.}} Sampling and design
-have been previously reported in Baxter, et al \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 24\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . Briefly, samples
-were stored on ice for at least 24h before freezing. Although we cannot
-exclude that this sampling protocol may have impacted the gut microbiota
-composition all samples were subjected to the same methodology. Study
-exclusion involved those who had already undergone surgery, radiation,
-or chemotherapy, had colorectal cancer before a baseline fecal sample
-could be obtained, had IBD, a known hereditary non-polyposis colorectal
-cancer, or familial adenomatous polyposis. Samples used to build the
-models for prediction were collected either prior to a colonoscopy or
-between one and two weeks after initial colonoscopy. The bacterial
-community has been shown to normalize back to a pre-colonoscopy
-community within this time period \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 27\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . Our study cohort consisted of 67
-individuals with an initial sample as described and a follow up sample
-obtained between 188 - 546 days after treatment of lesion {[}Table 1{]}.
-Patients were diagnosed by colonoscopic examination and
-histopathological review of any biopsies taken. Patients were classified
-as having advanced adenoma if they had an adenoma greater than 1 cm,
-more than three adenomas of any size, or an adenoma with villous
-histology. This study was approved by the University of Michigan
-Institutional Review Board. All study participants provided informed
-consent and the study itself conformed to the guidelines set out by the
-Helsinki Declaration.
+have been previously reported in Baxter, et al {[}24{]}. Briefly,
+samples were stored on ice for at least 24h before freezing. Although we
+cannot exclude that this sampling protocol may have impacted the gut
+microbiota composition all samples were subjected to the same
+methodology. Study exclusion involved those who had already undergone
+surgery, radiation, or chemotherapy, had colorectal cancer before a
+baseline fecal sample could be obtained, had IBD, a known hereditary
+non-polyposis colorectal cancer, or familial adenomatous polyposis.
+Samples used to build the models for prediction were collected either
+prior to a colonoscopy or between one and two weeks after initial
+colonoscopy. The bacterial community has been shown to normalize back to
+a pre-colonoscopy community within this time period {[}27{]}. Our study
+cohort consisted of 67 individuals with an initial sample as described
+and a follow up sample obtained between 188 - 546 days after treatment
+of lesion {[}Table 1{]}. Patients were diagnosed by colonoscopic
+examination and histopathological review of any biopsies taken. Patients
+were classified as having advanced adenoma if they had an adenoma
+greater than 1 cm, more than three adenomas of any size, or an adenoma
+with villous histology. This study was approved by the University of
+Michigan Institutional Review Board. All study participants provided
+informed consent and the study itself conformed to the guidelines set
+out by the Helsinki Declaration.
 
 \textbf{\emph{Treatment.}} For this study treatment refers specifically
 to the removal of a lesion with or without chemotherapy and radiation.
@@ -600,41 +552,28 @@ also always treated with chemotherapy. Radiation therapy generally used
 18 mV photons for treatment.
 
 \textbf{\emph{16S rRNA Gene Sequencing.}} Sequencing was completed as
-described by Kozich, et al. \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 28\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . DNA extraction used the 96-well Soil
-DNA isolation kit (MO BIO Laboratories) and an epMotion 5075 automated
-pipetting system (Eppendorf). The V4 variable region was amplified and
-the resulting product was split between four sequencing runs with
-normal, adenoma, and carcinoma evenly represented on each run. Each
-group was randomly assigned to avoid biases based on sample collection
-location. The pre and post-treatment samples were sequenced on the same
-run.
+described by Kozich, et al. {[}28{]}. DNA extraction used the 96-well
+Soil DNA isolation kit (MO BIO Laboratories) and an epMotion 5075
+automated pipetting system (Eppendorf). The V4 variable region was
+amplified and the resulting product was split between four sequencing
+runs with normal, adenoma, and carcinoma evenly represented on each run.
+Each group was randomly assigned to avoid biases based on sample
+collection location. The pre and post-treatment samples were sequenced
+on the same run.
 
 \textbf{\emph{Sequence Processing.}} The mothur software package
 (v1.37.5) was used to process the 16S rRNA gene sequences and has been
-previously described \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 28\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . The general workflow using mothur included
-merging paired-end reads into contigs, filtering for low quality
-contigs, aligning to the SILVA database \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 29\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend , screening for chimeras
-using UCHIME \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 30\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend , classifying with a naive Bayesian classifier using
-the Ribosomal Database Project (RDP)\DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 31\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend , and clustered into Operational
-Taxonomic Units (OTUs) using a 97\% similarity cutoff with an average
-neighbor clustering algorithm \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 32\DIFdelbegin %DIFDELCMD < {]}%%%
-\DIFdelend \DIFaddbegin \DIFadd{)}\DIFaddend . The number of sequences for each
-sample was rarefied to 10523 to minimize the impacts of uneven sampling.
+previously described {[}28{]}. The general workflow using mothur
+included merging paired-end reads into contigs, filtering for low
+quality contigs, aligning to the SILVA database {[}29{]}, screening for
+chimeras using UCHIME {[}30{]}, classifying with a naive Bayesian
+classifier using the Ribosomal Database Project (RDP){[}31{]}, and
+clustered into Operational Taxonomic Units (OTUs) using a 97\%
+similarity cutoff with an average neighbor clustering algorithm
+{[}32{]}. The number of sequences for each sample was rarefied to 10523
+to minimize the impacts of uneven sampling.
 
-\textbf{\emph{Model Building.}} The Random Forest \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 33\DIFdelbegin %DIFDELCMD < {]} %%%
-\DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend algorithm was
+\textbf{\emph{Model Building.}} The Random Forest {[}33{]} algorithm was
 used to create the three models used to classify pre and post-treatment
 samples by diagnosis (adenoma, advanced adenoma, or carcinoma). The
 total number of individuals in the pre versus post-treatment models was
@@ -643,10 +582,8 @@ post-treatment adenoma model, 19 individuals in the pre versus
 post-treatment advanced adenoma model, and 26 individuals in the pre
 versus post-treatment carcinoma model {[}Table 1{]}.
 
-Similarly, the Random Forest \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 33\DIFdelbegin %DIFDELCMD < {]} %%%
-\DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend algorithm was also used to create the
-three models used to classify normal versus diagnosis. These samples
+Similarly, the Random Forest {[}33{]} algorithm was also used to create
+the three models used to classify normal versus diagnosis. These samples
 were obtained using the same methodology as described earlier in this
 section. All samples used for this component of model training were from
 pre-treatment samples only. The total number of individuals in the
@@ -673,16 +610,12 @@ and 863 (n = 10). For the }\DIFaddend normal versus diagnosis models the optimiz
 advanced adenoma 2 (n = 33), 37 (n = 50), and 696 (n = 17). For
 carcinoma 36 (n = 96) and 649 (n = 4). }\DIFaddend The hyper-parameter, mtry,
 defines the number of variables to investigate at each split before a
-new division of the data was created with the Random Forest model \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdel{33}%DIFDELCMD < {]}%%%
-\DIFdel{.
-}\DIFdelend \DIFaddbegin \DIFadd{(33).
-}\DIFaddend 
+new division of the data was created with the Random Forest model
+{[}33{]}.
 
 \DIFdelbegin \DIFdel{For each of the pre versus post-treatment models assessment of the most
 important OTUs was then made by taking the top 10 OTUs by mean decrease
-in accuracy (MDA).
-These were then used to build each respective reduced
+in accuracy (MDA). These were then used to build each respective reduced
 OTU pre versus post-treatment model by diagnosis group to help avoid
 model over-fitting. These reduced }\DIFdelend \DIFaddbegin \DIFadd{The treatment }\DIFaddend models were then \DIFdelbegin \DIFdel{put through the same
 process mentioned in the previous paragraph and were what was used for the final pre versus post-treatment models. For the
@@ -724,17 +657,13 @@ each respective model.
 
 \textbf{\emph{Statistical Analysis.}} The R software package (v3.4.1)
 was used for all statistical analysis. Comparisons between bacterial
-community structure utilized PERMANOVA \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 34\DIFdelbegin %DIFDELCMD < {]} %%%
-\DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend in the vegan package
+community structure utilized PERMANOVA {[}34{]} in the vegan package
 (v2.4.3). Comparisons between probabilities as well as overall
 differences in the median relative abundance of each OTU between pre and
 post-treatment samples utilized a paired Wilcoxon ranked sum test.
 Comparisons between different treatment for lesions utilized a Kruskal
 Wallis test. Where multiple comparison testing was appropriate, a
-Benjamini-Hochberg (BH) correction was applied \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 35\DIFdelbegin %DIFDELCMD < {]} %%%
-\DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend and a corrected
+Benjamini-Hochberg (BH) correction was applied {[}35{]} and a corrected
 P-value of less than 0.05 was considered significant. The P-values
 reported are those that were BH corrected. Model rank importance was
 determined by obtaining the median MDA from the 100, 20 repeated 10-fold
@@ -808,220 +737,182 @@ thank Nicholas Lesniak for providing feedback on manuscript drafts.
 
 \hypertarget{refs}{}
 \hypertarget{ref-siegel_cancer_2016}{}
-1. Siegel RL, Miller KD, Jemal A. \DIFaddbegin \DIFadd{2016. }\DIFaddend Cancer statistics, 2016. CA: a
-cancer journal for clinicians \DIFdelbegin \DIFdel{. 2016;}\DIFdelend 66:7--30.
+1. Siegel RL, Miller KD, Jemal A. Cancer statistics, 2016. CA: a cancer
+journal for clinicians. 2016;66:7--30.
 
 \hypertarget{ref-haggar_colorectal_2009}{}
-2. Haggar FA, Boushey RP. \DIFaddbegin \DIFadd{2009. }\DIFaddend Colorectal cancer epidemiology:
-Incidence, mortality, survival, and risk factors. Clinics in Colon and
-Rectal Surgery \DIFdelbegin \DIFdel{. 2009;}\DIFdelend 22:\DIFdelbegin \DIFdel{191--7}\DIFdelend \DIFaddbegin \DIFadd{191--197}\DIFaddend .
+2. Haggar FA, Boushey RP. Colorectal cancer epidemiology: Incidence,
+mortality, survival, and risk factors. Clinics in Colon and Rectal
+Surgery. 2009;22:191--7.
 
 \hypertarget{ref-hellinger_reoperation_2006}{}
-3. Hellinger MD, Santiago CA. \DIFaddbegin \DIFadd{2006. }\DIFaddend Reoperation for recurrent colorectal
-cancer. Clinics in Colon and Rectal Surgery \DIFdelbegin \DIFdel{. 2006;}\DIFdelend 19:\DIFdelbegin \DIFdel{228--36}\DIFdelend \DIFaddbegin \DIFadd{228--236}\DIFaddend .
+3. Hellinger MD, Santiago CA. Reoperation for recurrent colorectal
+cancer. Clinics in Colon and Rectal Surgery. 2006;19:228--36.
 
 \hypertarget{ref-ryuk_predictive_2014}{}
-4. Ryuk JP, Choi G-S, Park JS, Kim HJ, Park SY, Yoon GS, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Jun SH, Kwon
-YC. 2014. }\DIFaddend Predictive factors and the prognosis of recurrence of
-colorectal cancer within 2 years after curative resection. Annals of
-Surgical Treatment and Research \DIFdelbegin \DIFdel{. 2014;}\DIFdelend 86:\DIFdelbegin \DIFdel{143--51}\DIFdelend \DIFaddbegin \DIFadd{143--151}\DIFaddend .
+4. Ryuk JP, Choi G-S, Park JS, Kim HJ, Park SY, Yoon GS, et al.
+Predictive factors and the prognosis of recurrence of colorectal cancer
+within 2 years after curative resection. Annals of Surgical Treatment
+and Research. 2014;86:143--51.
 
 \hypertarget{ref-national_cancer_institute_seer_nodate}{}
-5. Institute NC. SEER Cancer Stat Facts: Colon and Rectum Cancer\DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdel{Internet}%DIFDELCMD < {]}%%%
-\DIFdel{.
-}%DIFDELCMD < {[}%%%
-\DIFdel{cited 2017 Apr 27}%DIFDELCMD < {]}%%%
-\DIFdel{. Available from:
-}%DIFDELCMD < \url{http://seer.cancer.gov/statfacts/html/colorect.html}
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \DIFadd{.
-}\DIFaddend 
+5. Institute NC. SEER Cancer Stat Facts: Colon and Rectum Cancer
+{[}Internet{]}. {[}cited 2017 Apr 27{]}. Available from:
+\url{http://seer.cancer.gov/statfacts/html/colorect.html}
 
 \hypertarget{ref-goodwin_polyamine_2011}{}
 6. Goodwin AC, Destefano Shields CE, Wu S, Huso DL, Wu X, Murray-Stewart
-TR, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Hacker-Prietz A, Rabizadeh S, Woster PM, Sears CL, Casero RA. 2011.
-}\DIFaddend Polyamine catabolism contributes to enterotoxigenic Bacteroides
-fragilis-induced colon tumorigenesis. Proceedings of the National
-Academy of Sciences of the United States of America \DIFdelbegin \DIFdel{.
-2011;}\DIFdelend 108:\DIFdelbegin \DIFdel{15354--9}\DIFdelend \DIFaddbegin \DIFadd{15354--15359}\DIFaddend .
+TR, et al. Polyamine catabolism contributes to enterotoxigenic
+Bacteroides fragilis-induced colon tumorigenesis. Proceedings of the
+National Academy of Sciences of the United States of America.
+2011;108:15354--9.
 
 \hypertarget{ref-abed_fap2_2016}{}
-7. Abed J, Emgård JEM, Zamir G, Faroja M, Almogy G, Grenov A, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Sol A,
-Naor R, Pikarsky E, Atlan KA, Mellul A, Chaushu S, Manson AL, Earl AM,
-Ou N, Brennan CA, Garrett WS, Bachrach G. 2016. }\DIFaddend Fap2 Mediates
-Fusobacterium nucleatum Colorectal Adenocarcinoma Enrichment by Binding
-to Tumor-Expressed Gal-GalNAc. Cell Host \& Microbe \DIFdelbegin \DIFdel{. 2016;}\DIFdelend 20:\DIFdelbegin \DIFdel{215--25}\DIFdelend \DIFaddbegin \DIFadd{215--225}\DIFaddend .
+7. Abed J, Emgård JEM, Zamir G, Faroja M, Almogy G, Grenov A, et al.
+Fap2 Mediates Fusobacterium nucleatum Colorectal Adenocarcinoma
+Enrichment by Binding to Tumor-Expressed Gal-GalNAc. Cell Host \&
+Microbe. 2016;20:215--25.
 
 \hypertarget{ref-arthur_microbial_2014}{}
 8. Arthur JC, Gharaibeh RZ, Mühlbauer M, Perez-Chanona E, Uronis JM,
-McCafferty J, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Fodor AA, Jobin C. 2014. }\DIFaddend Microbial genomic analysis
-reveals the essential role of inflammation in bacteria-induced
-colorectal cancer. Nature Communications \DIFdelbegin \DIFdel{. 2014;}\DIFdelend 5:4724.
+McCafferty J, et al. Microbial genomic analysis reveals the essential
+role of inflammation in bacteria-induced colorectal cancer. Nature
+Communications. 2014;5:4724.
 
 \hypertarget{ref-kostic_fusobacterium_2013}{}
 9. Kostic AD, Chun E, Robertson L, Glickman JN, Gallini CA, Michaud M,
-\DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Clancy TE, Chung DC, Lochhead P, Hold GL, El-Omar EM, Brenner D, Fuchs
-CS, Meyerson M, Garrett WS. 2013. }\DIFaddend Fusobacterium nucleatum potentiates
-intestinal tumorigenesis and modulates the tumor-immune
-microenvironment. Cell Host \& Microbe \DIFdelbegin \DIFdel{.
-2013;}\DIFdelend 14:\DIFdelbegin \DIFdel{207--15}\DIFdelend \DIFaddbegin \DIFadd{207--215}\DIFaddend .
+et al. Fusobacterium nucleatum potentiates intestinal tumorigenesis and
+modulates the tumor-immune microenvironment. Cell Host \& Microbe.
+2013;14:207--15.
 
 \hypertarget{ref-wu_human_2009}{}
-10. Wu S, Rhee K-J, Albesiano E, Rabizadeh S, Wu X, Yen H-R, \DIFdelbegin \DIFdel{et al.
-}\DIFdelend \DIFaddbegin \DIFadd{Huso DL,
-Brancati FL, Wick E, McAllister F, Housseau F, Pardoll DM, Sears CL.
-2009. }\DIFaddend A human colonic commensal promotes colon tumorigenesis via
-activation of T helper type 17 T cell responses. Nature Medicine
-\DIFdelbegin \DIFdel{. 2009;}\DIFdelend 15:\DIFdelbegin \DIFdel{1016--22}\DIFdelend \DIFaddbegin \DIFadd{1016--1022}\DIFaddend .
+10. Wu S, Rhee K-J, Albesiano E, Rabizadeh S, Wu X, Yen H-R, et al. A
+human colonic commensal promotes colon tumorigenesis via activation of T
+helper type 17 T cell responses. Nature Medicine. 2009;15:1016--22.
 
 \hypertarget{ref-zackular_manipulation_2016}{}
-11. Zackular JP, Baxter NT, Chen GY, Schloss PD. \DIFaddbegin \DIFadd{2016. }\DIFaddend Manipulation of
-the Gut Microbiota Reveals Role in Colon Tumorigenesis. mSphere \DIFdelbegin \DIFdel{. 2016;}\DIFdelend 1.
+11. Zackular JP, Baxter NT, Chen GY, Schloss PD. Manipulation of the Gut
+Microbiota Reveals Role in Colon Tumorigenesis. mSphere. 2016;1.
 
 \hypertarget{ref-zackular_gut_2013}{}
 12. Zackular JP, Baxter NT, Iverson KD, Sadler WD, Petrosino JF, Chen
-GY, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Schloss PD. 2013. }\DIFaddend The gut microbiome modulates colon tumorigenesis.
-mBio \DIFdelbegin \DIFdel{.
-2013;}\DIFdelend 4:e00692--00613.
+GY, et al. The gut microbiome modulates colon tumorigenesis. mBio.
+2013;4:e00692--00613.
 
 \hypertarget{ref-baxter_structure_2014}{}
-13. Baxter NT, Zackular JP, Chen GY, Schloss PD. \DIFaddbegin \DIFadd{2014. }\DIFaddend Structure of the
-gut microbiome following colonization with human feces determines
-colonic tumor burden. Microbiome \DIFdelbegin \DIFdel{. 2014;}\DIFdelend 2:20.
+13. Baxter NT, Zackular JP, Chen GY, Schloss PD. Structure of the gut
+microbiome following colonization with human feces determines colonic
+tumor burden. Microbiome. 2014;2:20.
 
 \hypertarget{ref-flynn_metabolic_2016}{}
-14. Flynn KJ, Baxter NT, Schloss PD. \DIFaddbegin \DIFadd{2016. }\DIFaddend Metabolic and Community
-Synergy of Oral Bacteria in Colorectal Cancer. mSphere \DIFdelbegin \DIFdel{. 2016;}\DIFdelend 1.
+14. Flynn KJ, Baxter NT, Schloss PD. Metabolic and Community Synergy of
+Oral Bacteria in Colorectal Cancer. mSphere. 2016;1.
 
 \hypertarget{ref-wang_structural_2012}{}
-15. Wang T, Cai G, Qiu Y, Fei N, Zhang M, Pang X, \DIFdelbegin \DIFdel{et al.
-}\DIFdelend \DIFaddbegin \DIFadd{Jia W, Cai S, Zhao L.
-2012. }\DIFaddend Structural segregation of gut microbiota between colorectal cancer
-patients and healthy volunteers. The ISME journal \DIFdelbegin \DIFdel{. 2012;}\DIFdelend 6:\DIFdelbegin \DIFdel{320--9}\DIFdelend \DIFaddbegin \DIFadd{320--329}\DIFaddend .
+15. Wang T, Cai G, Qiu Y, Fei N, Zhang M, Pang X, et al. Structural
+segregation of gut microbiota between colorectal cancer patients and
+healthy volunteers. The ISME journal. 2012;6:320--9.
 
 \hypertarget{ref-chen_decreased_2013}{}
-16. Chen H-M, Yu Y-N, Wang J-L, Lin Y-W, Kong X, Yang C-Q, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Yang L, Liu
-Z-J, Yuan Y-Z, Liu F, Wu J-X, Zhong L, Fang D-C, Zou W, Fang J-Y. 2013.
-}\DIFaddend Decreased dietary fiber intake and structural alteration of gut
+16. Chen H-M, Yu Y-N, Wang J-L, Lin Y-W, Kong X, Yang C-Q, et al.
+Decreased dietary fiber intake and structural alteration of gut
 microbiota in patients with advanced colorectal adenoma. The American
-Journal of Clinical Nutrition \DIFdelbegin \DIFdel{. 2013;}\DIFdelend 97:\DIFdelbegin \DIFdel{1044--52}\DIFdelend \DIFaddbegin \DIFadd{1044--1052}\DIFaddend .
+Journal of Clinical Nutrition. 2013;97:1044--52.
 
 \hypertarget{ref-chen_human_2012}{}
-17. Chen W, Liu F, Ling Z, Tong X, Xiang C. \DIFaddbegin \DIFadd{2012. }\DIFaddend Human intestinal lumen
-and mucosa-associated microbiota in patients with colorectal cancer.
-PloS One \DIFdelbegin \DIFdel{. 2012;}\DIFdelend 7:e39743.
+17. Chen W, Liu F, Ling Z, Tong X, Xiang C. Human intestinal lumen and
+mucosa-associated microbiota in patients with colorectal cancer. PloS
+One. 2012;7:e39743.
 
 \hypertarget{ref-shen_molecular_2010}{}
-18. Shen XJ, Rawls JF, Randall T, Burcal L, Mpande CN, Jenkins N, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Jovov
-B, Abdo Z, Sandler RS, Keku TO. 2010. }\DIFaddend Molecular characterization of
-mucosal adherent bacteria and associations with colorectal adenomas. Gut
-Microbes \DIFdelbegin \DIFdel{. 2010;}\DIFdelend 1:\DIFdelbegin \DIFdel{138--47}\DIFdelend \DIFaddbegin \DIFadd{138--147}\DIFaddend .
+18. Shen XJ, Rawls JF, Randall T, Burcal L, Mpande CN, Jenkins N, et al.
+Molecular characterization of mucosal adherent bacteria and associations
+with colorectal adenomas. Gut Microbes. 2010;1:138--47.
 
 \hypertarget{ref-kostic_genomic_2012}{}
-19. Kostic AD, Gevers D, Pedamallu CS, Michaud M, Duke F, Earl AM,
-\DIFdelbegin \DIFdel{et
-al. }\DIFdelend \DIFaddbegin \DIFadd{Ojesina AI, Jung J, Bass AJ, Tabernero J, Baselga J, Liu C, Shivdasani
-RA, Ogino S, Birren BW, Huttenhower C, Garrett WS, Meyerson M. 2012.
-}\DIFaddend Genomic analysis identifies association of Fusobacterium with colorectal
-carcinoma. Genome Research \DIFdelbegin \DIFdel{. 2012;}\DIFdelend 22:\DIFdelbegin \DIFdel{292--8}\DIFdelend \DIFaddbegin \DIFadd{292--298}\DIFaddend .
+19. Kostic AD, Gevers D, Pedamallu CS, Michaud M, Duke F, Earl AM, et
+al. Genomic analysis identifies association of Fusobacterium with
+colorectal carcinoma. Genome Research. 2012;22:292--8.
 
 \hypertarget{ref-feng_gut_2015}{}
-20. Feng Q, Liang S, Jia H, Stadlmayr A, Tang L, Lan Z, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Zhang D, Xia H,
-Xu X, Jie Z, Su L, Li X, Li X, Li J, Xiao L, Huber-Schönauer U,
-Niederseer D, Xu X, Al-Aama JY, Yang H, Wang J, Kristiansen K, Arumugam
-M, Tilg H, Datz C, Wang J. 2015. }\DIFaddend Gut microbiome development along the
-colorectal adenoma-carcinoma sequence. Nature Communications \DIFdelbegin \DIFdel{. 2015;}\DIFdelend 6:6528.
+20. Feng Q, Liang S, Jia H, Stadlmayr A, Tang L, Lan Z, et al. Gut
+microbiome development along the colorectal adenoma-carcinoma sequence.
+Nature Communications. 2015;6:6528.
 
 \hypertarget{ref-dejea_microbiota_2014}{}
 21. Dejea CM, Wick EC, Hechenbleikner EM, White JR, Mark Welch JL,
-Rossetti BJ, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Peterson SN, Snesrud EC, Borisy GG, Lazarev M, Stein E,
-Vadivelu J, Roslani AC, Malik AA, Wanyiri JW, Goh KL, Thevambiga I, Fu
-K, Wan F, Llosa N, Housseau F, Romans K, Wu X, McAllister FM, Wu S,
-Vogelstein B, Kinzler KW, Pardoll DM, Sears CL. 2014. }\DIFaddend Microbiota
-organization is a distinct feature of proximal colorectal cancers.
-Proceedings of the National Academy of Sciences of the United States of
-America \DIFdelbegin \DIFdel{. 2014;}\DIFdelend 111:\DIFdelbegin \DIFdel{18321--6}\DIFdelend \DIFaddbegin \DIFadd{18321--18326}\DIFaddend .
+Rossetti BJ, et al. Microbiota organization is a distinct feature of
+proximal colorectal cancers. Proceedings of the National Academy of
+Sciences of the United States of America. 2014;111:18321--6.
 
 \hypertarget{ref-mima_fusobacterium_2015}{}
-22. Mima K, Sukawa Y, Nishihara R, Qian ZR, Yamauchi M, Inamura K, \DIFdelbegin \DIFdel{et
-al. }\DIFdelend \DIFaddbegin \DIFadd{Kim
-SA, Masuda A, Nowak JA, Nosho K, Kostic AD, Giannakis M, Watanabe H,
-Bullman S, Milner DA, Harris CC, Giovannucci E, Garraway LA, Freeman GJ,
-Dranoff G, Chan AT, Garrett WS, Huttenhower C, Fuchs CS, Ogino S. 2015.
-}\DIFaddend Fusobacterium nucleatum and T Cells in Colorectal Carcinoma. JAMA
-oncology \DIFdelbegin \DIFdel{. 2015;}\DIFdelend 1:\DIFdelbegin \DIFdel{653--61}\DIFdelend \DIFaddbegin \DIFadd{653--661}\DIFaddend .
+22. Mima K, Sukawa Y, Nishihara R, Qian ZR, Yamauchi M, Inamura K, et
+al. Fusobacterium nucleatum and T Cells in Colorectal Carcinoma. JAMA
+oncology. 2015;1:653--61.
 
 \hypertarget{ref-arthur_intestinal_2012}{}
 23. Arthur JC, Perez-Chanona E, Mühlbauer M, Tomkovich S, Uronis JM, Fan
-T-J, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Campbell BJ, Abujamel T, Dogan B, Rogers AB, Rhodes JM, Stintzi A,
-Simpson KW, Hansen JJ, Keku TO, Fodor AA, Jobin C. 2012. }\DIFaddend Intestinal
-inflammation targets cancer-inducing activity of the microbiota. Science
-(New York, \DIFdelbegin \DIFdel{N.Y.) . 2012;}\DIFdelend \DIFaddbegin \DIFadd{NY) }\DIFaddend 338:\DIFdelbegin \DIFdel{120--3}\DIFdelend \DIFaddbegin \DIFadd{120--123}\DIFaddend .
+T-J, et al. Intestinal inflammation targets cancer-inducing activity of
+the microbiota. Science (New York, N.Y.). 2012;338:120--3.
 
 \hypertarget{ref-baxter_microbiota-based_2016}{}
-24. Baxter NT, Ruffin MT, Rogers MAM, Schloss PD. \DIFaddbegin \DIFadd{2016. }\DIFaddend Microbiota-based
-model improves the sensitivity of fecal immunochemical test for
-detecting colonic lesions. Genome Medicine \DIFdelbegin \DIFdel{. 2016;}\DIFdelend 8:37.
+24. Baxter NT, Ruffin MT, Rogers MAM, Schloss PD. Microbiota-based model
+improves the sensitivity of fecal immunochemical test for detecting
+colonic lesions. Genome Medicine. 2016;8:37.
 
 \hypertarget{ref-zeller_potential_2014}{}
-25. Zeller G, Tap J, Voigt AY, Sunagawa S, Kultima JR, Costea PI, \DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Amiot
-A, Böhm J, Brunetti F, Habermann N, Hercog R, Koch M, Luciani A, Mende
-DR, Schneider MA, Schrotz-King P, Tournigand C, Tran Van Nhieu J, Yamada
-T, Zimmermann J, Benes V, Kloor M, Ulrich CM, Knebel Doeberitz M von,
-Sobhani I, Bork P. 2014. }\DIFaddend Potential of fecal microbiota for early-stage
-detection of colorectal cancer. Molecular Systems Biology \DIFdelbegin \DIFdel{. 2014;}\DIFdelend 10:766.
+25. Zeller G, Tap J, Voigt AY, Sunagawa S, Kultima JR, Costea PI, et al.
+Potential of fecal microbiota for early-stage detection of colorectal
+cancer. Molecular Systems Biology. 2014;10:766.
 
 \hypertarget{ref-zackular_human_2014}{}
-26. Zackular JP, Rogers MAM, Ruffin MT, Schloss PD. \DIFaddbegin \DIFadd{2014. }\DIFaddend The human gut
+26. Zackular JP, Rogers MAM, Ruffin MT, Schloss PD. The human gut
 microbiome as a screening tool for colorectal cancer. Cancer Prevention
-Research (Philadelphia, Pa\DIFdelbegin \DIFdel{.) . 2014;}\DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend 7:\DIFdelbegin \DIFdel{1112--21}\DIFdelend \DIFaddbegin \DIFadd{1112--1121}\DIFaddend .
+Research (Philadelphia, Pa.). 2014;7:1112--21.
 
 \hypertarget{ref-obrien_impact_2013}{}
-27. O'Brien CL, Allison GE, Grimpen F, Pavli P. \DIFaddbegin \DIFadd{2013. }\DIFaddend Impact of
-colonoscopy bowel preparation on intestinal microbiota. PloS One
-\DIFdelbegin \DIFdel{. 2013;}\DIFdelend 8:e62815.
+27. O'Brien CL, Allison GE, Grimpen F, Pavli P. Impact of colonoscopy
+bowel preparation on intestinal microbiota. PloS One. 2013;8:e62815.
 
 \hypertarget{ref-kozich_development_2013}{}
-28. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD. \DIFaddbegin \DIFadd{2013.
-}\DIFaddend Development of a dual-index sequencing strategy and curation pipeline
+28. Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD.
+Development of a dual-index sequencing strategy and curation pipeline
 for analyzing amplicon sequence data on the MiSeq Illumina sequencing
-platform. Applied and Environmental Microbiology \DIFdelbegin \DIFdel{. 2013;}\DIFdelend 79:\DIFdelbegin \DIFdel{5112--20}\DIFdelend \DIFaddbegin \DIFadd{5112--5120}\DIFaddend .
+platform. Applied and Environmental Microbiology. 2013;79:5112--20.
 
 \hypertarget{ref-pruesse_silva_2007}{}
-29. Pruesse E, Quast C, Knittel K, Fuchs BM, Ludwig W, Peplies J,
-\DIFdelbegin \DIFdel{et al. }\DIFdelend \DIFaddbegin \DIFadd{Glöckner FO. 2007. }\DIFaddend SILVA: A comprehensive online resource for quality
-checked and aligned ribosomal RNA sequence data compatible with ARB.
-Nucleic Acids Research \DIFdelbegin \DIFdel{.
-2007;}\DIFdelend 35:\DIFdelbegin \DIFdel{7188--96}\DIFdelend \DIFaddbegin \DIFadd{7188--7196}\DIFaddend .
+29. Pruesse E, Quast C, Knittel K, Fuchs BM, Ludwig W, Peplies J, et al.
+SILVA: A comprehensive online resource for quality checked and aligned
+ribosomal RNA sequence data compatible with ARB. Nucleic Acids Research.
+2007;35:7188--96.
 
 \hypertarget{ref-edgar_uchime_2011}{}
-30. Edgar RC, Haas BJ, Clemente JC, Quince C, Knight R. \DIFaddbegin \DIFadd{2011. }\DIFaddend UCHIME
-improves sensitivity and speed of chimera detection. Bioinformatics
-(Oxford, England) \DIFdelbegin \DIFdel{. 2011;}\DIFdelend 27:\DIFdelbegin \DIFdel{2194--200}\DIFdelend \DIFaddbegin \DIFadd{2194--2200}\DIFaddend .
+30. Edgar RC, Haas BJ, Clemente JC, Quince C, Knight R. UCHIME improves
+sensitivity and speed of chimera detection. Bioinformatics (Oxford,
+England). 2011;27:2194--200.
 
 \hypertarget{ref-wang_naive_2007}{}
-31. Wang Q, Garrity GM, Tiedje JM, Cole JR. \DIFaddbegin \DIFadd{2007. }\DIFaddend Naive Bayesian
-classifier for rapid assignment of rRNA sequences into the new bacterial
-taxonomy. Applied and Environmental Microbiology \DIFdelbegin \DIFdel{. 2007;}\DIFdelend 73:\DIFdelbegin \DIFdel{5261--7}\DIFdelend \DIFaddbegin \DIFadd{5261--5267}\DIFaddend .
+31. Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier
+for rapid assignment of rRNA sequences into the new bacterial taxonomy.
+Applied and Environmental Microbiology. 2007;73:5261--7.
 
 \hypertarget{ref-schloss_assessing_2011}{}
-32. Schloss PD, Westcott SL. \DIFaddbegin \DIFadd{2011. }\DIFaddend Assessing and improving methods used
-in operational taxonomic unit-based approaches for 16S rRNA gene
-sequence analysis. Applied and Environmental Microbiology \DIFdelbegin \DIFdel{. 2011;}\DIFdelend 77:\DIFdelbegin \DIFdel{3219--26}\DIFdelend \DIFaddbegin \DIFadd{3219--3226}\DIFaddend .
+32. Schloss PD, Westcott SL. Assessing and improving methods used in
+operational taxonomic unit-based approaches for 16S rRNA gene sequence
+analysis. Applied and Environmental Microbiology. 2011;77:3219--26.
 
 \hypertarget{ref-breiman_random_2001}{}
-33. Breiman L. \DIFaddbegin \DIFadd{2001. }\DIFaddend Random Forests. Machine Learning \DIFdelbegin \DIFdel{. 2001;}\DIFdelend 45:5--32.
+33. Breiman L. Random Forests. Machine Learning. 2001;45:5--32.
 
 \hypertarget{ref-anderson_permanova_2013}{}
-34. Anderson MJ, Walsh DCI. \DIFaddbegin \DIFadd{2013. }\DIFaddend PERMANOVA, ANOSIM, and the Mantel test
-in the face of heterogeneous dispersions: What null hypothesis are you
-testing? Ecological Monographs \DIFdelbegin \DIFdel{. 2013;}\DIFdelend 83:\DIFdelbegin \DIFdel{557--74}\DIFdelend \DIFaddbegin \DIFadd{557--574}\DIFaddend .
+34. Anderson MJ, Walsh DCI. PERMANOVA, ANOSIM, and the Mantel test in
+the face of heterogeneous dispersions: What null hypothesis are you
+testing? Ecological Monographs. 2013;83:557--74.
 
 \hypertarget{ref-benjamini_controlling_1995}{}
-35. Benjamini Y, Hochberg Y. \DIFaddbegin \DIFadd{1995. }\DIFaddend Controlling the false discovery rate:
-A practical and powerful approach to multiple testing. Journal of the
-Royal Statistical Society \DIFdelbegin \DIFdel{. }\DIFdelend Series B (Methodological) \DIFdelbegin \DIFdel{. 1995;}\DIFdelend 57:289--300.
+35. Benjamini Y, Hochberg Y. Controlling the false discovery rate: A
+practical and powerful approach to multiple testing. Journal of the
+Royal Statistical Society. Series B (Methodological). 1995;57:289--300.
 
 \newpage
 
