@@ -138,6 +138,10 @@ Co-author e-mails:
 **Conclusions.** By better understanding the response of the microbiota to treatment for adenomas and carcinomas, it is likely that biomarkers will eventually be validated that can be used to quantify the risk of recurrence and the likelihood of survival. Although it was difficult to identify significant differences between pre and post-treatment samples from patients with adenoma and advanced adenoma, this was not the case for carcinomas. Not only were there large changes in pre versus post-treatment samples for those with carcinoma, but these changes were towards a more normal microbiota.
 
 
+### Keywords
+
+microbiota; colorectal cancer; polyps; treatment; risk factor.
+
 \newpage
 
 
@@ -213,7 +217,7 @@ Sequencing was completed as described by Kozich, et al. [@kozich_development_201
 The mothur software package (v1.37.5) was used to process the 16S rRNA gene sequences and has been previously described [@kozich_development_2013]. The general workflow using mothur included merging paired-end reads into contigs, filtering for low quality contigs, aligning to the SILVA database [@pruesse_silva_2007], screening for chimeras using UCHIME [@edgar_uchime_2011], classifying with a naive Bayesian classifier using the Ribosomal Database Project (RDP)[@wang_naive_2007], and clustered into Operational Taxonomic Units (OTUs) using a 97% similarity cutoff with an average neighbor clustering algorithm [@schloss_assessing_2011]. The number of sequences for each sample was rarefied to `r ifelse(sd(total_sub_Seqs) == 0, paste(mean(total_sub_Seqs)), paste("Error Check Subsampling"))` to minimize the impacts of uneven sampling.
 
 
-***Model Building.*** The Random Forest [@breiman_random_2001] algorithm was used to create the three models used to classify pre and post-treatment samples by diagnosis (adenoma, advanced adenoma, or carcinoma) as well as to assess the probability that a sample was more similar to the patient's original diagnosis or that of a disease-free patient. All models included only OTU data obtained from 16S rRNA sequencing and were processed using the caret (v`r paste(packageVersion("caret"))`) R package. For each model we optimized the mtry hyper-parameter, which defines the number of OTUs to investigate at each split before a new division of the data was created with the Random Forest model [@breiman_random_2001]. To insure that our optimization did not result in over-fitting of the data, we made 100 different 80/20 (train/test) splits of the data where the same proportion was present within both the whole data set and the 80/20 split. For each of the 100 splits, 20 repeated 10-fold cross validation was performed on the 80% component to optimize the mtry hyper-parameter by maximizing the AUC (Area Under the Curve of the Receiver Operator Characteristic). The resulting model was then tested on the 20% of the data that were held out. A summary of the mtry hyperparameter values that were tried is available in Table SX. The reported P-values for each model relative to a random labeling was assessed by comparing the distribution of the 100 80/20 splits for the correctly labeled data to the distribution of randomly labeled data.
+***Model Building.*** The Random Forest [@breiman_random_2001] algorithm was used to create the three models used to classify pre and post-treatment samples by diagnosis (adenoma, advanced adenoma, or carcinoma) as well as to assess the probability that a sample was more similar to the patient's original diagnosis or that of a disease-free patient. All models included only OTU data obtained from 16S rRNA sequencing and were processed using the caret (v`r paste(packageVersion("caret"))`) R package. For each model we optimized the mtry hyper-parameter, which defines the number of OTUs to investigate at each split before a new division of the data was created with the Random Forest model [@breiman_random_2001]. To insure that our optimization did not result in over-fitting of the data, we made 100 different 80/20 (train/test) splits of the data where the same proportion was present within both the whole data set and the 80/20 split. For each of the 100 splits, 20 repeated 10-fold cross validation was performed on the 80% component to optimize the mtry hyper-parameter by maximizing the AUC (Area Under the Curve of the Receiver Operator Characteristic). The resulting model was then tested on the 20% of the data that were held out. A summary of the mtry hyperparameter values that were tried is available in Table S5. The reported P-values for each model relative to a random labeling was assessed by comparing the distribution of the 100 80/20 splits for the correctly labeled data to the distribution of randomly labeled data.
 
 The three diagnosis models were constructed by using the data from Baxter et al. [@baxter_microbiota-based_2016], which was censored for the pre-treatment samples of the patients that we had post-treatment samples. The treatment models were then used to quantify the model probability that a patient with an initial diagnosis retained that diagnosis or a disease-free diagnosis.
 
@@ -416,8 +420,8 @@ kable(test, format = "markdown", align = 'c', padding = 2)
 ```
 
 
-
 \newpage
+
 
 
 **Figure 1: General differences between adenoma, advanced adenoma, and carcinoma groups after treatment.** A) $\theta$~YC~ distances from pre versus post sample within each individual. A significant difference was found between the adenoma and carcinoma group (P-value = `r format(change_summary['thetayc', 'Pvalue_adnVcrc'], scientific = TRUE, digits = 3)`). Solid black points represent the median value for each diagnosis group. B) NMDS of the pre and post-treatment samples for the adenoma group. C) NMDS of the pre and post-treatment samples for the advanced adenoma group. D) NMDS of the pre and post-treatment samples for the carcinoma group.

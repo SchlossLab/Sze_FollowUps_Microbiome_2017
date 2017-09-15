@@ -140,50 +140,57 @@ Co-author e-mails:
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background.} Despite growing evidence that members of the gut
-microbiota can drive tumorigenesis, little is known about what happens
-to it after treatment for an adenoma or carcinoma. This study tests
-whether treatment alters the abundance of bacterial populations
-associated with disease versus those with a normal colon by sequencing
-the 16S rRNA genes in feces of 67 individuals before and after treatment
-(adenoma n = 22), advanced adenoma n = 19), and carcinoma n = 26).
+\textbf{Background.} Colorectal cancer is a worldwide health problem.
+Despite growing evidence that members of the gut microbiota can drive
+tumorigenesis, little is known about what happens to it after treatment
+for an adenoma or carcinoma. This study tested the hypothesis that
+treatment for adenoma or carcinoma alters the abundance of bacterial
+populations associated with disease to those associated with a normal
+colon. We tested this hypothesis by sequencing the 16S rRNA genes in the
+feces of 67 individuals before and after treatment for adenoma (N = 22),
+advanced adenoma (N = 19), and carcinoma (N = 26).
 
-\textbf{Results.} The communities from patients with carcinomas changed
+\textbf{Results.} There were small changes to the bacterial community
+associated with adenoma or advanced adenoma and large changes associated
+with carcinoma. The communities from patients with carcinomas changed
 significantly more than those with adenoma following treatment (P-value
-\textless{} 0.001). Although Random Forest models classified pre and
-post-treatment samples for each diagnosis group, there was little
-overlap between the OTUs that were indicative of each treatment.
-Training Random Forest models on a larger cohort that contained
-individuals with normal colons, adenomas, advanced adenomas, and
-carcinomas we assessed the positive probability of having one of three
-diagnoses and whether the pre and post-treatment samples were classified
-the same. Patients who had carcinomas changed towards a microbial milieu
-that resembles the normal colon after treatment (P-value \textless{}
-0.05). There was no significant difference in the microbiota of
+\textless{} 0.001). Although treatment was associated with intrapersonal
+changes, the change in the abundance of individual OTUs in response to
+treatment was not consistent within diagnosis groups (P-value
+\textgreater{} 0.05). Because the distribution of OTUs across patients
+and diagnosis groups was irregular, we used the Random Forest machine
+learning algorithm to identify groups of OTUs that could be used to
+classify pre and post-treatment samples for each of the diagnosis
+groups. Although the three models could differentiate between the pre
+and post-treatment samples, there was little overlap between the OTUs
+that were indicative of each treatment. To determine whether individuals
+who underwent treatment were more likely to have OTUs associated with
+normal colons we used a larger cohort that contained individuals with
+normal colons and those with adenomas, advanced adenomas, and
+carcinomas. We again built Random Forest models and measured the change
+in the positive probability of having one of the three diagnoses to
+assess whether the post-treatment samples received the same
+classification as the pre-treatment samples. Samples from patients who
+had carcinomas changed towards a microbial milieu that resembles the
+normal colon after treatment (P-value \textless{} 0.05). Finally, we
+were unable to detect any significant differences in the microbiota of
 individuals treated with surgery alone and those treated with
 chemotherapy or chemotherapy and radiation (P-value \textgreater{}
 0.05).
 
-\textbf{Conclusions.} It was difficult to identify significant
-differences between pre and post-treatment samples from patients with
-adenoma and advanced adenoma. However, for carcinomas, not only were
-there large changes in pre versus post-treatment samples, but these
+\textbf{Conclusions.} By better understanding the response of the
+microbiota to treatment for adenomas and carcinomas, it is likely that
+biomarkers will eventually be validated that can be used to quantify the
+risk of recurrence and the likelihood of survival. Although it was
+difficult to identify significant differences between pre and
+post-treatment samples from patients with adenoma and advanced adenoma,
+this was not the case for carcinomas. Not only were there large changes
+in pre versus post-treatment samples for those with carcinoma, but these
 changes were towards a more normal microbiota.
 
-\newpage
+\subsubsection{Keywords}\label{keywords}
 
-\subsection{Importance}\label{importance}
-
-This study helps to clarify what happens to the microbiota after
-generalized treatment for an adenoma or carcinoma. It is a necessary
-first step to ultimately investigating how the microbiota changes in
-those with carcinoma recurrence. This is important since a large number
-of those treated for carcinoma will have a recurrence. Finding better
-ways to stratify those most and least likely to recur using the
-microbiota could provide a cheaper and more accurate alternative to the
-current status quo. Our results suggest that the microbiota could be
-used to stratify individuals for risk of recurrence and provides a
-starting point for future studies into this area.
+microbiota; colorectal cancer; polyps; treatment; risk factor.
 
 \newpage
 
@@ -231,9 +238,10 @@ and colonic tumorigenesis, we still do not understand how treatments
 including resection, chemotherapy, and/or radiation affect the
 composition of the gut microbiota. If the microbial community drives
 tumorigenesis then one would hypothesize that treatment to remove a
-lesion would affect the microbiota and risk of recurrence. To test this
-hypothesis, we addressed two related questions: Does treatment affect
-the colonic microbiota in a predictable manner? If so, does the
+lesion would not only remove the lesion, but also the microbiota that
+promoted the tumorigenesis and hence the risk of recurrence. To test
+this hypothesis, we addressed two related questions: Does treatment
+affect the colonic microbiota in a predictable manner? If so, does the
 treatment alter the community to more closely resemble that of
 individuals with normal colons?
 
@@ -296,16 +304,17 @@ and the irregular distribution of OTUs across individuals limited the
 statistical power of the test. We attempted to overcome these problems
 by using Random Forest models to identify collections of OTUs that would
 allow us to differentiate between pre and post-treatment samples from
-each of the diagnosis groups. The models overall performed moderately,
-with the carcinoma model being the best (adenoma AUC range = 0.54 -
-0.83, advanced adenoma AUC range = 0.34 - 0.65, carcinoma AUC range =
-0.82 - 0.98). Interestingly, the top 10 most important OTUs by MDA that
-were used for each model had little overlap with each other {[}Figure
-2{]}. Although treatment had an impact on the overall community
-structure, the effect of treatment was not consistent across patients
-and diagnosis groups. Both the adenoma and carcioma treatment models had
-AUCs that were significantly higher than a random model permutation
-(P-value \textless{} 0.0001).
+each of the diagnosis groups. The adenoma and carcinoma models performed
+well (adenoma AUC range = 0.54 - 0.83 and carcinoma AUC range = 0.82 -
+0.98); however, the model for patients treated for advanced adenomas was
+not able to reliably differentiate between the pre and post-treatment
+samples (advanced adenoma AUC range = 0.34 - 0.65). Interestingly, the
+top 10 most important OTUs by MDA that were used for each model had
+little overlap with each other {[}Figure 2{]}. Although treatment had an
+impact on the overall community structure, the effect of treatment was
+not consistent across patients and diagnosis groups. Both the adenoma
+and carcioma treatment models had AUCs that were significantly higher
+than a random model permutation (P-value \textless{} 0.0001).
 
 \textbf{\emph{Post-treatment samples from patients with carcinoma more
 closely resemble those of a normal colon.}} Next, we determined whether
@@ -533,66 +542,32 @@ sample was rarefied to 10523 to minimize the impacts of uneven sampling.
 
 \textbf{\emph{Model Building.}} The Random Forest (33) algorithm was
 used to create the three models used to classify pre and post-treatment
-samples by diagnosis (adenoma, advanced adenoma, or carcinoma). The
-total number of individuals in the pre versus post-treatment models was
-67 individuals. There were a total of 22 individuals in the pre versus
-post-treatment adenoma model, 19 individuals in the pre versus
-post-treatment advanced adenoma model, and 26 individuals in the pre
-versus post-treatment carcinoma model {[}Table 1{]}.
+samples by diagnosis (adenoma, advanced adenoma, or carcinoma) as well
+as to assess the probability that a sample was more similar to the
+patient's original diagnosis or that of a disease-free patient. All
+models included only OTU data obtained from 16S rRNA sequencing and were
+processed using the caret (v6.0.76) R package. For each model we
+optimized the mtry hyper-parameter, which defines the number of OTUs to
+investigate at each split before a new division of the data was created
+with the Random Forest model (33). To insure that our optimization did
+not result in over-fitting of the data, we made 100 different 80/20
+(train/test) splits of the data where the same proportion was present
+within both the whole data set and the 80/20 split. For each of the 100
+splits, 20 repeated 10-fold cross validation was performed on the 80\%
+component to optimize the mtry hyper-parameter by maximizing the AUC
+(Area Under the Curve of the Receiver Operator Characteristic). The
+resulting model was then tested on the 20\% of the data that were held
+out. A summary of the mtry hyperparameter values that were tried is
+available in Table S5. The reported P-values for each model relative to
+a random labeling was assessed by comparing the distribution of the 100
+80/20 splits for the correctly labeled data to the distribution of
+randomly labeled data.
 
-Similarly, the Random Forest (33) algorithm was also used to create the
-three models used to classify normal versus diagnosis. These samples
-were obtained using the same methodology as described earlier in this
-section. All samples used for this component of model training were from
-pre-treatment samples only. The total number of individuals in the
-normal versus diagnosis models was 423 individuals {[}Table 2{]}. There
-were a total of 239 individuals in the normal versus adenoma model, 262
-individuals in the normal versus advanced adenoma model, and 266
-individuals in the normal versus carcinoma model {[}Table 2{]}.
-
-All models included only OTU data obtained from 16S rRNA sequencing and
-were processed and cleaned using the R package caret (v6.0.76).
-Optimization of the mtry hyper-parameter involved making 100 different
-80/20 (train/test) splits of the data where the same proportion was
-present within both the whole data set and the 80/20 split. For each of
-the different splits, 20 repeated 10-fold cross validation was performed
-on the 80\% component to optimize the mtry hyper-parameter by maximizing
-the AUC (Area Under the Curve of the Receiver Operator Characteristic).
-The resulting model was then tested on the hold out data obtained from
-the 20\% component. For adenoma pre versus post-treatment models the
-optimized mtrys were 2 (n = 42), 42 (n = 26), and 914 (n = 32) for
-adenoma. For advanced adenoma the mtrys were 2 (n = 26), 52 (n = 14),
-and 1353 (n = 60). For carcinoma the mtrys were 2 (n = 36), 41 (n = 54),
-and 863 (n = 10). For the normal versus diagnosis models the optimized
-mtrys were 2 (n = 16), 37 (n = 44), and 707 (n = 40) for adenoma. For
-advanced adenoma 2 (n = 33), 37 (n = 50), and 696 (n = 17). For
-carcinoma 36 (n = 96) and 649 (n = 4). The hyper-parameter, mtry,
-defines the number of variables to investigate at each split before a
-new division of the data was created with the Random Forest model (33).
-
-The treatment models were then assessed for their strength to classify
-whether individuals had obtained treatment. We also assessed whether the
-models performed better than random by creating 100 permutations of a
-data set in which the labels were randomly assigned. To assess
-similarity of the treatment models we looked for overlap between their
-top 10 most important OTUs.
-
-For the diagnosis models that were trained on a completely independent
-sample set, each model was then applied to our 67-person cohort {[}Table
-1{]} based on diagnosis: adenoma (pre-treatment adenoma (adenoma n = 22
-and disease free n = 0) versus post-treatment adenoma (adenoma n = 0 and
-disease free n = 22)), advanced adenoma pre-treatment advanced adenoma
-(advanced adenoma n = 19 and disease free n = 0 ) versus post-treatment
-advanced adenoma (advanced adenoma n = 0 and disease free n = 19), and
-carcinoma (pre-treatment carcinoma (carcinoma n = 26 and disease free n
-= 0) versus post-treatment carcinoma (carcinoma n = 1 and disease free n
-= 25)). The application of the pre versus post-treatment models
-generated the probabilities that the sample was a pre-treatment sample.
-The application of the normal versus diagnosis models generated the
-probabilities that the sample was that specific diagnosis (adenoma,
-advanced adenoma, or carcinoma). We also looked at similarities between
-the models by looking for overlap in the top 10\% of important OTUs to
-each respective model.
+The three diagnosis models were constructed by using the data from
+Baxter et al. (24), which was censored for the pre-treatment samples of
+the patients that we had post-treatment samples. The treatment models
+were then used to quantify the model probability that a patient with an
+initial diagnosis retained that diagnosis or a disease-free diagnosis.
 
 \textbf{\emph{Statistical Analysis.}} The R software package (v3.4.1)
 was used for all statistical analysis. Comparisons between bacterial
