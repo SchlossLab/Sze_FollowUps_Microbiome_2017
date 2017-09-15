@@ -1,7 +1,7 @@
 \documentclass[12pt,]{article}
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL submission/manuscript_R1.tex   Mon Aug 14 13:38:58 2017
-%DIF ADD submission/manuscript_R2.tex   Wed Sep 13 12:50:31 2017
+%DIF DEL submission/manuscript_R1.tex   Fri Sep 15 13:28:54 2017
+%DIF ADD submission/manuscript_R2.tex   Fri Sep 15 14:10:17 2017
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -167,77 +167,57 @@ Co-author e-mails:
 
 \subsection{Abstract}\label{abstract}
 
-\textbf{Background.} \DIFdelbegin \DIFdel{Colorectal cancer is a worldwide health problem.
-}\DIFdelend Despite growing evidence that members of the gut
-microbiota can drive tumorigenesis, little is known about what happens
-to it after treatment for an adenoma or carcinoma. This study \DIFdelbegin \DIFdel{tested the hypothesis that
-treatment for adenoma or carcinoma }\DIFdelend \DIFaddbegin \DIFadd{tests
-whether treatment }\DIFaddend alters the abundance of bacterial populations
-associated with disease \DIFdelbegin \DIFdel{to those associated }\DIFdelend \DIFaddbegin \DIFadd{versus those }\DIFaddend with a normal colon \DIFdelbegin \DIFdel{. We tested this hypothesis }\DIFdelend by sequencing
-the 16S rRNA genes in \DIFdelbegin \DIFdel{the
-}\DIFdelend feces of 67 individuals before and after treatment
-\DIFdelbegin \DIFdel{for adenoma (N }\DIFdelend \DIFaddbegin \DIFadd{(adenoma n }\DIFaddend = 22), advanced adenoma \DIFdelbegin \DIFdel{(N }\DIFdelend \DIFaddbegin \DIFadd{n }\DIFaddend = 19), and carcinoma \DIFdelbegin \DIFdel{(N }\DIFdelend \DIFaddbegin \DIFadd{n }\DIFaddend = 26).
+\textbf{Background.} Colorectal cancer is a worldwide health problem.
+Despite growing evidence that members of the gut microbiota can drive
+tumorigenesis, little is known about what happens to it after treatment
+for an adenoma or carcinoma. This study tested the hypothesis that
+treatment for adenoma or carcinoma alters the abundance of bacterial
+populations associated with disease to those associated with a normal
+colon. We tested this hypothesis by sequencing the 16S rRNA genes in the
+feces of 67 individuals before and after treatment for adenoma (N = 22),
+advanced adenoma (N = 19), and carcinoma (N = 26).
 
-\textbf{Results.} \DIFdelbegin \DIFdel{There were small changes to the bacterial community
+\textbf{Results.} There were small changes to the bacterial community
 associated with adenoma or advanced adenoma and large changes associated
-with carcinoma. }\DIFdelend The communities from patients with carcinomas changed
+with carcinoma. The communities from patients with carcinomas changed
 significantly more than those with adenoma following treatment (P-value
-\textless{} 0.001). Although \DIFdelbegin \DIFdel{treatment was associated with intrapersonal
+\textless{} 0.001). Although treatment was associated with intrapersonal
 changes, the change in the abundance of individual OTUs in response to
 treatment was not consistent within diagnosis groups (P-value
 \textgreater{} 0.05). Because the distribution of OTUs across patients
 and diagnosis groups was irregular, we used the Random Forest machine
 learning algorithm to identify groups of OTUs that could be used to
-classify }\DIFdelend \DIFaddbegin \DIFadd{Random Forest models classified }\DIFaddend pre and
-post-treatment samples for each \DIFdelbegin \DIFdel{of the diagnosis groups. Although the three models could differentiate between the pre
-and post-treatment samples}\DIFdelend \DIFaddbegin \DIFadd{diagnosis group}\DIFaddend , there was little
-overlap between the OTUs that were indicative of each treatment.
-\DIFdelbegin \DIFdel{To determine whether individuals
+classify pre and post-treatment samples for each of the diagnosis
+groups. Although the three models could differentiate between the pre
+and post-treatment samples, there was little overlap between the OTUs
+that were indicative of each treatment. To determine whether individuals
 who underwent treatment were more likely to have OTUs associated with
-normal colons we used }\DIFdelend \DIFaddbegin \DIFadd{Training Random Forest models on }\DIFaddend a larger cohort that contained
-individuals with normal colons\DIFdelbegin \DIFdel{and those with }\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend adenomas, advanced adenomas, and
-carcinomas \DIFdelbegin \DIFdel{. We again built Random Forest models and measured the change
-in }\DIFdelend \DIFaddbegin \DIFadd{we assessed }\DIFaddend the positive probability of having one of \DIFdelbegin \DIFdel{the three
-diagnoses to
-assess whether the }\DIFdelend \DIFaddbegin \DIFadd{three
-diagnoses and whether the pre and }\DIFaddend post-treatment samples \DIFdelbegin \DIFdel{received the sameclassification as the pre-treatment samples. Samples from patients }\DIFdelend \DIFaddbegin \DIFadd{were classified
-the same. Patients }\DIFaddend who had carcinomas changed towards a microbial milieu
-that resembles the normal colon after treatment (P-value \textless{}
-0.05). \DIFdelbegin \DIFdel{Finally, we
-were unable to detect any significant differences }\DIFdelend \DIFaddbegin \DIFadd{There was no significant difference }\DIFaddend in the microbiota of
+normal colons we used a larger cohort that contained individuals with
+normal colons and those with adenomas, advanced adenomas, and
+carcinomas. We again built Random Forest models and measured the change
+in the positive probability of having one of the three diagnoses to
+assess whether the post-treatment samples received the same
+classification as the pre-treatment samples. Samples from patients who
+had carcinomas changed towards a microbial milieu that resembles the
+normal colon after treatment (P-value \textless{} 0.05). Finally, we
+were unable to detect any significant differences in the microbiota of
 individuals treated with surgery alone and those treated with
 chemotherapy or chemotherapy and radiation (P-value \textgreater{}
 0.05).
 
-\textbf{Conclusions.} \DIFdelbegin \DIFdel{By better understanding the response of the
+\textbf{Conclusions.} By better understanding the response of the
 microbiota to treatment for adenomas and carcinomas, it is likely that
 biomarkers will eventually be validated that can be used to quantify the
-risk of recurrence and the likelihood of survival. Although it }\DIFdelend \DIFaddbegin \DIFadd{It }\DIFaddend was difficult to identify significant
-differences between pre and post-treatment samples from patients with
-adenoma and advanced adenoma\DIFdelbegin \DIFdel{,
-this was not the case for carcinomas. Not }\DIFdelend \DIFaddbegin \DIFadd{. However, for carcinomas, not }\DIFaddend only were
-there large changes in pre versus post-treatment samples\DIFdelbegin \DIFdel{for those with carcinoma}\DIFdelend , but these
+risk of recurrence and the likelihood of survival. Although it was
+difficult to identify significant differences between pre and
+post-treatment samples from patients with adenoma and advanced adenoma,
+this was not the case for carcinomas. Not only were there large changes
+in pre versus post-treatment samples for those with carcinoma, but these
 changes were towards a more normal microbiota.
 
-\DIFdelbegin \subsubsection{\DIFdel{Keywords}}%DIFAUXCMD
-\addtocounter{subsubsection}{-1}%DIFAUXCMD
-%DIFDELCMD < \label{keywords}
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \newpage
-\DIFaddend 
+\subsubsection{Keywords}\label{keywords}
 
-\DIFdelbegin \DIFdel{microbiota; colorectal cancer; polyps; treatment ; risk factor}\DIFdelend \DIFaddbegin \subsection{\DIFadd{Importance}}\label{importance}
-
-\DIFadd{This study helps to clarify what happens to the microbiota after
-generalized treatment for an adenoma or carcinoma. It is a necessary
-first step to ultimately investigating how the microbiota changes in
-those with carcinoma recurrence. This is important since a large number
-of those treated for carcinoma will have a recurrence. Finding better
-ways to stratify those most and least likely to recur using the
-microbiota could provide a cheaper and more accurate alternative to the
-current status quo. Our results suggest that the microbiota could be
-used to stratify individuals for risk of recurrence and provides a
-starting point for future studies into this area}\DIFaddend .
+microbiota; colorectal cancer; polyps; treatment; risk factor.
 
 \newpage
 
@@ -307,9 +287,10 @@ and colonic tumorigenesis, we still do not understand how treatments
 including resection, chemotherapy, and/or radiation affect the
 composition of the gut microbiota. If the microbial community drives
 tumorigenesis then one would hypothesize that treatment to remove a
-lesion would affect the microbiota and risk of recurrence. To test this
-hypothesis, we addressed two related questions: Does treatment affect
-the colonic microbiota in a predictable manner? If so, does the
+lesion would \DIFdelbegin \DIFdel{affect the microbiota and }\DIFdelend \DIFaddbegin \DIFadd{not only remove the lesion, but also the microbiota that
+promoted the tumorigenesis and hence the }\DIFaddend risk of recurrence. To test
+this hypothesis, we addressed two related questions: Does treatment
+affect the colonic microbiota in a predictable manner? If so, does the
 treatment alter the community to more closely resemble that of
 individuals with normal colons?
 
@@ -375,17 +356,18 @@ allow us to differentiate between pre and post-treatment samples from
 each of the diagnosis groups. \DIFdelbegin \DIFdel{To limit the likelihood that the models
 would over-fit the data because of the relatively small number of
 subjects in each group, we restricted our models to only incorporate 10
-OTUs. Despite this restriction,
-the models performed well }\DIFdelend \DIFaddbegin \DIFadd{The models overall performed moderately,
-with the carcinoma model being the best }\DIFaddend (adenoma AUC range = \DIFdelbegin \DIFdel{0.69 }\DIFdelend \DIFaddbegin \DIFadd{0.54 }\DIFaddend -
-\DIFdelbegin \DIFdel{0.92}\DIFdelend \DIFaddbegin \DIFadd{0.83}\DIFaddend , advanced adenoma AUC range = \DIFdelbegin \DIFdel{0.80 }\DIFdelend \DIFaddbegin \DIFadd{0.34 }\DIFaddend - \DIFdelbegin \DIFdel{1.00}\DIFdelend \DIFaddbegin \DIFadd{0.65}\DIFaddend , carcinoma AUC range =
-0.82 - 0.98). Interestingly, the \DIFaddbegin \DIFadd{top }\DIFaddend 10 \DIFdelbegin \DIFdel{OTUs }\DIFdelend \DIFaddbegin \DIFadd{most important OTUs by MDA }\DIFaddend that
-were used for each model had little overlap with each other {[}Figure
-2{]}. Although treatment had an impact on the overall community
-structure, the effect of treatment was not consistent across patients
-and diagnosis groups. \DIFaddbegin \DIFadd{Both the adenoma and carcioma treatment models had
-AUCs that were significantly higher than a random model permutation
-(P-value \textless{} 0.0001).
+OTUs. Despite this restriction, the }\DIFdelend \DIFaddbegin \DIFadd{The adenoma and carcinoma }\DIFaddend models performed
+well (adenoma AUC range = \DIFdelbegin \DIFdel{0.69 }\DIFdelend \DIFaddbegin \DIFadd{0.54 }\DIFaddend - \DIFdelbegin \DIFdel{0.92, advanced adenoma }\DIFdelend \DIFaddbegin \DIFadd{0.83 and carcinoma }\DIFaddend AUC range = \DIFdelbegin \DIFdel{0.80 }\DIFdelend \DIFaddbegin \DIFadd{0.82 }\DIFaddend -
+\DIFdelbegin \DIFdel{1.00, carcinoma
+}\DIFdelend \DIFaddbegin \DIFadd{0.98); however, the model for patients treated for advanced adenomas was
+not able to reliably differentiate between the pre and post-treatment
+samples (advanced adenoma }\DIFaddend AUC range = \DIFdelbegin \DIFdel{0.82 }\DIFdelend \DIFaddbegin \DIFadd{0.34 }\DIFaddend - \DIFdelbegin \DIFdel{0.98}\DIFdelend \DIFaddbegin \DIFadd{0.65}\DIFaddend ). Interestingly, the
+\DIFaddbegin \DIFadd{top }\DIFaddend 10 \DIFdelbegin \DIFdel{OTUs }\DIFdelend \DIFaddbegin \DIFadd{most important OTUs by MDA }\DIFaddend that were used for each model had
+little overlap with each other {[}Figure 2{]}. Although treatment had an
+impact on the overall community structure, the effect of treatment was
+not consistent across patients and diagnosis groups. \DIFaddbegin \DIFadd{Both the adenoma
+and carcioma treatment models had AUCs that were significantly higher
+than a random model permutation (P-value \textless{} 0.0001).
 }\DIFaddend 
 
 \textbf{\emph{Post-treatment samples from patients with carcinoma more
@@ -636,91 +618,107 @@ sample was rarefied to 10523 to minimize the impacts of uneven sampling.
 \DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 33\DIFdelbegin %DIFDELCMD < {]} %%%
 \DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend algorithm was
 used to create the three models used to classify pre and post-treatment
-samples by diagnosis (adenoma, advanced adenoma, or carcinoma). The
+samples by diagnosis (adenoma, advanced adenoma, or carcinoma) \DIFdelbegin \DIFdel{. The
 total number of individuals in the pre versus post-treatment models was
 67 individuals. There were a total of 22 individuals in the pre versus
 post-treatment adenoma model, 19 individuals in the pre versus
 post-treatment advanced adenoma model, and 26 individuals in the pre
-versus post-treatment carcinoma model {[}Table 1{]}.
+versus post-treatment carcinoma model }%DIFDELCMD < {[}%%%
+\DIFdel{Table 1}%DIFDELCMD < {]}%%%
+\DIFdel{.
+}%DIFDELCMD < 
 
-Similarly, the Random Forest \DIFdelbegin %DIFDELCMD < {[}%%%
-\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 33\DIFdelbegin %DIFDELCMD < {]} %%%
-\DIFdelend \DIFaddbegin \DIFadd{) }\DIFaddend algorithm was also used to create the
-three models used to classify normal versus diagnosis. These samples
+%DIFDELCMD < %%%
+\DIFdel{Similarly, the Random Forest }%DIFDELCMD < {[}%%%
+\DIFdel{33}%DIFDELCMD < {]} %%%
+\DIFdel{algorithm was also used to create
+the
+three models used to classify normal versus diagnosis . These samples
 were obtained using the same methodology as described earlier in this
 section. All samples used for this component of model training were from
 pre-treatment samples only. The total number of individuals in the
-normal versus diagnosis models was 423 individuals {[}Table 2{]}. There
+normal versus diagnosis models was 423 individuals }%DIFDELCMD < {[}%%%
+\DIFdel{Table 2}%DIFDELCMD < {]}%%%
+\DIFdel{. There
 were a total of 239 individuals in the normal versus adenoma model, 262
 individuals in the normal versus advanced adenoma model, and 266
-individuals in the normal versus carcinoma model {[}Table 2{]}.
+individuals in the normal versus carcinoma model }%DIFDELCMD < {[}%%%
+\DIFdel{Table 2}%DIFDELCMD < {]}%%%
+\DIFdel{. }%DIFDELCMD < 
 
-All models included only OTU data obtained from 16S rRNA sequencing and
-were processed and cleaned using the R package caret (v6.0.76).
-Optimization of the mtry hyper-parameter involved making 100 different
-80/20 (train/test) splits of the data where the same proportion was
-present within both the whole data set and the 80/20 split. For each of
-the different splits, 20 repeated 10-fold cross validation was performed
-on the 80\% component to optimize the mtry hyper-parameter by maximizing
-the AUC (Area Under the Curve of the Receiver Operator Characteristic).
-The resulting model was then tested on the hold out data obtained from
-the 20\% component. For \DIFdelbegin \DIFdel{all }\DIFdelend \DIFaddbegin \DIFadd{adenoma }\DIFaddend pre versus post-treatment models the
-optimized \DIFdelbegin \DIFdel{mtry was }\DIFdelend \DIFaddbegin \DIFadd{mtrys were }\DIFaddend 2 \DIFdelbegin \DIFdel{and for all }\DIFdelend \DIFaddbegin \DIFadd{(n = 42), 42 (n = 26), and 914 (n = 32) for
-adenoma. For advanced adenoma the mtrys were 2 (n = 26), 52 (n = 14),
-and 1353 (n = 60). For carcinoma the mtrys were 2 (n = 36), 41 (n = 54),
-and 863 (n = 10). For the }\DIFaddend normal versus diagnosis models the optimized
-\DIFdelbegin \DIFdel{mtry was 2. }\DIFdelend \DIFaddbegin \DIFadd{mtrys were 2 (n = 16), 37 (n = 44), and 707 (n = 40) for adenoma. For
-advanced adenoma 2 (n = 33), 37 (n = 50), and 696 (n = 17). For
-carcinoma 36 (n = 96) and 649 (n = 4). }\DIFaddend The hyper-parameter, mtry,
-defines the number of variables to investigate at each split before a
-new division of the data was created with the Random Forest model \DIFdelbegin %DIFDELCMD < {[}%%%
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \DIFadd{as well
+as to assess the probability that a sample was more similar to the
+patient's original diagnosis or that of a disease-free patient. }\DIFaddend All
+models included only OTU data obtained from 16S rRNA sequencing and were
+processed \DIFdelbegin \DIFdel{and cleaned using the R package }\DIFdelend \DIFaddbegin \DIFadd{using the }\DIFaddend caret (v6.0.76) \DIFdelbegin \DIFdel{.
+Optimization of }\DIFdelend \DIFaddbegin \DIFadd{R package. For each model we
+optimized }\DIFaddend the mtry hyper-parameter\DIFdelbegin \DIFdel{involved making }\DIFdelend \DIFaddbegin \DIFadd{, which defines the number of OTUs to
+investigate at each split before a new division of the data was created
+with the Random Forest model (33). To insure that our optimization did
+not result in over-fitting of the data, we made }\DIFaddend 100 different 80/20
+(train/test) splits of the data where the same proportion was present
+within both the whole data set and the 80/20 split. For each of the \DIFdelbegin \DIFdel{different }\DIFdelend \DIFaddbegin \DIFadd{100
+}\DIFaddend splits, 20 repeated 10-fold cross validation was performed on the 80\%
+component to optimize the mtry hyper-parameter by maximizing the AUC
+(Area Under the Curve of the Receiver Operator Characteristic). The
+resulting model was then tested on the \DIFdelbegin \DIFdel{hold out data obtained from
+the }\DIFdelend 20\% \DIFdelbegin \DIFdel{component. For all pre versus post-treatment models the
+optimized mtry was 2 and for all normal versus diagnosis models the
+optimized mtry was 2. The hyper-parameter, mtry, defines the number of
+variables to investigate at each split before a new division }\DIFdelend of the data \DIFdelbegin \DIFdel{was created with the Random Forest model }%DIFDELCMD < {[}%%%
 \DIFdel{33}%DIFDELCMD < {]}%%%
-\DIFdel{.
-}\DIFdelend \DIFaddbegin \DIFadd{(33).
-}\DIFaddend 
+\DIFdel{. }%DIFDELCMD < 
 
-\DIFdelbegin \DIFdel{For each of the pre versus post-treatment models assessment of the most
+%DIFDELCMD < %%%
+\DIFdel{For each of the pre versus post-treatment models assessment of the most
 important OTUs was then made by taking the top 10 OTUs by mean decrease
-in accuracy (MDA).
-These were then used to build each respective reduced
-OTU pre versus post-treatment model by diagnosis group to help avoid
-model over-fitting. These reduced }\DIFdelend \DIFaddbegin \DIFadd{The treatment }\DIFaddend models were then \DIFdelbegin \DIFdel{put through the same
-process mentioned in the previous paragraph and were what was used for the final pre versus post-treatment models. For the
-normal versus
+in accuracy (MDA). These were then used to build each respective reduced
+OTU pre versus post-treatment model by diagnosis group to
+help avoid
+model over-fitting. These reduced models were then put through the same
+process mentioned in the previous paragraph and were what was used for
+the final pre versus post-treatment models. For the normal versus
 diagnosis models the important OTUs were obtained by counting the number
 of times an OTU was present in the top 10}%DIFDELCMD < \% %%%
-\DIFdel{of MDA for each of the 100
-different splits. This was then followed with filtering of this list to
-variables that were only present in more than 50}%DIFDELCMD < \% %%%
-\DIFdel{of these }\DIFdelend \DIFaddbegin \DIFadd{assessed for their strength to classify
-whether individuals had obtained treatment. We also assessed whether the
-models performed better than random by creating }\DIFaddend 100 \DIFdelbegin \DIFdel{runs.
-These corresponding reduced OTU normal versus diagnosis models were then
-put through the same process mentioned in the previous paragraph and
-were what was used for the final normal versus diagnosis models. For the pre versus post-treatment models the final optimized mtry was 2 and for the normal versus diagnosis models the final optimized mtry was 2.
-}\DIFdelend \DIFaddbegin \DIFadd{permutations of a
-data set in which the labels were randomly assigned. To assess
-similarity of the treatment models we looked for overlap between their
-top 10 most important OTUs.
-}\DIFaddend 
+\DIFdel{of MDA for each }\DIFdelend \DIFaddbegin \DIFadd{that were held
+out. A summary of the mtry hyperparameter values that were tried is
+available in Table S5. The reported P-values for each model relative to
+a random labeling was assessed by comparing the distribution }\DIFaddend of the 100
+\DIFdelbegin \DIFdel{different splits . This was then followed with filtering of this list to variables that were only present in more than 50}%DIFDELCMD < \% %%%
+\DIFdel{of
+these 100 runs.
+These corresponding reduced OTU normal versus }\DIFdelend \DIFaddbegin \DIFadd{80/20 splits for the correctly labeled data to the distribution of
+randomly labeled data.
+}
 
-\DIFdelbegin \DIFdel{Each }\DIFdelend \DIFaddbegin \DIFadd{For the diagnosis models that were trained on a completely independent
-sample set, each }\DIFaddend model was then applied to our 67-person cohort {[}Table
-1{]} based on diagnosis: adenoma (pre-treatment adenoma (adenoma n = 22
-and disease free n = 0) versus post-treatment adenoma (adenoma n = 0 and
-disease free n = 22)), advanced adenoma pre-treatment advanced adenoma
-(advanced adenoma n = 19 and disease free n = 0 ) versus post-treatment
-advanced adenoma (advanced adenoma n = 0 and disease free n = 19), and
-carcinoma (pre-treatment carcinoma (carcinoma n = 26 and disease free n
-= 0) versus post-treatment carcinoma (carcinoma n = 1 and disease free n
-= 25)). The application of the pre versus post-treatment models
-generated the probabilities that the sample was a pre-treatment sample.
-The application of the normal versus diagnosis models generated the
-probabilities that the sample was that specific diagnosis (adenoma,
-advanced adenoma, or carcinoma). \DIFaddbegin \DIFadd{We also looked at similarities between
-the models by looking for overlap in the top 10}\% \DIFadd{of important OTUs to
-each respective model.
-}\DIFaddend 
+\DIFadd{The three }\DIFaddend diagnosis models were \DIFdelbegin \DIFdel{then
+put through the same process mentioned in the previous paragraph and
+were what was used for the final normal versus diagnosis models. For the
+pre versus post-treatment models the final optimized mtry was 2 and for
+the normal versus diagnosis models the final optimized mtry was 2.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{Each model was then applied to our 67-person cohort }%DIFDELCMD < {[}%%%
+\DIFdel{Table 1}%DIFDELCMD < {]} %%%
+\DIFdel{based
+on diagnosis: adenoma (pre-treatment adenoma (adenoma n = 22 and disease
+free n = 0) versus post-treatment adenoma (adenoma n = 0 and disease
+free n = 22)), advanced adenoma pre-treatment advanced adenoma (advanced
+adenoma n = 19 and disease free n = 0 ) versus post-treatment advanced
+adenoma (advanced adenoma n = 0 and disease free n = 19), and carcinoma
+(}\DIFdelend \DIFaddbegin \DIFadd{constructed by using the data from
+Baxter et al. (24), which was censored for the }\DIFaddend pre-treatment \DIFdelbegin \DIFdel{carcinoma (carcinoma n = 26 and disease free n = 0)
+versus post-treatment carcinoma (carcinoma n = 1 and disease free n =
+25)). The application of
+the pre versus }\DIFdelend \DIFaddbegin \DIFadd{samples of
+the patients that we had }\DIFaddend post-treatment \DIFdelbegin \DIFdel{models generated
+the probabilities that the sample was a pre-treatment sample. The application of the normal versus diagnosis models
+generated the probabilities that the sample was that specific diagnosis (adenoma,
+advanced adenoma, or carcinoma)}\DIFdelend \DIFaddbegin \DIFadd{samples. The treatment models
+were then used to quantify the model probability that a patient with an
+initial diagnosis retained that diagnosis or a disease-free diagnosis}\DIFaddend .
 
 \textbf{\emph{Statistical Analysis.}} The R software package (v3.4.1)
 was used for all statistical analysis. Comparisons between bacterial
@@ -829,14 +827,14 @@ Surgical Treatment and Research \DIFdelbegin \DIFdel{. 2014;}\DIFdelend 86:\DIFd
 \hypertarget{ref-national_cancer_institute_seer_nodate}{}
 5. Institute NC. SEER Cancer Stat Facts: Colon and Rectum Cancer\DIFdelbegin %DIFDELCMD < {[}%%%
 \DIFdel{Internet}%DIFDELCMD < {]}%%%
-\DIFdel{.
-}%DIFDELCMD < {[}%%%
+\DIFdelend .
+\DIFdelbegin %DIFDELCMD < {[}%%%
 \DIFdel{cited 2017 Apr 27}%DIFDELCMD < {]}%%%
-\DIFdel{. Available from:
+\DIFdel{.
+Available from:
 }%DIFDELCMD < \url{http://seer.cancer.gov/statfacts/html/colorect.html}
 %DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \DIFadd{.
-}\DIFaddend 
+\DIFdelend 
 
 \hypertarget{ref-goodwin_polyamine_2011}{}
 6. Goodwin AC, Destefano Shields CE, Wu S, Huso DL, Wu X, Murray-Stewart

@@ -136,3 +136,78 @@ kable(st4, format = "markdown", align = 'c', padding = 2)
 
 
 ```
+
+
+\newpage
+
+
+**Table S5: Summary of mtry ranges used for the treatment and diagnosis models**
+
+\footnotesize
+
+```{r supplemental_table5, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+treat_rand <- sapply(c("adn", "SRN", "CRC"), 
+                     function(x) read.csv(paste("../data/process/tables/", x, 
+                                                "_randomization_treatment_ROC_model_summary.csv", sep = ""), 
+                                          header = T, stringsAsFactors = F), simplify = F)
+
+treat_actual <- sapply(c("adn", "srn", "crc"), 
+                       function(x) read.csv(paste("../data/process/tables/", x, 
+                                                  "_treatment_ROC_model_summary.csv", sep = ""), 
+                                            header = T, stringsAsFactors = F), simplify = F)
+
+diag_actual <- sapply(c("adn", "srn", "crc"), 
+                       function(x) read.csv(paste("../data/process/tables/", x, 
+                                                  "_ROC_model_summary.csv", sep = ""), 
+                                            header = T, stringsAsFactors = F), simplify = F)
+
+treat_rand_adn <- as.data.frame(table(treat_rand$adn$best_mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("random", length(mtry)), disease = rep("adenoma", length(mtry)))
+treat_rand_srn <- as.data.frame(table(treat_rand$SRN$best_mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("random", length(mtry)), disease = rep("advanced adenoma", length(mtry)))
+treat_rand_crc <- as.data.frame(table(treat_rand$CRC$best_mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("random", length(mtry)), disease = rep("carcinoma", length(mtry)))
+
+
+treat_act_adn <- as.data.frame(table(treat_actual$adn$best_mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("treatment", length(mtry)), disease = rep("adenoma", length(mtry)))
+treat_act_srn <- as.data.frame(table(treat_actual$srn$best_mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("treatment", length(mtry)), disease = rep("advanced adenoma", length(mtry)))
+treat_act_crc <- as.data.frame(table(treat_actual$crc$best_mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("treatment", length(mtry)), disease = rep("carcinoma", length(mtry)))
+
+diag_act_adn <- as.data.frame(table(diag_actual$adn$mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("diagnosis", length(mtry)), disease = rep("adenoma", length(mtry)))
+diag_act_srn <- as.data.frame(table(diag_actual$srn$mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("diagnosis", length(mtry)), disease = rep("advanced adenoma", length(mtry)))
+diag_act_crc <- as.data.frame(table(diag_actual$crc$mtry)) %>% 
+  rename(mtry = Var1, occurance = Freq) %>% 
+  mutate(model = rep("diagnosis", length(mtry)), disease = rep("carcinoma", length(mtry)))
+
+
+full_table <- rbind(treat_rand_adn, treat_rand_srn, treat_rand_crc, 
+                    treat_act_adn, treat_act_srn, treat_act_crc, 
+                    diag_act_adn, diag_act_srn, diag_act_crc)
+
+colnames(full_table) <- c("mtry", "Occurence", "Model", "Disease")
+
+kable(full_table, format = "markdown", align = 'c', padding = 2)
+
+```
+\normalsize
+
+
+
+
+
+
