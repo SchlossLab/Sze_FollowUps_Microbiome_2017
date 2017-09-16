@@ -120,7 +120,7 @@ $3$ Department of Family Medicine and Community Medicine, Penn State Hershey Med
 
 Co-author e-mails:
 
-* marcsze@med.umich.med.edu
+* marcsze@med.umich.edu
 * ntbaxter@umich.edu
 * mruffin@pennstatehealth.psu.edu
 * maryroge@med.umich.edu
