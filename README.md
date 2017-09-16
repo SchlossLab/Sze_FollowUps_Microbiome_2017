@@ -8,29 +8,7 @@ associated with disease to those associated with a normal colon. We tested this 
 by sequencing the 16S rRNA genes in the feces of 67 individuals before and after treatment
 for adenoma (N = 22), advanced adenoma (N = 19), and carcinoma (N = 26).
 
-**Results.** There were small changes to the bacterial community associated with
-adenoma or advanced adenoma and large changes associated with carcinoma. The
-communities from patients with carcinomas changed significantly more than those with
-adenoma following treatment (P-value < 0.001). Although treatment was associated with
-intrapersonal changes, the change in the abundance of individual OTUs in response
-to treatment was not consistent within diagnosis groups (P-value > 0.05). Because the
-distribution of OTUs across patients and diagnosis groups was irregular, we used the
-Random Forest machine learning algorithm to identify groups of OTUs that could be used
-to classify pre and post-treatment samples for each of the diagnosis groups. Although
-the adenoma and carcinoma models could reliably differentiate between the pre and
-post-treatment samples (P-value treatment models had AUCs that were significantly
-higher than a random model permutation (P-value < 0.001)), the advanced-adenoma
-model could not (P-value = 0.61). Furthermore, there was little overlap between the OTUs
-that were indicative of each treatment. To determine whether individuals who underwent
-treatment were more likely to have OTUs associated with normal colons we used a larger
-cohort that contained individuals with normal colons and those with adenomas, advanced
-adenomas, and carcinomas. We again built Random Forest models and measured the
-change in the positive probability of having one of the three diagnoses to assess whether
-the post-treatment samples received the same classification as the pre-treatment samples.
-Samples from patients who had carcinomas changed towards a microbial milieu that
-resembles the normal colon after treatment (P-value < 0.001). Finally, we were unable to
-detect any significant differences in the microbiota of individuals treated with surgery alone
-and those treated with chemotherapy or chemotherapy and radiation (P-value > 0.05).
+**Results.** There were small changes to the bacterial community associated with adenoma or advanced adenoma and large changes associated with carcinoma. The communities from patients with carcinomas changed significantly more than those with adenoma following treatment (P-value < 0.001). Although treatment was associated with intrapersonal changes, the change in the abundance of individual OTUs in response to treatment was not consistent within diagnosis groups (P-value > 0.05). Because the distribution of OTUs across patients and diagnosis groups was irregular, we used the Random Forest machine learning algorithm to identify groups of OTUs that could be used to classify pre and post-treatment samples for each of the diagnosis groups. Although the adenoma and carcinoma models could reliably differentiate between the pre and post-treatment samples (P-value < 0.001), the advanced-adenoma model could not (P-value = 0.61). Furthermore, there was little overlap between the OTUs that were indicative of each treatment. To determine whether individuals who underwent treatment were more likely to have OTUs associated with normal colons we used a larger cohort that contained individuals with normal colons and those with adenomas, advanced adenomas, and carcinomas. We again built Random Forest models and measured the change in the positive probability of having one of the three diagnoses to assess whether the post-treatment samples received the same classification as the pre-treatment samples. Samples from patients who had carcinomas changed towards a microbial milieu that resembles the normal colon after treatment (P-value < 0.001). Finally, we were unable to detect any significant differences in the microbiota of individuals treated with surgery alone and those treated with chemotherapy or chemotherapy and radiation (P-value > 0.05).
 
 **Conclusions.** By better understanding the response of the microbiota to treatment for
 adenomas and carcinomas, it is likely that biomarkers will eventually be validated that can
